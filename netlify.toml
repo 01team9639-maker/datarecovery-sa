@@ -1,0 +1,106 @@
+# Netlify configuration — generate the site, then publish only the explicit
+# static allowlist. PHP is intentionally excluded because Netlify cannot run it.
+[build]
+  publish = "dist/netlify"
+  command = "node build/generate.js && node build/package-deploy.js netlify"
+
+# Fonts never change (same filename = same bytes) → cache hard.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Vendor filenames are not content-hashed, so they must revalidate after a day.
+[[headers]]
+  for = "/assets/js/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# App CSS/JS + images → cache a day, revalidate (Netlify adds ETag).
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Enforced security headers for every Netlify-served response. The PHP contact
+# handler still requires a PHP host; these rules do not make Netlify execute it.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; base-uri 'none'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data:; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; require-trusted-types-for 'script'; trusted-types 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=31536000"
+    Permissions-Policy = "accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), xr-spatial-tracking=()"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Origin-Agent-Cluster = "?1"
+    X-Permitted-Cross-Domain-Policies = "none"
+    X-XSS-Protection = "0"
+
+# Never expose source, developer tooling, test artifacts, or PHP source from a
+# static Netlify deployment. Production form handling belongs on the PHP host.
+[[redirects]]
+  from = "/build/*"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/design/*"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/tests/*"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/send.php"
+  to = "/en/contact.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/test-form.command"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/LIBRARIES.md"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/en/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.mcp.json"
+  to = "/en/"
+  status = 404
+  force = true
