@@ -62,6 +62,8 @@ function localBusiness(lang) {
     description: home[lang].metaDesc,
     telephone: config.phoneDisplay,
     email: config.email,
+    image: `${IMG}/assets/img/og-${lang}.png`,
+    logo: `${IMG}/assets/img/logo-mark.png`,
     address: { "@type": "PostalAddress", addressLocality: lang === "ar" ? "الرياض" : "Riyadh", addressCountry: "SA" },
     geo: { "@type": "GeoCoordinates", latitude: config.geo.lat, longitude: config.geo.lng },
     areaServed: { "@type": "Country", name: "SA" },
@@ -70,6 +72,8 @@ function localBusiness(lang) {
       dayOfWeek: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
       opens: "10:00", closes: "22:00"
     },
+    // sameAs ties the business entity to its social profiles (GEO / knowledge graph).
+    sameAs: config.socials.map((s) => s.url),
     inLanguage: lang
   };
 }
@@ -117,6 +121,29 @@ const jsonForInlineScript = (value) => JSON.stringify(value).replace(/[<>&\u2028
 const jsonLd = (obj) =>
   `<script type="application/ld+json">${jsonForInlineScript({ "@context": "https://schema.org", ...obj })}</script>`;
 
+/* ---------- Analytics loader (first-party external file, CSP-safe) ----------
+   The Google Tag Manager bootstrap can't be inlined (strict no-inline-script
+   CSP + tests), so it ships as a same-origin file that injects gtm.js.
+   GA4 (G-M2GX0NVW5E) is added as a tag *inside* the GTM container. */
+function analyticsJs() {
+  return `"use strict";
+// Google Tag Manager loader — generated from config.gtm (${config.gtm}).
+// Injects the container via createElement + insertBefore only, with no dynamic
+// markup or code sinks, so it stays CSP- and audit-clean. GA4 is configured as
+// a tag inside the GTM container.
+(function (w, d, s, l, i) {
+  w[l] = w[l] || [];
+  w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+  var f = d.getElementsByTagName(s)[0];
+  var j = d.createElement(s);
+  var dl = l !== "dataLayer" ? "&l=" + l : "";
+  j.async = true;
+  j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+  f.parentNode.insertBefore(j, f);
+})(window, document, "script", "dataLayer", ${JSON.stringify(config.gtm)});
+`;
+}
+
 /* ---------- <head> + document shell ---------- */
 function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
   const t = ui[lang];
@@ -130,7 +157,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/assets/js/bootstrap.js"></script>
+  <script src="/assets/js/bootstrap.js"></script>${config.gtm ? `\n  <script src="/assets/js/analytics.js" async></script>` : ""}
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
@@ -160,7 +187,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
   <link rel="manifest" href="/site.webmanifest">
   ${graph}
 </head>
-<body>
+<body>${config.gtm ? `\n  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${config.gtm}" class="gtm-noscript" title="Google Tag Manager"></iframe></noscript>` : ""}
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader__inner">
       <span class="preloader__wm">
@@ -701,7 +728,7 @@ function contactPage(lang) {
 
     <section class="section section--light">
       <div class="container contact-grid">
-        <form class="cform" id="caseForm" action="/send.php" method="post" novalidate
+        <form class="cform" id="caseForm" action="/send.php" method="post"
               data-wa="${config.whatsapp}"
               data-sending="${esc(c.sending)}"
               data-ok-title="${esc(c.successTitle)}"
@@ -713,12 +740,13 @@ function contactPage(lang) {
           <div class="cform__row">
             <div class="field">
               <label for="cf-name">${esc(f.name.label)} <span class="req">*</span></label>
-              <input id="cf-name" name="name" type="text" required autocomplete="name"
+              <input id="cf-name" name="name" type="text" required minlength="2" maxlength="100" autocomplete="name"
                      placeholder="${esc(f.name.ph)}" data-label="${esc(f.name.label)}">
             </div>
             <div class="field">
               <label for="cf-phone">${esc(f.phone.label)} <span class="req">*</span></label>
-              <input id="cf-phone" name="phone" type="tel" required autocomplete="tel" dir="ltr"
+              <input id="cf-phone" name="phone" type="tel" required inputmode="tel" maxlength="20"
+                     pattern="[0-9٠-٩+()\\s-]{9,20}" title="${esc(f.phone.ph)}" autocomplete="tel" dir="ltr"
                      placeholder="${esc(f.phone.ph)}" data-label="${esc(f.phone.label)}">
             </div>
           </div>
@@ -726,7 +754,7 @@ function contactPage(lang) {
           <div class="cform__row">
             <div class="field">
               <label for="cf-email">${esc(f.email.label)} <span class="opt">(${esc(c.optional)})</span></label>
-              <input id="cf-email" name="email" type="email" autocomplete="email" dir="ltr"
+              <input id="cf-email" name="email" type="email" maxlength="254" autocomplete="email" dir="ltr"
                      placeholder="${esc(f.email.ph)}" data-label="${esc(f.email.label)}">
             </div>
             <div class="field">
@@ -756,7 +784,7 @@ function contactPage(lang) {
 
           <div class="field">
             <label for="cf-details">${esc(f.details.label)} <span class="req">*</span></label>
-            <textarea id="cf-details" name="details" rows="5" required
+            <textarea id="cf-details" name="details" rows="5" required minlength="10" maxlength="5000"
                       placeholder="${esc(f.details.ph)}" data-label="${esc(f.details.label)}"></textarea>
           </div>
 
@@ -882,7 +910,14 @@ function sendPhp() {
   const toEmail = config.email;
   const domain = toEmail.split("@")[1];
   const fromEmail = "noreply@" + domain;
-  const allowedOrigin = config.baseUrl.replace(/\/+$/, "");
+  const baseOrigin = config.baseUrl.replace(/\/+$/, "");
+  const allowedOrigins = [baseOrigin];
+  try {
+    const u = new URL(baseOrigin);
+    // Accept the www⇄apex counterpart so a submission from either host is valid.
+    const other = u.protocol + "//" + (u.hostname.startsWith("www.") ? u.hostname.slice(4) : "www." + u.hostname);
+    if (!allowedOrigins.includes(other)) allowedOrigins.push(other);
+  } catch (e) { /* placeholder baseUrl — keep the single origin */ }
 
   return `<?php
 /**
@@ -898,7 +933,7 @@ declare(strict_types=1);
 $TO_EMAIL     = ${pstr(toEmail)};
 $FROM_EMAIL   = ${pstr(fromEmail)};
 $FROM_NAME    = 'Zero 2 One Data Recovery';
-$ALLOWED_ORIGINS = [${pstr(allowedOrigin)}];
+$ALLOWED_ORIGINS = [${allowedOrigins.map(pstr).join(", ")}];
 $IP_COOLDOWN_SECONDS = 30;   // one admitted valid attempt per observed IP
 $MAIL_RATE_WINDOWS = [       // fixed-recipient aggregate attempt budgets
     ['seconds' => 60,    'limit' => 5],
@@ -941,8 +976,37 @@ function msg(string $ar, string $en): string {
     return $LANG === 'en' ? $en : $ar;
 }
 
+/** A JS-disabled browser navigates to send.php directly; give it HTML, not JSON.
+ *  Our fetch() sends "application/json"; a plain form navigation sends text/html. */
+function client_prefers_html(): bool {
+    $accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
+    return strpos($accept, 'text/html') !== false && strpos($accept, 'application/json') === false;
+}
+
 function respond(bool $ok, string $message, int $status = 200): void {
+    global $LANG;
     http_response_code($status);
+    if (client_prefers_html()) {
+        header('Content-Type: text/html; charset=UTF-8');
+        header("Content-Security-Policy: default-src 'none'; base-uri 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; form-action 'none'; frame-ancestors 'none'");
+        $dir  = $LANG === 'en' ? 'ltr' : 'rtl';
+        $home = '/' . ($LANG === 'en' ? 'en' : 'ar') . '/';
+        $head = $ok ? ($LANG === 'en' ? 'Thank you' : 'شكراً لك')
+                    : ($LANG === 'en' ? 'Something went wrong' : 'حدث خطأ');
+        $back = $LANG === 'en' ? 'Back to the site' : 'العودة إلى الموقع';
+        $e = static function (string $s): string { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); };
+        echo '<!DOCTYPE html><html lang="' . $e($LANG) . '" dir="' . $dir . '"><head>'
+            . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+            . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
+            . '<link rel="stylesheet" href="/assets/css/fonts.css">'
+            . '<link rel="stylesheet" href="/assets/css/main.css"></head>'
+            . '<body class="section--dark form-fallback"><main class="container">'
+            . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
+            . '<p><a class="btn btn--accent" href="' . $e($home) . '">' . $e($back) . '</a></p>'
+            . '</main></body></html>';
+        exit;
+    }
+    header('Content-Type: application/json; charset=UTF-8');
     echo json_encode(['success' => $ok, 'message' => $message], JSON_UNESCAPED_UNICODE);
     exit;
 }
@@ -1613,13 +1677,17 @@ function sectionHead(eyebrow, titleId, title, noteStrong, note) {
         </div>`;
 }
 function faqRow(f, i) {
+  const qId = `faq-q-${i + 1}`;
+  const aId = `faq-a-${i + 1}`;
+  // No `hidden` in the static markup: without JS the answers stay readable.
+  // main.js collapses them and manages `hidden`/aria once JS is available.
   return `<div class="faq-row">
-              <button class="faq-row__q" type="button" aria-expanded="false">
+              <button class="faq-row__q" type="button" id="${qId}" aria-expanded="false" aria-controls="${aId}">
                 <span class="faq-row__num" dir="ltr">${pad(i + 1)}</span>
                 <span class="faq-row__text">${esc(f.q)}</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
-              <div class="faq-row__a"><p>${esc(f.a)}</p></div>
+              <div class="faq-row__a" id="${aId}" role="region" aria-labelledby="${qId}"><p>${esc(f.a)}</p></div>
             </div>`;
 }
 function serviceRow(lang, r, i) {
@@ -1665,6 +1733,8 @@ function build() {
       write(`${lang}/services/${s.slug}.html`, injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
     }
   }
+  // analytics loader (only when a GTM container is configured)
+  if (config.gtm) write("assets/js/analytics.js", analyticsJs());
   // root redirect
   write("index.html", rootRedirect());
   // sitemap + robots

@@ -35,7 +35,7 @@ module.exports = [
     },
     en: {
       title: "Recovering Files From a Failed or Dead Hard Drive",
-      metaTitle: "Failed & Dead Hard Drive Data Recovery | Zero 2 One Data Recovery",
+      metaTitle: "Failed & Dead Hard Drive Recovery | Zero 2 One",
       metaDesc: "Recover data from failed or non-working hard drives—mechanical, electronic and logical faults. Diagnosis first, before any attempt. Riyadh, Saudi Arabia.",
       heroHook: "Drive not showing up? Don't power it on again.",
       heroIntro: "If the drive doesn't appear, makes a clicking sound, or stopped after a drop or power cut, the most important thing is to not keep trying. Every extra power-on can increase the damage.",
@@ -182,7 +182,7 @@ module.exports = [
     icon: "CCTV",
     ar: {
       title: "استرجاع تسجيلات كاميرات المراقبة المحذوفة أو المفقودة",
-      metaTitle: "استرجاع تسجيلات كاميرات المراقبة DVR وNVR | من الصفر إلى الواحد",
+      metaTitle: "استرجاع تسجيلات المراقبة DVR وNVR | من الصفر إلى الواحد",
       metaDesc: "استرجاع تسجيلات كاميرات المراقبة المحذوفة أو المفقودة من أجهزة DVR وNVR وهاردات التسجيل. فحص أنظمة Hikvision وDahua. الرياض، السعودية.",
       heroHook: "التسجيل اختفى؟ الوقت الآن جزء من المشكلة.",
       heroIntro: "يمكن فحص التسجيلات المحذوفة أو المفقودة من DVR وNVR وهاردات التسجيل. إمكانية الاستعادة تتأثر بمدة التسجيل بعد الفقد وحالة القرص وطريقة التخزين.",
@@ -240,7 +240,7 @@ module.exports = [
     icon: "FORMAT",
     ar: {
       title: "استعادة بيانات بعد الفورمات واسترجاع الملفات المحذوفة",
-      metaTitle: "استعادة بيانات بعد الفورمات واسترجاع الملفات المحذوفة | من الصفر إلى الواحد",
+      metaTitle: "استعادة البيانات بعد الفورمات | من الصفر إلى الواحد",
       metaDesc: "استعادة البيانات بعد الفورمات واسترجاع الملفات المحذوفة من الأقراص والفلاش وبطاقات الذاكرة. أوقف الاستخدام قبل أن تُستبدل البيانات. الرياض، السعودية.",
       heroHook: "عملت فورمات؟ لا تنسخ أي ملف جديد.",
       heroIntro: "الفورمات لا يعني دائماً أن الملفات اختفت نهائياً، لكن استخدام الجهاز بعده قد يقلل فرصة الاسترجاع. أوقف الاستخدام ولا تنسخ أي بيانات جديدة.",
@@ -267,8 +267,8 @@ module.exports = [
     },
     en: {
       title: "Data Recovery After Formatting & Deleted File Recovery",
-      metaTitle: "Data Recovery After Formatting & Deleted Files | Zero 2 One Data Recovery",
-      metaDesc: "Recover data after a format and retrieve deleted files from disks, flash drives and memory cards. Stop using the device before data is overwritten. Riyadh, Saudi Arabia.",
+      metaTitle: "Data Recovery After Formatting | Zero 2 One",
+      metaDesc: "Recover data after a format and retrieve deleted files from disks, flash and memory cards. Stop using the device before it's overwritten. Riyadh, SA.",
       heroHook: "Formatted it? Don't copy any new file.",
       heroIntro: "A format doesn't always mean the files are gone for good, but using the device afterwards can lower the recovery chance. Stop using it and don't copy any new data.",
       symHook: "Empty space may not actually be empty.",
@@ -298,7 +298,7 @@ module.exports = [
     icon: "LOCK",
     ar: {
       title: "استرجاع ملفات مشفرة بفيروس الفدية",
-      metaTitle: "استرجاع ملفات مشفرة بفيروس الفدية (Ransomware) | من الصفر إلى الواحد",
+      metaTitle: "استرجاع ملفات مشفّرة بفيروس الفدية | من الصفر إلى الواحد",
       metaDesc: "استرجاع الملفات المشفرة بفيروس الفدية للأفراد والشركات. تقييم فني لنوع الإصابة والنسخ الاحتياطية قبل أي خطوة. لا تدفع قبل التقييم. الرياض، السعودية.",
       heroHook: "ملفاتك تشفّرت؟ لا تحذف شيئاً.",
       heroIntro: "عند تشفير الملفات بفيروس الفدية، الحذف أو التهيئة أو استخدام أدوات غير موثوقة قد يزيد الضرر. التعامل السريع والمنظم يحافظ على خيارات التقييم.",
@@ -325,8 +325,8 @@ module.exports = [
     },
     en: {
       title: "Recovering Files Encrypted by Ransomware",
-      metaTitle: "Ransomware Encrypted File Recovery | Zero 2 One Data Recovery",
-      metaDesc: "Recover files encrypted by ransomware for individuals and businesses. Technical assessment of the infection type and backups before any step. Don't pay before assessment. Riyadh, Saudi Arabia.",
+      metaTitle: "Ransomware Encrypted File Recovery | Zero 2 One",
+      metaDesc: "Recover files encrypted by ransomware — technical assessment of the infection and backups before any step. Don't pay before assessment. Riyadh, SA.",
       heroHook: "Files encrypted? Don't delete anything.",
       heroIntro: "When ransomware encrypts files, deleting, formatting or using untrusted tools can increase the damage. Fast, organised handling preserves your assessment options.",
       symHook: "Speed matters, but randomness is more dangerous.",

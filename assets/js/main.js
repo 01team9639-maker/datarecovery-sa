@@ -15,11 +15,19 @@
   if (pre) {
     var seqDone = false;
     var loaded = document.readyState === "complete";
+    var preHidden = false;
+    var safety;
     var hidePre = function () {
+      if (preHidden) return;            // idempotent: load / sequence / safety may all fire
+      preHidden = true;
+      if (safety) clearTimeout(safety);
       pre.classList.add("is-done");
       setTimeout(function () { if (pre.parentNode) pre.parentNode.removeChild(pre); }, 600);
     };
     var maybeHide = function () { if (seqDone && loaded) hidePre(); };
+    // Safety cap: never let a slow/stalled resource keep the splash over the
+    // page. After 5s we reveal the content regardless of load/sequence state.
+    safety = setTimeout(hidePre, 5000);
     window.addEventListener("load", function () { loaded = true; maybeHide(); });
 
     var items = pre.querySelectorAll(".preloader__svc-item");
@@ -49,6 +57,15 @@
   var setNav = function () {};
 
   if (toggle && drawer && scrim) {
+    // Make everything except the drawer/scrim inert while the menu is open, so
+    // the background can't be reached by keyboard or assistive tech.
+    var setBackgroundInert = function (on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el === drawer || el === scrim) return;
+        if (on) el.setAttribute("inert", "");
+        else el.removeAttribute("inert");
+      });
+    };
     setNav = function (open) {
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? L.close : L.open);
@@ -56,11 +73,21 @@
       drawer.setAttribute("aria-hidden", String(!open));
       scrim.classList.toggle("is-open", open);
       document.body.classList.toggle("drawer-open", open);
+      setBackgroundInert(open);
       if (open) {
         var first = drawer.querySelector("a, button");
         if (first) first.focus();
       }
     };
+    // Keep Tab focus cycling inside the open drawer (belt-and-braces with inert).
+    drawer.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      var f = drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     toggle.addEventListener("click", function () {
       setNav(toggle.getAttribute("aria-expanded") !== "true");
     });
@@ -79,18 +106,41 @@
     });
   }
 
-  /* ---- FAQ accordion ---- */
+  /* ---- FAQ accordion (accessible disclosure) ---- */
+  var faqPanel = function (btn) {
+    return document.getElementById(btn.getAttribute("aria-controls")) || btn.nextElementSibling;
+  };
   document.querySelectorAll(".faq-row__q").forEach(function (btn) {
-    var panel = btn.nextElementSibling;
+    var panel = faqPanel(btn);
+    if (!panel) return;
+    panel.hidden = true; // collapsed to start (JS-enhanced; no-JS keeps it open)
     btn.addEventListener("click", function () {
       var open = btn.getAttribute("aria-expanded") === "true";
-      btn.setAttribute("aria-expanded", String(!open));
-      panel.style.maxHeight = open ? null : panel.scrollHeight + "px";
+      if (open) {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        requestAnimationFrame(function () { panel.style.maxHeight = "0px"; });
+        btn.setAttribute("aria-expanded", "false");
+        var onEnd = function (e) {
+          if (e.propertyName !== "max-height") return;
+          panel.removeEventListener("transitionend", onEnd);
+          if (btn.getAttribute("aria-expanded") === "false") {
+            panel.hidden = true;          // drop from the a11y tree once collapsed
+            panel.style.maxHeight = "";
+          }
+        };
+        panel.addEventListener("transitionend", onEnd);
+      } else {
+        panel.hidden = false;             // re-enter the a11y tree, then animate open
+        panel.style.maxHeight = "0px";
+        requestAnimationFrame(function () { panel.style.maxHeight = panel.scrollHeight + "px"; });
+        btn.setAttribute("aria-expanded", "true");
+      }
     });
   });
   window.addEventListener("resize", function () {
     document.querySelectorAll('.faq-row__q[aria-expanded="true"]').forEach(function (btn) {
-      btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + "px";
+      var panel = faqPanel(btn);
+      if (panel && !panel.hidden) panel.style.maxHeight = panel.scrollHeight + "px";
     });
   });
 

@@ -12,7 +12,7 @@ declare(strict_types=1);
 $TO_EMAIL     = 'info@datarecovery-sa.com';
 $FROM_EMAIL   = 'noreply@datarecovery-sa.com';
 $FROM_NAME    = 'Zero 2 One Data Recovery';
-$ALLOWED_ORIGINS = ['https://datarecovery-sa.com'];
+$ALLOWED_ORIGINS = ['https://datarecovery-sa.com', 'https://www.datarecovery-sa.com'];
 $IP_COOLDOWN_SECONDS = 30;   // one admitted valid attempt per observed IP
 $MAIL_RATE_WINDOWS = [       // fixed-recipient aggregate attempt budgets
     ['seconds' => 60,    'limit' => 5],
@@ -55,8 +55,37 @@ function msg(string $ar, string $en): string {
     return $LANG === 'en' ? $en : $ar;
 }
 
+/** A JS-disabled browser navigates to send.php directly; give it HTML, not JSON.
+ *  Our fetch() sends "application/json"; a plain form navigation sends text/html. */
+function client_prefers_html(): bool {
+    $accept = strtolower((string) ($_SERVER['HTTP_ACCEPT'] ?? ''));
+    return strpos($accept, 'text/html') !== false && strpos($accept, 'application/json') === false;
+}
+
 function respond(bool $ok, string $message, int $status = 200): void {
+    global $LANG;
     http_response_code($status);
+    if (client_prefers_html()) {
+        header('Content-Type: text/html; charset=UTF-8');
+        header("Content-Security-Policy: default-src 'none'; base-uri 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; form-action 'none'; frame-ancestors 'none'");
+        $dir  = $LANG === 'en' ? 'ltr' : 'rtl';
+        $home = '/' . ($LANG === 'en' ? 'en' : 'ar') . '/';
+        $head = $ok ? ($LANG === 'en' ? 'Thank you' : 'شكراً لك')
+                    : ($LANG === 'en' ? 'Something went wrong' : 'حدث خطأ');
+        $back = $LANG === 'en' ? 'Back to the site' : 'العودة إلى الموقع';
+        $e = static function (string $s): string { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); };
+        echo '<!DOCTYPE html><html lang="' . $e($LANG) . '" dir="' . $dir . '"><head>'
+            . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+            . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
+            . '<link rel="stylesheet" href="/assets/css/fonts.css">'
+            . '<link rel="stylesheet" href="/assets/css/main.css"></head>'
+            . '<body class="section--dark form-fallback"><main class="container">'
+            . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
+            . '<p><a class="btn btn--accent" href="' . $e($home) . '">' . $e($back) . '</a></p>'
+            . '</main></body></html>';
+        exit;
+    }
+    header('Content-Type: application/json; charset=UTF-8');
     echo json_encode(['success' => $ok, 'message' => $message], JSON_UNESCAPED_UNICODE);
     exit;
 }

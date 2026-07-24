@@ -7,10 +7,6 @@
    ========================================================================== */
 (function () {
   "use strict";
-  var g = window.gsap;
-  if (!g) return;
-
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var REVEAL = [
     ".section-head", ".case-card", ".service", ".step", ".step-chip", ".stop",
@@ -20,6 +16,20 @@
     ".faq-row", ".footer__cta", ".footer__contacts", ".footer__quicklinks",
     ".footer__bottom"
   ].join(",");
+
+  var g = window.gsap;
+
+  // GSAP failed to load. CSS has already hidden the reveal targets behind `.js`,
+  // so reveal them here — otherwise those sections would stay invisible.
+  if (!g) {
+    document.querySelectorAll(REVEAL).forEach(function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+    return;
+  }
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var els = g.utils.toArray(REVEAL);
 

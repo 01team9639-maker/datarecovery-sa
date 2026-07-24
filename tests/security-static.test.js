@@ -29,7 +29,8 @@ for (const file of htmlFiles) {
   assert.equal(/\son[a-z]+\s*=/i.test(html), false, `${file} has an inline event handler`);
 }
 
-const firstPartyJs = ["assets/js/bootstrap.js", "assets/js/lang-redirect.js", "assets/js/main.js", "assets/js/anim.js"]
+const firstPartyJs = ["assets/js/bootstrap.js", "assets/js/lang-redirect.js", "assets/js/main.js", "assets/js/anim.js", "assets/js/analytics.js"]
+  .filter((relative) => fs.existsSync(path.join(root, relative)))
   .map(read)
   .join("\n");
 assert.equal(/\b(?:innerHTML|outerHTML|insertAdjacentHTML|document\.write)\b/.test(firstPartyJs), false, "first-party runtime JS has an HTML injection sink");
@@ -61,7 +62,12 @@ const netlify = read("netlify.toml");
 const cspLine = netlify.split("\n").find((line) => line.includes("Content-Security-Policy")) || "";
 assert.ok(cspLine.includes("script-src 'self'"), "CSP must restrict scripts to self");
 assert.ok(cspLine.includes("style-src 'self'"), "CSP must restrict styles to self");
-assert.ok(cspLine.includes("require-trusted-types-for 'script'"), "CSP must enforce Trusted Types for script sinks");
+// GTM/GA4 are loaded via a first-party file that injects gtm.js; the only
+// relaxation is allowlisting Google's tag/analytics hosts. Inline scripts,
+// eval, and Host-wildcard sources stay forbidden. Trusted Types is
+// intentionally omitted because GTM/GA4 are not Trusted-Types compatible.
+assert.ok(cspLine.includes("script-src 'self' https://www.googletagmanager.com"), "CSP must allow GTM only from googletagmanager.com over TLS");
+assert.ok(/connect-src [^;]*https:\/\/www\.google-analytics\.com/.test(cspLine), "CSP must allow GA4 measurement transport");
 assert.equal(cspLine.includes("unsafe-inline"), false, "CSP must not allow unsafe-inline");
 assert.equal(cspLine.includes("unsafe-eval"), false, "CSP must not allow unsafe-eval");
 assert.ok(netlify.includes('publish = "dist/netlify"'), "Netlify must publish an allowlisted output, never the repository root");

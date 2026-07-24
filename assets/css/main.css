@@ -96,6 +96,14 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 }
 .skip-link:focus { top: 12px; }
 
+/* Google Tag Manager <noscript> fallback — hidden without an inline style
+   attribute (kept out of markup so the strict no-inline-style CSP holds). */
+.gtm-noscript { display: none; width: 0; height: 0; border: 0; }
+
+/* No-JS contact-form result page (served by send.php) */
+.form-fallback { min-height: 100vh; display: grid; place-content: center; text-align: center; gap: 1.2rem; }
+.form-fallback .note { max-width: 46ch; margin-inline: auto; }
+
 /* ============================ 3. Typography ============================= */
 .eyebrow {
   font-size: var(--fs-eyebrow);
@@ -209,7 +217,8 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   backdrop-filter: saturate(180%) blur(22px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(6, 23, 25, 0.06);
-  transition: border-color .3s var(--ease), background .3s var(--ease);
+  transition: border-color .3s var(--ease), background .3s var(--ease),
+              transform .35s var(--ease), opacity .35s var(--ease), visibility .35s var(--ease);
 }
 .site-header.is-scrolled { border-bottom-color: rgba(6, 23, 25, 0.12); }
 
@@ -254,7 +263,9 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 }
 
 /* Header hides once past the hero — only the floating burger remains */
-body.past-hero .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+/* Past the hero the header slides away — visibility:hidden (deferred by the
+   transition) also drops it from the tab order so it isn't a hidden keyboard trap. */
+body.past-hero .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; visibility: hidden; }
 
 /* Floating circular burger (appears only past the hero) */
 .menu-fab {
@@ -695,9 +706,10 @@ body.drawer-open { overflow: hidden; }
 .faq-row__q[aria-expanded="true"] .faq-row__icon::before { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
 .faq-row__a {
   overflow: hidden;
-  max-height: 0;
   transition: max-height .35s var(--ease);
 }
+/* Collapse only when JS can re-open it → answers stay readable without JS. */
+.js .faq-row__a { max-height: 0; }
 .faq-row__a p {
   color: var(--muted-light);
   padding: 0 4px clamp(20px, 2vw, 26px);

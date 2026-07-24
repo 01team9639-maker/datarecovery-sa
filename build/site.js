@@ -11,6 +11,11 @@ const CDN = ""; // e.g. "https://cdn.mnalsfr.example"
 const config = {
   baseUrl: BASE_URL,
   cdn: CDN,
+  // Google Tag Manager container. GA4 (G-M2GX0NVW5E) is configured *inside* GTM
+  // as a tag, so it is never hard-coded here — this avoids double-counting.
+  // Loaded through a first-party external file (assets/js/analytics.js) so the
+  // strict "no inline script" CSP/tests keep holding. Empty string disables it.
+  gtm: "GTM-NVKDG74Z",
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
   whatsapp: "966531010903",          // wa.me/<this>
   phoneDisplay: "+966 53 101 0903",
@@ -107,8 +112,8 @@ const ui = {
 // Homepage content
 const home = {
   ar: {
-    metaTitle: "من الصفر إلى الواحد — استعادة بيانات متخصصة | الرياض، السعودية",
-    metaDesc: "استعادة بيانات متخصصة من الأقراص الصلبة، SSD، الهواتف، RAID والخوادم. تشخيص واضح وسرية كاملة قبل أي خطوة. خبرة أكثر من 25 سنة في الرياض، السعودية.",
+    metaTitle: "استعادة بيانات متخصصة في الرياض | من الصفر إلى الواحد",
+    metaDesc: "استعادة بيانات متخصصة من الأقراص الصلبة، SSD، الهواتف، RAID والخوادم — تشخيص واضح وسرية كاملة. خبرة أكثر من 25 سنة في الرياض، السعودية.",
     hero: {
       eyebrow: "استعادة بيانات متخصصة منذ أكثر من 25 سنة",
       title: "نستعيد ما ظننته مفقودًا.",
@@ -196,8 +201,8 @@ const home = {
     }
   },
   en: {
-    metaTitle: "Zero 2 One Data Recovery — Specialised Data Recovery | Riyadh, Saudi Arabia",
-    metaDesc: "Specialised data recovery from hard drives, SSDs, phones, RAID and servers. Clear diagnosis and full confidentiality before any step. Over 25 years of experience in Riyadh, Saudi Arabia.",
+    metaTitle: "Specialised Data Recovery in Riyadh | Zero 2 One",
+    metaDesc: "Specialised data recovery from hard drives, SSDs, phones, RAID and servers — clear diagnosis and full confidentiality. 25+ years in Riyadh, Saudi Arabia.",
     hero: {
       eyebrow: "Specialised data recovery for over 25 years",
       title: "We recover what you thought was lost.",
