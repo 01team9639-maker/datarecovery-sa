@@ -1737,6 +1737,8 @@ function build() {
   }
   // analytics loader (only when a GTM container is configured)
   if (config.gtm) write("assets/js/analytics.js", analyticsJs());
+  // llms.txt — AEO: lets AI answer engines read the site's structure directly
+  write("llms.txt", llmsTxt());
   // root redirect
   write("index.html", rootRedirect());
   // sitemap + robots
@@ -1767,6 +1769,50 @@ function rootRedirect() {
   <p><a href="/ar/" class="language-redirect__link">الدخول للموقع العربي</a> · <a href="/en/" class="language-redirect__link">Enter the site (English)</a></p>
 </body>
 </html>`;
+}
+
+/* ---------- llms.txt (AEO) ----------
+   A plain-Markdown map of the site for AI answer engines. Spec: llmstxt.org */
+function llmsTxt() {
+  const svc = (lang) => services
+    .map((s) => `- [${ui[lang].serviceNames[s.slug]}](${absSvc(lang, s.slug)}): ${s[lang].metaDesc}`)
+    .join("\n");
+  return `# Zero 2 One Data Recovery — من الصفر إلى الواحد
+
+> Specialised data recovery in Riyadh, Saudi Arabia. We recover data from hard
+> drives, SSD/NVMe, RAID arrays and servers, CCTV recorders, formatted media, and
+> ransomware-encrypted systems. Diagnosis first, full confidentiality, 25+ years
+> of experience. The site is bilingual: Arabic (/ar/) and English (/en/).
+
+Contact: ${config.email} · ${config.phoneDisplay} · Riyadh, Saudi Arabia
+Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
+
+## English
+
+- [Home](${absHome("en")}): Overview, services, how it works, FAQ.
+- [Contact](${absContact("en")}): Send case details (device, issue, urgency).
+- [Privacy & cookies](${absPrivacy("en")}): How cookies and form data are used.
+
+## Services (English)
+
+${svc("en")}
+
+## العربية (Arabic)
+
+- [الرئيسية](${absHome("ar")}): نظرة عامة، الخدمات، آلية العمل، الأسئلة الشائعة.
+- [تواصل معنا](${absContact("ar")}): أرسل تفاصيل حالتك.
+- [سياسة الخصوصية](${absPrivacy("ar")}): استخدام ملفات تعريف الارتباط والبيانات.
+
+## الخدمات (Arabic)
+
+${svc("ar")}
+
+## Notes
+
+- Stop using the affected device immediately; every write reduces recovery odds.
+- Diagnosis determines the method — the storage medium only decides the tooling.
+- For ransomware cases, isolate the device from the network and keep the ransom note.
+`;
 }
 
 function sitemap() {

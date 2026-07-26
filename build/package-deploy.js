@@ -25,6 +25,7 @@ const commonAllowlist = [
   "robots.txt",
   "sitemap.xml",
   "site.webmanifest",
+  "llms.txt",
 ];
 const targetAllowlist = targetName === "hostinger"
   ? [...commonAllowlist, "send.php", ".htaccess", ".user.ini"]

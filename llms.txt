@@ -1,0 +1,45 @@
+# Zero 2 One Data Recovery — من الصفر إلى الواحد
+
+> Specialised data recovery in Riyadh, Saudi Arabia. We recover data from hard
+> drives, SSD/NVMe, RAID arrays and servers, CCTV recorders, formatted media, and
+> ransomware-encrypted systems. Diagnosis first, full confidentiality, 25+ years
+> of experience. The site is bilingual: Arabic (/ar/) and English (/en/).
+
+Contact: info@datarecovery-sa.com · +966 53 101 0903 · Riyadh, Saudi Arabia
+Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
+
+## English
+
+- [Home](https://datarecovery-sa.com/en/): Overview, services, how it works, FAQ.
+- [Contact](https://datarecovery-sa.com/en/contact.html): Send case details (device, issue, urgency).
+- [Privacy & cookies](https://datarecovery-sa.com/en/privacy.html): How cookies and form data are used.
+
+## Services (English)
+
+- [Hard drives](https://datarecovery-sa.com/en/services/hdd.html): Recover data from failed or non-working hard drives—mechanical, electronic and logical faults. Diagnosis first, before any attempt. Riyadh, Saudi Arabia.
+- [SSD & NVMe](https://datarecovery-sa.com/en/services/ssd-nvme.html): Recover data from SSD, NVMe and M.2 disks when the drive fails or files disappear. Specialised handling of firmware and controller issues. Riyadh, Saudi Arabia.
+- [RAID & servers](https://datarecovery-sa.com/en/services/raid-servers.html): Business data recovery for RAID arrays, servers, NAS and SAN systems. The array is analysed before any rebuild. Riyadh, Saudi Arabia.
+- [CCTV footage](https://datarecovery-sa.com/en/services/cctv.html): Recover deleted or lost CCTV footage from DVR, NVR and recording drives. Inspection of Hikvision and Dahua systems. Riyadh, Saudi Arabia.
+- [After format](https://datarecovery-sa.com/en/services/after-format.html): Recover data after a format and retrieve deleted files from disks, flash and memory cards. Stop using the device before it's overwritten. Riyadh, SA.
+- [Ransomware](https://datarecovery-sa.com/en/services/ransomware.html): Recover files encrypted by ransomware — technical assessment of the infection and backups before any step. Don't pay before assessment. Riyadh, SA.
+
+## العربية (Arabic)
+
+- [الرئيسية](https://datarecovery-sa.com/ar/): نظرة عامة، الخدمات، آلية العمل، الأسئلة الشائعة.
+- [تواصل معنا](https://datarecovery-sa.com/ar/contact.html): أرسل تفاصيل حالتك.
+- [سياسة الخصوصية](https://datarecovery-sa.com/ar/privacy.html): استخدام ملفات تعريف الارتباط والبيانات.
+
+## الخدمات (Arabic)
+
+- [الأقراص الصلبة](https://datarecovery-sa.com/ar/services/hdd.html): استرجاع بيانات الأقراص الصلبة التالفة أو التي لا تعمل—أعطال ميكانيكية، إلكترونية ومنطقية. تشخيص أولاً قبل أي محاولة. الرياض، السعودية.
+- [SSD وNVMe](https://datarecovery-sa.com/ar/services/ssd-nvme.html): استعادة بيانات أقراص SSD وNVMe وM.2 عند تعطل القرص أو اختفاء الملفات. تعامل متخصص مع مشاكل الـFirmware ووحدات التحكم. الرياض، السعودية.
+- [RAID والسيرفرات](https://datarecovery-sa.com/ar/services/raid-servers.html): استعادة بيانات مصفوفات RAID والسيرفرات وأنظمة NAS وSAN للشركات. تحليل المصفوفة قبل أي إعادة بناء. الرياض، السعودية.
+- [كاميرات المراقبة](https://datarecovery-sa.com/ar/services/cctv.html): استرجاع تسجيلات كاميرات المراقبة المحذوفة أو المفقودة من أجهزة DVR وNVR وهاردات التسجيل. فحص أنظمة Hikvision وDahua. الرياض، السعودية.
+- [بعد الفورمات](https://datarecovery-sa.com/ar/services/after-format.html): استعادة البيانات بعد الفورمات واسترجاع الملفات المحذوفة من الأقراص والفلاش وبطاقات الذاكرة. أوقف الاستخدام قبل أن تُستبدل البيانات. الرياض، السعودية.
+- [فيروس الفدية](https://datarecovery-sa.com/ar/services/ransomware.html): استرجاع الملفات المشفرة بفيروس الفدية للأفراد والشركات. تقييم فني لنوع الإصابة والنسخ الاحتياطية قبل أي خطوة. لا تدفع قبل التقييم. الرياض، السعودية.
+
+## Notes
+
+- Stop using the affected device immediately; every write reduces recovery odds.
+- Diagnosis determines the method — the storage medium only decides the tooling.
+- For ransomware cases, isolate the device from the network and keep the ransom note.
