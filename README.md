@@ -11,37 +11,40 @@
 
 ## المميزات
 
-- **ثنائي اللغة تلقائياً** — الصفحة الجذر `/` تكتشف لغة جهاز الزائر وتحوّله إلى `/ar/` أو `/en/`،
-  مع مبدّل لغة يدوي في كل صفحة و`hreflang` كامل.
+- **ثنائي اللغة برابطين منفصلين** — العربية (السوق الأساسي) على جذر الموقع `/` بلا بادئة،
+  والإنجليزية تحت `/en/`. رابطان مستقلان هما شرط عمل `hreflang` وفهرسة كل لغة على حدة،
+  مع مبدّل لغة يدوي في القائمة الجانبية. لا يوجد تحويل تلقائي حسب لغة المتصفح (جوجل يمنعه:
+  زاحف البحث كان سيرى لغة واحدة فقط). المسارات القديمة `/ar/*` تُحوَّل **301** إلى الجذر.
 - **RTL للعربية / LTR للإنجليزية** — تخطيط منعكس بالكامل.
 - **بدون مكتبات خارجية** — أداء أعلى (انظر [LIBRARIES.md](LIBRARIES.md)).
 - **خط self-hosted** — Alexandria متغيّر (arabic + latin) محمّل محلياً.
 - **الأرقام بالإنجليزية** في كل الموقع.
-- **SEO / AEO / GEO** — بيانات منظّمة JSON-LD (LocalBusiness، Service، FAQPage، BreadcrumbList)،
-  `sitemap.xml` مع hreflang، `robots.txt`، Open Graph + Twitter، بنية دلالية، ووصف Meta لكل صفحة.
+- **SEO / AEO / GEO** — بيانات منظّمة JSON-LD (LocalBusiness مع `sameAs`، WebSite، WebPage
+  مع `dateModified`، Service، FAQPage، BreadcrumbList)، `sitemap.xml` مع hreflang و`lastmod`،
+  `robots.txt`، `llms.txt` لمحرّكات الإجابة، Open Graph + Twitter، وأسئلة الـFAQ كعناوين `<h3>`.
 - **متجاوب** — جوال (أفقي/عمودي)، iPad، لابتوب، وديسكتوب.
-- كل خدمة **ملف HTML مستقل** (`/ar/services/*.html` و `/en/services/*.html`).
+- كل خدمة **ملف HTML مستقل** (`/services/*.html` للعربية و `/en/services/*.html` للإنجليزية).
 
 ## بنية المشروع
 
 ```
 01datarecpvery/
-├── index.html                 # تحويل حسب لغة الجهاز → /ar/ أو /en/
-├── ar/
-│   ├── index.html             # الرئيسية (عربي، RTL)
-│   └── services/              # 6 صفحات خدمات مستقلة
-│       ├── hdd.html · ssd-nvme.html · raid-servers.html
-│       └── cctv.html · after-format.html · ransomware.html
+├── index.html                 # الرئيسية (عربي، RTL) — جذر الموقع
+├── contact.html · privacy.html
+├── services/                  # 6 صفحات خدمات مستقلة (عربي)
+│   ├── hdd.html · ssd-nvme.html · raid-servers.html
+│   └── cctv.html · after-format.html · ransomware.html
 ├── en/                        # نفس البنية (إنجليزي، LTR)
 ├── assets/
 │   ├── css/  (fonts.css · main.css)
-│   ├── js/   (bootstrap.js · lang-redirect.js · main.js · anim.js · analytics.js · vendor/gsap)
+│   ├── js/   (bootstrap.js · main.js · anim.js · analytics.js · vendor/gsap)
 │   ├── fonts/ (alexandria-arabic.woff2 · alexandria-latin.woff2)
-│   ├── img/  (og-ar.png · og-en.png)
-│   └── favicon.svg
-├── build/                     # مولّد الصفحات (تطوير فقط، لا يُرفع)
-│   ├── site.js · services.js · generate.js
-├── sitemap.xml · robots.txt · site.webmanifest
+│   ├── img/  (logo-mark.png · og-ar.png · og-en.png)
+│   └── favicon-32.png · favicon-48.png · apple-touch-icon.png · icon-192.png · icon-512.png
+├── build/                     # مولّد الصفحات (تطوير فقط، محجوب عن الويب)
+│   ├── site.js · services.js · generate.js · package-deploy.js
+├── send.php · .htaccess · .user.ini
+├── sitemap.xml · robots.txt · llms.txt · site.webmanifest
 └── README.md · LIBRARIES.md
 ```
 
@@ -49,15 +52,15 @@
 
 | | عربي | إنجليزي |
 |---|---|---|
-| الرئيسية | `/ar/` | `/en/` |
-| التواصل | `/ar/contact.html` | `/en/contact.html` |
-| الخصوصية | `/ar/privacy.html` | `/en/privacy.html` |
-| هارد تالف (HDD) | `/ar/services/hdd.html` | `/en/services/hdd.html` |
-| SSD و NVMe | `/ar/services/ssd-nvme.html` | `/en/services/ssd-nvme.html` |
-| RAID والسيرفرات | `/ar/services/raid-servers.html` | `/en/services/raid-servers.html` |
-| كاميرات المراقبة | `/ar/services/cctv.html` | `/en/services/cctv.html` |
-| بعد الفورمات | `/ar/services/after-format.html` | `/en/services/after-format.html` |
-| فيروس الفدية | `/ar/services/ransomware.html` | `/en/services/ransomware.html` |
+| الرئيسية | `/` | `/en/` |
+| التواصل | `/contact.html` | `/en/contact.html` |
+| الخصوصية | `/privacy.html` | `/en/privacy.html` |
+| هارد تالف (HDD) | `/services/hdd.html` | `/en/services/hdd.html` |
+| SSD و NVMe | `/services/ssd-nvme.html` | `/en/services/ssd-nvme.html` |
+| RAID والسيرفرات | `/services/raid-servers.html` | `/en/services/raid-servers.html` |
+| كاميرات المراقبة | `/services/cctv.html` | `/en/services/cctv.html` |
+| بعد الفورمات | `/services/after-format.html` | `/en/services/after-format.html` |
+| فيروس الفدية | `/services/ransomware.html` | `/en/services/ransomware.html` |
 
 ## التشغيل والتوليد
 
@@ -67,7 +70,8 @@ node build/generate.js
 
 # تشغيل محلي (لازم خادم static حتى تُحمّل الخطوط والمسارات المطلقة)
 python3 -m http.server 8000
-# افتح: http://localhost:8000  (سيحوّلك حسب لغة جهازك)
+# افتح: http://localhost:8000       → العربية (الجذر)
+# افتح: http://localhost:8000/en/   → الإنجليزية
 ```
 
 ## الأمان والنشر
@@ -87,7 +91,7 @@ node tests/security-static.test.js
 
 ### النشر من GitHub إلى Hostinger (Git deploy)
 
-الريبو مُهيّأ ليُنشر جذره مباشرة: ملفات الموقع (`index.html`، `ar/`، `en/`، `assets/`،
+الريبو مُهيّأ ليُنشر جذره مباشرة: ملفات الموقع (`index.html`، `services/`، `en/`، `assets/`،
 `send.php`، `.htaccess`، `.user.ini`) في الجذر، ومجلدات المصدر (`build/`، `design/`، `tests/`)
 **محجوبة عن الويب بالكامل** عبر `.htaccess` (تُرجع `404`)، فلا تصل للزائر.
 
@@ -145,6 +149,9 @@ node tests/security-static.test.js
   يُكتب `assets/js/analytics.js` (loader خارجي) ويُضاف snippet الـ`<noscript>`. GA4 يُدار من داخل
   حاوية GTM. الـ CSP في `.htaccess` و`netlify.toml` يسمح فقط بنطاقات googletagmanager.com و
   google-analytics.com.
+- **تاريخ تحديث المحتوى:** `contentUpdated` في `build/site.js` هو مصدر `dateModified` في
+  JSON-LD و`lastmod` في الـsitemap (إشارة الحداثة لمحرّكات البحث والإجابة). حدّثه **يدويًا**
+  عند تغيير نصوص الصفحات فعلًا — كونه ثابتًا يجعل البناء حتميًا والتاريخ صادقًا.
 - **CDN للصور:** حدّد `CDN` في `build/site.js` وأعد التوليد (تفاصيل في LIBRARIES.md).
 - **المحتوى/النصوص:** `build/site.js` (الرئيسية) و `build/services.js` (الخدمات) — للغتين.
 
@@ -156,7 +163,7 @@ node tests/security-static.test.js
 ```bash
 node build/generate.js
 python3 -m http.server 8000            # خادم static محلي
-npx lighthouse http://localhost:8000/ar/index.html --preset=desktop \
+npx lighthouse http://localhost:8000/ --preset=desktop \
   --only-categories=performance,accessibility,best-practices,seo
 ```
 
