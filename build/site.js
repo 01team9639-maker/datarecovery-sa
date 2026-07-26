@@ -16,6 +16,11 @@ const config = {
   // Loaded through a first-party external file (assets/js/analytics.js) so the
   // strict "no inline script" CSP/tests keep holding. Empty string disables it.
   gtm: "GTM-NVKDG74Z",
+  // Freshness signal for search/answer engines (JSON-LD dateModified + sitemap
+  // lastmod). Bump this whenever the page copy actually changes — keeping it a
+  // constant makes the build deterministic and the date honest.
+  contentPublished: "2026-07-20",
+  contentUpdated: "2026-07-26",
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
   whatsapp: "966531010903",          // wa.me/<this>
   phoneDisplay: "+966 53 101 0903",

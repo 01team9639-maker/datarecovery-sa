@@ -85,6 +85,23 @@ function localBusiness(lang) {
     inLanguage: lang
   };
 }
+/* Every page carries a WebPage node with explicit dates — search and answer
+   engines use them as the freshness signal (nothing else on the page dates it). */
+function webPage(lang, url, name, desc) {
+  return {
+    "@type": "WebPage",
+    "@id": url + "#webpage",
+    url,
+    name,
+    description: desc,
+    inLanguage: lang,
+    isPartOf: { "@id": BASE + "/#website" },
+    about: { "@id": BASE + "/#business" },
+    datePublished: config.contentPublished,
+    dateModified: config.contentUpdated
+  };
+}
+
 function faqPage(items) {
   return {
     "@type": "FAQPage",
@@ -211,10 +228,15 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
 }
 
 /* ---------- Header / Footer (shared) ---------- */
-function logo() {
+function logo(lang) {
   // Brand mark (extracted + optimised from the supplied artwork) + wordmark.
+  // The lockup is aria-hidden because the surrounding link already carries the
+  // brand name, so the alt text is there for crawlers rather than screen readers.
+  const alt = lang === "ar"
+    ? "شعار من الصفر إلى الواحد لاستعادة البيانات في الرياض"
+    : "Zero 2 One Data Recovery logo — data recovery in Riyadh";
   return `<span class="logo" aria-hidden="true">
-      <img class="logo__mark" src="/assets/img/logo-mark.png" alt="" width="92" height="120" decoding="async">
+      <img class="logo__mark" src="/assets/img/logo-mark.png" alt="${esc(alt)}" width="92" height="120" decoding="async">
       <span class="logo__wm"><b>Zero&nbsp;2&nbsp;One</b><i>DATA&nbsp;RECOVERY</i></span>
     </span>`;
 }
@@ -239,7 +261,7 @@ function header(lang) {
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
-      <a class="brand" href="${homeUrl(lang)}" aria-label="${esc(brandLabel)}">${logo()}</a>
+      <a class="brand" href="${homeUrl(lang)}" aria-label="${esc(brandLabel)}">${logo(lang)}</a>
       <nav class="nav" aria-label="${esc(menuLabel)}">
         <ul class="nav__list">${links}
         </ul>
@@ -376,7 +398,12 @@ function dataCore(dark) {
 function homePage(lang) {
   const t = ui[lang];
   const h = home[lang];
-  const schemas = [localBusiness(lang), { "@type": "WebSite", url: absHome(lang), name: t.brand, inLanguage: lang }, faqPage(h.faq.items)];
+  const schemas = [
+    localBusiness(lang),
+    { "@type": "WebSite", "@id": BASE + "/#website", url: absHome(lang), name: t.brand, inLanguage: lang },
+    webPage(lang, absHome(lang), h.metaTitle, h.metaDesc),
+    faqPage(h.faq.items)
+  ];
   let html = docStart({
     lang, title: h.metaTitle, desc: h.metaDesc,
     canonical: absHome(lang), altAr: absHome("ar"), altEn: absHome("en"), schemas
@@ -597,7 +624,11 @@ function servicePage(lang, s) {
   const allFaqs = c.faqs.concat((svcExtraFaqs[s.slug] || {})[lang] || []);
   const nextSlug = nextServiceOf(s.slug);
   const nextLabel = lang === "ar" ? "الخدمة التالية" : "Next service";
-  const schemas = [localBusiness(lang), serviceSchema(lang, s), breadcrumb(lang, s), faqPage(allFaqs)];
+  const schemas = [
+    localBusiness(lang),
+    webPage(lang, absSvc(lang, s.slug), s[lang].metaTitle, s[lang].metaDesc),
+    serviceSchema(lang, s), breadcrumb(lang, s), faqPage(allFaqs)
+  ];
   let html = docStart({
     lang, title: c.metaTitle, desc: c.metaDesc,
     canonical: absSvc(lang, s.slug), altAr: absSvc("ar", s.slug), altEn: absSvc("en", s.slug), schemas
@@ -704,7 +735,7 @@ function contactPage(lang) {
   const f = c.fields;
   const schemas = [
     localBusiness(lang),
-    { "@type": "ContactPage", url: absContact(lang), name: c.title, inLanguage: lang }
+    { ...webPage(lang, absContact(lang), c.metaTitle, c.metaDesc), "@type": "ContactPage" }
   ];
   const opt = (list, ph) =>
     `<option value="" disabled selected>${esc(ph)}</option>` +
@@ -851,7 +882,7 @@ function privacyPage(lang) {
   const t = ui[lang];
   const p = privacy[lang];
   const schemas = [
-    { "@type": "WebPage", url: absPrivacy(lang), name: p.title, description: p.metaDesc, inLanguage: lang }
+    webPage(lang, absPrivacy(lang), p.metaTitle, p.metaDesc)
   ];
 
   const linkList = (links) =>
@@ -1691,12 +1722,16 @@ function faqRow(f, i) {
   const aId = `faq-a-${i + 1}`;
   // No `hidden` in the static markup: without JS the answers stay readable.
   // main.js collapses them and manages `hidden`/aria once JS is available.
+  // The trigger sits inside a heading (WAI-ARIA accordion pattern), which also
+  // exposes the questions to search/answer engines scanning the outline.
   return `<div class="faq-row">
+              <h3 class="faq-row__h">
               <button class="faq-row__q" type="button" id="${qId}" aria-expanded="false" aria-controls="${aId}">
                 <span class="faq-row__num" dir="ltr">${pad(i + 1)}</span>
                 <span class="faq-row__text">${esc(f.q)}</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
+              </h3>
               <div class="faq-row__a" id="${aId}" role="region" aria-labelledby="${qId}"><p>${esc(f.a)}</p></div>
             </div>`;
 }
@@ -1799,7 +1834,7 @@ ${svc("ar")}
 }
 
 function sitemap() {
-  const now = new Date().toISOString().slice(0, 10);
+  const now = config.contentUpdated;
   const urls = [];
   const add = (locFn) => {
     const arU = locFn("ar"), enU = locFn("en");

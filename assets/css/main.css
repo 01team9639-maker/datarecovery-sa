@@ -677,6 +677,8 @@ body.drawer-open { overflow: hidden; }
 .faq__aside { padding-top: 0.5rem; }
 .faq__rows { border-top: 1px solid var(--border-light); }
 .faq-row { border-bottom: 1px solid var(--border-light); }
+/* The question is a heading only for semantics — it must not restyle the row. */
+.faq-row__h { margin: 0; font: inherit; }
 .faq-row__q {
   display: flex;
   align-items: center;
