@@ -70,7 +70,7 @@ function localBusiness(lang) {
     description: home[lang].metaDesc,
     telephone: config.phoneDisplay,
     email: config.email,
-    image: `${IMG}/assets/img/og-${lang}.png`,
+    image: `${IMG}/assets/img/og.png`,
     logo: `${IMG}/assets/img/logo-mark.png`,
     address: { "@type": "PostalAddress", addressLocality: lang === "ar" ? "الرياض" : "Riyadh", addressCountry: "SA" },
     geo: { "@type": "GeoCoordinates", latitude: config.geo.lat, longitude: config.geo.lng },
@@ -197,11 +197,12 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="${IMG}/assets/img/og-${lang}.png">
+  <meta property="og:image" content="${IMG}/assets/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${esc(lang === "ar" ? "شعار من الصفر إلى الواحد لاستعادة البيانات" : "Zero 2 One Data Recovery logo")}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="${IMG}/assets/img/og-${lang}.png">${config.cdn ? `\n  <link rel="preconnect" href="${config.cdn}" crossorigin>` : ""}
+  <meta name="twitter:image" content="${IMG}/assets/img/og.png">${config.cdn ? `\n  <link rel="preconnect" href="${config.cdn}" crossorigin>` : ""}
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css">
