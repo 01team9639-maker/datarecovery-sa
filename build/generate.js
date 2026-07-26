@@ -223,9 +223,11 @@ function header(lang) {
           <li><a href="${homeUrl(lang)}#about">${esc(t.nav.about)}</a></li>
           <li><a href="${homeUrl(lang)}#faq">${esc(t.nav.faq)}</a></li>
           <li><a href="${contactUrl(lang)}">${esc(t.nav.contact)}</a></li>`;
-  // Drawer keeps an extra "Home" link back to the hero (side drawer only)
+  // Drawer keeps an extra "Home" link back to the hero (side drawer only).
+  // data-home-link lets main.js scroll straight to the hero when we're already
+  // on the homepage, instead of triggering a full reload.
   const drawerLinks = `
-          <li><a href="${homeUrl(lang)}#top">${esc(t.nav.home)}</a></li>` + links;
+          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links;
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
@@ -374,7 +376,7 @@ function homePage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero section--dark" aria-labelledby="hero-title">
+    <section class="hero section--dark" id="hero" aria-labelledby="hero-title">
       <div class="container hero__inner">
         <div class="hero__copy">
           <p class="eyebrow">${esc(h.hero.eyebrow)}</p>

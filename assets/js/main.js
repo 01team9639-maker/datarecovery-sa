@@ -96,7 +96,15 @@
       el.addEventListener("click", function () { setNav(false); toggle.focus(); });
     });
     drawer.addEventListener("click", function (e) {
-      if (e.target.closest("a")) setNav(false);
+      var link = e.target.closest("a");
+      if (!link) return;
+      setNav(false);
+      // "Home": when the hero is on this page, scroll to it instead of reloading.
+      if (link.hasAttribute("data-home-link") && document.getElementById("hero")) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.history && history.replaceState) history.replaceState(null, "", link.getAttribute("href"));
+      }
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {

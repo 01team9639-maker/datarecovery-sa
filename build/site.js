@@ -131,12 +131,12 @@ const home = {
       note: "اختر الوصف الأقرب، وسنبدأ معك من المعلومة الصحيحة بدل التخمين.",
       foot: "ما لازم تعرف اسم العطل التقني. يكفي أن تصف ما حدث.",
       cases: [
+        { t: "تعرضت لهجوم فدية", b: "اعزل الجهاز عن الشبكة واحتفظ بعينة من رسالة الفدية قبل أي تغيير." },
         { t: "الجهاز لا يظهر", b: "قد يكون العطل منطقيًا أو كهربائيًا أو ميكانيكيًا. لا تكرر التشغيل قبل التشخيص." },
         { t: "الملفات اختفت أو حُذفت", b: "توقف عن استخدام الجهاز حتى لا تُكتب بيانات جديدة فوق الملفات القديمة." },
         { t: "تعرض الجهاز للماء أو الصدمة", b: "افصل الطاقة ولا تحاول التجفيف أو التشغيل. الضرر المادي يحتاج فحصًا متخصصًا." },
         { t: "الخادم أو RAID توقف", b: "حافظ على ترتيب الأقراص ولا تعد البناء قبل تقييم بنية المصفوفة." },
-        { t: "التسجيلات انحذفت", b: "يمكن فحص أقراص DVR وNVR واستعادة التسجيلات حسب حالة الكتابة فوقها." },
-        { t: "تعرضت لهجوم فدية", b: "اعزل الجهاز عن الشبكة واحتفظ بعينة من رسالة الفدية قبل أي تغيير." }
+        { t: "التسجيلات انحذفت", b: "يمكن فحص أقراص DVR وNVR واستعادة التسجيلات حسب حالة الكتابة فوقها." }
       ]
     },
     services: {
@@ -220,12 +220,12 @@ const home = {
       note: "Pick the closest description, and we'll start from the right information instead of guessing.",
       foot: "You don't need to know the technical fault name. Describing what happened is enough.",
       cases: [
+        { t: "Hit by a ransomware attack", b: "Isolate the device from the network and keep a sample of the ransom note before any change." },
         { t: "The device doesn't appear", b: "The fault may be logical, electrical or mechanical. Don't keep powering it on before diagnosis." },
         { t: "Files disappeared or were deleted", b: "Stop using the device so new data isn't written over the old files." },
         { t: "Water or shock damage", b: "Disconnect power and don't try to dry or run it. Physical damage needs a specialist inspection." },
         { t: "A server or RAID stopped", b: "Keep the disk order and don't rebuild before assessing the array structure." },
-        { t: "Recordings were deleted", b: "DVR and NVR disks can be inspected and footage recovered based on overwrite state." },
-        { t: "Hit by a ransomware attack", b: "Isolate the device from the network and keep a sample of the ransom note before any change." }
+        { t: "Recordings were deleted", b: "DVR and NVR disks can be inspected and footage recovered based on overwrite state." }
       ]
     },
     services: {
