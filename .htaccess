@@ -5,6 +5,11 @@ ServerSignature Off
   RewriteEngine On
   RewriteRule (^|/)\.(?!well-known(?:/|$)) - [R=404,L,NC]
   RewriteRule ^(?:build|design|tests)(?:/|$) - [R=404,L,NC]
+
+  # Arabic moved from /ar/ to the site root — keep the old paths reachable and
+  # tell search engines the move is permanent (avoids duplicate content).
+  RewriteRule ^ar/(.*)$ /$1 [R=301,L]
+  RewriteRule ^ar$ / [R=301,L]
 </IfModule>
 
 <FilesMatch "^(?:README\.md|LIBRARIES\.md|test-form\.command|netlify\.toml|\.user\.ini|\.mcp\.json|\.DS_Store)$">

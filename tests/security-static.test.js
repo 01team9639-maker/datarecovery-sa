@@ -17,8 +17,9 @@ function collectHtml(relative) {
   }
 }
 
-htmlFiles.push("index.html");
-collectHtml("ar");
+// Arabic sits at the site root; English under /en/.
+htmlFiles.push("index.html", "contact.html", "privacy.html");
+collectHtml("services");
 collectHtml("en");
 
 for (const file of htmlFiles) {

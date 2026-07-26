@@ -42,10 +42,18 @@ const icons = {
   }
 };
 
-const homeUrl = (lang) => `/${lang}/`;
-const svcUrl = (lang, slug) => `/${lang}/services/${slug}.html`;
-const contactUrl = (lang) => `/${lang}/contact.html`;
-const privacyUrl = (lang) => `/${lang}/privacy.html`;
+/* Arabic is the primary market, so it owns the site root and carries no prefix;
+   every other language is served under /<lang>/. Both keep distinct URLs, which
+   is what hreflang and per-language indexing require. */
+const DEFAULT_LANG = "ar";
+const langPrefix = (lang) => (lang === DEFAULT_LANG ? "" : `/${lang}`);
+// Where a page is written on disk (mirrors the URL, minus the leading slash).
+const outPath = (lang, rel) => (lang === DEFAULT_LANG ? rel : `${lang}/${rel}`);
+
+const homeUrl = (lang) => `${langPrefix(lang)}/`;
+const svcUrl = (lang, slug) => `${langPrefix(lang)}/services/${slug}.html`;
+const contactUrl = (lang) => `${langPrefix(lang)}/contact.html`;
+const privacyUrl = (lang) => `${langPrefix(lang)}/privacy.html`;
 const absHome = (lang) => BASE + homeUrl(lang);
 const absSvc = (lang, slug) => BASE + svcUrl(lang, slug);
 const absContact = (lang) => BASE + contactUrl(lang);
@@ -992,7 +1000,7 @@ function respond(bool $ok, string $message, int $status = 200): void {
         header('Content-Type: text/html; charset=UTF-8');
         header("Content-Security-Policy: default-src 'none'; base-uri 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; form-action 'none'; frame-ancestors 'none'");
         $dir  = $LANG === 'en' ? 'ltr' : 'rtl';
-        $home = '/' . ($LANG === 'en' ? 'en' : 'ar') . '/';
+        $home = $LANG === 'en' ? '/en/' : '/';   // Arabic is served from the site root
         $head = $ok ? ($LANG === 'en' ? 'Thank you' : 'شكراً لك')
                     : ($LANG === 'en' ? 'Something went wrong' : 'حدث خطأ');
         $back = $LANG === 'en' ? 'Back to the site' : 'العودة إلى الموقع';
@@ -1725,50 +1733,25 @@ function build() {
   for (const lang of LANGS) {
     const other = ui[lang].otherLang;
     // homepage
-    write(`${lang}/index.html`, injectLangSwitch(homePage(lang), homeUrl(other)));
+    write(outPath(lang, "index.html"), injectLangSwitch(homePage(lang), homeUrl(other)));
     // contact
-    write(`${lang}/contact.html`, injectLangSwitch(contactPage(lang), contactUrl(other)));
+    write(outPath(lang, "contact.html"), injectLangSwitch(contactPage(lang), contactUrl(other)));
     // privacy / cookie policy
-    write(`${lang}/privacy.html`, injectLangSwitch(privacyPage(lang), privacyUrl(other)));
+    write(outPath(lang, "privacy.html"), injectLangSwitch(privacyPage(lang), privacyUrl(other)));
     // services
     for (const s of services) {
-      write(`${lang}/services/${s.slug}.html`, injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
+      write(outPath(lang, `services/${s.slug}.html`), injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
     }
   }
   // analytics loader (only when a GTM container is configured)
   if (config.gtm) write("assets/js/analytics.js", analyticsJs());
   // llms.txt — AEO: lets AI answer engines read the site's structure directly
   write("llms.txt", llmsTxt());
-  // root redirect
-  write("index.html", rootRedirect());
   // sitemap + robots
   write("send.php", sendPhp());
   write("sitemap.xml", sitemap());
   write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
   console.log("Done.");
-}
-
-function rootRedirect() {
-  const links = LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${absHome(l)}">`).join("\n  ") +
-    `\n  <link rel="alternate" hreflang="x-default" href="${BASE}/">`;
-  return `<!DOCTYPE html>
-<html lang="en" class="language-redirect">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>من الصفر إلى الواحد — Zero 2 One Data Recovery | Data Recovery</title>
-  <meta name="description" content="Specialised data recovery — استعادة بيانات متخصصة. Riyadh, Saudi Arabia.">
-  ${links}
-  <link rel="canonical" href="${BASE}/">
-  <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <script src="/assets/js/lang-redirect.js"></script>
-  <meta http-equiv="refresh" content="0; url=/en/">
-</head>
-<body class="language-redirect__body">
-  <p><a href="/ar/" class="language-redirect__link">الدخول للموقع العربي</a> · <a href="/en/" class="language-redirect__link">Enter the site (English)</a></p>
-</body>
-</html>`;
 }
 
 /* ---------- llms.txt (AEO) ----------
@@ -1782,7 +1765,7 @@ function llmsTxt() {
 > Specialised data recovery in Riyadh, Saudi Arabia. We recover data from hard
 > drives, SSD/NVMe, RAID arrays and servers, CCTV recorders, formatted media, and
 > ransomware-encrypted systems. Diagnosis first, full confidentiality, 25+ years
-> of experience. The site is bilingual: Arabic (/ar/) and English (/en/).
+> of experience. The site is bilingual: Arabic at the root (/) and English (/en/).
 
 Contact: ${config.email} · ${config.phoneDisplay} · Riyadh, Saudi Arabia
 Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)

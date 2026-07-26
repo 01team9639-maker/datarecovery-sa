@@ -69,7 +69,7 @@ function respond(bool $ok, string $message, int $status = 200): void {
         header('Content-Type: text/html; charset=UTF-8');
         header("Content-Security-Policy: default-src 'none'; base-uri 'none'; style-src 'self'; font-src 'self'; img-src 'self' data:; form-action 'none'; frame-ancestors 'none'");
         $dir  = $LANG === 'en' ? 'ltr' : 'rtl';
-        $home = '/' . ($LANG === 'en' ? 'en' : 'ar') . '/';
+        $home = $LANG === 'en' ? '/en/' : '/';   // Arabic is served from the site root
         $head = $ok ? ($LANG === 'en' ? 'Thank you' : 'شكراً لك')
                     : ($LANG === 'en' ? 'Something went wrong' : 'حدث خطأ');
         $back = $LANG === 'en' ? 'Back to the site' : 'العودة إلى الموقع';

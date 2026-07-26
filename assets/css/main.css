@@ -820,20 +820,6 @@ body.drawer-open { overflow: hidden; }
 
 /* ============================ Responsive ============================== */
 
-/* Root language redirect page (kept class-based for a strict CSP). */
-.language-redirect__body {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  margin: 0;
-  padding: 20vh 20px;
-  background: #011e22;
-  color: #fff;
-  font-family: system-ui, sans-serif;
-  text-align: center;
-}
-.language-redirect__link { color: #12c7d7; }
-
 /* Laptop */
 @media (max-width: 1200px) {
   .service__link { grid-template-columns: auto minmax(0, 1fr) auto auto; column-gap: clamp(16px, 2.5vw, 36px); }

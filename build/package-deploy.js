@@ -18,8 +18,11 @@ if (path.dirname(output) !== distRoot) {
 }
 
 const commonAllowlist = [
+  // Arabic is the root-level site; English is nested under /en/.
   "index.html",
-  "ar",
+  "contact.html",
+  "privacy.html",
+  "services",
   "en",
   "assets",
   "robots.txt",
@@ -37,7 +40,7 @@ const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2"])
 function assertPublicFile(relative) {
   const portable = relative.split(path.sep).join("/");
   const extension = path.extname(relative).toLowerCase();
-  if ((portable.startsWith("ar/") || portable.startsWith("en/")) && extension === ".html") return;
+  if ((portable.startsWith("services/") || portable.startsWith("en/")) && extension === ".html") return;
   if (portable.startsWith("assets/") && publicAssetExtensions.has(extension)) return;
   if (targetAllowlist.includes(portable)) return;
   throw new Error(`Refusing unexpected deployment file: ${portable}`);

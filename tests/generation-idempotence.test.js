@@ -28,7 +28,9 @@ function digest() {
   return hash.digest("hex");
 }
 
-collectHtml("ar");
+// Arabic sits at the site root; English under /en/.
+generated.push("contact.html", "privacy.html", "llms.txt");
+collectHtml("services");
 collectHtml("en");
 const before = digest();
 execFileSync(process.execPath, ["build/generate.js"], { cwd: root, stdio: "pipe" });

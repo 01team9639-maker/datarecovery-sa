@@ -49,6 +49,14 @@
     X-Permitted-Cross-Domain-Policies = "none"
     X-XSS-Protection = "0"
 
+# Arabic moved from /ar/ to the site root — permanent redirect keeps the old
+# paths working and prevents duplicate content.
+[[redirects]]
+  from = "/ar/*"
+  to = "/:splat"
+  status = 301
+  force = true
+
 # Never expose source, developer tooling, test artifacts, or PHP source from a
 # static Netlify deployment. Production form handling belongs on the PHP host.
 [[redirects]]
