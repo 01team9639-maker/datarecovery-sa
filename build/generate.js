@@ -9,6 +9,7 @@
    ========================================================================== */
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const services = require("./services");
 const { config, ui, home, contact, privacy } = require("./site");
 
@@ -20,6 +21,25 @@ const LANGS = ["ar", "en"];
 
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+/* ---------- Cache busting ----------
+   CSS/JS are served with a one-day cache, so without this a returning visitor
+   keeps the old stylesheet after a deploy and the page renders half-styled.
+   Appending a content hash makes every change a new URL, fetched immediately,
+   while unchanged files keep their hash (and stay cached, and stay
+   deterministic for the idempotence test). */
+const _assetHashes = new Map();
+function asset(rel) {
+  if (!_assetHashes.has(rel)) {
+    let tag = "";
+    try {
+      tag = crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex").slice(0, 8);
+    } catch (e) { /* not generated yet — ship the bare path rather than a wrong hash */ }
+    _assetHashes.set(rel, tag);
+  }
+  const tag = _assetHashes.get(rel);
+  return `/${rel}${tag ? `?v=${tag}` : ""}`;
+}
+
 const wa = () => `https://wa.me/${config.whatsapp}`;
 
 /* Floating WhatsApp button — the brand mark supplied by the client, with the
@@ -191,7 +211,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/assets/js/bootstrap.js"></script>${config.gtm ? `\n  <script src="/assets/js/analytics.js" async></script>` : ""}
+  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
@@ -214,8 +234,8 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
   <meta name="twitter:image" content="${IMG}/assets/img/og.png">${config.cdn ? `\n  <link rel="preconnect" href="${config.cdn}" crossorigin>` : ""}
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/fonts.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="${asset("assets/css/fonts.css")}">
+  <link rel="stylesheet" href="${asset("assets/css/main.css")}">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -387,10 +407,10 @@ function footer(lang, minimal) {
 
 function docEnd() {
   return `
-  <script src="/assets/js/main.js" defer></script>
-  <script src="/assets/js/vendor/gsap.min.js" defer></script>
-  <script src="/assets/js/vendor/ScrollTrigger.min.js" defer></script>
-  <script src="/assets/js/anim.js" defer></script>
+  <script src="${asset("assets/js/main.js")}" defer></script>
+  <script src="${asset("assets/js/vendor/gsap.min.js")}" defer></script>
+  <script src="${asset("assets/js/vendor/ScrollTrigger.min.js")}" defer></script>
+  <script src="${asset("assets/js/anim.js")}" defer></script>
 </body>
 </html>`;
 }
@@ -1049,8 +1069,8 @@ function respond(bool $ok, string $message, int $status = 200): void {
         echo '<!DOCTYPE html><html lang="' . $e($LANG) . '" dir="' . $dir . '"><head>'
             . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
             . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
-            . '<link rel="stylesheet" href="/assets/css/fonts.css">'
-            . '<link rel="stylesheet" href="/assets/css/main.css"></head>'
+            . '<link rel="stylesheet" href="${asset("assets/css/fonts.css")}">'
+            . '<link rel="stylesheet" href="${asset("assets/css/main.css")}"></head>'
             . '<body class="section--dark form-fallback"><main class="container">'
             . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
             . '<p><a class="btn btn--accent" href="' . $e($home) . '">' . $e($back) . '</a></p>'
@@ -1775,6 +1795,8 @@ function write(rel, content) {
 
 function build() {
   console.log("Generating pages…");
+  // written first so asset() can hash it while the pages are rendered
+  if (config.gtm) write("assets/js/analytics.js", analyticsJs());
   for (const lang of LANGS) {
     const other = ui[lang].otherLang;
     // homepage
@@ -1788,8 +1810,6 @@ function build() {
       write(outPath(lang, `services/${s.slug}.html`), injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
     }
   }
-  // analytics loader (only when a GTM container is configured)
-  if (config.gtm) write("assets/js/analytics.js", analyticsJs());
   // llms.txt — AEO: lets AI answer engines read the site's structure directly
   write("llms.txt", llmsTxt());
   // sitemap + robots
