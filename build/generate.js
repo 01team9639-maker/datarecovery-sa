@@ -11,7 +11,18 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const services = require("./services");
-const { config, ui, home, contact, privacy } = require("./site");
+const depth = require("./depth");
+// Display order lives in site.js next to the content, not in the data files, so
+// reordering a nav never means editing a content module. Anything not named in
+// the order list sorts to the end rather than silently jumping to the front.
+const orderBy = (list, order) => {
+  const rank = (s) => { const i = order.indexOf(s); return i === -1 ? order.length : i; };
+  return [...list].sort((a, b) => rank(a.slug) - rank(b.slug));
+};
+const cities = orderBy(require("./cities"), config0().cityOrder);
+const posts = orderBy(require("./articles"), config0().articlesOrder);
+function config0() { return require("./site").config; }
+const { config, claims, ui, home, contact, privacy, socialProof } = require("./site");
 
 const ROOT = path.join(__dirname, "..");
 const BASE = config.baseUrl;
@@ -87,6 +98,12 @@ const absHome = (lang) => BASE + homeUrl(lang);
 const absSvc = (lang, slug) => BASE + svcUrl(lang, slug);
 const absContact = (lang) => BASE + contactUrl(lang);
 const absPrivacy = (lang) => BASE + privacyUrl(lang);
+const cityUrl = (lang, slug) => `${langPrefix(lang)}/cities/${slug}.html`;
+const articlesUrl = (lang) => `${langPrefix(lang)}/articles/`;
+const postUrl = (lang, slug) => `${langPrefix(lang)}/articles/${slug}.html`;
+const absCity = (lang, slug) => BASE + cityUrl(lang, slug);
+const absArticles = (lang) => BASE + articlesUrl(lang);
+const absPost = (lang, slug) => BASE + postUrl(lang, slug);
 
 /* ---------- JSON-LD schema ---------- */
 function localBusiness(lang) {
@@ -95,6 +112,12 @@ function localBusiness(lang) {
     "@type": "LocalBusiness",
     "@id": BASE + "/#business",
     name: t.brand,
+    // The business traded as Osool before rebranding to Zero 2 One, and the social
+    // profiles in `sameAs` still carry the old name. Declaring the former name as
+    // alternateName is what tells search engines these are ONE entity — without it
+    // the old and new names compete as two businesses on the same domain, which is
+    // the identity split the site audit flagged as its top-priority problem.
+    alternateName: config.alternateNames,
     url: absHome(lang),
     description: home[lang].metaDesc,
     telephone: config.phoneDisplay,
@@ -199,7 +222,7 @@ function analyticsJs() {
 }
 
 /* ---------- <head> + document shell ---------- */
-function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
+function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex }) {
   const t = ui[lang];
   const dir = t.dir;
   const graph = jsonLd({ "@graph": schemas });
@@ -215,7 +238,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas }) {
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
-  <meta name="color-scheme" content="dark light">
+  <meta name="color-scheme" content="dark light">${noindex ? `\n  <meta name="robots" content="noindex, follow">` : ""}
   <link rel="canonical" href="${canonical}">
   <link rel="alternate" hreflang="ar" href="${altAr}">
   <link rel="alternate" hreflang="en" href="${altEn}">
@@ -286,8 +309,18 @@ function header(lang) {
   // Drawer keeps an extra "Home" link back to the hero (side drawer only).
   // data-home-link lets main.js scroll straight to the hero when we're already
   // on the homepage, instead of triggering a full reload.
+  // The blog and city pages also hang off the drawer rather than the footer: the
+  // footer's quick-links row was removed by the client earlier, and these pages
+  // still need a real internal link on every page — a sitemap entry alone makes
+  // them crawlable but passes them no internal link equity.
+  const articlesLink = posts.length ? `
+          <li><a href="${articlesUrl(lang)}">${esc(t.articlesLabel)}</a></li>` : "";
+  const cityLinks = cities.length ? `
+          <li class="drawer__group">${esc(t.citiesLabel)}</li>` + cities
+    .map((c) => `
+          <li class="drawer__sub"><a href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a></li>`).join("") : "";
   const drawerLinks = `
-          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links;
+          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links + articlesLink + cityLinks;
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
@@ -424,6 +457,95 @@ function dataCore(dark) {
       </div>`;
 }
 
+/* ==========================================================================
+   Photography helper.
+   The site currently ships zero raster images — every graphic is CSS — which is
+   a large part of why it holds 100/100 on desktop. The moment real lab photos
+   land that stops being free, so images go through this one helper: WebP, an
+   explicit intrinsic size (no layout shift), lazy loading below the fold, and a
+   2-width srcset. Source art should be exported at 1600px wide; the 800px
+   variant is expected alongside it as <name>-800.webp.
+   ========================================================================== */
+function photo({ dir, file, alt, w = 1600, h = 1067, sizes = "(max-width: 720px) 100vw, 50vw", eager = false }) {
+  const base = `assets/img/${dir}/${file}`;
+  return `<img src="${asset(`${base}.webp`)}" srcset="${asset(`${base}-800.webp`)} 800w, ${asset(`${base}.webp`)} 1600w" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>`;
+}
+
+/* ==========================================================================
+   Trust sections.
+   Both audits named the missing human element as the site's weakest point. The
+   confidentiality block ships now because it states a policy the business has
+   confirmed. The three below it render ONLY when `socialProof` in site.js holds
+   real data — the markup is finished and waiting, but nothing is invented, so
+   the site never shows an empty testimonial rail or a fabricated review.
+   ========================================================================== */
+function confidentialityBlock(lang) {
+  const t = ui[lang];
+  return `
+        <aside class="assure">
+          <p class="assure__title">${esc(t.confidentialTitle)}</p>
+          <p class="assure__body">${esc(t.confidentialBody)}</p>
+          <p class="assure__tag">${esc(t.freeCheck)}</p>
+        </aside>`;
+}
+
+function testimonialsSection(lang) {
+  const list = socialProof.testimonials;
+  if (!list.length) return "";
+  const t = ui[lang];
+  const title = lang === "ar" ? "ماذا قال من سلّمنا أجهزتهم" : "What customers who trusted us say";
+  const eyebrow = lang === "ar" ? "آراء العملاء" : "Testimonials";
+  return `
+
+    <section class="section section--light" id="testimonials" aria-labelledby="tst-title">
+      <div class="container">
+        ${sectionHead(eyebrow, "tst-title", title, "", "")}
+        <ul class="tst">
+          ${list.map((x) => `<li class="tst__item">
+            <blockquote class="tst__quote">${esc(x[lang].quote)}</blockquote>
+            <p class="tst__who"><span class="tst__name">${esc(x[lang].name)}</span><span class="tst__role">${esc(x[lang].role)}</span></p>
+          </li>`).join("\n          ")}
+        </ul>
+        ${t.reassure ? `<p class="reassure reassure--center">${esc(t.reassure)}</p>` : ""}
+      </div>
+    </section>`;
+}
+
+function clientLogosSection(lang) {
+  const list = socialProof.clientLogos;
+  if (!list.length) return "";
+  const label = lang === "ar" ? "جهات وشركات تعاملنا معها" : "Organisations we have worked with";
+  return `
+
+    <section class="section section--dark logos" aria-label="${esc(label)}">
+      <div class="container">
+        <p class="logos__label">${esc(label)}</p>
+        <ul class="logos__row">
+          ${list.map((c) => `<li class="logos__item"><img src="${asset(`assets/img/clients/${c.file}.webp`)}" width="160" height="60" alt="${esc(c.name)}" loading="lazy" decoding="async"></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>`;
+}
+
+function labPhotosSection(lang) {
+  const list = socialProof.labPhotos;
+  if (!list.length) return "";
+  const eyebrow = lang === "ar" ? "داخل المختبر" : "Inside the lab";
+  const title = lang === "ar" ? "المكان الذي يُفحص فيه جهازك." : "Where your device is inspected.";
+  return `
+
+    <section class="section section--light" id="lab" aria-labelledby="lab-title">
+      <div class="container">
+        ${sectionHead(eyebrow, "lab-title", title, "", "")}
+        <ul class="lab">
+          ${list.map((p) => `<li class="lab__item">${photo({ dir: "lab", file: p.file, alt: p[lang].alt })}</li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>`;
+}
+
+const trustSections = (lang) => testimonialsSection(lang) + clientLogosSection(lang) + labPhotosSection(lang);
+
 /* ---------- Homepage ---------- */
 function homePage(lang) {
   const t = ui[lang];
@@ -451,6 +573,7 @@ function homePage(lang) {
             <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.nav.contact)} <span aria-hidden="true">${fwd(lang)}</span></a>
             <a class="link-arrow" href="${wa()}" rel="noopener">${esc(t.whatsappBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
           </div>
+          <p class="reassure">${esc(t.reassure)}</p>
         </div>
         <div class="hero__visual">${dataCore(false)}</div>
       </div>
@@ -516,6 +639,10 @@ function homePage(lang) {
           <h2 class="section-title" id="about-title">${esc(h.experience.title)}</h2>
           <p class="experience__lead">${esc(h.experience.lead)}</p>
           <p class="experience__tags">${esc(h.experience.tags)}</p>
+          <div class="brand-story">
+            <h3 class="brand-story__title">${esc(h.experience.storyTitle)}</h3>
+            <p class="brand-story__body">${esc(h.experience.storyBody)}</p>
+          </div>
         </div>
         <div class="metrics-grid">
           <div class="metrics-grid__cell metrics-grid__feature">
@@ -525,9 +652,9 @@ function homePage(lang) {
               <span class="metrics-grid__feature-text">${esc(h.experience.rankText)}</span>
             </div>
           </div>
-          <div class="metrics-grid__cell metrics-grid__cell--top"><span class="metrics-grid__value" dir="ltr">+25</span><span class="metrics-grid__label">${esc(h.metrics[0].l)}</span></div>
-          <div class="metrics-grid__cell metrics-grid__cell--accent"><span class="metrics-grid__value" dir="ltr">99%</span><span class="metrics-grid__label">${esc(h.metrics[2].l)}</span></div>
-          <div class="metrics-grid__cell metrics-grid__cell--cases"><span class="metrics-grid__value" dir="ltr">+50K</span><span class="metrics-grid__label">${esc(h.metrics[1].l)}</span></div>
+          <div class="metrics-grid__cell metrics-grid__cell--top"><span class="metrics-grid__value" dir="ltr">${esc(h.metrics[0].v)}</span><span class="metrics-grid__label">${esc(h.metrics[0].l)}</span></div>
+          <div class="metrics-grid__cell metrics-grid__cell--accent"><span class="metrics-grid__value" dir="ltr">${esc(h.metrics[2].v)}</span><span class="metrics-grid__label">${esc(h.metrics[2].l)}</span></div>
+          <div class="metrics-grid__cell metrics-grid__cell--cases"><span class="metrics-grid__value" dir="ltr">${esc(h.metrics[1].v)}</span><span class="metrics-grid__label">${esc(h.metrics[1].l)}</span></div>
           <div class="metrics-grid__cell metrics-grid__cell--foot"><span class="metrics-grid__index" dir="ltr">01</span><span class="metrics-grid__principle">${esc(h.experience.principle)}</span></div>
         </div>
       </div>
@@ -548,6 +675,8 @@ function homePage(lang) {
       </div>
     </section>
 
+${trustSections(lang)}
+
     <section class="section contact section--accent" id="contact" aria-labelledby="contact-title">
       <div class="container contact__inner">
         <div class="contact__copy">
@@ -555,8 +684,10 @@ function homePage(lang) {
           <h2 class="contact__title" id="contact-title">${esc(h.contact.title)}</h2>
           <p class="contact__lead">${esc(h.contact.lead)}</p>
           <a class="btn btn--dark" href="${wa()}" rel="noopener">${esc(t.whatsappBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          <p class="reassure">${esc(t.reassure)}</p>
         </div>
         <div class="contact__visual">${dataCore(true)}</div>
+        ${confidentialityBlock(lang)}
       </div>
     </section>
   </main>`;
@@ -639,6 +770,30 @@ const svcExtraFaqs = {
       { q: "Should I pay the ransom?", a: "Paying is not advised — it doesn't guarantee recovery and can mark you as a repeat target. Evaluate all technical options first." },
       { q: "How do I protect my data from ransomware in future?", a: "Keep separate, offline backups, patch your systems, and limit permissions; we can help you set up a protection plan after recovery." }
     ]
+  },
+  "phones": {
+    ar: [
+      { q: "هل يمكن استعادة بيانات جوال مقفل برمز؟", a: "يعتمد ذلك على النظام وإصداره وطريقة القفل. التشفير في الأجهزة الحديثة مرتبط بالرمز نفسه، لذلك نوضح لك حدود الممكن بعد فحص الجهاز، ولا نعد بنتيجة قبل ذلك." },
+      { q: "هل تحتاجون حساب iCloud أو Google الخاص بي؟", a: "لا نطلب كلمات المرور في مرحلة الفحص. إذا كانت الاستعادة تتطلب إثبات ملكية الجهاز أو فك القفل، نوضح ذلك لك مسبقاً وتبقى بياناتك تحت سيطرتك." },
+      { q: "هل تتلف عملية الاستعادة الجهاز؟", a: "بعض الحالات تتطلب فتح الجهاز أو العمل على اللوحة مباشرة، وهذا قد يؤثر على صلاحيته للاستخدام لاحقاً. نخبرك بذلك قبل البدء لأن الهدف هو البيانات لا إصلاح الجهاز." }
+    ],
+    en: [
+      { q: "Can data be recovered from a phone locked with a passcode?", a: "It depends on the system, its version and the lock method. Encryption on modern devices is tied to the passcode itself, so we explain the limits after inspecting the device and never promise a result before that." },
+      { q: "Do you need my iCloud or Google account?", a: "We don't ask for passwords at the inspection stage. If recovery requires proof of ownership or unlocking, we tell you up front and your data stays under your control." },
+      { q: "Does the recovery process damage the device?", a: "Some cases require opening the device or working directly on the board, which can affect whether it stays usable afterwards. We tell you before starting, because the goal is the data, not repairing the phone." }
+    ]
+  },
+  "memory-cards": {
+    ar: [
+      { q: "بطاقة SD لا تظهر إطلاقاً، هل من فائدة؟", a: "قد يكون العطل في وحدة التحكم أو في الوصلات الداخلية. في هذه الحالات تُقرأ شريحة الذاكرة نفسها، والنتيجة تعتمد على حالة الشريحة ونوع البطاقة." },
+      { q: "كم تستغرق استعادة بطاقة ذاكرة أو فلاش؟", a: "الحالات المنطقية قد تنتهي خلال يوم إلى يومين، أما الوسائط المدمجة أو التالفة كهربائياً فتحتاج وقتاً أطول. نعطيك مدة تقديرية بعد الفحص." },
+      { q: "صوّرت على البطاقة بعد الحذف، هل ضاعت الملفات؟", a: "ليس بالضرورة، لكن كل ملف جديد قد يكتب فوق مساحة ملف قديم. توقف عن استخدام البطاقة فوراً؛ ما تبقى يحدده الفحص." }
+    ],
+    en: [
+      { q: "The SD card doesn't show up at all — is it worth trying?", a: "The fault may be in the controller or the internal connections. In those cases the memory chip itself is read, and the result depends on the chip's condition and the card type." },
+      { q: "How long does memory card or flash recovery take?", a: "Logical cases can finish within a day or two, while monolithic media or electrically damaged devices take longer. We give a time estimate after inspection." },
+      { q: "I shot new photos on the card after deleting — is it lost?", a: "Not necessarily, but every new file can overwrite the space an old one occupied. Stop using the card immediately; what remains is determined by the inspection." }
+    ]
   }
 };
 
@@ -646,6 +801,40 @@ function nextServiceOf(slug) {
   const order = config.serviceOrder;
   const i = order.indexOf(slug);
   return order[(i + 1) % order.length];
+}
+
+/* Depth sections appended to every service page: supported devices, the process
+   inside this specific service, and one illustrative case. A slug with no entry
+   in build/depth.js renders without them, so adding a service never breaks. */
+function serviceDepth(lang, slug) {
+  const block = depth[slug];
+  if (!block) return "";
+  const d = block[lang];
+  const t = ui[lang];
+  return `
+    <section class="section section--light" aria-labelledby="dev-title">
+      <div class="container">
+        ${sectionHead(t.devicesLabel, "dev-title", d.devicesTitle, d.devicesLead, "")}
+        <ul class="devices">
+          ${d.devices.map((x) => `<li class="device"><h3 class="device__t">${esc(x.t)}</h3><p class="device__b">${esc(x.b)}</p></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="how-title">
+      <div class="container">
+        <h2 class="section-title" id="how-title">${esc(d.stepsTitle)}</h2>
+        <ol class="how">
+          ${d.steps.map((x, i) => `<li class="how__step"><span class="how__n" dir="ltr">${pad(i + 1)}</span><div><h3 class="how__t">${esc(x.t)}</h3><p class="how__b">${esc(x.b)}</p></div></li>`).join("\n          ")}
+        </ol>
+        <aside class="mini-case">
+          <p class="mini-case__label">${esc(t.caseLabel)}</p>
+          <h3 class="mini-case__title">${esc(d.caseTitle)}</h3>
+          <p class="mini-case__body">${esc(d.caseBody)}</p>
+          <p class="mini-case__result"><span class="mini-case__result-k">${esc(t.caseResultLabel)}</span> ${esc(d.caseResult)}</p>
+        </aside>
+      </div>
+    </section>`;
 }
 
 function servicePage(lang, s) {
@@ -687,9 +876,7 @@ function servicePage(lang, s) {
       </div>
       <div class="container">
         <dl class="trust-strip">
-          <div class="metric"><dt class="metric__value" dir="ltr">99%</dt><dd class="metric__label">${esc(t.trust.privacy)}</dd></div>
-          <div class="metric"><dt class="metric__value" dir="ltr">50K+</dt><dd class="metric__label">${esc(t.trust.recovered)}</dd></div>
-          <div class="metric"><dt class="metric__value" dir="ltr">+25</dt><dd class="metric__label">${esc(t.trust.years)}</dd></div>
+          ${t.trust.map((m) => `<div class="metric"><dt class="metric__value" dir="ltr">${esc(m.v)}</dt><dd class="metric__label">${esc(m.l)}</dd></div>`).join("\n          ")}
         </dl>
       </div>
     </section>
@@ -722,6 +909,8 @@ function servicePage(lang, s) {
         </div>
       </div>
     </section>
+
+    ${serviceDepth(lang, s.slug)}
 
     <section class="section section--light" id="faq" aria-labelledby="svcfaq-title">
       <div class="container">
@@ -1785,6 +1974,365 @@ function injectLangSwitch(html, targetUrl) {
   return html.split("__LANGSWITCH__").join(targetUrl);
 }
 
+/* ==========================================================================
+   404 page.
+   The audit's top finding was inbound links from the old site dying on a 404,
+   and no Search Console export exists yet to map them all. Until it does, this
+   page is the safety net: instead of a dead end it offers every service by the
+   PROBLEM the visitor arrived with, so a lost link still converts. It is
+   noindex (a 404 must never rank) but follow, so the links still pass crawl.
+   ========================================================================== */
+function notFoundPage(lang) {
+  const t = ui[lang];
+  const c = t.notFound;
+  let html = docStart({
+    lang, title: c.metaTitle, desc: c.metaDesc,
+    canonical: BASE + langPrefix(lang) + "/404.html",
+    altAr: BASE + "/404.html", altEn: BASE + "/en/404.html",
+    schemas: [localBusiness(lang)], noindex: true
+  });
+  html += header(lang);
+  html += `
+  <main id="main">
+    <section class="hero section--dark nf" aria-labelledby="nf-title">
+      <div class="container nf__inner">
+        <p class="nf__code" dir="ltr">${esc(c.code)}</p>
+        <h1 class="hero__title" id="nf-title">${esc(c.title)}</h1>
+        <p class="hero__lead">${esc(c.lead)}</p>
+        <div class="hero__actions">
+          <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.sendCaseBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          <a class="link-arrow" href="${wa()}" rel="noopener">${esc(t.whatsappBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+        </div>
+        <p class="reassure">${esc(t.reassure)}</p>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="nf-svc">
+      <div class="container">
+        ${sectionHead(t.nav.services, "nf-svc", c.servicesLabel, "", "")}
+        <ul class="services">
+          ${config.serviceOrder.map((slug, i) => `<li class="service">
+            <a class="service__link" href="${svcUrl(lang, slug)}">
+              <span class="service__index" dir="ltr">${pad(i + 1)}</span>
+              <span class="service__body"><h3 class="service__title">${esc(t.serviceNames[slug])}</h3></span>
+              <span class="service__arrow" aria-hidden="true">${fwd(lang)}</span>
+            </a>
+          </li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+  </main>`;
+  html += footer(lang);
+  html += docEnd();
+  return html;
+}
+
+/* ==========================================================================
+   City landing pages.
+   The keyword sheet carries a geographic cluster (الرياض / جدة / الدمام) with no
+   destination on the site. These pages serve it — but the honest way: the lab is
+   in Riyadh, and the Jeddah and Dammam pages say cases arrive by secure shipping
+   rather than implying a branch. Each page is written from a different angle so
+   the set does not read as doorway pages, which Google penalises.
+   ========================================================================== */
+function citySchema(lang, c) {
+  const t = ui[lang];
+  return {
+    "@type": "Service",
+    name: c[lang].title,
+    serviceType: lang === "ar" ? "استعادة بيانات" : "Data recovery",
+    description: c[lang].metaDesc,
+    provider: { "@id": BASE + "/#business" },
+    areaServed: { "@type": "City", name: c[lang].city, containedInPlace: { "@type": "Country", name: "SA" } },
+    url: absCity(lang, c.slug),
+    inLanguage: lang
+  };
+}
+
+function cityPage(lang, c) {
+  const t = ui[lang];
+  const d = c[lang];
+  const schemas = [
+    localBusiness(lang),
+    webPage(lang, absCity(lang, c.slug), d.metaTitle, d.metaDesc),
+    citySchema(lang, c),
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+        { "@type": "ListItem", position: 2, name: d.title, item: absCity(lang, c.slug) }
+      ]
+    },
+    faqPage(d.faqs)
+  ];
+  let html = docStart({
+    lang, title: d.metaTitle, desc: d.metaDesc,
+    canonical: absCity(lang, c.slug), altAr: absCity("ar", c.slug), altEn: absCity("en", c.slug), schemas
+  });
+  html += header(lang);
+  html += `
+  <main id="main">
+    <section class="hero svc-hero section--dark" aria-labelledby="city-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+          ${esc(d.city)}
+        </nav>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="svc-hook">${esc(d.heroHook)}</p>
+          <h1 class="hero__title" id="city-title">${esc(d.title)}</h1>
+          <p class="hero__lead">${esc(d.heroIntro)}</p>
+          <div class="hero__actions">
+            <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+            <a class="link-arrow" href="${wa()}" rel="noopener">${esc(t.whatsappBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          </div>
+          <p class="reassure">${esc(t.reassure)}</p>
+        </div>
+        <div class="hero__visual">${dataCore(false)}</div>
+      </div>
+      <div class="container">
+        <dl class="trust-strip">
+          ${t.trust.map((m) => `<div class="metric"><dt class="metric__value" dir="ltr">${esc(m.v)}</dt><dd class="metric__label">${esc(m.l)}</dd></div>`).join("\n          ")}
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="why-title">
+      <div class="container">
+        ${sectionHead(t.citiesLabel + " · " + d.city, "why-title", d.whyTitle, "", "")}
+        <ul class="cases">
+          ${d.why.map((w, i) => `<li class="case-card"><span class="case-card__num" dir="ltr">${pad(i + 1)}</span><h3 class="case-card__title">${esc(w.t)}</h3><p class="case-card__text">${esc(w.b)}</p></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="cov-title">
+      <div class="container">
+        <div class="diag">
+          <div class="diag__main">
+            <h2 class="diag__title" id="cov-title">${esc(d.coverageTitle)}</h2>
+            <p class="diag__body">${esc(d.coverageBody)}</p>
+            <div class="diag__steps">
+              ${t.steps.map((st, i) => `<div class="step-chip"><span class="step-chip__n" dir="ltr">${pad(i + 1)}</span><p class="step-chip__t">${esc(st)}</p></div>`).join("\n              ")}
+            </div>
+          </div>
+          <aside class="warn-box">
+            <p class="warn-box__label">${esc(t.areasLabel)}</p>
+            <ul class="areas">
+              ${d.areas.map((a) => `<li>${esc(a)}</li>`).join("\n              ")}
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="cityfaq-title">
+      <div class="container">
+        ${sectionHead(t.faqSection, "cityfaq-title", d.ctaHook, "", "")}
+        <div class="faq__rows">
+          ${d.faqs.map((f, i) => faqRow(f, i)).join("\n          ")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="citycta-title">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <p class="svc-cta__label">${esc(lang === "ar" ? "الخطوة التالية" : "Next step")}</p>
+          <a class="btn btn--dark" href="${contactUrl(lang)}">${esc(t.sendCaseBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="citycta-title">${esc(d.ctaHook)}</h2>
+          <p class="svc-cta__body">${esc(d.ctaBody)}</p>
+        </div>
+      </div>
+    </section>
+  </main>`;
+  html += footer(lang);
+  html += docEnd();
+  return html;
+}
+
+/* ==========================================================================
+   Articles (guides).
+   The last structural gap in the audit: every page on the site sold a service,
+   so the whole informational half of the keyword sheet had nowhere to land. The
+   articles are generated from the same build pipeline as everything else — no
+   CMS, no runtime dependency — so the perf budget survives.
+   ========================================================================== */
+function articleSchema(lang, p) {
+  const d = p[lang];
+  return {
+    "@type": "Article",
+    "@id": absPost(lang, p.slug) + "#article",
+    headline: d.title,
+    description: d.metaDesc,
+    inLanguage: lang,
+    datePublished: config.contentPublished,
+    dateModified: config.contentUpdated,
+    author: { "@id": BASE + "/#business" },
+    publisher: { "@id": BASE + "/#business" },
+    image: `${IMG}/assets/img/og.png`,
+    mainEntityOfPage: absPost(lang, p.slug),
+    isPartOf: { "@id": BASE + "/#website" }
+  };
+}
+
+function articlesIndex(lang) {
+  const t = ui[lang];
+  const schemas = [
+    localBusiness(lang),
+    webPage(lang, absArticles(lang), t.articlesMetaTitle, t.articlesMetaDesc),
+    // CollectionPage + ItemList, deliberately NOT schema.org Blog: the real blog
+    // is a separate Hugo site that will own /blog/, and declaring two Blog
+    // entities on one domain splits the signal between them. These are guides.
+    {
+      "@type": "CollectionPage",
+      "@id": absArticles(lang) + "#articles",
+      name: t.articlesLabel,
+      description: t.articlesMetaDesc,
+      inLanguage: lang,
+      isPartOf: { "@id": BASE + "/#website" },
+      about: { "@id": BASE + "/#business" },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: posts.map((p, i) => ({
+          "@type": "ListItem", position: i + 1, url: absPost(lang, p.slug), name: p[lang].title
+        }))
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+        { "@type": "ListItem", position: 2, name: t.articlesLabel, item: absArticles(lang) }
+      ]
+    }
+  ];
+  let html = docStart({
+    lang, title: t.articlesMetaTitle, desc: t.articlesMetaDesc,
+    canonical: absArticles(lang), altAr: absArticles("ar"), altEn: absArticles("en"), schemas
+  });
+  html += header(lang);
+  html += `
+  <main id="main">
+    <section class="hero svc-hero section--dark" aria-labelledby="articles-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+          ${esc(t.articlesLabel)}
+        </nav>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="svc-hook">${esc(t.articlesLabel)}</p>
+          <h1 class="hero__title" id="articles-title">${esc(t.articlesTitle)}</h1>
+          <p class="hero__lead">${esc(t.articlesLead)}</p>
+        </div>
+        <div class="hero__visual">${dataCore(false)}</div>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container">
+        <ul class="posts">
+          ${posts.map((p, i) => `<li class="post-card">
+            <a class="post-card__link" href="${postUrl(lang, p.slug)}">
+              <span class="post-card__num" dir="ltr">${pad(i + 1)}</span>
+              <span class="post-card__body">
+                <h2 class="post-card__title">${esc(p[lang].title)}</h2>
+                <span class="post-card__excerpt">${esc(p[lang].excerpt)}</span>
+              </span>
+              <span class="post-card__more">${esc(t.readMore)} <span aria-hidden="true">${fwd(lang)}</span></span>
+            </a>
+          </li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+  </main>`;
+  html += footer(lang);
+  html += docEnd();
+  return html;
+}
+
+function articlePage(lang, p) {
+  const t = ui[lang];
+  const d = p[lang];
+  const svc = p.relatedService;
+  const schemas = [
+    localBusiness(lang),
+    webPage(lang, absPost(lang, p.slug), d.metaTitle, d.metaDesc),
+    articleSchema(lang, p),
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+        { "@type": "ListItem", position: 2, name: t.articlesLabel, item: absArticles(lang) },
+        { "@type": "ListItem", position: 3, name: d.title, item: absPost(lang, p.slug) }
+      ]
+    }
+  ];
+  let html = docStart({
+    lang, title: d.metaTitle, desc: d.metaDesc,
+    canonical: absPost(lang, p.slug), altAr: absPost("ar", p.slug), altEn: absPost("en", p.slug), schemas
+  });
+  html += header(lang);
+  html += `
+  <main id="main">
+    <article>
+    <section class="hero svc-hero section--dark" aria-labelledby="post-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+          <a href="${articlesUrl(lang)}">${esc(t.articlesLabel)}</a>
+        </nav>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <h1 class="hero__title" id="post-title">${esc(d.title)}</h1>
+          <p class="hero__lead">${esc(d.lead)}</p>
+          <p class="post__meta"><time datetime="${config.contentUpdated}" dir="ltr">${config.contentUpdated}</time></p>
+        </div>
+        <div class="hero__visual">${dataCore(false)}</div>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container prose">
+        ${d.sections.map((s) => `<h2 class="prose__h">${esc(s.h)}</h2>
+        ${s.paras.map((x) => `<p class="prose__p">${esc(x)}</p>`).join("\n        ")}
+        ${s.bullets && s.bullets.length ? `<ul class="prose__list">\n          ${s.bullets.map((b) => `<li>${esc(b)}</li>`).join("\n          ")}\n        </ul>` : ""}`).join("\n\n        ")}
+
+        <aside class="takeaways">
+          <p class="takeaways__title">${esc(t.takeaways)}</p>
+          <ul class="takeaways__list">
+            ${d.takeaways.map((x) => `<li>${esc(x)}</li>`).join("\n            ")}
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="postcta-title">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <p class="svc-cta__label">${esc(t.relatedService)}</p>
+          <a class="btn btn--dark" href="${svcUrl(lang, svc)}">${esc(t.serviceNames[svc])} <span aria-hidden="true">${fwd(lang)}</span></a>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="postcta-title">${esc(d.ctaHook)}</h2>
+          <p class="svc-cta__body">${esc(d.ctaBody)}</p>
+        </div>
+      </div>
+    </section>
+    </article>
+  </main>`;
+  html += footer(lang);
+  html += docEnd();
+  return html;
+}
+
 /* ---------- writers ---------- */
 function write(rel, content) {
   const full = path.join(ROOT, rel);
@@ -1809,6 +2357,19 @@ function build() {
     for (const s of services) {
       write(outPath(lang, `services/${s.slug}.html`), injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
     }
+    // city landing pages
+    for (const c of cities) {
+      write(outPath(lang, `cities/${c.slug}.html`), injectLangSwitch(cityPage(lang, c), cityUrl(other, c.slug)));
+    }
+    // blog
+    if (posts.length) {
+      write(outPath(lang, "articles/index.html"), injectLangSwitch(articlesIndex(lang), articlesUrl(other)));
+      for (const p of posts) {
+        write(outPath(lang, `articles/${p.slug}.html`), injectLangSwitch(articlePage(lang, p), postUrl(other, p.slug)));
+      }
+    }
+    // 404 — served by ErrorDocument (.htaccess) and Netlify's default handler
+    write(outPath(lang, "404.html"), injectLangSwitch(notFoundPage(lang), BASE + (other === "ar" ? "/404.html" : "/en/404.html")));
   }
   // llms.txt — AEO: lets AI answer engines read the site's structure directly
   write("llms.txt", llmsTxt());
@@ -1825,6 +2386,13 @@ function llmsTxt() {
   const svc = (lang) => services
     .map((s) => `- [${ui[lang].serviceNames[s.slug]}](${absSvc(lang, s.slug)}): ${s[lang].metaDesc}`)
     .join("\n");
+  const cty = (lang) => cities
+    .map((c) => `- [${c[lang].title}](${absCity(lang, c.slug)}): ${c[lang].metaDesc}`)
+    .join("\n");
+  const art = (lang) => posts
+    .map((p) => `- [${p[lang].title}](${absPost(lang, p.slug)}): ${p[lang].excerpt}`)
+    .join("\n");
+  const section = (heading, body) => (body ? `\n## ${heading}\n\n${body}\n` : "");
   return `# Zero 2 One Data Recovery — من الصفر إلى الواحد
 
 > Specialised data recovery in Riyadh, Saudi Arabia. We recover data from hard
@@ -1844,7 +2412,7 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 ## Services (English)
 
 ${svc("en")}
-
+${section("Areas served (English)", cty("en"))}${section("Guides (English)", art("en"))}
 ## العربية (Arabic)
 
 - [الرئيسية](${absHome("ar")}): نظرة عامة، الخدمات، آلية العمل، الأسئلة الشائعة.
@@ -1854,7 +2422,7 @@ ${svc("en")}
 ## الخدمات (Arabic)
 
 ${svc("ar")}
-
+${section("المناطق التي نخدمها (Arabic)", cty("ar"))}${section("أدلة ومقالات (Arabic)", art("ar"))}
 ## Notes
 
 - Stop using the affected device immediately; every write reduces recovery odds.
@@ -1882,6 +2450,13 @@ function sitemap() {
   add((l) => absContact(l));
   add((l) => absPrivacy(l));
   for (const s of services) add((l) => absSvc(l, s.slug));
+  for (const c of cities) add((l) => absCity(l, c.slug));
+  // The 404 page is deliberately absent: it is noindex, and listing a noindex
+  // URL in the sitemap is a contradictory signal Search Console reports as an error.
+  if (posts.length) {
+    add((l) => absArticles(l));
+    for (const p of posts) add((l) => absPost(l, p.slug));
+  }
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.join("\n")}
@@ -1889,4 +2464,9 @@ ${urls.join("\n")}
 `;
 }
 
-build();
+/* Running the file builds the site; requiring it exposes the pieces without
+   building. build/emit-chrome.js needs header() and footer() so the blog can
+   render the site's real chrome instead of a lookalike copy of it. */
+if (require.main === module) build();
+
+module.exports = { header, footer, asset, docEnd, ui, config, BASE, LANGS, langPrefix };

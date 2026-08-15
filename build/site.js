@@ -20,7 +20,7 @@ const config = {
   // lastmod). Bump this whenever the page copy actually changes — keeping it a
   // constant makes the build deterministic and the date honest.
   contentPublished: "2026-07-20",
-  contentUpdated: "2026-07-26",
+  contentUpdated: "2026-08-11",
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
   whatsapp: "966531010903",          // wa.me/<this>
   phoneDisplay: "+966 53 101 0903",
@@ -31,17 +31,50 @@ const config = {
   mapsUrl: "https://maps.app.goo.gl/3Pa3LR1e7HWd6fko9",
   timezone: "Asia/Riyadh", // GMT+3 — used for the footer local-time clock
   geo: { lat: "24.68148", lng: "46.6908087" }, // Riyadh (Osool Data Recovery)
-  // Social profiles (from the brand's repo)
+  // Social profiles. These URLs are the *live* accounts and double as the JSON-LD
+  // `sameAs` list, so a dead URL here becomes a broken entity signal on every page.
+  // Verified reachable 2026-08-11. The X account (x.com/osoolrecovery) returned 404
+  // and was removed — re-add it here once a working handle exists.
+  // The accounts still carry the Osool name; the rebrand is handled for search
+  // engines by `alternateNames` below rather than by dropping the profiles, which
+  // would throw away the entity history Google has already associated with them.
   socials: [
     { name: "Instagram", url: "https://www.instagram.com/osooldatarecovery", icon: "instagram" },
-    { name: "X", url: "https://x.com/osoolrecovery", icon: "x" },
     { name: "TikTok", url: "https://www.tiktok.com/@osooldatarecovery", icon: "tiktok" },
     { name: "Facebook", url: "https://www.facebook.com/share/1Gy9Ku7Gx8/", icon: "facebook" },
     { name: "YouTube", url: "https://www.youtube.com/channel/UC36WAnDT1fOpNHQ69UeA-Ew", icon: "youtube" },
     { name: "LinkedIn", url: "https://www.linkedin.com/in/osool-data-recovery-b4b3b4379", icon: "linkedin" }
   ],
-  serviceOrder: ["ransomware", "hdd", "ssd-nvme", "raid-servers", "cctv", "after-format"]
+  // Former trading name. Emitted as schema.org `alternateName` so search engines
+  // merge the old Osool entity into the current one instead of ranking two rival
+  // businesses on the same domain — the identity split the site audit flagged.
+  alternateNames: ["Osool Data Recovery", "أصول لاستعادة البيانات"],
+  serviceOrder: ["ransomware", "hdd", "ssd-nvme", "raid-servers", "cctv", "after-format", "phones", "memory-cards"],
+  // Cities with dedicated landing pages. The lab is in Riyadh; the other cities are
+  // served by secure shipping, and their pages say so explicitly.
+  cityOrder: ["riyadh", "jeddah", "dammam"],
+  articlesOrder: ["hard-drive-failure-signs", "dropped-hard-drive", "freezer-myth", "what-is-raid", "protect-server-from-ransomware"]
 };
+
+/* ==========================================================================
+   Claims — the single source of truth for every number shown on the site.
+   The audit found `+50K` described as "حالة تم التعامل معها" on the homepage but
+   "ملف مستعاد" on the service pages, and `99%` paired with the privacy label in
+   the service trust strip. Both were drift between two hand-written copies of the
+   same figure. Every surface now reads from here, so they cannot diverge again.
+   The VALUES are the client's own and are deliberately left untouched; only the
+   wording that describes them is unified. `note` is the written definition — keep
+   it accurate, it is what makes the figure defensible to a business customer.
+   ========================================================================== */
+const claims = {
+  years:   { v: "+25",  ar: "سنة خبرة",               en: "Years of experience",       note: "Years the business has operated in data recovery." },
+  cases:   { v: "+50K", ar: "حالة تم التعامل معها",   en: "Cases handled",             note: "Cases received and diagnosed — cases, not individual files." },
+  success: { v: "99%",  ar: "نسبة نجاح بعد التشخيص",  en: "Success rate after diagnosis", note: "Share of cases recovered out of those accepted AFTER diagnosis — not of all cases received." }
+};
+
+// Every trust strip on the site (homepage metrics + service page hero) renders from
+// this one call, so the three figures are always the same value AND the same wording.
+const trustStrip = (lang) => [claims.years, claims.cases, claims.success].map((c) => ({ v: c.v, l: c[lang] }));
 
 const ui = {
   ar: {
@@ -54,7 +87,14 @@ const ui = {
     sendCaseBtn: "أرسل تفاصيل الحالة",
     whatsappBtn: "تواصل عبر واتساب",
     location: "الرياض · السعودية",
-    trust: { privacy: "خصوصية وحماية", recovered: "ملف مستعاد", years: "سنة خبرة" },
+    trust: trustStrip("ar"),
+    // Reassurance micro-copy, rendered directly under the contact CTAs. The audit
+    // found the sticking point is the moment of handing over a device holding
+    // sensitive data — this line answers "what does it cost me to just ask?".
+    reassure: "فحص وتشخيص مجاني · سرية تامة · بدون التزام",
+    freeCheck: "فحص وتشخيص مجاني",
+    confidentialTitle: "سرية بالاتفاق، لا بالوعد",
+    confidentialBody: "نوقّع اتفاقية عدم إفصاح (NDA) عند الطلب، ونعالج بيانات الشركات على وسيط معزول، ونسلّمها على وسيط منفصل.",
     dangerLabel: "لا تفعل هذا",
     steps: ["فحص الحالة", "تحديد المسار", "استعادة آمنة"],
     stepLabels: ["الخطوة", "الخطوة", "الخطوة"],
@@ -75,7 +115,30 @@ const ui = {
     },
     serviceNames: {
       "hdd": "الأقراص الصلبة", "ssd-nvme": "SSD وNVMe", "raid-servers": "RAID والسيرفرات",
-      "cctv": "كاميرات المراقبة", "after-format": "بعد الفورمات", "ransomware": "فيروس الفدية"
+      "cctv": "كاميرات المراقبة", "after-format": "بعد الفورمات", "ransomware": "فيروس الفدية",
+      "phones": "الهواتف الذكية", "memory-cards": "بطاقات الذاكرة والفلاش"
+    },
+    cityNames: { riyadh: "الرياض", jeddah: "جدة", dammam: "الدمام" },
+    articlesLabel: "المقالات",
+    articlesTitle: "أجوبة قبل أن تتصرّف.",
+    articlesMetaTitle: "المقالات — أدلة استعادة البيانات | من الصفر إلى الواحد",
+    articlesMetaDesc: "أدلة عملية عن علامات تلف الهارد، أنظمة RAID، حماية السيرفرات من الفدية، والتعامل الصحيح مع الأجهزة قبل فقدان البيانات.",
+    articlesLead: "مقالات قصيرة تشرح ما يحدث للجهاز، وما الذي يجب فعله قبل أن تتفاقم الحالة.",
+    readMore: "اقرأ المقال",
+    relatedService: "الخدمة المرتبطة",
+    takeaways: "خلاصة سريعة",
+    citiesLabel: "نخدم في",
+    areasLabel: "أحياء ومناطق نستقبل منها",
+    devicesLabel: "الأجهزة والماركات المدعومة",
+    caseLabel: "حالة نموذجية",
+    caseResultLabel: "النتيجة",
+    notFound: {
+      metaTitle: "الصفحة غير موجودة | من الصفر إلى الواحد",
+      metaDesc: "الرابط الذي فتحته لم يعد موجودًا. اختر الخدمة الأقرب لحالتك أو تواصل معنا مباشرة.",
+      code: "404",
+      title: "هذا الرابط لم يعد موجودًا.",
+      lead: "غيّرنا بنية الموقع، وبعض الروابط القديمة لم تعد تعمل. اختر الخدمة الأقرب لحالتك — أو أرسل تفاصيل الحالة مباشرة ونوجّهك.",
+      servicesLabel: "اختر ما يصف حالتك"
     }
   },
   en: {
@@ -88,7 +151,11 @@ const ui = {
     sendCaseBtn: "Send case details",
     whatsappBtn: "Chat on WhatsApp",
     location: "Riyadh · Saudi Arabia",
-    trust: { privacy: "Privacy & security", recovered: "Files recovered", years: "Years of experience" },
+    trust: trustStrip("en"),
+    reassure: "Free inspection & diagnosis · Full confidentiality · No obligation",
+    freeCheck: "Free inspection & diagnosis",
+    confidentialTitle: "Confidentiality by agreement, not by promise",
+    confidentialBody: "We sign an NDA on request, handle business data on an isolated medium, and hand it back on a separate drive.",
     dangerLabel: "Do not do this",
     steps: ["Inspect the case", "Choose the path", "Safe recovery"],
     stepLabels: ["Step", "Step", "Step"],
@@ -109,7 +176,30 @@ const ui = {
     },
     serviceNames: {
       "hdd": "Hard drives", "ssd-nvme": "SSD & NVMe", "raid-servers": "RAID & servers",
-      "cctv": "CCTV footage", "after-format": "After format", "ransomware": "Ransomware"
+      "cctv": "CCTV footage", "after-format": "After format", "ransomware": "Ransomware",
+      "phones": "Phones", "memory-cards": "Cards & flash"
+    },
+    cityNames: { riyadh: "Riyadh", jeddah: "Jeddah", dammam: "Dammam" },
+    articlesLabel: "Articles",
+    articlesTitle: "Answers before you act.",
+    articlesMetaTitle: "Articles — Data recovery guides | Zero 2 One",
+    articlesMetaDesc: "Practical guides on hard drive failure signs, RAID systems, protecting servers from ransomware, and handling devices correctly before data is lost.",
+    articlesLead: "Short articles explaining what is happening to your device, and what to do before the case gets worse.",
+    readMore: "Read the article",
+    relatedService: "Related service",
+    takeaways: "Key takeaways",
+    citiesLabel: "We serve",
+    areasLabel: "Districts and areas we receive from",
+    devicesLabel: "Supported devices & brands",
+    caseLabel: "A typical case",
+    caseResultLabel: "Outcome",
+    notFound: {
+      metaTitle: "Page not found | Zero 2 One Data Recovery",
+      metaDesc: "The link you opened no longer exists. Pick the service closest to your case, or contact us directly.",
+      code: "404",
+      title: "This link no longer exists.",
+      lead: "We restructured the site, and some old links stopped working. Pick the service closest to your case — or send your case details and we'll point you the right way.",
+      servicesLabel: "Pick what describes your case"
     }
   }
 };
@@ -125,9 +215,7 @@ const home = {
       lead: "استعادة متخصصة للبيانات من الأقراص، الهواتف، RAID والخوادم—بتشخيص واضح وسرية كاملة قبل أي خطوة."
     },
     trustIntro: "خبرة يمكن قياسها وتشخيص يبدأ بالوضوح.",
-    metrics: [
-      { v: "+25", l: "سنة خبرة" }, { v: "+50K", l: "حالة تم التعامل معها" }, { v: "99%", l: "نسبة نجاح بعد التشخيص" }
-    ],
+    metrics: trustStrip("ar"),
     ticker: "إذا كانت البيانات مهمة، أوقف استخدام الجهاز الآن. كل كتابة جديدة قد تقلّل فرصة الاستعادة.",
     problem: {
       eyebrow: "ابدأ من المشكلة",
@@ -155,8 +243,8 @@ const home = {
         { t: "هجمات الفدية وقواعد البيانات", d: "عزل الحالة، تحليل الضرر، وتقييم خيارات الاستعادة الآمنة.", tags: "SQL · Ransomware", link: "ransomware" },
         { t: "الأقراص الصلبة وSSD", d: "استعادة من الأعطال الميكانيكية، الإلكترونية والمنطقية.", tags: "HDD · SSD · NVMe", link: "hdd" },
         { t: "RAID والسيرفرات", d: "تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.", tags: "RAID · NAS · SAN", link: "raid-servers" },
-        { t: "الهواتف والأجهزة الذكية", d: "استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.", tags: "iOS · Android", link: "ssd-nvme" },
-        { t: "بطاقات الذاكرة والفلاش", d: "حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.", tags: "SD · USB", link: "after-format" },
+        { t: "الهواتف والأجهزة الذكية", d: "استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.", tags: "iOS · Android", link: "phones" },
+        { t: "بطاقات الذاكرة والفلاش", d: "حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.", tags: "SD · USB", link: "memory-cards" },
         { t: "أنظمة المراقبة", d: "استعادة تسجيلات DVR وNVR المحذوفة أو المتضررة.", tags: "DVR · NVR", link: "cctv" }
       ]
     },
@@ -180,6 +268,10 @@ const home = {
       lead: "خبرتنا هي آلاف القرارات الصغيرة التي تمنع ضررًا إضافيًا، وتختار المسار الأنسب لكل حالة من أول مرة.",
       tags: "سرية كاملة · تشخيص واضح · تسليم آمن",
       principle: "نبدأ بالتشخيص، لا بالتجربة.",
+      // The technical report noted the brand name is emotionally loaded but never
+      // explained on the site, so it stays an abstraction instead of becoming a hook.
+      storyTitle: "لماذا «من الصفر إلى الواحد»؟",
+      storyBody: "الصفر هو اللحظة التي لا يظهر فيها شيء: قرص صامت، مجلد فارغ، أو شاشة تطلب تهيئة. والواحد هو أول ملف يعود سليمًا — لأن المسافة بين «لا شيء» و«شيء واحد» هي المسافة كلها. من تلك النقطة تبدأ بقية الاستعادة.",
       rankEyebrow: "حين تُشفّر الفدية كل شيء",
       rankValue: "#1",
       rankText: "الاسم الأول في استعادة البيانات بعد هجمات الفدية."
@@ -214,9 +306,7 @@ const home = {
       lead: "Specialised data recovery from disks, phones, RAID and servers—with clear diagnosis and full confidentiality before any step."
     },
     trustIntro: "Experience you can measure and a diagnosis that starts with clarity.",
-    metrics: [
-      { v: "+25", l: "Years of experience" }, { v: "+50K", l: "Cases handled" }, { v: "99%", l: "Success rate after diagnosis" }
-    ],
+    metrics: trustStrip("en"),
     ticker: "If the data matters, stop using the device now. Every new write can lower the recovery chance.",
     problem: {
       eyebrow: "Start from the problem",
@@ -244,8 +334,8 @@ const home = {
         { t: "Ransomware & databases", d: "Isolating the case, analysing damage, and assessing safe recovery options.", tags: "SQL · Ransomware", link: "ransomware" },
         { t: "Hard drives & SSD", d: "Recovery from mechanical, electronic and logical faults.", tags: "HDD · SSD · NVMe", link: "hdd" },
         { t: "RAID & servers", d: "Analysing the array and its structure before any rebuild or write.", tags: "RAID · NAS · SAN", link: "raid-servers" },
-        { t: "Phones & smart devices", d: "Recovery based on memory type, system and damage nature.", tags: "iOS · Android", link: "ssd-nvme" },
-        { t: "Memory cards & flash", d: "Deletion, formatting and logical or electrical damage cases.", tags: "SD · USB", link: "after-format" },
+        { t: "Phones & smart devices", d: "Recovery based on memory type, system and damage nature.", tags: "iOS · Android", link: "phones" },
+        { t: "Memory cards & flash", d: "Deletion, formatting and logical or electrical damage cases.", tags: "SD · USB", link: "memory-cards" },
         { t: "Surveillance systems", d: "Recovering deleted or damaged DVR and NVR footage.", tags: "DVR · NVR", link: "cctv" }
       ]
     },
@@ -269,6 +359,8 @@ const home = {
       lead: "Our experience is thousands of small decisions that prevent extra damage and choose the best path for each case the first time.",
       tags: "Full confidentiality · Clear diagnosis · Safe handover",
       principle: "We start with diagnosis, not trial and error.",
+      storyTitle: "Why “Zero 2 One”?",
+      storyBody: "Zero is the moment nothing shows up: a silent disk, an empty folder, a screen asking you to format. One is the first file that comes back intact — because the distance between nothing and one thing is the whole distance. Everything else recovers from there.",
       rankEyebrow: "When ransomware locks everything",
       rankValue: "#1",
       rankText: "The first name in post-ransomware data recovery."
@@ -468,4 +560,31 @@ const privacy = {
   }
 };
 
-module.exports = { config, ui, home, contact, privacy };
+/* ==========================================================================
+   Social proof. Both audits called the missing human element the weakest point
+   on the site, and it is the one gap that cannot be closed by writing code: real
+   testimonials, real client logos and real lab photos have to come from the
+   business. The RENDERING is built and wired; these arrays are the switch.
+
+   Every section below renders only when its array is non-empty, so the site never
+   ships an empty shell — and nothing here is invented. Fabricated reviews would
+   be worse than no reviews: they breach Google's policy and, in a trust-driven
+   trade, they are the exact thing a customer checks.
+
+   To turn each section on, fill the array and run `node build/generate.js`.
+
+   testimonials: { ar: {quote, name, role}, en: {quote, name, role} }
+     - name/role may be partly anonymised ("م. خالد" / "شركة مقاولات، الرياض").
+     - only publish with the customer's permission.
+   clientLogos:  { name, file }  → file lives in assets/img/clients/<file>.webp
+   labPhotos:    { file, ar: {alt}, en: {alt} } → assets/img/lab/<file>.webp
+     - alt text must describe the photo, not repeat keywords.
+     - source images at 1600px wide; the build emits WebP + srcset + lazy loading.
+   ========================================================================== */
+const socialProof = {
+  testimonials: [],
+  clientLogos: [],
+  labPhotos: []
+};
+
+module.exports = { config, claims, trustStrip, ui, home, contact, privacy, socialProof };

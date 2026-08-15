@@ -350,5 +350,146 @@ module.exports = [
       ctaHook: "Isolate the device and keep the ransom note.",
       ctaBody: "Send the file extension, the ransom note and a description of the affected devices. We assess the case without inaccurate promises."
     }
+  },
+  {
+    slug: "phones",
+    ar: {
+      title: "استرجاع الصور والملفات من جوال تالف أو لا يعمل",
+      metaTitle: "استعادة بيانات الجوال والأجهزة الذكية | من الصفر إلى الواحد",
+      metaDesc: "استعادة بيانات الجوالات المتضررة بالماء أو السقوط، الشاشة المكسورة، اللوحة الميتة والصور المحذوفة على iOS وAndroid. الرياض، السعودية.",
+      heroHook: "الجوال طاح بالمويه؟ لا تشغّله ولا تشحنه.",
+      heroIntro: "إذا كان الجوال طاير ولا يستجيب، أو دخله ماء، أو انكسرت شاشته، فالخطوة الأولى هي التوقف. كل محاولة تشغيل أو شحن قد تحوّل ضرراً مؤقتاً إلى ضرر دائم.",
+      symHook: "الجوال الصامت ليس بالضرورة جوالاً فارغاً.",
+      symTitle: "متى تحتاج إلى فحص الجوال؟",
+      symptoms: [
+        { t: "الجوال لا يشتغل", b: "الجهاز طاير بعد سقوط أو ماء أو شحن، ولا يستجيب للزر ولا للشاحن." },
+        { t: "الشاشة مكسورة والجهاز يعمل", b: "الجهاز يشتغل لكن الشاشة أو اللمس لا يستجيب، فلا يمكن إدخال رمز القفل." },
+        { t: "صور اختفت أو تم الفورمات", b: "حُذفت الصور من جوال خربان، أو تمت إعادة ضبط المصنع على جهاز Android." }
+      ],
+      diagHook: "التشفير جزء من المعادلة، لا تفصيل جانبي.",
+      diagTitle: "هل يمكن استرجاع صور من جوال خربان؟",
+      diagBody: "قد تكون الاستعادة ممكنة في كثير من الحالات، لكن الجوالات الحديثة مشفّرة من المصنع وهذا يضع حدوداً حقيقية لما يمكن الوصول إليه. في أجهزة iOS ترتبط البيانات بمفاتيح داخل الشريحة نفسها، وفي أجهزة Android تختلف النتيجة حسب النظام وطريقة القفل وإصدار التشفير. عند تلف اللوحة يحتاج العمل إلى بيئة معمل وأدوات لحام دقيقة، ولا يصلح كمحاولة منزلية. نبدأ بفحص حالة اللوحة والذاكرة وطريقة القفل، ثم نوضح ما هو ممكن فعلاً قبل أي محاولة.",
+      warnTitle: "لا تشحن جوالاً مبلولاً",
+      warnBody: "لا تشغّل الجهاز بعد الماء ولا تضعه في الرز أو أمام مجفف الشعر؛ الحرارة والتيار قد يكملان التآكل داخل اللوحة. لا تعمل إعادة ضبط مصنع، ولا تسجّل الدخول بحساب جديد، ولا تثبّت برامج استرجاع على الجوال نفسه، فقد تكتب فوق ما تبحث عنه.",
+      faqHook: "قبل أن تجرب الشحن مرة ثانية.",
+      faqs: [
+        { q: "الجوال طاح بالمويه كيف ارجع الصور؟", a: "أوقف الجهاز ولا تشحنه ولا تجففه بالحرارة. قد تكون الاستعادة ممكنة إذا لم يتقدم التآكل داخل اللوحة، ويحدد ذلك الفحص." },
+        {
+          q: "هل يمكن استخراج البيانات من جوال شاشته مكسورة؟",
+          a: "يمكن ذلك في كثير من الحالات إذا كان الجهاز يعمل، والنتيجة تعتمد على النظام وطريقة القفل وإمكانية تجاوز الشاشة بشكل آمن."
+        },
+        {
+          q: "هل يمكن استرجاع ملفات الاندرويد بعد إعادة ضبط المصنع أو الفورمات؟",
+          a: "قد يكون ذلك ممكناً في بعض الحالات، لكن التشفير وإعادة الضبط في الأجهزة الحديثة قد يجعلان البيانات غير قابلة للقراءة حتى بعد الوصول إلى الذاكرة."
+        }
+      ],
+      ctaHook: "الوقت والتآكل يعملان ضدك.",
+      ctaBody: "أرسل نوع الجهاز، ما الذي حدث بالضبط، وهل تم تشغيله بعدها. الفحص والتشخيص مجاني بلا التزام، ونوضح لك ما هو ممكن قبل أي خطوة."
+    },
+    en: {
+      title: "Recovering Photos and Files From a Damaged or Dead Phone",
+      metaTitle: "Phone & Smart Device Data Recovery | Zero 2 One",
+      metaDesc: "Data recovery for phones damaged by water or a drop, broken screens, dead boards and deleted photos on iOS and Android. Riyadh, Saudi Arabia.",
+      heroHook: "Phone went in the water? Don't charge it and don't switch it on.",
+      heroIntro: "If the phone is dead and unresponsive, took in water, or has a shattered screen, the first step is to stop. Every attempt to power it on or charge it can turn temporary damage into permanent damage.",
+      symHook: "A silent phone is not necessarily an empty one.",
+      symTitle: "When do you need a phone inspection?",
+      symptoms: [
+        { t: "The phone won't turn on", b: "The device died after a drop, water or charging, and responds to neither the button nor the charger." },
+        { t: "Broken screen, working device", b: "The phone runs but the display or touch is unresponsive, so the lock code can't be entered." },
+        { t: "Photos gone or a factory reset", b: "Photos were deleted from a broken phone, or an Android device was reset to factory settings." }
+      ],
+      diagHook: "Encryption is part of the equation, not a side detail.",
+      diagTitle: "Can photos be recovered from a broken phone?",
+      diagBody: "Recovery may be possible in many cases, but modern phones are encrypted from the factory and that puts real limits on what can be reached. On iOS, the data is tied to keys held inside the chip itself; on Android the outcome varies with the system version, the lock method and the encryption generation. When the board is damaged, the work needs a lab environment and precise soldering tools, and is not a home attempt. We start by inspecting the board, the memory and the lock state, then explain what is genuinely possible before any attempt.",
+      warnTitle: "Don't charge a wet phone",
+      warnBody: "Don't power the device on after water and don't put it in rice or in front of a hairdryer; heat and current can carry the corrosion further across the board. Don't factory reset, don't sign in with a new account, and don't install recovery apps on the phone itself, as they may overwrite what you're looking for.",
+      faqHook: "Before you try charging it again.",
+      faqs: [
+        {
+          q: "My phone fell in water, how do I get the photos back?",
+          a: "Switch it off, don't charge it and don't dry it with heat. Recovery may be possible if corrosion hasn't spread inside the board, and only an inspection can tell."
+        },
+        {
+          q: "Can data be extracted from a phone with a broken screen?",
+          a: "In many cases yes, if the device still runs. The result depends on the system, the lock method and whether the screen can be bypassed safely."
+        },
+        {
+          q: "Can Android files be recovered after a factory reset or format?",
+          a: "It may be possible in some cases, but encryption and the reset process on modern devices can leave the data unreadable even after the memory itself is reached."
+        }
+      ],
+      ctaHook: "Time and corrosion are working against you.",
+      ctaBody: "Send the device type, exactly what happened, and whether it was powered on afterwards. Inspection and diagnosis are free with no obligation, and we explain what's possible before any step."
+    }
+  },
+  {
+    slug: "memory-cards",
+    ar: {
+      title: "استرجاع ملفات من فلاش ميموري تالف وبطاقات الذاكرة وكروت الكاميرات",
+      metaTitle: "استرجاع فلاش ميموري تالف وبطاقات الذاكرة | من الصفر إلى الواحد",
+      metaDesc: "استرجاع ملفات من فلاش ميموري تالف وبطاقات الذاكرة وكروت الكاميرات، وحالات طلب الفورمات وتلف وحدة التحكم. فحص أولاً قبل أي محاولة. الرياض، السعودية.",
+      heroHook: "الفلاش يطلب فورمات؟ لا تضغط موافق.",
+      heroIntro: "إذا طلب النظام تهيئة البطاقة أو الفلاش، أو توقف الكرت عن الظهور بعد التصوير، فقد تكون البيانات سليمة والمشكلة في طريقة الوصول إليها. كل محاولة إصلاح سريعة قد تغيّر ما تبقى.",
+      symHook: "الحجم صغير، لكن الضرر يتراكم بسرعة.",
+      symTitle: "متى تحتاج بطاقة الذاكرة أو الفلاش إلى فحص؟",
+      symptoms: [
+        { t: "الجهاز يطلب تهيئة الوسيط", b: "رسالة «يجب تهيئة القرص قبل استخدامه» تظهر عند كل توصيل." },
+        { t: "الكرت لا يُقرأ في الكاميرا", b: "الكاميرا تعرض خطأ في البطاقة أو تظهر فارغة رغم وجود التصوير." },
+        { t: "فلاش مكسور أو ساخن", b: "انكسر الطرف المعدني أو أصبح الفلاش ساخناً ولا يظهر في أي جهاز." }
+      ],
+      diagHook: "الشريحة ليست قرصاً.",
+      diagTitle: "استعادة فيديو محذوف من كاميرات سوني وكانون وGoPro",
+      diagBody: "بطاقات SD وكروت الكاميرات وأقلام USB تخزّن البيانات في شرائح NAND تديرها وحدة تحكم. عند تلف وحدة التحكم أو انفصال الوصلات لا يظهر الوسيط أصلاً، وقد يتطلب الأمر قراءة الشريحة نفسها. في الوسائط المدمجة (Monolith) تكون الشريحة ووحدة التحكم في قطعة واحدة، لذلك يبدأ العمل بتحديد نوع الوسيط وحالة الاتصال قبل أي محاولة قراءة. مقاطع Sony وCanon وGoPro المحذوفة قد تكون قابلة للاستعادة حسب حالة الكتابة فوقها.",
+      warnTitle: "لماذا تزيد برامج الاسترجاع الرخيصة الضرر؟",
+      warnBody: "لا توافق على رسالة التهيئة. لا تعد إدخال الفلاش المكسور مرة بعد مرة، ولا تلحمه أو تلصقه بنفسك. برامج الاسترجاع الرخيصة تفترض أن الوسيط سليم، وقد تعيد كتابة جداول الملفات أو تستمر في الضغط على وحدة تحكم متضررة حتى تتوقف نهائياً. ولا تلتقط صوراً جديدة على نفس البطاقة.",
+      faqHook: "قبل أن توافق على التهيئة.",
+      faqs: [
+        {
+          q: "الفلاش ميموري يطلب فورمات، هل أعمل له فورمات؟",
+          a: "يفضّل لا. الرسالة قد تعني تلفاً في جدول الملفات فقط، وقد تبقى البيانات قابلة للاستعادة ما لم تتم التهيئة أو الكتابة."
+        },
+        { q: "هل يمكن استعادة فيديو محذوف من كاميرا سوني؟", a: "قد يكون ذلك ممكناً في كثير من الحالات، والنتيجة تعتمد على حالة الكتابة فوق المقاطع ونوع البطاقة." },
+        { q: "هل تنفع الاستعادة إذا انكسر الفلاش من المنتصف؟", a: "يمكن فحص الشريحة ووصلاتها في حالات الكسر، وتتحدد إمكانية الاستعادة بعد الفحص حسب سلامة الشريحة." }
+      ],
+      ctaHook: "لا تصوّر ولا تهيّئ قبل الفحص.",
+      ctaBody: "أخرج البطاقة أو الفلاش من الجهاز وأرسل نوع الوسيط ونوع الكاميرا والرسائل التي ظهرت. الفحص والتشخيص مجاني بلا التزام."
+    },
+    en: {
+      title: "Recovering Files From Damaged Memory Cards, USB Flash Drives and Camera Media",
+      metaTitle: "Memory Card & USB Flash Drive Recovery | Zero 2 One",
+      metaDesc: "Recover data from unreadable memory cards, USB flash drives and camera media — format prompts, snapped sticks, controller failure. Riyadh, Saudi Arabia.",
+      heroHook: "Card asking to be formatted? Don't click OK.",
+      heroIntro: "If the system asks to format the card, or the camera stops reading it after a shoot, the data may still be intact and only the path to it is broken. Every quick fix attempt can change what's left.",
+      symHook: "Small media, damage that adds up fast.",
+      symTitle: "When does a card or flash drive need an inspection?",
+      symptoms: [
+        { t: "The drive asks to be formatted", b: "The message asking to format the disk appears every time it is connected." },
+        { t: "The camera won't read the card", b: "The camera shows a card error, or the card looks empty although it holds a shoot." },
+        { t: "A snapped or hot flash drive", b: "The metal connector broke off, or the stick runs hot and appears in no computer." }
+      ],
+      diagHook: "A chip is not a disk.",
+      diagTitle: "Camera card recovery for Sony, Canon and GoPro media",
+      diagBody: "SD cards, camera media and USB sticks store data in NAND chips managed by a controller. When the controller fails or a joint breaks, the medium doesn't appear at all, and reading the chip itself may be required. In monolithic media the chip and controller sit in one moulded piece, so work starts by identifying the media type and connection state before any read attempt. Deleted video from Sony, Canon or GoPro cards may be recoverable depending on what was written afterwards.",
+      warnTitle: "Why cheap recovery software makes it worse",
+      warnBody: "Don't accept the format prompt. Don't keep re-inserting a snapped drive, and don't solder or glue it yourself. Cheap recovery software assumes the medium is healthy; it can rewrite file tables or keep pushing a damaged controller until it stops responding for good. And don't shoot anything new on the same card.",
+      faqHook: "Before you accept the format prompt.",
+      faqs: [
+        {
+          q: "My flash drive asks to be formatted — should I format it?",
+          a: "Better not. The prompt often means only the file table is damaged, and the data may stay recoverable as long as no format or new write happens."
+        },
+        {
+          q: "Can deleted video be recovered from a Sony camera card?",
+          a: "It may be possible in many cases; the result depends on whether the clips were overwritten and on the card type."
+        },
+        {
+          q: "Is recovery possible if the USB stick snapped in half?",
+          a: "The chip and its connections can be inspected in break cases, and feasibility is decided after that inspection, depending on whether the chip survived."
+        }
+      ],
+      ctaHook: "Don't shoot and don't format before inspection.",
+      ctaBody: "Take the card or drive out of the device and send us the media type, the camera model and any message you saw. Inspection and diagnosis are free, with no obligation."
+    }
   }
 ];

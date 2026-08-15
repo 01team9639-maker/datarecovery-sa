@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/assets/js/bootstrap.js?v=dfd0ad99"></script>
+  <script src="/assets/js/analytics.js?v=3d7aff7d" async></script>
+  <title>ما هو نظام RAID وكيف يعمل | من الصفر إلى الواحد</title>
+  <meta name="description" content="شرح مبسّط لأنظمة RAID 0 و1 و5 و6 و10 لأصحاب الأعمال: كيف يعمل، ماذا يحدث عند تعطل قرص، ولماذا قد تدمّر إعادة البناء البيانات. الرياض، السعودية.">
+  <meta name="theme-color" content="#011e22">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://datarecovery-sa.com/articles/what-is-raid.html">
+  <link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/articles/what-is-raid.html">
+  <link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/articles/what-is-raid.html">
+  <link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:site_name" content="من الصفر إلى الواحد">
+  <meta property="og:title" content="ما هو نظام RAID وكيف يعمل | من الصفر إلى الواحد">
+  <meta property="og:description" content="شرح مبسّط لأنظمة RAID 0 و1 و5 و6 و10 لأصحاب الأعمال: كيف يعمل، ماذا يحدث عند تعطل قرص، ولماذا قد تدمّر إعادة البناء البيانات. الرياض، السعودية.">
+  <meta property="og:url" content="https://datarecovery-sa.com/articles/what-is-raid.html">
+  <meta property="og:image" content="https://datarecovery-sa.com/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="شعار من الصفر إلى الواحد لاستعادة البيانات">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://datarecovery-sa.com/assets/img/og.png">
+  <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
+  <link rel="stylesheet" href="/assets/css/main.css?v=ec3c3106">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://datarecovery-sa.com/#business","name":"من الصفر إلى الواحد","alternateName":["Osool Data Recovery","أصول لاستعادة البيانات"],"url":"https://datarecovery-sa.com/","description":"استعادة بيانات متخصصة من الأقراص الصلبة، SSD، الهواتف، RAID والخوادم — تشخيص واضح وسرية كاملة. خبرة أكثر من 25 سنة في الرياض، السعودية.","telephone":"+966 53 101 0903","email":"info@datarecovery-sa.com","image":"https://datarecovery-sa.com/assets/img/og.png","logo":"https://datarecovery-sa.com/assets/img/logo-mark.png","address":{"@type":"PostalAddress","addressLocality":"الرياض","addressCountry":"SA"},"geo":{"@type":"GeoCoordinates","latitude":"24.68148","longitude":"46.6908087"},"areaServed":{"@type":"Country","name":"SA"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday"],"opens":"10:00","closes":"22:00"},"sameAs":["https://www.instagram.com/osooldatarecovery","https://www.tiktok.com/@osooldatarecovery","https://www.facebook.com/share/1Gy9Ku7Gx8/","https://www.youtube.com/channel/UC36WAnDT1fOpNHQ69UeA-Ew","https://www.linkedin.com/in/osool-data-recovery-b4b3b4379"],"inLanguage":"ar"},{"@type":"WebPage","@id":"https://datarecovery-sa.com/articles/what-is-raid.html#webpage","url":"https://datarecovery-sa.com/articles/what-is-raid.html","name":"ما هو نظام RAID وكيف يعمل | من الصفر إلى الواحد","description":"شرح مبسّط لأنظمة RAID 0 و1 و5 و6 و10 لأصحاب الأعمال: كيف يعمل، ماذا يحدث عند تعطل قرص، ولماذا قد تدمّر إعادة البناء البيانات. الرياض، السعودية.","inLanguage":"ar","isPartOf":{"@id":"https://datarecovery-sa.com/#website"},"about":{"@id":"https://datarecovery-sa.com/#business"},"datePublished":"2026-07-20","dateModified":"2026-08-11"},{"@type":"Article","@id":"https://datarecovery-sa.com/articles/what-is-raid.html#article","headline":"ما هو نظام RAID وكيف يعمل — ولماذا هو ليس نسخة احتياطية","description":"شرح مبسّط لأنظمة RAID 0 و1 و5 و6 و10 لأصحاب الأعمال: كيف يعمل، ماذا يحدث عند تعطل قرص، ولماذا قد تدمّر إعادة البناء البيانات. الرياض، السعودية.","inLanguage":"ar","datePublished":"2026-07-20","dateModified":"2026-08-11","author":{"@id":"https://datarecovery-sa.com/#business"},"publisher":{"@id":"https://datarecovery-sa.com/#business"},"image":"https://datarecovery-sa.com/assets/img/og.png","mainEntityOfPage":"https://datarecovery-sa.com/articles/what-is-raid.html","isPartOf":{"@id":"https://datarecovery-sa.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"الرئيسية","item":"https://datarecovery-sa.com/"},{"@type":"ListItem","position":2,"name":"المقالات","item":"https://datarecovery-sa.com/articles/"},{"@type":"ListItem","position":3,"name":"ما هو نظام RAID وكيف يعمل — ولماذا هو ليس نسخة احتياطية","item":"https://datarecovery-sa.com/articles/what-is-raid.html"}]}]}</script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVKDG74Z" class="gtm-noscript" title="Google Tag Manager"></iframe></noscript>
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__wm">
+        <span class="preloader__l">zero2one</span>
+        <span class="preloader__b">data recovery</span>
+      </span>
+      <span class="preloader__svc">
+        <span class="preloader__svc-item">فيروس الفدية</span>
+        <span class="preloader__svc-item">الأقراص الصلبة</span>
+        <span class="preloader__svc-item">SSD وNVMe</span>
+        <span class="preloader__svc-item">RAID والسيرفرات</span>
+        <span class="preloader__svc-item">كاميرات المراقبة</span>
+        <span class="preloader__svc-item">بعد الفورمات</span>
+        <span class="preloader__svc-item">الهواتف الذكية</span>
+        <span class="preloader__svc-item">بطاقات الذاكرة والفلاش</span>
+      </span>
+    </div>
+  </div>
+  <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <header class="site-header" id="top">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="من الصفر إلى الواحد — Zero 2 One Data Recovery"><span class="logo" aria-hidden="true">
+      <img class="logo__mark" src="/assets/img/logo-mark.png" alt="شعار من الصفر إلى الواحد لاستعادة البيانات في الرياض" width="92" height="120" decoding="async">
+      <span class="logo__wm"><b>Zero&nbsp;2&nbsp;One</b><i>DATA&nbsp;RECOVERY</i></span>
+    </span></a>
+      <nav class="nav" aria-label="القائمة">
+        <ul class="nav__list">
+          <li><a href="/#services">الخدمات</a></li>
+          <li><a href="/#process">آلية العمل</a></li>
+          <li><a href="/#about">من نحن</a></li>
+          <li><a href="/#faq">الأسئلة الشائعة</a></li>
+          <li><a href="/contact.html">تواصل معنا</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn--accent header__cta" href="/contact.html">تقييم الحالة</a>
+    </div>
+  </header>
+  <button class="menu-fab on-dark" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="site-drawer">
+    <span class="menu-fab__lines"><span></span><span></span><span></span></span>
+  </button>
+  <div class="drawer-scrim" data-drawer-close></div>
+  <aside class="drawer" id="site-drawer" aria-label="القائمة" aria-hidden="true">
+    <div class="drawer__head">
+      <span class="drawer__brand">من الصفر إلى الواحد</span>
+      <button class="drawer__close" type="button" aria-label="إغلاق القائمة" data-drawer-close>
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="القائمة">
+      <ul>
+          <li><a href="/#hero" data-home-link>الرئيسية</a></li>
+          <li><a href="/#services">الخدمات</a></li>
+          <li><a href="/#process">آلية العمل</a></li>
+          <li><a href="/#about">من نحن</a></li>
+          <li><a href="/#faq">الأسئلة الشائعة</a></li>
+          <li><a href="/contact.html">تواصل معنا</a></li>
+          <li><a href="/articles/">المقالات</a></li>
+          <li class="drawer__group">نخدم في</li>
+          <li class="drawer__sub"><a href="/cities/riyadh.html">الرياض</a></li>
+          <li class="drawer__sub"><a href="/cities/jeddah.html">جدة</a></li>
+          <li class="drawer__sub"><a href="/cities/dammam.html">الدمام</a></li>
+      </ul>
+    </nav>
+    <div class="drawer__foot">
+      <a class="lang-switch" href="/en/articles/what-is-raid.html" hreflang="en" lang="en">English</a>
+      <a class="btn btn--accent" href="/contact.html">تقييم الحالة</a>
+    </div>
+  </aside>
+  <a class="wa-fab" href="https://wa.me/966531010903" target="_blank" rel="noopener" aria-label="تواصل معنا عبر واتساب"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="#25D366" d="M17,0C8.7,0,2,6.7,2,15c0,3.4,1.1,6.6,3.2,9.2l-2.1,6.4c-0.1,0.4,0,0.8,0.3,1.1C3.5,31.9,3.8,32,4,32 c0.1,0,0.3,0,0.4-0.1l6.9-3.1C13.1,29.6,15,30,17,30c8.3,0,15-6.7,15-15S25.3,0,17,0z"/><path fill="#ffffff" d="M25.7,20.5c-0.4,1.2-1.9,2.2-3.2,2.4C22.2,23,21.9,23,21.5,23c-0.8,0-2-0.2-4.1-1.1c-2.4-1-4.8-3.1-6.7-5.8 L10.7,16C10.1,15.1,9,13.4,9,11.6c0-2.2,1.1-3.3,1.5-3.8c0.5-0.5,1.2-0.8,2-0.8c0.2,0,0.3,0,0.5,0c0.7,0,1.2,0.2,1.7,1.2l0.4,0.8 c0.3,0.8,0.7,1.7,0.8,1.8c0.3,0.6,0.3,1.1,0,1.6c-0.1,0.3-0.3,0.5-0.5,0.7c-0.1,0.2-0.2,0.3-0.3,0.3c-0.1,0.1-0.1,0.1-0.2,0.2 c0.3,0.5,0.9,1.4,1.7,2.1c1.2,1.1,2.1,1.4,2.6,1.6l0,0c0.2-0.2,0.4-0.6,0.7-0.9l0.1-0.2c0.5-0.7,1.3-0.9,2.1-0.6 c0.4,0.2,2.6,1.2,2.6,1.2l0.2,0.1c0.3,0.2,0.7,0.3,0.9,0.7C26.2,18.5,25.9,19.8,25.7,20.5z"/></svg></a>
+  <main id="main">
+    <article>
+    <section class="hero svc-hero section--dark" aria-labelledby="post-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="/">الرئيسية</a><span aria-hidden="true">/</span>
+          <a href="/articles/">المقالات</a>
+        </nav>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <h1 class="hero__title" id="post-title">ما هو نظام RAID وكيف يعمل — ولماذا هو ليس نسخة احتياطية</h1>
+          <p class="hero__lead">المصفوفة تبدو من الخارج قرصاً واحداً كبيراً، لكنها في الحقيقة عدة أقراص وقاعدة تربط بينها. فهم هذه القاعدة يوضّح لماذا يستمر العمل بعد تعطل قرص، ولماذا قد ينتهي كل شيء عند تعطل الثاني.</p>
+          <p class="post__meta"><time datetime="2026-08-11" dir="ltr">2026-08-11</time></p>
+        </div>
+        <div class="hero__visual"><div class="data-core" aria-hidden="true">
+        <span class="data-core__ring"></span><span class="data-core__ring"></span>
+        <span class="data-core__ring"></span><span class="data-core__ring"></span>
+        <span class="data-core__dot"></span>
+      </div></div>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container prose">
+        <h2 class="prose__h">إذا كانت المصفوفة متدهورة الآن</h2>
+        <p class="prose__p">إذا ظهر قرص بحالة Failed أو Degraded على السيرفر أو الـNAS، فإن أول القرارات هي التي تحدد ما تبقى من خيارات. المصفوفة المتدهورة تعمل بلا هامش أمان: أي خطأ إضافي يقع على بيانات حية لا نسخة ثانية لها داخل النظام.</p>
+        <p class="prose__p">بعد ذلك يمكن الفحص. القرار الصحيح في هذه اللحظة ليس محاولة إصلاح سريعة، بل تثبيت الحالة كما هي حتى تُقرأ بنية المصفوفة بشكل صحيح.</p>
+        <ul class="prose__list">
+          <li>أوقف الكتابة: أغلق الخدمات والوصول إلى المجلدات المشتركة بدل ترك النظام يعمل.</li>
+          <li>لا تبدأ Rebuild، ولا توافق على رسالة Initialize أو إنشاء مصفوفة جديدة.</li>
+          <li>لا تسحب أي قرص قبل ترقيمه حسب المنفذ الذي خرج منه، ولا تعد ترتيب الأقراص.</li>
+          <li>لا تستبدل أكثر من قرص واحد، ولا تعد إدخال قرص سبق أن خرج من المصفوفة.</li>
+          <li>صوّر رسائل الخطأ وسجل وحدة التحكم، ودوّن نوع RAID وعدد الأقراص وسعتها.</li>
+        </ul>
+
+        <h2 class="prose__h">ما هو نظام RAID وكيف يعمل؟</h2>
+        <p class="prose__p">RAID طريقة لدمج عدة أقراص فيزيائية في وحدة تخزين واحدة يراها النظام كقرص واحد. الهدف واحد من ثلاثة أو مزيج منها: سرعة أعلى، سعة أكبر، أو القدرة على الاستمرار عند تعطل قرص.</p>
+        <p class="prose__p">تُبنى معظم الأنظمة من ثلاث أفكار فقط. التوزيع (Striping) يقسّم البيانات على أكثر من قرص لتُقرأ وتُكتب على التوازي. المرآة (Mirroring) تكتب النسخة نفسها على قرصين. التماثل (Parity) يحفظ قيمة محسوبة من باقي الأقراص، تسمح بإعادة تكوين محتوى القرص المفقود.</p>
+        <p class="prose__p">كل نوع من RAID هو مزيج مختلف من هذه الأفكار الثلاث، ولكل مزيج ثمن: مساحة مستهلكة، أو كتابة أبطأ، أو هامش أمان أضيق.</p>
+        
+
+        <h2 class="prose__h">RAID 0 و1 و5 و6 و10 بلغة صاحب العمل</h2>
+        <p class="prose__p">الفرق العملي بين الأنواع الشائعة يختصر في سؤال واحد: كم قرصاً يمكن أن يتعطل قبل أن تتوقف البيانات عن الوجود.</p>
+        <p class="prose__p">الرقم لا يصف جودة، بل يصف مقدار الهامش الذي اشتريته. RAID 5 على أقراص كبيرة وقديمة موقف أضيق مما يبدو، لأن هامشه قرص واحد فقط.</p>
+        <ul class="prose__list">
+          <li>RAID 0: توزيع بلا حماية. سعة كاملة وأداء أعلى، لكن تعطل قرص واحد يعني فقدان المجلد بأكمله.</li>
+          <li>RAID 1: مرآة بين قرصين. تفقد نصف السعة، ويستمر العمل ما دام أحد القرصين سليماً.</li>
+          <li>RAID 5: توزيع مع تماثل موزّع. يتحمّل تعطل قرص واحد فقط، ويستهلك سعة قرص واحد من المجموع.</li>
+          <li>RAID 6: تماثل مزدوج. يتحمّل تعطل قرصين، ويستهلك سعة قرصين، وكتابته أبطأ.</li>
+          <li>RAID 10: مرايا موزّعة. يتحمّل تعطل قرص من كل زوج، ويستهلك نصف السعة، وإعادة بنائه أخف ضغطاً على باقي الأقراص.</li>
+        </ul>
+
+        <h2 class="prose__h">RAID ليس نسخة احتياطية</h2>
+        <p class="prose__p">هذه أهم فكرة في الموضوع كله. RAID يحمي من تعطل قرص، ولا يحمي من أي شيء آخر.</p>
+        <p class="prose__p">الحذف بالخطأ يُكتب على كل الأقراص في اللحظة نفسها. تشفير الفدية يمر عبر المصفوفة كما تمر أي كتابة عادية. تلف نظام الملفات، خطأ في تحديث، حريق أو سرقة الجهاز، وحتى فشل وحدة التحكم نفسها: كلها حالات تصيب المصفوفة ككل. النسخة الوحيدة المفيدة في هذه الحالات هي النسخة التي تعيش خارج السيرفر.</p>
+        <p class="prose__p">القاعدة العملية: RAID يحمي استمرار العمل، والنسخة الاحتياطية تحمي البيانات، ولا يغني أحدهما عن الآخر. النسخة الاحتياطية يجب أن تكون على وسيط منفصل، ويفضّل أن تكون نسخة منها خارج الموقع، وأن تُختبر استعادتها فعلياً بين فترة وأخرى.</p>
+        
+
+        <h2 class="prose__h">ماذا يحدث عند تعطل قرص، ولماذا قد تدمّر إعادة البناء البيانات</h2>
+        <p class="prose__p">عند خروج قرص من مصفوفة تحتمل الفقد، تدخل المصفوفة حالة Degraded. البيانات ما زالت متاحة، لكنها تُحسب الآن من الأقراص المتبقية بدل قراءتها مباشرة. الأداء ينخفض، وفي RAID 5 يصبح هامش الأمان صفراً.</p>
+        <p class="prose__p">إعادة البناء ليست عملية خفيفة. لإعادة تكوين محتوى القرص المفقود يجب قراءة كل قطاع تقريباً على كل قرص متبقٍ، والكتابة المستمرة على القرص الجديد لساعات أو أيام. الأقراص عادةً بالعمر نفسه وغالباً من الدفعة نفسها، وتحت هذا الضغط قد يظهر قطاع غير قابل للقراءة كان موجوداً منذ فترة دون أن يلاحظه أحد، أو يتعطل قرص ثانٍ فعلياً. عندها تتوقف إعادة البناء ويصبح الوضع أسوأ من نقطة البداية.</p>
+        <p class="prose__p">وهناك خطر أوضح: إعادة البناء تكتب. إذا كان سبب العطل الأصلي منطقياً لا فيزيائياً، أو بُدئت إعادة البناء على القرص الخطأ، أو قُبلت رسالة إنشاء مصفوفة جديدة بدل استيراد الإعدادات القائمة، فقد تُكتب بيانات جديدة فوق البنية نفسها التي كانت ستُستخدم لقراءة المصفوفة. الفحص قبل الكتابة هو الفرق بين حالة ما زالت قابلة للتقييم وحالة تغيّرت.</p>
+        
+
+        <h2 class="prose__h">لماذا يهم ترتيب الأقراص</h2>
+        <p class="prose__p">المصفوفة ليست مجموعة أقراص فقط، بل ترتيب محدد. لقراءة البيانات يجب معرفة تسلسل الأقراص، حجم الشريحة (Stripe size)، نقطة البداية على كل قرص، واتجاه دوران التماثل. هذه المعلومات مكتوبة في بيانات وصفية صغيرة على الأقراص وفي إعدادات وحدة التحكم.</p>
+        <p class="prose__p">إذا سُحبت الأقراص وأُعيدت في منافذ مختلفة، أو اختلطت أقراص مصفوفتين، أو مُسحت البيانات الوصفية بإعادة تهيئة، يصبح الترتيب مجهولاً ويجب استنتاجه من محتوى الأقراص نفسها. هذا ممكن في كثير من الحالات، لكنه أطول وأصعب وأقل يقيناً من قراءة ترتيب لم يُفقد أصلاً.</p>
+        <p class="prose__p">لذلك القاعدة بسيطة: قبل سحب أي قرص، رقّمه بالمنفذ الذي خرج منه. ملصق ورقي واحد قد يوفر مرحلة كاملة من العمل لاحقاً.</p>
+        
+
+        <aside class="takeaways">
+          <p class="takeaways__title">خلاصة سريعة</p>
+          <ul class="takeaways__list">
+            <li>RAID يحمي استمرار العمل عند تعطل قرص، ولا يحمي البيانات من الحذف أو الفدية أو تلف نظام الملفات.</li>
+            <li>إعادة البناء تقرأ كل الأقراص المتبقية وتكتب لساعات، وفي هذه النافذة يقع غالباً العطل الثاني أو الكتابة فوق البنية.</li>
+            <li>ترتيب الأقراص جزء من البيانات؛ رقّم كل قرص بمنفذه قبل أي فك أو استبدال.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="postcta-title">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <p class="svc-cta__label">الخدمة المرتبطة</p>
+          <a class="btn btn--dark" href="/services/raid-servers.html">RAID والسيرفرات <span aria-hidden="true">←</span></a>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="postcta-title">قبل أول Rebuild، اعرف ما الذي تتعامل معه.</h2>
+          <p class="svc-cta__body">إذا كانت مصفوفتك متدهورة أو فشلت إعادة بنائها، أرسل نوع RAID وعدد الأقراص ورسائل الخطأ. الفحص والتشخيص مجاني وبدون التزام، ونوضّح لك الحالة قبل أي خطوة قد تغيّر بنية البيانات.</p>
+        </div>
+      </div>
+    </section>
+    </article>
+  </main>
+  <footer class="footer section--footer" aria-labelledby="footer-brand">
+    <div class="container">
+      <div class="footer__cta">
+        <span class="footer__cta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        <p class="footer__cta-eyebrow">كل رحلة عظيمة تبدأ بخطوة</p>
+        <h2 class="footer__cta-title" id="footer-brand">لنبدأ رحلتك.</h2>
+        <a class="btn btn--accent footer__cta-btn" href="/contact.html">لنبدأ من الصفر إلى الواحد <span aria-hidden="true">←</span></a>
+      </div>
+
+      <p class="footer__brand">من الصفر إلى الواحد</p>
+      <div class="footer__divider" role="presentation"></div>
+
+      <div class="footer__contacts">
+        <a class="footer-pill" href="https://maps.app.goo.gl/3Pa3LR1e7HWd6fko9" target="_blank" rel="noopener">
+          <span class="footer-pill__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span><span>الموقع · الرياض — السعودية</span>
+        </a>
+        <a class="footer-pill" href="tel:+966531010903">
+          <span class="footer-pill__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.12.9.33 1.78.62 2.6a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.06a2 2 0 0 1 2.1-.45c.82.29 1.7.5 2.6.62A2 2 0 0 1 22 16.9z"/></svg></span><span dir="ltr">+966 53 101 0903</span>
+        </a>
+        <a class="footer-pill" href="https://wa.me/966531010903" target="_blank" rel="noopener">
+          <span class="footer-pill__ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.16l-.3-.18-2.9.9.93-2.82-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.6-6.14c-.25-.13-1.48-.73-1.71-.82-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.4-1.73-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.17 1.78 2.72 4.3 3.81.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29z"/></svg></span><span>واتساب</span>
+        </a>
+        <a class="footer-pill" href="mailto:info@datarecovery-sa.com">
+          <span class="footer-pill__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span><span dir="ltr">info@datarecovery-sa.com</span>
+        </a>
+      </div>
+
+      <div class="footer__divider footer__divider--thin" role="presentation"></div>
+
+      <div class="footer__bottom">
+        <div class="footer__meta">
+          <div class="footer__meta-block">
+            <h3 class="footer__col-title">الإصدار</h3>
+            <p>إصدار 2026 © · من الصفر إلى الواحد</p>
+            <p>جميع الحقوق محفوظة.</p>
+          </div>
+          <div class="footer__meta-block">
+            <h3 class="footer__col-title">التوقيت المحلي</h3>
+            <p><span id="localTime" data-tz="Asia/Riyadh" dir="ltr">—</span></p>
+          </div>
+        </div>
+        <div class="footer__socials">
+          <h3 class="footer__col-title">تابعنا</h3>
+          <ul>
+          <li><a href="https://www.instagram.com/osooldatarecovery" target="_blank" rel="noopener" aria-label="Instagram">
+            <span class="social-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></span><span class="social-name">Instagram</span>
+          </a></li>
+          <li><a href="https://www.tiktok.com/@osooldatarecovery" target="_blank" rel="noopener" aria-label="TikTok">
+            <span class="social-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2.1 1.5 3.5 3.5 3.72v2.55c-1.2.06-2.4-.22-3.5-.83v5.72c0 3.5-2.6 5.84-5.85 5.84A5.6 5.6 0 0 1 5 14.35c0-3.23 2.94-5.63 6.3-5v2.72c-.4-.12-.8-.18-1.2-.18-1.5 0-2.72 1.2-2.72 2.66 0 1.5 1.2 2.7 2.7 2.7 1.6 0 2.82-1.24 2.82-2.98V3h1.6z"/></svg></span><span class="social-name">TikTok</span>
+          </a></li>
+          <li><a href="https://www.facebook.com/share/1Gy9Ku7Gx8/" target="_blank" rel="noopener" aria-label="Facebook">
+            <span class="social-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></span><span class="social-name">Facebook</span>
+          </a></li>
+          <li><a href="https://www.youtube.com/channel/UC36WAnDT1fOpNHQ69UeA-Ew" target="_blank" rel="noopener" aria-label="YouTube">
+            <span class="social-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.77-1.78C19.3 5.1 12 5.1 12 5.1s-7.3 0-8.83.42A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.77 1.78C4.7 18.9 12 18.9 12 18.9s7.3 0 8.83-.42a2.5 2.5 0 0 0 1.77-1.78C23 15.2 23 12 23 12zM9.75 15V9l5.2 3-5.2 3z"/></svg></span><span class="social-name">YouTube</span>
+          </a></li>
+          <li><a href="https://www.linkedin.com/in/osool-data-recovery-b4b3b4379" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <span class="social-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05C20.4 8.65 22 10.6 22 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></span><span class="social-name">LinkedIn</span>
+          </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>© <span dir="ltr">2026</span> من الصفر إلى الواحد · جميع الحقوق محفوظة</span>
+        <a href="/privacy.html" class="footer__legal-link">سياسة الخصوصية</a>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js?v=66799ff7" defer></script>
+  <script src="/assets/js/vendor/gsap.min.js?v=28033e44" defer></script>
+  <script src="/assets/js/vendor/ScrollTrigger.min.js?v=ad33c2df" defer></script>
+  <script src="/assets/js/anim.js?v=c123e232" defer></script>
+</body>
+</html>
