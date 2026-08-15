@@ -1,15 +1,116 @@
 Options -Indexes
 ServerSignature Off
 
+# ============================================================================
+# DEPLOYMENT CHECK — read this before debugging any rule below.
+#
+# On 2026-08-11 the live site at datarecovery-sa.com was serving:
+#   /ar/       -> 404   (the redirect below should have caught it)
+#   /.user.ini -> 200   (the FilesMatch below should have denied it)
+#   response headers carried NONE of the security headers set here.
+#
+# All three symptoms together mean this file was not in effect on the server at
+# all — not that a single rule is wrong. Either .htaccess was never uploaded
+# (many FTP clients and zip extractors skip dotfiles), or AllowOverride is off
+# for the document root. Verify with hPanel's file manager (enable "show hidden
+# files") and re-upload from dist/hostinger/ before assuming a rule is broken.
+# ============================================================================
+
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule (^|/)\.(?!well-known(?:/|$)) - [R=404,L,NC]
   RewriteRule ^(?:build|design|tests)(?:/|$) - [R=404,L,NC]
 
-  # Arabic moved from /ar/ to the site root — keep the old paths reachable and
-  # tell search engines the move is permanent (avoids duplicate content).
+  # ---- Legacy URL map -------------------------------------------------------
+  # Every rule here converts an old inbound link into a live page instead of a
+  # 404. Blanket-redirecting unknown paths to the homepage is deliberately NOT
+  # done: Google treats that as a soft 404 and it loses the same link equity as
+  # the 404 did, while also hiding the problem from Search Console.
+
+  # ORDER MATTERS. The Arabic-slug pages from the old Osool site must be matched
+  # BEFORE the generic /ar/ prefix strip below, because that strip is [L]: it
+  # would rewrite /ar/raid-… to /raid-…, stop, and hand the visitor a second 404.
+  # Verified against a local Apache with AllowOverride All — with these two rules
+  # placed after the strip, both confirmed legacy URLs still died.
+  # Arabic is written literally, NOT percent-encoded. Verified on Apache 2.4:
+  # in .htaccess context RewriteRule matches the DECODED path, and %{REQUEST_URI}
+  # is decoded too — a %D9%87%D8%A7... pattern silently never matches.
+  RewriteRule ^ar/raid- /services/raid-servers.html [R=301,L,NC]
+  RewriteRule ^ar/.*(هارد|قرص.صلب) /services/hdd.html [R=301,L]
+  RewriteRule ^ar/.*(فدية|تشفير) /services/ransomware.html [R=301,L]
+  RewriteRule ^ar/.*(سيرفر|خادم|قاعدة.بيانات) /services/raid-servers.html [R=301,L]
+  RewriteRule ^ar/.*(جوال|هاتف|موبايل) /services/phones.html [R=301,L]
+  RewriteRule ^ar/.*(كاميرا|مراقبة) /services/cctv.html [R=301,L]
+  RewriteRule ^ar/.*(فورمات|تهيئة) /services/after-format.html [R=301,L]
+  RewriteRule ^ar/.*(فلاش|ذاكرة|بطاقة) /services/memory-cards.html [R=301,L]
+
+  # Any other /ar/ path: strip the prefix, since Arabic now lives at the root.
+  # If the target does not exist either, the keyword map further down catches it.
   RewriteRule ^ar/(.*)$ /$1 [R=301,L]
   RewriteRule ^ar$ / [R=301,L]
+
+  # Directory-index and extension leftovers from the previous site.
+  RewriteRule ^index\.(?:html?|php)$ / [R=301,L,NC]
+  RewriteRule ^en/index\.(?:html?|php)$ /en/ [R=301,L,NC]
+  RewriteRule ^contact\.php$ /contact.html [R=301,L,NC]
+  RewriteRule ^en/contact\.php$ /en/contact.html [R=301,L,NC]
+
+  # Extensionless requests (/services/hdd) resolve to the .html file when one
+  # exists. Old sites commonly published these; costs nothing to keep working.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.+?)/?$ /$1.html [L]
+
+  # ---- Legacy Osool URLs ----------------------------------------------------
+  # No Search Console export was available, so these were recovered from Google's
+  # live index on 2026-08-12. Two distinct structures survive from the old site:
+  #   /ar/<arabic-slug>/            Arabic service + article pages
+  #   /<english-slug>/              English service pages at the root
+  # Confirmed still indexed and returning 404:
+  #   /ar/raid-استعادة-البيانات-من-أنظمة/
+  #   /ar/كيف-تستعيد-بياناتك-من-قرص-صلب-هارد-ديسك/
+  #   /hard-drive-data-recovery/
+  #   /solid-state-drive-data-recovery-services/
+  #
+  # The two Arabic ones are handled at the top of this block, ahead of the /ar/
+  # prefix strip — see the ORDER MATTERS note there.
+
+  # Nothing here may shadow a real page, so every rule is guarded on the request
+  # not matching an existing file or directory. That also makes the keyword rules
+  # safe to keep permanently: they can only ever fire on a URL that would 404.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # /blog/ belongs to the separate Hugo blog and is off-limits to the keyword map
+  # below. Without this, a blog URL that happens to contain a service word — say
+  # /blog/what-is-raid/ — would be 301'd to the RAID service page instead of
+  # reaching the article, and a mistyped blog URL would skip the blog's own 404.
+  # The blog ships its own /blog/.htaccess whose `RewriteEngine On` already
+  # resets rewrite inheritance, so this is belt and braces; it is cheap, and it
+  # keeps the boundary visible to whoever reads this file next.
+  RewriteRule ^blog(/|$) - [L]
+
+  # Keyword map over the whole legacy URL space. The old slugs are unknown in
+  # full, so these match on the terms any data-recovery slug would contain, in
+  # either language, and land the visitor on the page for the problem they had.
+  RewriteRule (ransomware|فدية|تشفير) /services/ransomware.html [R=301,L,NC]
+  RewriteRule (raid|server|nas|san|database) /services/raid-servers.html [R=301,L,NC]
+  RewriteRule (solid[-_]?state|ssd|nvme|m\.?2) /services/ssd-nvme.html [R=301,L,NC]
+  RewriteRule (cctv|dvr|nvr|surveillance|camera) /services/cctv.html [R=301,L,NC]
+  RewriteRule (format|deleted|erase|disposal) /services/after-format.html [R=301,L,NC]
+  RewriteRule (flash|memory[-_]?card|usb|sd[-_]?card|micro-?sd) /services/memory-cards.html [R=301,L,NC]
+  RewriteRule (mobile|phone|android|iphone|smartphone) /services/phones.html [R=301,L,NC]
+  RewriteRule (hard[-_]?drive|hard[-_]?disk|hdd|disk|drive) /services/hdd.html [R=301,L,NC]
+  RewriteRule (backup|recovery|restore|استعادة|استرجاع) /services/hdd.html [R=301,L,NC]
+
+  # Anything still unmatched falls through to ErrorDocument 404, which serves a
+  # page listing every service — deliberately NOT a blanket redirect to the
+  # homepage, which Google treats as a soft 404 and which loses the same link
+  # equity while hiding the problem from Search Console.
+  # ---------------------------------------------------------------------------
 </IfModule>
 
 <FilesMatch "^(?:README\.md|LIBRARIES\.md|test-form\.command|netlify\.toml|\.user\.ini|\.mcp\.json|\.DS_Store)$">

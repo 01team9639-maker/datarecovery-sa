@@ -22,7 +22,12 @@ const commonAllowlist = [
   "index.html",
   "contact.html",
   "privacy.html",
+  // Served by ErrorDocument (.htaccess) and Netlify's default 404 handler. It is
+  // the safety net for inbound links from the previous site, so it must ship.
+  "404.html",
   "services",
+  "cities",
+  "articles",
   "en",
   "assets",
   "robots.txt",
@@ -35,12 +40,15 @@ const targetAllowlist = targetName === "hostinger"
   : commonAllowlist;
 
 let copiedFiles = 0;
-const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2"]);
+// .webp is allowed ahead of the lab/testimonial photography: photo() emits WebP
+// only, so the format is permitted here rather than on the day the art lands.
+const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2", ".webp", ".ico"]);
+const htmlSections = ["services/", "cities/", "articles/", "en/"];
 
 function assertPublicFile(relative) {
   const portable = relative.split(path.sep).join("/");
   const extension = path.extname(relative).toLowerCase();
-  if ((portable.startsWith("services/") || portable.startsWith("en/")) && extension === ".html") return;
+  if (htmlSections.some((prefix) => portable.startsWith(prefix)) && extension === ".html") return;
   if (portable.startsWith("assets/") && publicAssetExtensions.has(extension)) return;
   if (targetAllowlist.includes(portable)) return;
   throw new Error(`Refusing unexpected deployment file: ${portable}`);

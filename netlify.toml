@@ -49,11 +49,118 @@
     X-Permitted-Cross-Domain-Policies = "none"
     X-XSS-Protection = "0"
 
-# Arabic moved from /ar/ to the site root — permanent redirect keeps the old
-# paths working and prevents duplicate content.
+# ---- Legacy URL map ---------------------------------------------------------
+# Mirrors the rules in .htaccess so the two hosts cannot drift. Unknown old paths
+# deliberately fall through to the 404 page rather than being swept to the
+# homepage — a blanket homepage redirect reads as a soft 404 to Google and loses
+# the same link equity, while hiding the problem from Search Console.
+
+# Arabic moved from /ar/ to the site root.
 [[redirects]]
   from = "/ar/*"
   to = "/:splat"
+  status = 301
+  force = true
+
+# Directory-index and extension leftovers from the previous site.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/index.php"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/index.html"
+  to = "/en/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact.php"
+  to = "/contact.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/contact.php"
+  to = "/en/contact.html"
+  status = 301
+  force = true
+
+# Legacy Osool URLs, recovered from Google's live index on 2026-08-12 (no Search
+# Console export was available). Netlify redirects are glob-based, not regex, so
+# this is the explicit subset; the .htaccess keyword map covers the rest on the
+# PHP host. Anything unmatched falls through to /404.html, which lists every
+# service — never a blanket redirect to the homepage, which reads as a soft 404.
+
+# Confirmed indexed and 404ing. Note /ar/* alone does not save these: stripping
+# the prefix from /ar/raid-… yields /raid-…, which is also a 404.
+[[redirects]]
+  from = "/ar/raid-*"
+  to = "/services/raid-servers.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hard-drive-data-recovery/*"
+  to = "/services/hdd.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/solid-state-drive-data-recovery-services/*"
+  to = "/services/ssd-nvme.html"
+  status = 301
+  force = true
+
+# Likely siblings of the two confirmed English service slugs, following the same
+# naming pattern. A rule for a URL that never existed costs nothing; a missing
+# rule for one that did costs the link.
+[[redirects]]
+  from = "/ransomware-data-recovery/*"
+  to = "/services/ransomware.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/raid-data-recovery/*"
+  to = "/services/raid-servers.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/server-data-recovery/*"
+  to = "/services/raid-servers.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/flash-data-recovery/*"
+  to = "/services/memory-cards.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/memory-card-data-recovery/*"
+  to = "/services/memory-cards.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/mobile-data-recovery/*"
+  to = "/services/phones.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/database-data-recovery/*"
+  to = "/services/raid-servers.html"
   status = 301
   force = true
 
