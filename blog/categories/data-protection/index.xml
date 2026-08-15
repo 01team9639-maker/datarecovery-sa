@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>النسخ الاحتياطي وحماية البيانات — مدونة من الصفر إلى الواحد</title><link>https://datarecovery-sa.com/blog/categories/data-protection/</link><description>مقالات عملية في استعادة البيانات من فريق من الصفر إلى الواحد في الرياض.</description><generator>Hugo</generator><language>ar</language><lastBuildDate>Wed, 12 Aug 2026 10:00:00 +0300</lastBuildDate><atom:link href="https://datarecovery-sa.com/blog/categories/data-protection/index.xml" rel="self" type="application/rss+xml"/><item><title>قاعدة 3-2-1 للنسخ الاحتياطي وكيف تختبرها</title><link>https://datarecovery-sa.com/blog/backup-3-2-1-rule/</link><pubDate>Wed, 12 Aug 2026 10:00:00 +0300</pubDate><guid>https://datarecovery-sa.com/blog/backup-3-2-1-rule/</guid><description>&lt;p&gt;أغلب من يجهّز نسخة احتياطية حقيقية يفعل ذلك بعد أن يوشك على فقد شيء مهم. القاعدة
+التي تختصر التجربة الطويلة في هذا المجال بسيطة: ثلاث نسخ من البيانات، على وسيطين
+مختلفين على الأقل، وواحدة منها خارج الموقع.&lt;/p&gt;
+&lt;h2 id="لماذا-ثلاث-نسخ-لا-نسختان"&gt;لماذا ثلاث نسخ لا نسختان&lt;/h2&gt;
+&lt;p&gt;النسخة الأصلية ونسخة واحدة تبدوان كافيتين حتى تتعطّل إحداهما أثناء استعادة الأخرى.
+النسخة الثالثة ليست ترفًا؛ هي التي تغطي الحالة التي تقع فيها مشكلتان في وقت متقارب،
+وهي أكثر شيوعًا مما يبدو لأن الأقراص التي اشتُريت معًا تشيخ معًا.&lt;/p&gt;</description></item></channel></rss>
