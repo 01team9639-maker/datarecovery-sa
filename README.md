@@ -30,25 +30,33 @@
 ```
 01datarecpvery/
 ├── index.html                 # الرئيسية (عربي، RTL) — جذر الموقع
-├── contact.html · privacy.html
-├── services/                  # 6 صفحات خدمات مستقلة (عربي)
+├── contact.html · privacy.html · 404.html
+├── services/                  # 8 صفحات خدمات مستقلة (عربي)
 │   ├── hdd.html · ssd-nvme.html · raid-servers.html
-│   └── cctv.html · after-format.html · ransomware.html
+│   ├── cctv.html · after-format.html · ransomware.html
+│   └── phones.html · memory-cards.html
+├── cities/                    # 3 صفحات استهداف جغرافي
+│   └── riyadh.html · jeddah.html · dammam.html
+├── blog/                      # المدونة: فهرس + 5 مقالات
 ├── en/                        # نفس البنية (إنجليزي، LTR)
 ├── assets/
 │   ├── css/  (fonts.css · main.css)
 │   ├── js/   (bootstrap.js · main.js · anim.js · analytics.js · vendor/gsap)
 │   ├── fonts/ (alexandria-arabic.woff2 · alexandria-latin.woff2)
-│   ├── img/  (logo-mark.png · og-ar.png · og-en.png)
+│   ├── img/  (logo-mark.png · og.png)
 │   └── favicon-32.png · favicon-48.png · apple-touch-icon.png · icon-192.png · icon-512.png
 ├── build/                     # مولّد الصفحات (تطوير فقط، محجوب عن الويب)
-│   ├── site.js · services.js · generate.js · package-deploy.js
+│   ├── site.js                # الإعدادات + الأرقام (claims) + نصوص الواجهة + الرئيسية
+│   ├── services.js            # محتوى الخدمات الثماني
+│   ├── depth.js               # أقسام العمق لكل خدمة (الأجهزة · خطوات العمل · حالة نموذجية)
+│   ├── cities.js · blog.js    # صفحات المدن والمقالات
+│   └── generate.js · package-deploy.js
 ├── send.php · .htaccess · .user.ini
 ├── sitemap.xml · robots.txt · llms.txt · site.webmanifest
 └── README.md · LIBRARIES.md
 ```
 
-## الصفحات (18 صفحة)
+## الصفحات (42 صفحة — 21 لكل لغة)
 
 | | عربي | إنجليزي |
 |---|---|---|
@@ -61,6 +69,30 @@
 | كاميرات المراقبة | `/services/cctv.html` | `/en/services/cctv.html` |
 | بعد الفورمات | `/services/after-format.html` | `/en/services/after-format.html` |
 | فيروس الفدية | `/services/ransomware.html` | `/en/services/ransomware.html` |
+| الهواتف الذكية | `/services/phones.html` | `/en/services/phones.html` |
+| بطاقات الذاكرة والفلاش | `/services/memory-cards.html` | `/en/services/memory-cards.html` |
+| الرياض · جدة · الدمام | `/cities/{slug}.html` | `/en/cities/{slug}.html` |
+| المدونة (فهرس + 5 مقالات) | `/blog/` | `/en/blog/` |
+| صفحة 404 | `/404.html` | `/en/404.html` |
+
+> المختبر في **الرياض**. صفحتا جدة والدمام تنصّان صراحةً على أن الحالات تصل عبر شحن آمن
+> إلى مختبر الرياض، ولا توجد فروع في تلك المدن — ادعاء فرع غير موجود مخالفة لنشاط
+> Google التجاري ومشكلة ثقة في آن.
+
+## مصدر واحد للأرقام
+
+كل رقم يظهر على الموقع (`+25`، `+50K`، `99%`) يُقرأ من كائن `claims` في
+[`build/site.js`](build/site.js) ومعه تعريف مكتوب لما يعدّه بالضبط. قبل ذلك كان الرقم
+`+50K` موصوفًا بـ«حالة تم التعامل معها» في الرئيسية و«ملف مستعاد» في صفحات الخدمات،
+و`99%` مقترنًا بعنوان الخصوصية في شريط الثقة. لا تكتب رقمًا في القوالب مباشرة —
+عدّل `claims` وأعد التوليد، واختبار `tests/content-rules.test.js` يمنع عودة التضارب.
+
+## الدليل الاجتماعي (جاهز وينتظر محتوى حقيقي)
+
+أقسام آراء العملاء وشعارات الجهات وصور المختبر **مبنية بالكامل** في المولّد، ولا تُعرض
+إلا عند تعبئة `socialProof` في [`build/site.js`](build/site.js). المصفوفات فارغة عمدًا:
+لا تُنشر شهادة أو صورة لم يوفّرها العميل. الصور تمرّ عبر مساعد `photo()` الذي يخرج
+WebP + `srcset` + `loading="lazy"` بأبعاد صريحة حتى لا تتأثر ميزانية الأداء.
 
 ## التشغيل والتوليد
 
@@ -88,6 +120,47 @@ node build/package-deploy.js hostinger
 # فحوصات المصدر والأمان التي لا تحتاج PHP
 node tests/security-static.test.js
 ```
+
+### ⚠️ تحقّق من أن `.htaccess` فعّال على الخادم
+
+فحص مباشر للموقع الحيّ بتاريخ 2026-08-11 أظهر أن **ملف `.htaccess` لم يكن ساريًا إطلاقًا**:
+
+| ما فحصناه | المتوقع | ما حدث فعلًا |
+|---|---|---|
+| `/ar/` | تحويل 301 إلى الجذر | **404** |
+| `/.user.ini` | ممنوع (`Require all denied`) | **200 — الملف مقروء** |
+| ترويسات الأمان | CSP وHSTS وX-Frame-Options… | **لا شيء** عدا `upgrade-insecure-requests` |
+
+الأعراض الثلاثة معًا تعني أن الملف غير مطبّق أصلًا، لا أن قاعدة واحدة فيها خطأ. **القواعد
+نفسها مُختبَرة وسليمة** — `tests/redirect-map.sh` يشغّل Apache حقيقيًا على حزمة النشر ويمرّ
+بـ46 تأكيدًا. السببان المحتملان: الملف لم يُرفع (كثير من برامج FTP وفكّ الضغط تتخطى الملفات
+المخفية)، أو `AllowOverride` معطّل لمجلد الجذر.
+
+```bash
+# بعد كل نشر — يفحص الموقع الحيّ ويقول لك أي المشكلتين عندك
+bash tests/live-check.sh
+
+# قبل النشر — يشغّل Apache محليًا على dist/hostinger ويتحقق من كل تحويلة
+bash tests/redirect-map.sh
+```
+
+إن لم تظهر الترويسات: في hPanel فعّل «إظهار الملفات المخفية» في مدير الملفات وأعد رفع
+`.htaccess` من `dist/hostinger/`، وإن بقي متجاهَلًا فاطلب من دعم Hostinger تفعيل
+`AllowOverride`. ما دام الملف غير فعّال، فخريطة تحويلات 301 وصفحة 404 المخصّصة وقواعد
+التخزين المؤقت وترويسات الأمان **كلها معطّلة**.
+
+### خريطة الروابط القديمة
+
+لم يتوفّر تصدير Search Console، فاستُخرجت الروابط القديمة من فهرس جوجل الحيّ (2026-08-12).
+بنيتان باقيتان من موقع Osool: `/ar/<slug-عربي>/` و `/<slug-إنجليزي>/` في الجذر. أربعة روابط
+مؤكَّدة كانت ترجع 404، وأهمها أن قاعدة `/ar/*` العامة **لا تكفي**: تجريد البادئة من
+`/ar/raid-…` ينتج `/raid-…` وهو 404 آخر. لذلك تُطابَق الصفحات العربية صراحةً **قبل** القاعدة
+العامة، وتغطي بعدها خريطة كلمات مفتاحية فضاء الروابط القديم كله بلغتين، محميّة بشرط
+`!-f`/`!-d` فلا تحجب صفحة حقيقية أبدًا. الروابط غير المطابقة تصل إلى صفحة 404 التي تعرض
+كل الخدمات — لا تحويل جماعي إلى الرئيسية، لأن جوجل يعامله كـ«404 ناعم».
+
+> ملاحظة للصيانة: داخل `.htaccess` يطابق Apache **المسار بعد فكّ الترميز**، فتُكتب العربية
+> حرفيًا لا بصيغة `%D9%87%D8%A7…` — النمط المُرمَّز لا يطابق شيئًا أبدًا. هذا مُثبَّت في الاختبار.
 
 ### النشر من GitHub إلى Hostinger (Git deploy)
 
