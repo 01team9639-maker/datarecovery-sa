@@ -23,6 +23,17 @@ check() { # check <label> <actual> <expected>
   else fail=$((fail+1)); printf "  FAIL  %-46s got %s, want %s\n" "$1" "$2" "$3"; fi
 }
 
+# محجوب = 404 أو 403، والفرق بينهما لا يعني شيئًا للزائر.
+# قاعدة إعادة الكتابة تعطي 404، و<FilesMatch> بـRequire all denied تعطي 403،
+# وأيّهما يسبق الآخر يختلف بين Apache وLiteSpeed التي تشغّلها Hostinger. اشتراط
+# رمز بعينه يجعل الفحص يرسب على فرق في المحرّك لا على ثغرة.
+blocked() { # blocked <label> <actual>
+  case "$2" in
+    404|403) pass=$((pass+1)); printf "  ok    %-46s %s (محجوب)\n" "$1" "$2" ;;
+    *) fail=$((fail+1)); printf "  FAIL  %-46s %s — يجب أن يكون محجوبًا\n" "$1" "$2" ;;
+  esac
+}
+
 echo "Checking $SITE"
 echo
 echo "1. Is .htaccess in effect at all?"
@@ -70,12 +81,12 @@ check "/solid-state-drive-…/"        "$(code /solid-state-drive-data-recovery-
 
 echo
 echo "4. Nothing private is readable"
-check "/.user.ini"    "$(code /.user.ini)" 404
-check "/.htaccess"    "$(code /.htaccess)" 404
-check "/build/site.js" "$(code /build/site.js)" 404
-check "/tests/live-check.sh" "$(code /tests/live-check.sh)" 404
-check "/design/logo-source.svg" "$(code /design/logo-source.svg)" 404
-check "/README.md" "$(code /README.md)" 404
+blocked "/.user.ini"    "$(code /.user.ini)"
+blocked "/.htaccess"    "$(code /.htaccess)"
+blocked "/build/site.js" "$(code /build/site.js)"
+blocked "/tests/live-check.sh" "$(code /tests/live-check.sh)"
+blocked "/design/logo-source.svg" "$(code /design/logo-source.svg)"
+blocked "/README.md" "$(code /README.md)"
 check "/send.php (GET must be rejected)" "$(code /send.php)" 405
 
 echo
