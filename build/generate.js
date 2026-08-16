@@ -2376,7 +2376,16 @@ function build() {
   // sitemap + robots
   write("send.php", sendPhp());
   write("sitemap.xml", sitemap());
-  write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
+  /* Two sitemaps, both listed here at the domain root.
+     robots.txt is only ever read from the root of a domain — a copy inside
+     /blog/ has no effect whatsoever, which is why Hugo's own robots generation
+     is disabled in the blog's config. The blog's sitemap index is therefore
+     announced from this file or it is announced nowhere, and its articles wait
+     on discovery through internal links alone. */
+  write("robots.txt",
+    `User-agent: *\nAllow: /\n\n` +
+    `Sitemap: ${BASE}/sitemap.xml\n` +
+    `Sitemap: ${BASE}/blog/sitemap.xml\n`);
   console.log("Done.");
 }
 

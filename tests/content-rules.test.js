@@ -13,7 +13,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const SKIP_DIRS = new Set(["node_modules", ".git", "build", "tests", "design", "dist", "assets"]);
+// blog/ مستثنى: تبنيه Hugo بخط نشر منفصل له ثماني بوابات خاصة به، منها
+// check_seo الذي يفرض القواعد نفسها. فحصه هنا يعني قاعدتين لمصدر واحد
+// تنحرفان، وفشلًا في اختبار الموقع سببه ملف لا يملكه هذا المستودع.
+const SKIP_DIRS = new Set(["node_modules", ".git", "build", "tests", "design", "dist", "assets", "blog"]);
 
 function htmlFiles(dir = ROOT, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://datarecovery-sa.com/sitemap.xml
+Sitemap: https://datarecovery-sa.com/blog/sitemap.xml

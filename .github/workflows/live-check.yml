@@ -1,0 +1,63 @@
+# فحص الموقع الحيّ — من خادم GitHub لا من جهاز محلي
+#
+# لماذا لا يُشغَّل محليًّا:
+#   جدار Hostinger يحجب عناوين خارجية أحيانًا، فيرجع curl صفرًا أو
+#   `Connection reset by peer` بينما الموقع سليم تمامًا. حدث في 2026-08-16
+#   وأنتج تشخيص «الخادم ساقط» وأُرسل المالك إلى الدعم بلا داعٍ — بينما كانت
+#   خطوة التحقق في سير عمل المدونة (من خادم GitHub) تنجح في اللحظة نفسها.
+#
+#   جهة الفحص جزء من الفحص. tests/live-check.sh يبقى للتشخيص اليدوي، لكن
+#   النتيجة الموثوقة تأتي من هنا.
+#
+# يعمل بعد كل دفعة إلى main (أي بعد كل مزامنة)، ويوميًّا لالتقاط ما يتعطّل
+# بلا تغيير منّا: انتهاء شهادة، أو تعديل استضافة، أو مفتاح انتهت صلاحيته.
+name: live-check
+run-name: فحص الموقع الحيّ · ${{ github.event_name }}
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 06:00 بتوقيت الرياض — قبل ساعات العمل، فيصل التنبيه قبل الزبون
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-check
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: فحص الموقع الحيّ
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      # المزامنة غير فورية: Hostinger تسحب بعد الدفع بلحظات. الفحص فورًا بعد
+      # الدفع يقيس النسخة السابقة ويعطي فشلًا كاذبًا.
+      - name: مهلة قبل الفحص
+        if: github.event_name == 'push'
+        run: sleep 90
+
+      - name: فحص الموقع والمدونة
+        run: bash tests/live-check.sh https://datarecovery-sa.com
+
+      - name: ملخّص
+        if: always()
+        run: |
+          {
+            printf '## فحص الموقع الحيّ\n\n'
+            if [ "${{ job.status }}" = "success" ]; then
+              printf 'الموقع والمدونة يستجيبان، والمصادر محجوبة، والترويسات في مكانها.\n'
+            else
+              printf '**فشل الفحص.** افتح السجل أعلاه: كل سطر يذكر المسار والنتيجة المتوقّعة والفعلية.\n\n'
+              printf 'الأسباب الشائعة، بالترتيب:\n'
+              printf -- '- المزامنة لم تسحب آخر دفعة بعد — أعد التشغيل بعد دقائق\n'
+              printf -- '- `.htaccess` لم يصل أو `AllowOverride` معطّل — تظهر كترويسات ناقصة ومصادر مكشوفة\n'
+              printf -- '- تغيير في إعدادات الاستضافة\n'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -43,7 +43,14 @@ echo
 echo "2. Pages that must load"
 for p in / /en/ /contact.html /privacy.html /404.html \
          /services/hdd.html /services/phones.html /services/memory-cards.html \
-         /cities/riyadh.html /blog/ /blog/what-is-raid.html; do
+         /cities/riyadh.html /cities/jeddah.html /cities/dammam.html \
+         /articles/ /en/articles/; do
+  check "$p" "$(code "$p")" 200
+done
+
+echo
+echo "2ب. المدونة — تُبنى بخط نشر منفصل، ففشلها هنا لا يعني عطلًا في الموقع"
+for p in /blog/ /blog/en/ /blog/categories/ /blog/sitemap.xml /blog/index.xml; do
   check "$p" "$(code "$p")" 200
 done
 
@@ -66,6 +73,9 @@ echo "4. Nothing private is readable"
 check "/.user.ini"    "$(code /.user.ini)" 404
 check "/.htaccess"    "$(code /.htaccess)" 404
 check "/build/site.js" "$(code /build/site.js)" 404
+check "/tests/live-check.sh" "$(code /tests/live-check.sh)" 404
+check "/design/logo-source.svg" "$(code /design/logo-source.svg)" 404
+check "/README.md" "$(code /README.md)" 404
 check "/send.php (GET must be rejected)" "$(code /send.php)" 405
 
 echo

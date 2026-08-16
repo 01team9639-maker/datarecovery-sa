@@ -113,9 +113,12 @@ for p in / /en/ /contact.html /privacy.html /404.html \
 done
 
 echo "/blog/ is reserved for the separate Hugo blog — the keyword map must not touch it:"
-# A blog URL containing a service word must reach the blog, not a service page.
+# The blog now ships inside the deploy package, so its index must serve.
+expect "/blog/" 200
+# A missing blog URL containing a service word must fall to the blog's own 404 —
+# never a 301 into /services/. That redirect would silently swallow every typo
+# and broken link inside the blog.
 expect "/blog/what-is-raid/" 404
-expect "/blog/" 404
 
 echo "Unrelated junk falls through to the 404 page, not a soft redirect:"
 expect "/wp-admin/" 404
