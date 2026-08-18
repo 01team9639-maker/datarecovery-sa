@@ -304,39 +304,46 @@ function header(lang) {
   const menuLabel = lang === "ar" ? "القائمة" : "Menu";
   const closeLabel = lang === "ar" ? "إغلاق القائمة" : "Close menu";
   const brandLabel = lang === "ar" ? "من الصفر إلى الواحد — Zero 2 One Data Recovery" : "Zero 2 One Data Recovery";
-  const sectionLinks = `
-          <li><a href="${homeUrl(lang)}#services">${esc(t.nav.services)}</a></li>
-          <li><a href="${homeUrl(lang)}#process">${esc(t.nav.process)}</a></li>
-          <li><a href="${homeUrl(lang)}#about">${esc(t.nav.about)}</a></li>
-          <li><a href="${homeUrl(lang)}#faq">${esc(t.nav.faq)}</a></li>`;
-  const contactLink = `
-          <li><a href="${contactUrl(lang)}">${esc(t.nav.contact)}</a></li>`;
-  // The top bar drops the contact link at the client's request: the accent
-  // button sits directly beside it and goes to the same page, so the row
-  // offered two controls for one destination.
-  // The drawer keeps it. There the button lives in the drawer's footer,
-  // separated from the list by the city links, so it does not read as a
-  // duplicate of the row above it.
-  const links = sectionLinks;
-  // Drawer keeps an extra "Home" link back to the hero (side drawer only).
-  // data-home-link lets main.js scroll straight to the hero when we're already
+  const item = (href, label, attrs = "") => `
+          <li><a href="${href}"${attrs}>${esc(label)}</a></li>`;
+  // data-home-link lets main.js scroll straight to the hero when we are already
   // on the homepage, instead of triggering a full reload.
-  // The blog and city pages also hang off the drawer rather than the footer: the
-  // footer's quick-links row was removed by the client earlier, and these pages
-  // still need a real internal link on every page — a sitemap entry alone makes
-  // them crawlable but passes them no internal link equity.
-  // The blog replaced the articles page in the drawer at the client's request.
-  // Unlike articlesLink it is not conditional on posts.length: /blog/ is built
+  const homeItem = item(`${homeUrl(lang)}#hero`, t.nav.home, " data-home-link");
+  const aboutItem = item(`${homeUrl(lang)}#about`, t.nav.about);
+  const servicesItem = item(`${homeUrl(lang)}#services`, t.nav.services);
+  const processItem = item(`${homeUrl(lang)}#process`, t.nav.process);
+  const faqItem = item(`${homeUrl(lang)}#faq`, t.nav.faq);
+  const contactItem = item(contactUrl(lang), t.nav.contact);
+  // Not conditional on posts.length like the old articles link: /blog/ is built
   // by a separate pipeline this generator cannot see, so gating on local state
   // would drop the link whenever the two repositories are checked out apart.
-  const blogLink = `
-          <li><a href="${blogUrl(lang)}">${esc(t.blogLabel)}</a></li>`;
+  const blogItem = item(blogUrl(lang), t.blogLabel);
+
+  // Top bar. No contact link — the accent button beside it goes to the same
+  // page, so the row offered two controls for one destination. The blog sits
+  // exactly where it sits in the drawer, immediately before the FAQ, so both
+  // menus read in the same order.
+  const links = servicesItem + processItem + aboutItem + blogItem + faqItem;
+
+  // Drawer order is the client's, given on 2026-08-18:
+  //   home · about · services · blog · FAQ · contact · then the remainder.
+  // "How it works" was not named in that list, so it sits in the remainder,
+  // ahead of the city group. Say the word and it moves.
+  //
+  // The city pages hang off the drawer rather than the footer: the footer's
+  // quick-links row was removed by the client earlier, and these pages still
+  // need a real internal link on every page — a sitemap entry alone makes them
+  // crawlable but passes them no internal link equity.
+  //
+  // Cities render as a wrapped row of chips, not stacked rows: three short
+  // proper nouns down the full drawer width read as three sections rather than
+  // three siblings of one group, and cost three times the vertical space.
   const cityLinks = cities.length ? `
-          <li class="drawer__group">${esc(t.citiesLabel)}</li>` + cities
-    .map((c) => `
-          <li class="drawer__sub"><a href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a></li>`).join("") : "";
-  const drawerLinks = `
-          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + sectionLinks + contactLink + blogLink + cityLinks;
+          <li class="drawer__group">${esc(t.citiesLabel)}</li>
+          <li class="drawer__cities">` + cities
+    .map((c) => `<a class="drawer__city" href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a>`).join("") + `</li>` : "";
+  const drawerLinks = homeItem + aboutItem + servicesItem + blogItem
+    + faqItem + contactItem + processItem + cityLinks;
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
@@ -365,7 +372,6 @@ function header(lang) {
     </nav>
     <div class="drawer__foot">
       <a class="lang-switch" href="__LANGSWITCH__" hreflang="${o}" lang="${o}">${esc(t.other)}</a>
-      <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.evalBtn)}</a>
     </div>
   </aside>${whatsappFab(lang)}`;
 }

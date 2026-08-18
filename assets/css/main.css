@@ -1465,7 +1465,22 @@ body.drawer-open { overflow: hidden; }
   font-size: var(--fs-label); font-weight: 650; letter-spacing: 0.1em;
   color: var(--accent);
 }
-.drawer__sub a { font-size: 1rem; font-weight: 500; padding: 11px 0; }
+/* المدن صفٌّ من الأزرار لا قائمة رأسية: ثلاثة أسماء قصيرة، كلٌّ في سطر
+   بعرض الدرج، تُقرأ كثلاثة أقسام لا كثلاثة أشقّاء تحت عنوان واحد — وتكلّف
+   ثلاثة أضعاف المساحة الرأسية. و`wrap` لأن الأسماء تطول بالإنجليزية وقد
+   تُضاف مدن لاحقًا. */
+.drawer__cities { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0 0; }
+.drawer__city {
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  font-size: 0.9375rem; font-weight: 500;
+  white-space: nowrap;
+  transition: border-color .25s var(--ease), background-color .25s var(--ease), color .25s var(--ease);
+}
+.drawer__city:hover, .drawer__city:focus-visible {
+  border-color: var(--accent); background: var(--accent); color: var(--bg-dark);
+}
 
 /* ---- 404 --------------------------------------------------------------- */
 .nf { padding-bottom: clamp(56px, 7vw, 96px); }
