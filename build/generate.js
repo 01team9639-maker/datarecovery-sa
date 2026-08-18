@@ -100,6 +100,10 @@ const absContact = (lang) => BASE + contactUrl(lang);
 const absPrivacy = (lang) => BASE + privacyUrl(lang);
 const cityUrl = (lang, slug) => `${langPrefix(lang)}/cities/${slug}.html`;
 const articlesUrl = (lang) => `${langPrefix(lang)}/articles/`;
+/* The Hugo blog owns /blog/ and nests English at /blog/en/ — not /en/blog/,
+   which would need a deploy scope touching the domain root. It therefore does
+   not go through langPrefix() like every other section here. */
+const blogUrl = (lang) => (lang === "en" ? "/blog/en/" : "/blog/");
 const postUrl = (lang, slug) => `${langPrefix(lang)}/articles/${slug}.html`;
 const absCity = (lang, slug) => BASE + cityUrl(lang, slug);
 const absArticles = (lang) => BASE + articlesUrl(lang);
@@ -313,14 +317,18 @@ function header(lang) {
   // footer's quick-links row was removed by the client earlier, and these pages
   // still need a real internal link on every page — a sitemap entry alone makes
   // them crawlable but passes them no internal link equity.
-  const articlesLink = posts.length ? `
-          <li><a href="${articlesUrl(lang)}">${esc(t.articlesLabel)}</a></li>` : "";
+  // The blog replaced the articles page in the drawer at the client's request.
+  // Unlike articlesLink it is not conditional on posts.length: /blog/ is built
+  // by a separate pipeline this generator cannot see, so gating on local state
+  // would drop the link whenever the two repositories are checked out apart.
+  const blogLink = `
+          <li><a href="${blogUrl(lang)}">${esc(t.blogLabel)}</a></li>`;
   const cityLinks = cities.length ? `
           <li class="drawer__group">${esc(t.citiesLabel)}</li>` + cities
     .map((c) => `
           <li class="drawer__sub"><a href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a></li>`).join("") : "";
   const drawerLinks = `
-          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links + articlesLink + cityLinks;
+          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links + blogLink + cityLinks;
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">

@@ -97,9 +97,18 @@ function build() {
   // main.js itself depends on neither `.js` nor GSAP; it drives the drawer,
   // the floating burger and the footer's local-time clock, so the chrome stays
   // fully interactive.
+  //
+  // analytics.js ships too, and from the site's own file rather than a Hugo
+  // partial. The blog previously wrote its own inline <script>, which the
+  // domain-wide CSP (`script-src 'self' https://www.googletagmanager.com`,
+  // no 'unsafe-inline') silently blocked — so the blog measured nothing at
+  // all from launch. A same-origin file passes the policy, and sharing the
+  // site's copy means one GTM container, one loading strategy, and no chance
+  // of the two halves counting differently.
   const scripts = [
     `<script src="${BASE}${asset("assets/js/main.js")}" defer></script>`,
-  ].join("\n");
+    config.gtm ? `<script src="${BASE}${asset("assets/js/analytics.js")}" async></script>` : "",
+  ].filter(Boolean).join("\n");
   write("../site-scripts.html", scripts);
 
   // A manifest the blog's drift check reads: if the site's chrome changes and
