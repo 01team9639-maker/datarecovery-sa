@@ -304,12 +304,20 @@ function header(lang) {
   const menuLabel = lang === "ar" ? "القائمة" : "Menu";
   const closeLabel = lang === "ar" ? "إغلاق القائمة" : "Close menu";
   const brandLabel = lang === "ar" ? "من الصفر إلى الواحد — Zero 2 One Data Recovery" : "Zero 2 One Data Recovery";
-  const links = `
+  const sectionLinks = `
           <li><a href="${homeUrl(lang)}#services">${esc(t.nav.services)}</a></li>
           <li><a href="${homeUrl(lang)}#process">${esc(t.nav.process)}</a></li>
           <li><a href="${homeUrl(lang)}#about">${esc(t.nav.about)}</a></li>
-          <li><a href="${homeUrl(lang)}#faq">${esc(t.nav.faq)}</a></li>
+          <li><a href="${homeUrl(lang)}#faq">${esc(t.nav.faq)}</a></li>`;
+  const contactLink = `
           <li><a href="${contactUrl(lang)}">${esc(t.nav.contact)}</a></li>`;
+  // The top bar drops the contact link at the client's request: the accent
+  // button sits directly beside it and goes to the same page, so the row
+  // offered two controls for one destination.
+  // The drawer keeps it. There the button lives in the drawer's footer,
+  // separated from the list by the city links, so it does not read as a
+  // duplicate of the row above it.
+  const links = sectionLinks;
   // Drawer keeps an extra "Home" link back to the hero (side drawer only).
   // data-home-link lets main.js scroll straight to the hero when we're already
   // on the homepage, instead of triggering a full reload.
@@ -328,7 +336,7 @@ function header(lang) {
     .map((c) => `
           <li class="drawer__sub"><a href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a></li>`).join("") : "";
   const drawerLinks = `
-          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + links + blogLink + cityLinks;
+          <li><a href="${homeUrl(lang)}#hero" data-home-link>${esc(t.nav.home)}</a></li>` + sectionLinks + contactLink + blogLink + cityLinks;
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
