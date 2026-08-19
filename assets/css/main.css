@@ -279,7 +279,7 @@ body.past-hero .site-header { transform: translateY(-100%); opacity: 0; pointer-
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.28);
   opacity: 0; visibility: hidden;
   transition: opacity .3s var(--ease), visibility .3s var(--ease),
-              background-color .35s var(--ease), color .35s var(--ease);
+              background-color .35s var(--ease), color .35s var(--ease), transform .4s var(--ease);
 }
 body.past-hero .menu-fab { opacity: 1; visibility: visible; }
 /* Auto-contrast: light fab over dark bg, dark fab over light/accent bg */

@@ -188,7 +188,10 @@
 
   /* ---- Burger auto-contrast: invert against the section behind it ---- */
   var bands = [];
-  function collectBands() { bands = Array.prototype.slice.call(document.querySelectorAll("main > section, footer.footer")); }
+  function collectBands() { // .blog-body is the blog's single content band. Without it the loop found
+    // no band there and fell through to the "dark" default — right by luck,
+    // not by rule. Naming it makes the same answer deliberate.
+    bands = Array.prototype.slice.call(document.querySelectorAll("main > section, .blog-body, footer.footer")); }
   function bandTheme(el) {
     if (el.classList.contains("section--light")) return "light";
     if (el.classList.contains("section--accent")) return "accent";
@@ -218,6 +221,35 @@
       requestAnimationFrame(function () { updateFab(); ticking = false; });
     }, { passive: true });
     window.addEventListener("resize", function () { collectBands(); updateFab(); });
+  }
+
+  /* ---- Magnetic floating burger (pointer devices only) ----
+     This used to live in anim.js and lean on GSAP's quickTo. anim.js and GSAP
+     are deliberately not shipped to the blog — 115 KB for animation the blog
+     does not have — so the burger there sat inert while the same button on the
+     site followed the cursor. It is part of the shared chrome, so its behaviour
+     belongs in the shared file.
+     No GSAP needed: each mousemove sets a new transform target and the CSS
+     transition on .menu-fab eases toward it, which is what quickTo was doing.
+     rAF-coalesced so a burst of mousemove events costs one style write. */
+  if (fab && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var mx = 0, my = 0, magnetQueued = false;
+    function applyMagnet() {
+      magnetQueued = false;
+      fab.style.transform = mx || my ? "translate(" + mx + "px, " + my + "px)" : "";
+    }
+    function queueMagnet() {
+      if (magnetQueued) return;
+      magnetQueued = true;
+      requestAnimationFrame(applyMagnet);
+    }
+    fab.addEventListener("mousemove", function (e) {
+      var r = fab.getBoundingClientRect();
+      mx = (e.clientX - r.left - r.width / 2) * 0.3;
+      my = (e.clientY - r.top - r.height / 2) * 0.4;
+      queueMagnet();
+    });
+    fab.addEventListener("mouseleave", function () { mx = my = 0; queueMagnet(); });
   }
 
   /* Header shadow only matters while it's visible (inside the hero) */

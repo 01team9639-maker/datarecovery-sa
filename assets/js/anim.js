@@ -83,9 +83,12 @@
     });
   });
 
-  /* ---- Magnetic primary buttons + floating burger (pointer devices only) ---- */
+  /* ---- Magnetic primary buttons (pointer devices only) ----
+     .menu-fab is handled in main.js instead: it is chrome, shared with the
+     blog, and the blog does not load GSAP. Keeping it here as well would mean
+     two implementations fighting over the same transform on site pages. ---- */
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    g.utils.toArray(".btn--accent, .btn--dark, .menu-fab").forEach(function (btn) {
+    g.utils.toArray(".btn--accent, .btn--dark").forEach(function (btn) {
       var xTo = g.quickTo(btn, "x", { duration: 0.4, ease: "power3.out" });
       var yTo = g.quickTo(btn, "y", { duration: 0.4, ease: "power3.out" });
       btn.addEventListener("mousemove", function (e) {
