@@ -387,6 +387,27 @@ function footer(lang, minimal) {
           </a></li>`)
     .join("\n          ");
 
+  /* روابط سريعة. حُذف هذا الصف سابقًا بطلب العميل، وأعاد طلبه في 2026-08-19
+     — هذه المرة أزرارًا بنمط صفّ التواصل الذي فوقه مباشرة، فيقرأ الاثنان
+     كعائلة واحدة. والترتيب يتبع الدرج فلا تتناقض قائمتان.
+
+     و/articles/ هنا ولا مكان آخر: رابط الدرج استُبدل بالمدونة، فبقيت تلك
+     الصفحات موصولة ببعضها وبخريطة الموقع وحدها — تُزحف ولا يصلها وزن رابط
+     داخلي واحد. */
+  const quickLinks = [
+    [`${homeUrl(lang)}#hero`, t.nav.home],
+    [`${homeUrl(lang)}#about`, t.nav.about],
+    [`${homeUrl(lang)}#services`, t.nav.services],
+    [blogUrl(lang), t.blogLabel],
+    [`${homeUrl(lang)}#faq`, t.nav.faq],
+    [contactUrl(lang), t.nav.contact],
+    [`${homeUrl(lang)}#process`, t.nav.process],
+    [articlesUrl(lang), t.articlesLabel],
+    ...cities.map((c) => [cityUrl(lang, c.slug), c[lang].city]),
+  ]
+    .map(([href, label]) => `<li><a class="footer-pill" href="${href}">${esc(label)}</a></li>`)
+    .join("\n          ");
+
   const metaBlocks = `
         <div class="footer__meta">
           <div class="footer__meta-block">
@@ -445,6 +466,13 @@ function footer(lang, minimal) {
           <span class="footer-pill__ic">${icons.email}</span><span dir="ltr">${esc(config.email)}</span>
         </a>
       </div>
+
+      <nav class="footer__quick" aria-label="${esc(f.quick)}">
+        <h3 class="footer__col-title">${esc(f.quick)}</h3>
+        <ul>
+          ${quickLinks}
+        </ul>
+      </nav>
 
       <div class="footer__divider footer__divider--thin" role="presentation"></div>
 

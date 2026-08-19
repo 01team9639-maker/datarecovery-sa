@@ -158,14 +158,32 @@
   var fab = toggle && toggle.classList.contains("menu-fab") ? toggle : null;
   var pastHero = false;
 
+  function setPastHero(next) {
+    if (next === pastHero) return;
+    pastHero = next;
+    document.body.classList.toggle("past-hero", pastHero);
+    if (!pastHero && toggle && toggle.getAttribute("aria-expanded") === "true") setNav(false);
+    updateFab();
+  }
+
   var hero = document.querySelector(".hero");
   if (hero && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
-      pastHero = !entries[0].isIntersecting;
-      document.body.classList.toggle("past-hero", pastHero);
-      if (!pastHero && toggle && toggle.getAttribute("aria-expanded") === "true") setNav(false);
-      updateFab();
+      setPastHero(!entries[0].isIntersecting);
     }, { rootMargin: "-72px 0px 0px 0px", threshold: 0 }).observe(hero);
+  } else {
+    /* Blog pages have no .hero. Without this branch the state never flipped:
+       the header stayed up forever and the burger never appeared, leaving the
+       drawer with no key on desktop. Forcing the burger visible in CSS fixed
+       the symptom and broke the rule — header and burger are alternatives,
+       never siblings, and the blog was showing both stacked.
+       A scroll threshold reproduces exactly what the observer gives on the
+       site: the full header at the top of the page, the burger once you have
+       moved past it. One component, one behaviour, everywhere. */
+    var swapAt = 120;
+    var onScroll = function () { setPastHero(window.scrollY > swapAt); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
 
   /* ---- Burger auto-contrast: invert against the section behind it ---- */
