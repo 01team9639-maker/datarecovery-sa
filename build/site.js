@@ -241,14 +241,20 @@ const home = {
       note: "نختار المسار بعد التشخيص، لا قبلَه.",
       footTag: "التشخيص أولًا",
       footText: "نعرف ما الذي سنفعله، وما المتوقع، قبل اعتماد الاستعادة.",
-      rows: [
-        { t: "هجمات الفدية وقواعد البيانات", d: "عزل الحالة، تحليل الضرر، وتقييم خيارات الاستعادة الآمنة.", tags: "SQL · Ransomware", link: "ransomware" },
-        { t: "الأقراص الصلبة وSSD", d: "استعادة من الأعطال الميكانيكية، الإلكترونية والمنطقية.", tags: "HDD · SSD · NVMe", link: "hdd" },
-        { t: "RAID والسيرفرات", d: "تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.", tags: "RAID · NAS · SAN", link: "raid-servers" },
-        { t: "الهواتف والأجهزة الذكية", d: "استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.", tags: "iOS · Android", link: "phones" },
-        { t: "بطاقات الذاكرة والفلاش", d: "حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.", tags: "SD · USB", link: "memory-cards" },
-        { t: "أنظمة المراقبة", d: "استعادة تسجيلات DVR وNVR المحذوفة أو المتضررة.", tags: "DVR · NVR", link: "cctv" }
-      ]
+      // مفاتيحه أسلاك الخدمات، ويعرضها المولّد بترتيب config.serviceOrder.
+      // كانت مصفوفةً مكتوبة يدويًّا بستة صفوف مقابل ثماني صفحات، فبقيت
+      // ssd-nvme و after-format بلا رابط واحد من الصفحة الرئيسية. والمولّد
+      // الآن يتوقّف إن نقص صفٌّ لأي سلك، فلا يتكرّر الانحراف صامتًا.
+      rows: {
+        ransomware: { t: "هجمات الفدية وقواعد البيانات", d: "عزل الحالة، تحليل الضرر، وتقييم خيارات الاستعادة الآمنة.", tags: "SQL · Ransomware" },
+        hdd: { t: "الأقراص الصلبة", d: "استعادة من الأعطال الميكانيكية، الإلكترونية والمنطقية.", tags: "HDD" },
+        "ssd-nvme": { t: "أقراص SSD وNVMe", d: "تعامل متخصص مع مشاكل الـFirmware ووحدات التحكم.", tags: "SSD · NVMe · M.2" },
+        "raid-servers": { t: "RAID والسيرفرات", d: "تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.", tags: "RAID · NAS · SAN" },
+        cctv: { t: "أنظمة المراقبة", d: "استعادة تسجيلات DVR وNVR المحذوفة أو المتضررة.", tags: "DVR · NVR" },
+        "after-format": { t: "بعد الفورمات والحذف", d: "استرجاع الملفات المحذوفة قبل أن تُستبدل البيانات.", tags: "Format · Delete" },
+        phones: { t: "الهواتف والأجهزة الذكية", d: "استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.", tags: "iOS · Android" },
+        "memory-cards": { t: "بطاقات الذاكرة والفلاش", d: "حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.", tags: "SD · USB" }
+      }
     },
     process: {
       eyebrow: "مسار واضح من البداية",
@@ -332,14 +338,16 @@ const home = {
       note: "We choose the path after diagnosis, not before it.",
       footTag: "Diagnosis first",
       footText: "We know what we'll do, and what to expect, before committing to recovery.",
-      rows: [
-        { t: "Ransomware & databases", d: "Isolating the case, analysing damage, and assessing safe recovery options.", tags: "SQL · Ransomware", link: "ransomware" },
-        { t: "Hard drives & SSD", d: "Recovery from mechanical, electronic and logical faults.", tags: "HDD · SSD · NVMe", link: "hdd" },
-        { t: "RAID & servers", d: "Analysing the array and its structure before any rebuild or write.", tags: "RAID · NAS · SAN", link: "raid-servers" },
-        { t: "Phones & smart devices", d: "Recovery based on memory type, system and damage nature.", tags: "iOS · Android", link: "phones" },
-        { t: "Memory cards & flash", d: "Deletion, formatting and logical or electrical damage cases.", tags: "SD · USB", link: "memory-cards" },
-        { t: "Surveillance systems", d: "Recovering deleted or damaged DVR and NVR footage.", tags: "DVR · NVR", link: "cctv" }
-      ]
+      rows: {
+        ransomware: { t: "Ransomware & databases", d: "Isolating the case, analysing damage, and assessing safe recovery options.", tags: "SQL · Ransomware" },
+        hdd: { t: "Hard drives", d: "Recovery from mechanical, electronic and logical faults.", tags: "HDD" },
+        "ssd-nvme": { t: "SSD & NVMe drives", d: "Specialised handling of firmware and controller issues.", tags: "SSD · NVMe · M.2" },
+        "raid-servers": { t: "RAID & servers", d: "Analysing the array and its structure before any rebuild or write.", tags: "RAID · NAS · SAN" },
+        cctv: { t: "Surveillance systems", d: "Recovering deleted or damaged DVR and NVR footage.", tags: "DVR · NVR" },
+        "after-format": { t: "After formatting & deletion", d: "Retrieving deleted files before the data is overwritten.", tags: "Format · Delete" },
+        phones: { t: "Phones & smart devices", d: "Recovery based on memory type, system and damage nature.", tags: "iOS · Android" },
+        "memory-cards": { t: "Memory cards & flash", d: "Deletion, formatting and logical or electrical damage cases.", tags: "SD · USB" }
+      }
     },
     process: {
       eyebrow: "A clear path from the start",

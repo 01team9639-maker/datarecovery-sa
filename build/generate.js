@@ -654,7 +654,7 @@ function homePage(lang) {
       <div class="container">
         ${sectionHead(h.services.eyebrow, "services-title", h.services.title, h.services.noteStrong, h.services.note)}
         <ul class="services">
-          ${h.services.rows.map((r, i) => serviceRow(lang, r, i)).join("\n          ")}
+          ${serviceRows(lang, h.services.rows)}
         </ul>
         <div class="services-foot">
           <span class="services-foot__tag">${esc(h.services.footTag)}</span>
@@ -2004,6 +2004,32 @@ function faqRow(f, i) {
               <div class="faq-row__a" id="${aId}" role="region" aria-labelledby="${qId}"><p>${esc(f.a)}</p></div>
             </div>`;
 }
+/* The homepage list is rendered from config.serviceOrder, not from the object's
+   key order, so it can never disagree with the service pages about sequence.
+   Both directions throw, and that is the point: the previous hand-written array
+   carried six rows for eight pages, so ssd-nvme.html and after-format.html sat
+   on the site with no link from the homepage at all — no error, no output, two
+   pages reachable only from the sitemap and the drawer. A row pointing at a
+   slug with no page is the same defect facing the other way: a 404 in the most
+   prominent list on the site. */
+function serviceRows(lang, rows) {
+  const slugs = new Set(services.map((service) => service.slug));
+  const missing = config.serviceOrder.filter((slug) => !rows[slug]);
+  const dangling = Object.keys(rows).filter((slug) => !slugs.has(slug));
+  if (missing.length || dangling.length) {
+    throw new Error(
+      [
+        missing.length && `Homepage rows missing for: ${missing.join(", ")}. ` +
+          "Add each to home.<lang>.services.rows in build/site.js, or drop it from config.serviceOrder.",
+        dangling.length && `Homepage rows point at slugs with no service page: ${dangling.join(", ")}.`,
+      ].filter(Boolean).join("\n")
+    );
+  }
+  return config.serviceOrder
+    .map((slug, i) => serviceRow(lang, Object.assign({}, rows[slug], { link: slug }), i))
+    .join("\n          ");
+}
+
 function serviceRow(lang, r, i) {
   const href = r.link ? svcUrl(lang, r.link) : "#contact";
   return `<li class="service">
