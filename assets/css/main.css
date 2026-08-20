@@ -1560,3 +1560,27 @@ body.drawer-open { overflow: hidden; }
    السطر الأطول من ~90 محرفًا يُتعب العين ويجعل الرجوع لأول السطر تخمينًا. */
 .prose-block { max-width: 74ch; display: grid; gap: 1.1em; }
 .prose-block__p { margin: 0; line-height: 1.7; }
+
+/* ---- Illustrative case cards and pages ---------------------------------- */
+.case-card__sector {
+  font-size: var(--fs-label); font-weight: 650; letter-spacing: .08em;
+  color: var(--accent); margin: 0 0 10px;
+}
+.case-card__link { text-decoration: none; }
+/* الرابط يغطّي البطاقة كلها: هدف لمس أكبر بكثير من سطر العنوان وحده،
+   والاسم يبقى على <a> فيُقرأ صحيحًا في قائمة روابط قارئ الشاشة. */
+.case-card__link::after { content: ""; position: absolute; inset: 0; }
+.cases--linked .case-card { position: relative; transition: border-color .25s var(--ease); }
+.cases--linked .case-card:hover, .cases--linked .case-card:focus-within { border-color: var(--accent); }
+.case-card__result {
+  margin: auto 0 0; padding-top: 14px;
+  font-weight: 500; opacity: .85;
+}
+.case-out__h { font-size: clamp(1.05rem, 1.4vw, 1.3rem); font-weight: 650; margin: 0 0 14px; }
+.case-out__h--gap { margin-top: clamp(28px, 3vw, 40px); }
+.case-out__note { margin-top: clamp(28px, 3vw, 40px); }
+
+/* مصادر رسمية. تُفتح في تبويب جديد لأن القارئ هنا في منتصف قرار،
+   وإخراجه من الصفحة إلى مرجع حكومي يعني غالبًا ألّا يعود. */
+.source-list { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 8px; }
+.source-list a { font-weight: 500; }

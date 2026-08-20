@@ -12,6 +12,7 @@ const path = require("path");
 const crypto = require("crypto");
 const services = require("./services");
 const depth = require("./depth");
+const ransomwareCases = require("./ransomware-cases");
 // Display order lives in site.js next to the content, not in the data files, so
 // reordering a nav never means editing a content module. Anything not named in
 // the order list sorts to the end rather than silently jumping to the front.
@@ -104,6 +105,11 @@ const articlesUrl = (lang) => `${langPrefix(lang)}/articles/`;
    which would need a deploy scope touching the domain root. It therefore does
    not go through langPrefix() like every other section here. */
 const blogUrl = (lang) => (lang === "en" ? "/blog/en/" : "/blog/");
+/* Illustrative case pages hang off the service they belong to, so the URL says
+   what they are before the page loads, and a future service can add its own set
+   without a second top-level directory. */
+const caseUrl = (lang, slug) => `${langPrefix(lang)}/services/ransomware/cases/${slug}.html`;
+const absCase = (lang, slug) => BASE + caseUrl(lang, slug);
 const postUrl = (lang, slug) => `${langPrefix(lang)}/articles/${slug}.html`;
 const absCity = (lang, slug) => BASE + cityUrl(lang, slug);
 const absArticles = (lang) => BASE + articlesUrl(lang);
@@ -951,8 +957,29 @@ function expansionBlocks(lang, blocks, startLight = true) {
       body = `<ul class="checklist${mod}">
             ${b.items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
           </ul>`;
+    } else if (b.kind === "cases") {
+      /* Reads build/ransomware-cases.js directly rather than repeating the
+         titles here. Two lists of the same six cases drift, and the drift shows
+         up as a card promising one outcome and a page describing another. */
+      body = `<ul class="cases cases--linked">
+            ${ransomwareCases.map((c, n) => {
+              const cd = c[lang];
+              return `<li class="case-card">
+              <span class="case-card__num" dir="ltr">${pad(n + 1)}</span>
+              <p class="case-card__sector">${esc(cd.sector)}</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="${caseUrl(lang, c.slug)}">${esc(cd.cardTitle)}</a></h3>
+              <p class="case-card__text">${esc(cd.cardBody)}</p>
+              <p class="case-card__result">${esc(cd.cardResult)}</p>
+            </li>`;
+            }).join("\n            ")}
+          </ul>`;
     } else if (b.kind === "prose") {
       body = b.paras.map((x) => `<p class="prose-block__p">${esc(x)}</p>`).join("\n          ");
+      if (b.links) {
+        body += `\n          <ul class="source-list">
+            ${b.links.map((l) => `<li><a href="${l.href}" target="_blank" rel="noopener">${esc(l.t)}</a></li>`).join("\n            ")}
+          </ul>`;
+      }
       body = `<div class="prose-block">${body}</div>`;
     } else {
       throw new Error(`Unknown expansion block kind: ${b.kind}`);
@@ -1025,6 +1052,111 @@ function serviceDepth(lang, slug) {
         </aside>
       </div>
     </section>`;
+}
+
+/* An illustrative case page. Every one of them says so — in the eyebrow, in the
+   card that links here, and in the meta description — because the value of these
+   pages depends on the reader knowing exactly what they are reading.
+   The `notRecovered` block is not a disclaimer bolted on the end; it is the
+   reason the page is worth publishing at all. */
+function ransomwareCasePage(lang, c) {
+  const t = ui[lang];
+  const d = c[lang];
+  const svc = services.find((x) => x.slug === "ransomware");
+  const crumbs = jsonLd({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+      { "@type": "ListItem", position: 2, name: svc[lang].title, item: absSvc(lang, "ransomware") },
+      { "@type": "ListItem", position: 3, name: d.title, item: absCase(lang, c.slug) },
+    ],
+  });
+  const list = (items, cls) => `<ul class="checklist${cls}">
+            ${items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
+          </ul>`;
+
+  return docStart({
+    lang, title: d.metaTitle, desc: d.metaDesc, canonical: absCase(lang, c.slug),
+    altAr: absCase("ar", c.slug), altEn: absCase("en", c.slug), schemas: [crumbs],
+  }) + header(lang) + `
+  <main class="main inner-page" id="main">
+    <section class="hero svc-hero section--dark" aria-labelledby="case-title">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+          <a href="${svcUrl(lang, "ransomware")}">${esc(shortName(lang, svc))}</a>
+        </nav>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="svc-hook">${esc(d.hook)}</p>
+          <h1 class="hero__title" id="case-title">${esc(d.title)}</h1>
+          <p class="hero__lead">${esc(d.lead)}</p>
+          <div class="hero__actions">
+            <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="case-sys">
+      <div class="container">
+        ${sectionHead(d.sector, "case-sys", d.systemsTitle, "", "")}
+        ${list(d.systems, "")}
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="case-tried">
+      <div class="container">
+        <h2 class="section-title" id="case-tried">${esc(d.triedTitle)}</h2>
+        ${list(d.tried, " checklist--avoid")}
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="case-path">
+      <div class="container">
+        <h2 class="section-title" id="case-path">${esc(d.pathTitle)}</h2>
+        <ol class="how">
+          ${d.path.map((x, i) => `<li class="how__step"><span class="how__n" dir="ltr">${pad(i + 1)}</span><div><h3 class="how__t">${esc(x.t)}</h3><p class="how__b">${esc(x.b)}</p></div></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="case-out">
+      <div class="container">
+        <h2 class="section-title" id="case-out">${esc(d.outcomeTitle)}</h2>
+        <h3 class="case-out__h">${esc(d.recoveredLabel)}</h3>
+        ${list(d.recovered, "")}
+        <h3 class="case-out__h case-out__h--gap">${esc(d.notRecoveredLabel)}</h3>
+        ${list(d.notRecovered, " checklist--avoid")}
+        <aside class="warn-box case-out__note">
+          <p class="warn-box__label">${esc(t.caseResultLabel)}</p>
+          <p class="warn-box__body">${esc(d.outcomeNote)}</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="case-prev">
+      <div class="container">
+        <h2 class="section-title" id="case-prev">${esc(d.preventTitle)}</h2>
+        ${list(d.prevent, "")}
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="casecta-title">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <p class="svc-cta__label">${esc(t.dangerLabel === "Do not do this" ? "Next step" : "الخطوة التالية")}</p>
+          <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="casecta-title">${esc(svc[lang].ctaHook)}</h2>
+          <p class="svc-cta__body">${esc(svc[lang].ctaBody)}</p>
+        </div>
+      </div>
+    </section>
+  </main>` + footer(lang, true) + docEnd();
 }
 
 function servicePage(lang, s) {
@@ -2578,6 +2710,11 @@ function build() {
     for (const s of services) {
       write(outPath(lang, `services/${s.slug}.html`), injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
     }
+    // illustrative ransomware cases
+    for (const c of ransomwareCases) {
+      write(outPath(lang, `services/ransomware/cases/${c.slug}.html`),
+        injectLangSwitch(ransomwareCasePage(lang, c), caseUrl(other, c.slug)));
+    }
     // city landing pages
     for (const c of cities) {
       write(outPath(lang, `cities/${c.slug}.html`), injectLangSwitch(cityPage(lang, c), cityUrl(other, c.slug)));
@@ -2680,6 +2817,7 @@ function sitemap() {
   add((l) => absContact(l));
   add((l) => absPrivacy(l));
   for (const s of services) add((l) => absSvc(l, s.slug));
+  for (const c of ransomwareCases) add((l) => absCase(l, c.slug));
   for (const c of cities) add((l) => absCity(l, c.slug));
   // The 404 page is deliberately absent: it is noindex, and listing a noindex
   // URL in the sitemap is a contradictory signal Search Console reports as an error.

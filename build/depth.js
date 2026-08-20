@@ -572,6 +572,12 @@ module.exports = {
               { t: "تهديد بتسريب البيانات", b: "وصلت رسالة تدّعي سرقة بيانات أو تهدّد بنشرها، سواء حدث تشفير للملفات أو لا." }
             ]
           },
+      {
+        kind: "cases",
+        eyebrow: "حالة نموذجية تشرح المسار",
+        title: "ستّ حالات نموذجية من أكثر القطاعات تعرّضًا",
+        lead: "القطاعات مأخوذة من بحث التهديدات السعودي: الإنشاءات، التصنيع، التقنية، التجزئة، الصحة، والنقل. وكل حالة تشرح ما فُحص، وما استُعيد، وما لم يُستعد."
+      },
           {
             kind: "prose",
             eyebrow: "تعريف قبل أي إجراء",
@@ -732,6 +738,26 @@ module.exports = {
               b: "الالتزامات تختلف حسب الجهة والأطراف والأنظمة المطبّقة. حدّد ما ينطبق على حالتك مع مسؤول الأمن السيبراني والمستشار القانوني والجهات المختصة."
             }
           },
+      {
+        kind: "prose",
+        eyebrow: "التزامات قد تسري في السعودية",
+        title: "الاستعادة مسار، والإشعار النظامي مسار آخر يبدأ مبكرًا",
+        paras: [
+          "إن تضمّن الحادث بيانات شخصية، فقد تسري مهلة إشعار تبدأ من وقت العلم بالحادثة لا من انتهاء التحليل الفنّي — تنشر منصة حوكمة البيانات الوطنية مهلة لا تتجاوز 72 ساعة وشروط الإشعار. ولهذا يبدأ تقييم الالتزام بالتوازي مع العمل التقني لا بعده.",
+          "وضوابط الهيئة الوطنية للأمن السيبراني تتناول النسخ الاحتياطية وإدارة الحوادث واستمرارية الأعمال والأطراف الخارجية — وهي المواضع نفسها التي تحسم نتيجة حادث فدية قبل وقوعه."
+        ],
+        links: [
+          { t: "سدايا — إشعار تسرّب البيانات الشخصية", href: "https://dgp.sdaia.gov.sa/wps/portal/pdp/services/personaldatabreachnotification/" },
+          { t: "الهيئة الوطنية للأمن السيبراني — الضوابط الأساسية ECC-2:2024", href: "https://cdn.nca.gov.sa/api/files/public/upload/da829b21-c4ef-4a6e-9f6e-82690d612ee9_ECC-2-2024-.pdf" },
+          { t: "الهيئة الوطنية للأمن السيبراني — ضوابط الأنظمة التشغيلية OTCC-1:2022", href: "https://cdn.nca.gov.sa/ar/otcc_ar.pdf" },
+          { t: "CISA — StopRansomware Guide", href: "https://www.cisa.gov/resources-tools/resources/stopransomware-guide" }
+        ],
+        warn: {
+          label: "حدود هذه الصفحة",
+          t: "إشارة إلى مصادر رسمية، لا مشورة قانونية",
+          b: "تختلف الالتزامات حسب نوع الجهة والبيانات والعقود. راجع ما ينطبق على حالتك مع مسؤول الأمن السيبراني والمستشار القانوني والجهات المختصة."
+        }
+      },
           {
             kind: "list",
             eyebrow: "بعد الاستعادة",
@@ -826,6 +852,12 @@ module.exports = {
               { t: "Threat to leak data", b: "A message arrived claiming data was stolen or threatening to publish it, whether or not files were encrypted." }
             ]
           },
+      {
+        kind: "cases",
+        eyebrow: "An illustrative case explaining the route",
+        title: "Six illustrative cases from the most targeted sectors",
+        lead: "The sectors come from the Saudi threat research: construction, manufacturing, technology, retail, health and logistics. Each case sets out what was examined, what came back, and what did not."
+      },
           {
             kind: "prose",
             eyebrow: "Definition before action",
@@ -986,6 +1018,26 @@ module.exports = {
               b: "Obligations differ by organisation, the parties involved, and the regulations that apply. Establish what applies to your case with your cyber security lead, legal counsel, and the relevant authorities."
             }
           },
+      {
+        kind: "prose",
+        eyebrow: "Obligations that may apply in Saudi Arabia",
+        title: "Recovery is one track; regulatory notification is another that starts early",
+        paras: [
+          "If the incident touched personal data, a notification period may run from the moment you become aware of it rather than from the end of the technical analysis — the National Data Governance Platform publishes a period of no more than 72 hours along with the notification conditions. That is why assessing the obligation runs alongside the technical work rather than after it.",
+          "The National Cybersecurity Authority's controls cover backups, incident management, business continuity and third parties — the same places that decide the outcome of a ransomware incident before it happens."
+        ],
+        links: [
+          { t: "SDAIA — Personal data breach notification", href: "https://dgp.sdaia.gov.sa/wps/portal/pdp/services/personaldatabreachnotification/" },
+          { t: "National Cybersecurity Authority — Essential Controls ECC-2:2024", href: "https://cdn.nca.gov.sa/api/files/public/upload/da829b21-c4ef-4a6e-9f6e-82690d612ee9_ECC-2-2024-.pdf" },
+          { t: "National Cybersecurity Authority — Operational Technology Controls OTCC-1:2022", href: "https://cdn.nca.gov.sa/ar/otcc_ar.pdf" },
+          { t: "CISA — StopRansomware Guide", href: "https://www.cisa.gov/resources-tools/resources/stopransomware-guide" }
+        ],
+        warn: {
+          label: "Limits of this page",
+          t: "A pointer to official sources, not legal advice",
+          b: "Obligations differ by organisation type, data and contracts. Review what applies to your case with your cyber security lead, legal counsel and the relevant authorities."
+        }
+      },
           {
             kind: "list",
             eyebrow: "After recovery",

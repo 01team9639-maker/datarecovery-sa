@@ -28,7 +28,7 @@
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
-  <link rel="stylesheet" href="/assets/css/main.css?v=7d9519c7">
+  <link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -249,8 +249,64 @@
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
+            <p class="eyebrow eyebrow--accent">An illustrative case explaining the route</p>
+            <h2 class="section-title" id="xb-2">Six illustrative cases from the most targeted sectors</h2>
+          </div>
+          <div class="section-head__note"><p class="note-strong">The sectors come from the Saudi threat research: construction, manufacturing, technology, retail, health and logistics. Each case sets out what was examined, what came back, and what did not.</p></div>
+        </div>
+          <ul class="cases cases--linked">
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">01</span>
+              <p class="case-card__sector">Construction &amp; contracting</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/construction-project-server.html">A project file server with its backup attached</a></h3>
+              <p class="case-card__text">A contracting office: drawings, bills of quantities and payment applications on one network share, with the backup on a disk attached to the same server.</p>
+              <p class="case-card__result">Drawings and contracts came back from an older snapshot; the mail archive did not.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">02</span>
+              <p class="case-card__sector">Manufacturing &amp; industry</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/factory-erp-production.html">Production stopped without one controller being encrypted</a></h3>
+              <p class="case-card__text">A building materials plant: ERP, quality and warehouse systems were encrypted, and production halted although the machines themselves were untouched.</p>
+              <p class="case-card__result">ERP came back from an offline copy; the custom production recipes did not.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">03</span>
+              <p class="case-card__sector">Technology &amp; managed service providers</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/msp-shared-credentials.html">One admin credential opened several client environments</a></h3>
+              <p class="case-card__text">A managed service provider: an admin account reused across clients, so a single compromise reached more than one environment.</p>
+              <p class="case-card__result">Two environments came back from snapshots; the management tool's own logs did not.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">04</span>
+              <p class="case-card__sector">Retail &amp; e-commerce</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/retail-pos-orders.html">Tills still selling while stock had no idea what left</a></h3>
+              <p class="case-card__text">A small retail chain: the stock and orders server was encrypted, so the tills kept selling without a correct balance.</p>
+              <p class="case-card__result">Orders came back from the online store database; two days of branch stock did not.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">05</span>
+              <p class="case-card__sector">Health &amp; care</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/clinic-records-imaging.html">Patient records and imaging on one storage unit</a></h3>
+              <p class="case-card__text">A clinic group: the records system and the imaging archive were encrypted together, halting both booking and consultation.</p>
+              <p class="case-card__result">Records came back from a nightly copy; a full day of images did not.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">06</span>
+              <p class="case-card__sector">Transport &amp; logistics</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/en/services/ransomware/cases/logistics-tracking-fleet.html">Shipments on the road and a tracking system that will not answer</a></h3>
+              <p class="case-card__text">A transport company: the operations and tracking system was encrypted while shipments in transit had no confirmed destination.</p>
+              <p class="case-card__result">Trip data came back from partner records; two days of proof of delivery did not.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section section--light" aria-labelledby="xb-3">
+        <div class="container">
+          <div class="section-head">
+          <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Definition before action</p>
-            <h2 class="section-title" id="xb-2">What is ransomware?</h2>
+            <h2 class="section-title" id="xb-3">What is ransomware?</h2>
           </div>
           
         </div>
@@ -259,12 +315,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-3">
+      <section class="section section--dark" aria-labelledby="xb-4">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Before you assume</p>
-            <h2 class="section-title" id="xb-3">How do you know what happened might be a ransomware attack?</h2>
+            <h2 class="section-title" id="xb-4">How do you know what happened might be a ransomware attack?</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">The indicators are more reliable together than any one of them alone. Read them as a whole picture, not a checklist.</p></div>
         </div>
@@ -286,12 +342,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-4">
+      <section class="section section--light" aria-labelledby="xb-5">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Order before tools</p>
-            <h2 class="section-title" id="xb-4">Recovery starts by identifying the infection, not by trying software</h2>
+            <h2 class="section-title" id="xb-5">Recovery starts by identifying the infection, not by trying software</h2>
           </div>
           
         </div>
@@ -300,106 +356,106 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-5">
+      <section class="section section--dark" aria-labelledby="xb-6">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Not one single thing</p>
-            <h2 class="section-title" id="xb-5">Types of ransomware attack</h2>
+            <h2 class="section-title" id="xb-6">Types of ransomware attack</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">The route differs with the type. These eight cover most of what reaches us.</p></div>
         </div>
           <div class="faq__rows">
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-1" aria-expanded="false" aria-controls="xb-5-a-1">
+              <button class="faq-row__q" type="button" id="xb-6-q-1" aria-expanded="false" aria-controls="xb-6-a-1">
                 <span class="faq-row__num" dir="ltr">01</span>
                 <span class="faq-row__text">File-encrypting ransomware — Crypto</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-1" role="region" aria-labelledby="xb-5-q-1"><p>Encrypts files or parts of them while the system sometimes keeps working. It may target documents, images, databases, backups, and virtual machine files.</p></div>
+              <div class="faq-row__a" id="xb-6-a-1" role="region" aria-labelledby="xb-6-q-1"><p>Encrypts files or parts of them while the system sometimes keeps working. It may target documents, images, databases, backups, and virtual machine files.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-2" aria-expanded="false" aria-controls="xb-5-a-2">
+              <button class="faq-row__q" type="button" id="xb-6-q-2" aria-expanded="false" aria-controls="xb-6-a-2">
                 <span class="faq-row__num" dir="ltr">02</span>
                 <span class="faq-row__text">Device-locking ransomware — Locker</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-2" role="region" aria-labelledby="xb-5-q-2"><p>Blocks sign-in or use of the machine behind a lock screen, without that necessarily meaning every file is encrypted. The assessment has to separate a locked interface from data that is genuinely encrypted.</p></div>
+              <div class="faq-row__a" id="xb-6-a-2" role="region" aria-labelledby="xb-6-q-2"><p>Blocks sign-in or use of the machine behind a lock screen, without that necessarily meaning every file is encrypted. The assessment has to separate a locked interface from data that is genuinely encrypted.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-3" aria-expanded="false" aria-controls="xb-5-a-3">
+              <button class="faq-row__q" type="button" id="xb-6-q-3" aria-expanded="false" aria-controls="xb-6-a-3">
                 <span class="faq-row__num" dir="ltr">03</span>
                 <span class="faq-row__text">Double extortion</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-3" role="region" aria-labelledby="xb-5-q-3"><p>The attacker claims to have stolen data before encrypting it, then threatens publication as well as blocking access. That is two separate jobs: restoring operations, and establishing the scope of the leak alongside the regulatory and legal response.</p></div>
+              <div class="faq-row__a" id="xb-6-a-3" role="region" aria-labelledby="xb-6-q-3"><p>The attacker claims to have stolen data before encrypting it, then threatens publication as well as blocking access. That is two separate jobs: restoring operations, and establishing the scope of the leak alongside the regulatory and legal response.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-4" aria-expanded="false" aria-controls="xb-5-a-4">
+              <button class="faq-row__q" type="button" id="xb-6-q-4" aria-expanded="false" aria-controls="xb-6-a-4">
                 <span class="faq-row__num" dir="ltr">04</span>
                 <span class="faq-row__text">Multi or triple extortion</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-4" role="region" aria-labelledby="xb-5-q-4"><p>The attacker may add further pressure such as contacting customers or partners, disrupting services, or threatening a denial-of-service attack. Decryption alone does not end the incident.</p></div>
+              <div class="faq-row__a" id="xb-6-a-4" role="region" aria-labelledby="xb-6-q-4"><p>The attacker may add further pressure such as contacting customers or partners, disrupting services, or threatening a denial-of-service attack. Decryption alone does not end the incident.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-5" aria-expanded="false" aria-controls="xb-5-a-5">
+              <button class="faq-row__q" type="button" id="xb-6-q-5" aria-expanded="false" aria-controls="xb-6-a-5">
                 <span class="faq-row__num" dir="ltr">05</span>
                 <span class="faq-row__text">Data-leak extortion without encryption</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-5" role="region" aria-labelledby="xb-5-q-5"><p>In some incidents the attacker steals data and demands payment without encrypting anything. That is a data-breach response case, not only a file recovery one.</p></div>
+              <div class="faq-row__a" id="xb-6-a-5" role="region" aria-labelledby="xb-6-q-5"><p>In some incidents the attacker steals data and demands payment without encrypting anything. That is a data-breach response case, not only a file recovery one.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-6" aria-expanded="false" aria-controls="xb-5-a-6">
+              <button class="faq-row__q" type="button" id="xb-6-q-6" aria-expanded="false" aria-controls="xb-6-a-6">
                 <span class="faq-row__num" dir="ltr">06</span>
                 <span class="faq-row__text">Wipers disguised as ransomware</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-6" role="region" aria-labelledby="xb-5-q-6"><p>The attack may look like ransomware while actually destroying the data or its keys for sabotage. The odds of recovery are fundamentally different, which is why no key or decryption is promised before analysis.</p></div>
+              <div class="faq-row__a" id="xb-6-a-6" role="region" aria-labelledby="xb-6-q-6"><p>The attack may look like ransomware while actually destroying the data or its keys for sabotage. The odds of recovery are fundamentally different, which is why no key or decryption is promised before analysis.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-7" aria-expanded="false" aria-controls="xb-5-a-7">
+              <button class="faq-row__q" type="button" id="xb-6-q-7" aria-expanded="false" aria-controls="xb-6-a-7">
                 <span class="faq-row__num" dir="ltr">07</span>
                 <span class="faq-row__text">Ransomware targeting systems and servers</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-7" role="region" aria-labelledby="xb-5-q-7"><p>It may run on Windows, Linux, or virtual environments, and can encrypt large stores quickly. The priority is isolating the points of spread, protecting unaffected copies, then identifying critical systems and the order in which to restore them.</p></div>
+              <div class="faq-row__a" id="xb-6-a-7" role="region" aria-labelledby="xb-6-q-7"><p>It may run on Windows, Linux, or virtual environments, and can encrypt large stores quickly. The priority is isolating the points of spread, protecting unaffected copies, then identifying critical systems and the order in which to restore them.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-8" aria-expanded="false" aria-controls="xb-5-a-8">
+              <button class="faq-row__q" type="button" id="xb-6-q-8" aria-expanded="false" aria-controls="xb-6-a-8">
                 <span class="faq-row__num" dir="ltr">08</span>
                 <span class="faq-row__text">Ransomware as a Service</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-8" role="region" aria-labelledby="xb-5-q-8"><p>Not a distinct encryption type but an operating model, in which tool developers supply an extortion infrastructure to other groups who carry out the attacks. Messages and extensions can vary even within the same family.</p></div>
+              <div class="faq-row__a" id="xb-6-a-8" role="region" aria-labelledby="xb-6-q-8"><p>Not a distinct encryption type but an operating model, in which tool developers supply an extortion infrastructure to other groups who carry out the attacks. Messages and extensions can vary even within the same family.</p></div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-6">
+      <section class="section section--light" aria-labelledby="xb-7">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">More than one route</p>
-            <h2 class="section-title" id="xb-6">Which options do we examine before reaching a result?</h2>
+            <h2 class="section-title" id="xb-7">Which options do we examine before reaching a result?</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">Recovery does not rest on a single route. We examine the following paths as the case allows, working on a matching copy wherever possible and preserving the original source.</p></div>
         </div>
@@ -421,12 +477,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-7">
+      <section class="section section--dark" aria-labelledby="xb-8">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent"></p>
-            <h2 class="section-title" id="xb-7">What do we need to assess the case?</h2>
+            <h2 class="section-title" id="xb-8">What do we need to assess the case?</h2>
           </div>
           
         </div>
@@ -448,12 +504,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-8">
+      <section class="section section--light" aria-labelledby="xb-9">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent"></p>
-            <h2 class="section-title" id="xb-8">From sending the case to handover</h2>
+            <h2 class="section-title" id="xb-9">From sending the case to handover</h2>
           </div>
           
         </div>
@@ -470,12 +526,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-9">
+      <section class="section section--dark" aria-labelledby="xb-10">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Between the extremes</p>
-            <h2 class="section-title" id="xb-9">Not every case is decryption or nothing</h2>
+            <h2 class="section-title" id="xb-10">Not every case is decryption or nothing</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">These are common patterns and their likely outcomes. Not promises — an account of what actually happens between the two extremes.</p></div>
         </div>
@@ -492,12 +548,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-10">
+      <section class="section section--light" aria-labelledby="xb-11">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Most damaging</p>
-            <h2 class="section-title" id="xb-10">Avoid the steps that can reduce the chance of recovery</h2>
+            <h2 class="section-title" id="xb-11">Avoid the steps that can reduce the chance of recovery</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">Most of what is lost for good is lost in the first hours, through actions that look reasonable.</p></div>
         </div>
@@ -518,12 +574,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-11">
+      <section class="section section--dark" aria-labelledby="xb-12">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">Not a shortcut</p>
-            <h2 class="section-title" id="xb-11">Paying does not guarantee the data back, nor the end of the incident</h2>
+            <h2 class="section-title" id="xb-12">Paying does not guarantee the data back, nor the end of the incident</h2>
           </div>
           
         </div>
@@ -537,12 +593,37 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-12">
+      <section class="section section--light" aria-labelledby="xb-13">
+        <div class="container">
+          <div class="section-head">
+          <div class="section-head__main">
+            <p class="eyebrow eyebrow--accent">Obligations that may apply in Saudi Arabia</p>
+            <h2 class="section-title" id="xb-13">Recovery is one track; regulatory notification is another that starts early</h2>
+          </div>
+          
+        </div>
+          <div class="prose-block"><p class="prose-block__p">If the incident touched personal data, a notification period may run from the moment you become aware of it rather than from the end of the technical analysis — the National Data Governance Platform publishes a period of no more than 72 hours along with the notification conditions. That is why assessing the obligation runs alongside the technical work rather than after it.</p>
+          <p class="prose-block__p">The National Cybersecurity Authority's controls cover backups, incident management, business continuity and third parties — the same places that decide the outcome of a ransomware incident before it happens.</p>
+          <ul class="source-list">
+            <li><a href="https://dgp.sdaia.gov.sa/wps/portal/pdp/services/personaldatabreachnotification/" target="_blank" rel="noopener">SDAIA — Personal data breach notification</a></li>
+            <li><a href="https://cdn.nca.gov.sa/api/files/public/upload/da829b21-c4ef-4a6e-9f6e-82690d612ee9_ECC-2-2024-.pdf" target="_blank" rel="noopener">National Cybersecurity Authority — Essential Controls ECC-2:2024</a></li>
+            <li><a href="https://cdn.nca.gov.sa/ar/otcc_ar.pdf" target="_blank" rel="noopener">National Cybersecurity Authority — Operational Technology Controls OTCC-1:2022</a></li>
+            <li><a href="https://www.cisa.gov/resources-tools/resources/stopransomware-guide" target="_blank" rel="noopener">CISA — StopRansomware Guide</a></li>
+          </ul></div>
+          <aside class="warn-box">
+            <p class="warn-box__label">Limits of this page</p>
+            <p class="warn-box__title">A pointer to official sources, not legal advice</p>
+            <p class="warn-box__body">Obligations differ by organisation type, data and contracts. Review what applies to your case with your cyber security lead, legal counsel and the relevant authorities.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section--dark" aria-labelledby="xb-14">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">After recovery</p>
-            <h2 class="section-title" id="xb-12">Close the entry point so it is not used again</h2>
+            <h2 class="section-title" id="xb-14">Close the entry point so it is not used again</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">Returning to operation is not the end of the incident. If the entry point stays open, the infection can return after recovery.</p></div>
         </div>

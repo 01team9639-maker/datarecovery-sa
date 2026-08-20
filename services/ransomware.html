@@ -28,7 +28,7 @@
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
-  <link rel="stylesheet" href="/assets/css/main.css?v=7d9519c7">
+  <link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -249,8 +249,64 @@
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
+            <p class="eyebrow eyebrow--accent">حالة نموذجية تشرح المسار</p>
+            <h2 class="section-title" id="xb-2">ستّ حالات نموذجية من أكثر القطاعات تعرّضًا</h2>
+          </div>
+          <div class="section-head__note"><p class="note-strong">القطاعات مأخوذة من بحث التهديدات السعودي: الإنشاءات، التصنيع، التقنية، التجزئة، الصحة، والنقل. وكل حالة تشرح ما فُحص، وما استُعيد، وما لم يُستعد.</p></div>
+        </div>
+          <ul class="cases cases--linked">
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">01</span>
+              <p class="case-card__sector">الإنشاءات والمقاولات</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/construction-project-server.html">سيرفر ملفات مشروع ونسخ متصلة به</a></h3>
+              <p class="case-card__text">مكتب مقاولات: مخططات وجداول كميات ومستخلصات على مشاركة شبكة واحدة، والنسخة الاحتياطية على القرص نفسه.</p>
+              <p class="case-card__result">عادت المخططات والعقود من لقطة أقدم؛ لم يعد أرشيف البريد.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">02</span>
+              <p class="case-card__sector">التصنيع والصناعة</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/factory-erp-production.html">توقّف خط إنتاج بلا تشفير وحدة تحكّم واحدة</a></h3>
+              <p class="case-card__text">مصنع مواد بناء: تشفّر ERP وأنظمة الجودة والمستودعات، فتوقّف الإنتاج رغم سلامة الآلات نفسها.</p>
+              <p class="case-card__result">عاد ERP من نسخة غير متصلة؛ لم تعد وصفات الإنتاج المخصّصة.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">03</span>
+              <p class="case-card__sector">التقنية ومزوّدو الخدمات المُدارة</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/msp-shared-credentials.html">اعتماد إداري واحد فتح بيئات عدّة عملاء</a></h3>
+              <p class="case-card__text">مزوّد خدمات مُدارة: حساب إدارة مشترك بين عملائه، فامتدّ اختراق واحد إلى أكثر من بيئة.</p>
+              <p class="case-card__result">عادت بيئتان من لقطات؛ لم تعد سجلّات أداة الإدارة نفسها.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">04</span>
+              <p class="case-card__sector">التجزئة والتجارة الإلكترونية</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/retail-pos-orders.html">نقاط بيع تعمل ومخزون لا يعرف ما بيع</a></h3>
+              <p class="case-card__text">سلسلة متاجر صغيرة: تشفّر خادم المخزون والطلبات، فبقيت الكاشيرات تبيع بلا رصيد صحيح.</p>
+              <p class="case-card__result">عادت الطلبات من قاعدة المتجر الإلكتروني؛ لم يعد رصيد فروع يومين.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">05</span>
+              <p class="case-card__sector">الصحة والرعاية</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/clinic-records-imaging.html">سجلّات مرضى وصور أشعّة على وحدة واحدة</a></h3>
+              <p class="case-card__text">مجمّع عيادات: تشفّر نظام السجلّات وأرشيف الصور معًا، فتوقّف الحجز والمراجعة.</p>
+              <p class="case-card__result">عادت السجلّات من نسخة ليلية؛ لم تعد صور يوم كامل.</p>
+            </li>
+            <li class="case-card">
+              <span class="case-card__num" dir="ltr">06</span>
+              <p class="case-card__sector">النقل واللوجستيات</p>
+              <h3 class="case-card__title"><a class="case-card__link" href="/services/ransomware/cases/logistics-tracking-fleet.html">شحنات في الطريق ونظام تتبّع لا يردّ</a></h3>
+              <p class="case-card__text">شركة نقل: تشفّر نظام التشغيل والتتبّع، والشحنات في الطريق لا تعرف وجهتها الدقيقة.</p>
+              <p class="case-card__result">عادت بيانات الرحلات من سجلّات الشركاء؛ لم تعد إثباتات تسليم يومين.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section section--light" aria-labelledby="xb-3">
+        <div class="container">
+          <div class="section-head">
+          <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">تعريف قبل أي إجراء</p>
-            <h2 class="section-title" id="xb-2">ما هو فيروس الفدية؟</h2>
+            <h2 class="section-title" id="xb-3">ما هو فيروس الفدية؟</h2>
           </div>
           
         </div>
@@ -259,12 +315,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-3">
+      <section class="section section--dark" aria-labelledby="xb-4">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">قبل أن تفترض</p>
-            <h2 class="section-title" id="xb-3">كيف تعرف أن ما حدث قد يكون هجوم فدية؟</h2>
+            <h2 class="section-title" id="xb-4">كيف تعرف أن ما حدث قد يكون هجوم فدية؟</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">المؤشّرات مجتمعة أدقّ من أي مؤشّر منفرد. اقرأها كصورة كاملة لا كقائمة تحقّق.</p></div>
         </div>
@@ -286,12 +342,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-4">
+      <section class="section section--light" aria-labelledby="xb-5">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">الترتيب يسبق الأدوات</p>
-            <h2 class="section-title" id="xb-4">الاستعادة تبدأ بتحديد الإصابة، لا بتجربة البرامج</h2>
+            <h2 class="section-title" id="xb-5">الاستعادة تبدأ بتحديد الإصابة، لا بتجربة البرامج</h2>
           </div>
           
         </div>
@@ -300,106 +356,106 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-5">
+      <section class="section section--dark" aria-labelledby="xb-6">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">ليست نوعًا واحدًا</p>
-            <h2 class="section-title" id="xb-5">أنواع هجمات الفدية</h2>
+            <h2 class="section-title" id="xb-6">أنواع هجمات الفدية</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">يختلف مسار التعامل باختلاف النوع. هذه الأنواع الثمانية تغطّي معظم ما يصل إلينا.</p></div>
         </div>
           <div class="faq__rows">
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-1" aria-expanded="false" aria-controls="xb-5-a-1">
+              <button class="faq-row__q" type="button" id="xb-6-q-1" aria-expanded="false" aria-controls="xb-6-a-1">
                 <span class="faq-row__num" dir="ltr">01</span>
                 <span class="faq-row__text">فدية تشفير الملفات — Crypto Ransomware</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-1" role="region" aria-labelledby="xb-5-q-1"><p>تشفير الملفات أو أجزاء منها مع بقاء النظام قادرًا على العمل أحيانًا. قد تستهدف المستندات والصور وقواعد البيانات والنسخ الاحتياطية وملفات الآلات الافتراضية.</p></div>
+              <div class="faq-row__a" id="xb-6-a-1" role="region" aria-labelledby="xb-6-q-1"><p>تشفير الملفات أو أجزاء منها مع بقاء النظام قادرًا على العمل أحيانًا. قد تستهدف المستندات والصور وقواعد البيانات والنسخ الاحتياطية وملفات الآلات الافتراضية.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-2" aria-expanded="false" aria-controls="xb-5-a-2">
+              <button class="faq-row__q" type="button" id="xb-6-q-2" aria-expanded="false" aria-controls="xb-6-a-2">
                 <span class="faq-row__num" dir="ltr">02</span>
                 <span class="faq-row__text">فدية قفل الجهاز — Locker Ransomware</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-2" role="region" aria-labelledby="xb-5-q-2"><p>تمنع تسجيل الدخول أو استخدام الجهاز عبر شاشة قفل، من دون أن يعني ذلك بالضرورة تشفير كل ملف. يحتاج التقييم إلى التمييز بين قفل الواجهة وتشفير البيانات فعليًا.</p></div>
+              <div class="faq-row__a" id="xb-6-a-2" role="region" aria-labelledby="xb-6-q-2"><p>تمنع تسجيل الدخول أو استخدام الجهاز عبر شاشة قفل، من دون أن يعني ذلك بالضرورة تشفير كل ملف. يحتاج التقييم إلى التمييز بين قفل الواجهة وتشفير البيانات فعليًا.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-3" aria-expanded="false" aria-controls="xb-5-a-3">
+              <button class="faq-row__q" type="button" id="xb-6-q-3" aria-expanded="false" aria-controls="xb-6-a-3">
                 <span class="faq-row__num" dir="ltr">03</span>
                 <span class="faq-row__text">الابتزاز المزدوج — Double Extortion</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-3" role="region" aria-labelledby="xb-5-q-3"><p>يدّعي المهاجم سرقة بيانات قبل تشفيرها، ثم يهدّد بالنشر بالإضافة إلى تعطيل الوصول. هنا مهمتان منفصلتان: استعادة التشغيل، والتحقّق من نطاق التسريب والاستجابة النظامية والقانونية.</p></div>
+              <div class="faq-row__a" id="xb-6-a-3" role="region" aria-labelledby="xb-6-q-3"><p>يدّعي المهاجم سرقة بيانات قبل تشفيرها، ثم يهدّد بالنشر بالإضافة إلى تعطيل الوصول. هنا مهمتان منفصلتان: استعادة التشغيل، والتحقّق من نطاق التسريب والاستجابة النظامية والقانونية.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-4" aria-expanded="false" aria-controls="xb-5-a-4">
+              <button class="faq-row__q" type="button" id="xb-6-q-4" aria-expanded="false" aria-controls="xb-6-a-4">
                 <span class="faq-row__num" dir="ltr">04</span>
                 <span class="faq-row__text">الابتزاز المتعدّد — Multi/Triple Extortion</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-4" role="region" aria-labelledby="xb-5-q-4"><p>قد يضيف المهاجم ضغطًا آخر مثل التواصل مع العملاء أو الشركاء، أو تعطيل الخدمات، أو التهديد بهجوم حجب خدمة. لا يعني فكّ التشفير وحده انتهاء الحادث.</p></div>
+              <div class="faq-row__a" id="xb-6-a-4" role="region" aria-labelledby="xb-6-q-4"><p>قد يضيف المهاجم ضغطًا آخر مثل التواصل مع العملاء أو الشركاء، أو تعطيل الخدمات، أو التهديد بهجوم حجب خدمة. لا يعني فكّ التشفير وحده انتهاء الحادث.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-5" aria-expanded="false" aria-controls="xb-5-a-5">
+              <button class="faq-row__q" type="button" id="xb-6-q-5" aria-expanded="false" aria-controls="xb-6-a-5">
                 <span class="faq-row__num" dir="ltr">05</span>
                 <span class="faq-row__text">ابتزاز بتسريب البيانات من دون تشفير</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-5" role="region" aria-labelledby="xb-5-q-5"><p>في بعض الحوادث يسرق المهاجم بيانات ويطلب المال من دون تشفير الملفات. هذه حالة استجابة لحادث تسريب بيانات، وليست استعادة ملفات فقط.</p></div>
+              <div class="faq-row__a" id="xb-6-a-5" role="region" aria-labelledby="xb-6-q-5"><p>في بعض الحوادث يسرق المهاجم بيانات ويطلب المال من دون تشفير الملفات. هذه حالة استجابة لحادث تسريب بيانات، وليست استعادة ملفات فقط.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-6" aria-expanded="false" aria-controls="xb-5-a-6">
+              <button class="faq-row__q" type="button" id="xb-6-q-6" aria-expanded="false" aria-controls="xb-6-a-6">
                 <span class="faq-row__num" dir="ltr">06</span>
                 <span class="faq-row__text">برمجيات مسح تتظاهر بأنها فدية — Wiper</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-6" role="region" aria-labelledby="xb-5-q-6"><p>قد يبدو الهجوم كفدية لكنه يتلف البيانات أو مفاتيحها بقصد التخريب. فرص الاستعادة تختلف جذريًا، ولذلك لا يُوعَد بوجود مفتاح أو فكّ تشفير قبل التحليل.</p></div>
+              <div class="faq-row__a" id="xb-6-a-6" role="region" aria-labelledby="xb-6-q-6"><p>قد يبدو الهجوم كفدية لكنه يتلف البيانات أو مفاتيحها بقصد التخريب. فرص الاستعادة تختلف جذريًا، ولذلك لا يُوعَد بوجود مفتاح أو فكّ تشفير قبل التحليل.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-7" aria-expanded="false" aria-controls="xb-5-a-7">
+              <button class="faq-row__q" type="button" id="xb-6-q-7" aria-expanded="false" aria-controls="xb-6-a-7">
                 <span class="faq-row__num" dir="ltr">07</span>
                 <span class="faq-row__text">فدية تستهدف الأنظمة والخوادم</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-7" role="region" aria-labelledby="xb-5-q-7"><p>قد تُنفَّذ على Windows أو Linux أو بيئات افتراضية، وقد تشفّر مخازن كبيرة بسرعة. الأولوية هي عزل نقاط الانتشار، وحماية النسخ غير المتأثّرة، ثم تحديد الأنظمة الحرجة وترتيب استعادتها.</p></div>
+              <div class="faq-row__a" id="xb-6-a-7" role="region" aria-labelledby="xb-6-q-7"><p>قد تُنفَّذ على Windows أو Linux أو بيئات افتراضية، وقد تشفّر مخازن كبيرة بسرعة. الأولوية هي عزل نقاط الانتشار، وحماية النسخ غير المتأثّرة، ثم تحديد الأنظمة الحرجة وترتيب استعادتها.</p></div>
             </div>
             <div class="faq-row">
               <h3 class="faq-row__h">
-              <button class="faq-row__q" type="button" id="xb-5-q-8" aria-expanded="false" aria-controls="xb-5-a-8">
+              <button class="faq-row__q" type="button" id="xb-6-q-8" aria-expanded="false" aria-controls="xb-6-a-8">
                 <span class="faq-row__num" dir="ltr">08</span>
                 <span class="faq-row__text">نموذج «الفدية كخدمة» — Ransomware as a Service</span>
                 <span class="faq-row__icon" aria-hidden="true"></span>
               </button>
               </h3>
-              <div class="faq-row__a" id="xb-5-a-8" role="region" aria-labelledby="xb-5-q-8"><p>ليس نوع تشفير مستقلًّا، بل نموذج تشغيل يوفّر فيه مطوّرو أدوات بنية ابتزاز لجهات أخرى تنفّذ الهجمات. قد تظهر اختلافات في الرسائل والامتدادات حتى ضمن العائلة نفسها.</p></div>
+              <div class="faq-row__a" id="xb-6-a-8" role="region" aria-labelledby="xb-6-q-8"><p>ليس نوع تشفير مستقلًّا، بل نموذج تشغيل يوفّر فيه مطوّرو أدوات بنية ابتزاز لجهات أخرى تنفّذ الهجمات. قد تظهر اختلافات في الرسائل والامتدادات حتى ضمن العائلة نفسها.</p></div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-6">
+      <section class="section section--light" aria-labelledby="xb-7">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">أكثر من طريق واحد</p>
-            <h2 class="section-title" id="xb-6">ما الخيارات التي نفحصها قبل الوصول إلى النتيجة؟</h2>
+            <h2 class="section-title" id="xb-7">ما الخيارات التي نفحصها قبل الوصول إلى النتيجة؟</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">لا تعتمد الاستعادة على طريق واحد. نفحص المسارات التالية حسب الحالة، مع العمل على نسخة مطابقة قدر الإمكان والحفاظ على المصدر الأصلي.</p></div>
         </div>
@@ -421,12 +477,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-7">
+      <section class="section section--dark" aria-labelledby="xb-8">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent"></p>
-            <h2 class="section-title" id="xb-7">ما الذي نحتاجه لتقييم الحالة؟</h2>
+            <h2 class="section-title" id="xb-8">ما الذي نحتاجه لتقييم الحالة؟</h2>
           </div>
           
         </div>
@@ -448,12 +504,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-8">
+      <section class="section section--light" aria-labelledby="xb-9">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent"></p>
-            <h2 class="section-title" id="xb-8">من إرسال الحالة إلى التسليم</h2>
+            <h2 class="section-title" id="xb-9">من إرسال الحالة إلى التسليم</h2>
           </div>
           
         </div>
@@ -470,12 +526,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-9">
+      <section class="section section--dark" aria-labelledby="xb-10">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">بين الطرفين</p>
-            <h2 class="section-title" id="xb-9">ليست كل حالة «فكّ تشفير أو لا شيء»</h2>
+            <h2 class="section-title" id="xb-10">ليست كل حالة «فكّ تشفير أو لا شيء»</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">هذه أنماط شائعة ونتائجها المحتملة. ليست وعودًا، بل توضيح لما يحدث فعليًا بين الحالتين القصوى.</p></div>
         </div>
@@ -492,12 +548,12 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-10">
+      <section class="section section--light" aria-labelledby="xb-11">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">الأكثر ضررًا</p>
-            <h2 class="section-title" id="xb-10">تجنّب الخطوات التي قد تُقلّل فرص الاستعادة</h2>
+            <h2 class="section-title" id="xb-11">تجنّب الخطوات التي قد تُقلّل فرص الاستعادة</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">معظم ما يُفقد نهائيًا يُفقد في الساعات الأولى، وبأفعال تبدو معقولة.</p></div>
         </div>
@@ -518,12 +574,12 @@
         </div>
       </section>
 
-      <section class="section section--light" aria-labelledby="xb-11">
+      <section class="section section--dark" aria-labelledby="xb-12">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">قرار لا يُختصر</p>
-            <h2 class="section-title" id="xb-11">الدفع لا يضمن عودة البيانات ولا انتهاء الحادث</h2>
+            <h2 class="section-title" id="xb-12">الدفع لا يضمن عودة البيانات ولا انتهاء الحادث</h2>
           </div>
           
         </div>
@@ -537,12 +593,37 @@
         </div>
       </section>
 
-      <section class="section section--dark" aria-labelledby="xb-12">
+      <section class="section section--light" aria-labelledby="xb-13">
+        <div class="container">
+          <div class="section-head">
+          <div class="section-head__main">
+            <p class="eyebrow eyebrow--accent">التزامات قد تسري في السعودية</p>
+            <h2 class="section-title" id="xb-13">الاستعادة مسار، والإشعار النظامي مسار آخر يبدأ مبكرًا</h2>
+          </div>
+          
+        </div>
+          <div class="prose-block"><p class="prose-block__p">إن تضمّن الحادث بيانات شخصية، فقد تسري مهلة إشعار تبدأ من وقت العلم بالحادثة لا من انتهاء التحليل الفنّي — تنشر منصة حوكمة البيانات الوطنية مهلة لا تتجاوز 72 ساعة وشروط الإشعار. ولهذا يبدأ تقييم الالتزام بالتوازي مع العمل التقني لا بعده.</p>
+          <p class="prose-block__p">وضوابط الهيئة الوطنية للأمن السيبراني تتناول النسخ الاحتياطية وإدارة الحوادث واستمرارية الأعمال والأطراف الخارجية — وهي المواضع نفسها التي تحسم نتيجة حادث فدية قبل وقوعه.</p>
+          <ul class="source-list">
+            <li><a href="https://dgp.sdaia.gov.sa/wps/portal/pdp/services/personaldatabreachnotification/" target="_blank" rel="noopener">سدايا — إشعار تسرّب البيانات الشخصية</a></li>
+            <li><a href="https://cdn.nca.gov.sa/api/files/public/upload/da829b21-c4ef-4a6e-9f6e-82690d612ee9_ECC-2-2024-.pdf" target="_blank" rel="noopener">الهيئة الوطنية للأمن السيبراني — الضوابط الأساسية ECC-2:2024</a></li>
+            <li><a href="https://cdn.nca.gov.sa/ar/otcc_ar.pdf" target="_blank" rel="noopener">الهيئة الوطنية للأمن السيبراني — ضوابط الأنظمة التشغيلية OTCC-1:2022</a></li>
+            <li><a href="https://www.cisa.gov/resources-tools/resources/stopransomware-guide" target="_blank" rel="noopener">CISA — StopRansomware Guide</a></li>
+          </ul></div>
+          <aside class="warn-box">
+            <p class="warn-box__label">حدود هذه الصفحة</p>
+            <p class="warn-box__title">إشارة إلى مصادر رسمية، لا مشورة قانونية</p>
+            <p class="warn-box__body">تختلف الالتزامات حسب نوع الجهة والبيانات والعقود. راجع ما ينطبق على حالتك مع مسؤول الأمن السيبراني والمستشار القانوني والجهات المختصة.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section--dark" aria-labelledby="xb-14">
         <div class="container">
           <div class="section-head">
           <div class="section-head__main">
             <p class="eyebrow eyebrow--accent">بعد الاستعادة</p>
-            <h2 class="section-title" id="xb-12">امنع تكرار نقطة الدخول نفسها</h2>
+            <h2 class="section-title" id="xb-14">امنع تكرار نقطة الدخول نفسها</h2>
           </div>
           <div class="section-head__note"><p class="note-strong">العودة إلى التشغيل ليست نهاية الحادث. إن بقيت نقطة الدخول مفتوحة، قد تتكرّر الإصابة بعد الاستعادة.</p></div>
         </div>
