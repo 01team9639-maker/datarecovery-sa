@@ -133,11 +133,11 @@ const ui = {
     /* نص بديل لصور الخدمات. يصف الوسيط والحالة، لا اسم الملف: قارئ الشاشة
        يسمع هذا بدل الصورة، ومحرك البحث يقرؤه كوصف للصفحة. */
     serviceImageAlt: {
-      "hdd": "يد تحمل قرصًا صلبًا خارجيًّا داخل علبة شفافة موصولة بكابل، وقرص داخلي مفكوك في الخلفية",
-      "ssd-nvme": "حاسب محمول موصول بقرص خارجي وعلى شاشته مجلدات ونافذة عملية جارية",
+      "hdd": "شاشة حاسب مكتبي تعرض شريط تقدّم استعادة بيانات عند سبعين بالمئة",
+      "ssd-nvme": "يد تحمل قرصًا داخل علبة شفافة موصولة بكابل، وقرص آخر مفكوك في الخلفية",
       "raid-servers": "ثلاث شاشات في غرفة خوادم تعرض لوحات مراقبة وسجلّات نظام",
       "cctv": "بطاقة ذاكرة تُدخَل في حاسب محمول وبجانبه كاميرا",
-      "after-format": "شاشة حاسب تعرض شريط تقدّم استعادة بيانات عند سبعين بالمئة",
+      "after-format": "يدان تكتبان على حاسب محمول تعرض شاشته نوافذ مجلدات ونافذة عملية جارية، وقرص خارجي على الطاولة",
       "ransomware": "قفل رقمي مضيء على شاشة حاسب فوق تدفّق بيانات",
       "phones": "يدان تمسكان هاتفًا وتكتبان على شاشته",
       "memory-cards": "أربع بطاقات ذاكرة من مقاسات مختلفة على لوحة مفاتيح حاسب محمول"
@@ -206,11 +206,11 @@ const ui = {
     areasLabel: "Districts and areas we receive from",
     devicesLabel: "Supported devices & brands",
     serviceImageAlt: {
-      "hdd": "A hand holding an external hard drive in a clear enclosure connected by cable, with a bare internal drive behind it",
-      "ssd-nvme": "A laptop connected to an external drive, its screen showing folder windows and an operation in progress",
+      "hdd": "A desktop screen showing a data recovery progress bar at seventy per cent",
+      "ssd-nvme": "A hand holding a drive in a clear enclosure connected by cable, with another bare drive behind it",
       "raid-servers": "Three monitors in a server room showing dashboards and system logs",
       "cctv": "A memory card being inserted into a laptop with a camera beside it",
-      "after-format": "A desktop screen showing a data recovery progress bar at seventy per cent",
+      "after-format": "Two hands typing on a laptop whose screen shows folder windows and an operation in progress, with an external drive on the desk",
       "ransomware": "A lit digital padlock on a computer screen above a stream of data",
       "phones": "Two hands holding a phone and typing on its screen",
       "memory-cards": "Four memory cards of different sizes on a laptop keyboard"
