@@ -811,14 +811,64 @@ const svcExtraFaqs = {
   },
   "ransomware": {
     ar: [
-      { q: "هل يمكن فك تشفير الفدية دائماً؟", a: "ليس دائماً؛ بعض العائلات لها أدوات فك معروفة وبعضها لا. نبدأ بتحديد نوع الإصابة وتقييم الخيارات المتاحة والنسخ الاحتياطية قبل أي وعد." },
-      { q: "هل أدفع الفدية؟", a: "لا يُنصح بالدفع؛ فهو لا يضمن استعادة البيانات وقد يشجّع على استهدافك مجدداً. قيّم كل الخيارات التقنية أولاً." },
-      { q: "كيف أحمي بياناتي من الفدية مستقبلاً؟", a: "نسخ احتياطية منفصلة وغير متصلة دائماً، تحديث الأنظمة، وتقييد الصلاحيات؛ يمكننا مساعدتك في وضع خطة حماية بعد الاستعادة." }
+      { q: "هل يمكن فك تشفير الفدية دائماً؟", a: "لا. تعتمد الإمكانية على العائلة والإصدار وطريقة إدارة المفاتيح ووجود أداة موثوقة أو نسخة قابلة للاستعادة. يبدأ العمل بالتحديد والاختبار، لا بالوعد." },
+      { q: "ماذا أفعل إذا دفعت الفدية بالفعل؟", a: "لا تحذف المراسلات أو ملفات الأداة أو معلومات الدفع. لا تشغّل أي أداة على المصدر مباشرة، اختبرها على نسخة وفي بيئة معزولة، واستمرّ في احتواء الاختراق وفحص الحسابات والأنظمة." },
+      { q: "كيف أحمي بياناتي من الفدية مستقبلاً؟", a: "نسخ احتياطية منفصلة وغير متصلة تُختبر دوريًا، ومصادقة متعدّدة العوامل، وتحديثات منتظمة، وتقييد الوصول البعيد، وتقسيم الشبكة، ومراقبة محاولات الدخول وحذف النسخ." },
+      { q: "هل حذف الفيروس أو تثبيت مضاد فيروسات يعيد الملفات؟", a: "غالبًا لا. قد يُزيل البرنامج الخبيث، لكنه لا يعكس التشفير الذي تمّ بالفعل. وقد يؤدّي التثبيت على القرص نفسه إلى الكتابة فوق بيانات قابلة للاستعادة." },
+      { q: "هل تغيير امتداد الملف يعيده إلى طبيعته؟", a: "لا. الامتداد جزء من اسم الملف وليس مفتاح فكّ التشفير. احتفظ بالاسم والامتداد كما هما." },
+      { q: "ماذا أرسل للتقييم الأولي؟", a: "رسالة الفدية، والامتداد، وعيّنة صغيرة غير حسّاسة، ونوع الأجهزة، ووقت الحادث، وعدد الأنظمة المتأثّرة. وإذا توفّرت نسخة أصلية مطابقة للعيّنة فأرسلها بعد الاتفاق على القناة." },
+      { q: "هل يمكن التقييم عن بُعد؟", a: "يمكن بدء الفرز عن بُعد في حالات كثيرة، لكن بعض الحالات تتطلّب استلام وسيط التخزين أو نسخة منه أو وصولًا مضبوطًا إلى بيئة الشركة. يُحدَّد ذلك بعد المعلومات الأوّلية." },
+      { q: "كم يستغرق التقييم والاستعادة؟", a: "يختلف حسب عدد الأنظمة وحجم البيانات ونوع التشفير وسلامة التخزين ومسار الاستعادة. نعطي تقديرًا بعد الفحص الأوّلي، مع ترتيب الأنظمة الحرجة في حالات الشركات." },
+      { q: "كم تبلغ التكلفة؟", a: "تعتمد على نطاق الأجهزة، ونوع التخزين، وحجم العمل، والحاجة إلى فحص بنية معقّدة، ومسار الاستعادة. لا يمكن تسعير الحالة بدقّة من الامتداد وحده." },
+      { q: "هل تضمنون الاستعادة الكاملة؟", a: "لا نقدّم ضمانًا قبل الفحص. نوضّح نطاق الاختبار، والملفات التي نجحت، والنتيجة المتوقّعة قبل تنفيذ الاستعادة الكاملة." },
+      { q: "هل يمكن استعادة أسماء الملفات والمجلدات؟", a: "يعتمد على وضع التشفير وسلامة نظام الملفات والنسخ المتاحة. أحيانًا تُستعاد البنية كاملة، وأحيانًا تُستعاد الملفات بأسماء أو مسارات جزئية." },
+      { q: "ماذا لو كانت النسخ الاحتياطية مشفّرة أيضًا؟", a: "يتم فحص النسخ غير المتصلة، والإصدارات السابقة، واللقطات، وسجلّات النسخ، ووسائط التخزين القديمة. ولا تُعاد النسخ إلى الشبكة المصابة قبل الاحتواء." },
+      { q: "هل يمكن استعادة VMware أو Hyper‑V؟", a: "قد توجد خيارات عبر النسخ أو اللقطات أو ملفات الآلات الافتراضية أو استخراج بيانات جزئية. يعتمد ذلك على المنصّة وحالة ملفاتها ومستوى التشفير." },
+      { q: "هل يمكن استعادة قواعد البيانات؟", a: "قد يكون ذلك ممكنًا من نسخة احتياطية، أو سجل معاملات، أو ملف قاعدة سليم جزئيًا، أو استخراج منطقي. يُفحص التشفير أولًا ثم سلامة القاعدة الداخلية." },
+      { q: "هل أستطيع فتح الملف المشفّر للتجربة؟", a: "تجنّب التجارب على المصدر. بعض التطبيقات قد تعدّل الملف أو تنشئ بيانات جديدة على القرص. اعمل على نسخة وبعد إرشاد فنّي." },
+      { q: "لم أجد رسالة فدية، هل يمكن تحديد الإصابة؟", a: "قد تساعد الامتدادات والعيّنات والسجلات وتوقيت الحادث والعمليات المشبوهة، لكن غياب الرسالة قد يجعل التحديد أصعب." },
+      { q: "هل الملفات المشفّرة تنقل العدوى؟", a: "الملف المشفّر نفسه ليس بالضرورة البرنامج الخبيث، لكن البيئة التي أُخذ منها قد تحتوي على ملفات تنفيذية أو سكربتات ضارّة. لا تنقل محتوياتها إلى جهاز عمل متصل من دون فحص." },
+      { q: "هل يمكن أن يعود الهجوم بعد الاستعادة؟", a: "نعم، إذا بقي الحساب المخترق أو نقطة الدخول أو أداة وصول للمهاجم. يجب احتواء الحادث وتنظيف أو إعادة بناء البيئة وتغيير بيانات الاعتماد قبل العودة الكاملة." },
+      { q: "ماذا لو ادّعى المهاجم أنه سرق بياناتنا؟", a: "تعامل مع الادعاء كحادث أمني منفصل عن استعادة الملفات: احفظ السجلّات، وحدّد الأنظمة والبيانات المتأثّرة، وأشرِك الأمن السيبراني والشؤون القانونية والجهات المختصة." },
+      { q: "هل أدوات فكّ التشفير المجانية آمنة؟", a: "قد توجد أدوات موثوقة لبعض العائلات من جهات معروفة، لكن يجب مطابقة العائلة والإصدار وقراءة التعليمات والاختبار على نسخة. تجنّب الروابط والإعلانات المجهولة." },
+      { q: "هل أحتفظ بالملفات المشفّرة إذا لم يوجد حلّ الآن؟", a: "نعم. احتفظ بنسخة غير معدّلة مع رسالة الفدية ومعلومات الحالة. قد يظهر حلّ موثوق لبعض العائلات لاحقًا، من دون ضمان." },
+      { q: "هل تتمّ الاستعادة إلى الجهاز نفسه؟", a: "الأفضل عادةً الاستعادة إلى وسيط أو بيئة نظيفة بعد احتواء الاختراق. الكتابة إلى المصدر المتضرّر قد تُقلّل فرص الاستعادة أو تعيد تعريض البيانات للخطر." },
+      { q: "ماذا لو كان القرص تالفًا إضافة إلى التشفير؟", a: "تُعالَج سلامة وسيط التخزين أولًا وتُنشأ منه نسخة مناسبة متى أمكن، ثم يُحلَّل التشفير على النسخة. تشغيل القرص المتدهور بلا خطة قد يزيد الضرر." },
+      { q: "توقّف الجهاز أثناء التشفير، هل هذا جيّد؟", a: "قد يعني بقاء جزء من البيانات غير متأثّر، لكنه قد يترك ملفات مشفّرة جزئيًا أو بنية غير متسقة. لا تعد التشغيل المتكرّر، واعزل الجهاز واطلب تقييمًا." },
+      { q: "هل تتأثّر OneDrive أو Google Drive أو الخدمات السحابية؟", a: "قد تزامن الخدمة الملفات المشفّرة أو المحذوفة. أوقف المزامنة من الأجهزة المشتبه بها وافحص سجل الإصدارات وخيارات الاستعادة قبل استئنافها." },
+      { q: "هل يجب الإبلاغ عن الحادث؟", a: "قد توجد التزامات نظامية أو تعاقدية تختلف حسب نوع الجهة والبيانات والعملاء. نسّق مع مسؤول الأمن السيبراني والمستشار القانوني والجهات المختصة لتحديد المطلوب لحالتك." },
+      { q: "ما الفرق بين BitLocker وفيروس الفدية؟", a: "BitLocker ميزة تشفير شرعية لحماية الأقراص. قد يستخدم مهاجم أدوات شرعية أو يغيّر مفاتيحها، لكن فقدان مفتاح BitLocker وحده لا يثبت وجود فدية. التشخيص يعتمد على سياق الحادث والسجلّات والرسائل." },
+      { q: "هل استرجاع الملفات يعني أن الشبكة أصبحت آمنة؟", a: "لا. استرجاع البيانات واستجابة الحادث مساران مترابطان لكنهما مختلفان. يجب إزالة وصول المهاجم ومعالجة نقطة الدخول وتغيير بيانات الاعتماد والتحقّق قبل استئناف التشغيل الطبيعي." }
     ],
     en: [
-      { q: "Can ransomware always be decrypted?", a: "Not always; some families have known decryptors and some don't. We start by identifying the infection and assessing the options and backups before making any promise." },
-      { q: "Should I pay the ransom?", a: "Paying is not advised — it doesn't guarantee recovery and can mark you as a repeat target. Evaluate all technical options first." },
-      { q: "How do I protect my data from ransomware in future?", a: "Keep separate, offline backups, patch your systems, and limit permissions; we can help you set up a protection plan after recovery." }
+      { q: "Can ransomware always be decrypted?", a: "No. It depends on the family and build, how keys were handled, and whether a trustworthy tool or a restorable copy exists. Work starts with identification and testing, not with a promise." },
+      { q: "What should I do if I already paid?", a: "Do not delete the correspondence, the tool files, or the payment details. Do not run any tool directly on the source — test it on a copy in an isolated environment — and continue containing the breach and checking accounts and systems." },
+      { q: "How do I protect my data from ransomware in future?", a: "Separate, offline backups tested regularly, multi-factor authentication, a clear patching programme, restricted remote access, network segmentation, and monitoring of sign-ins and backup deletions." },
+      { q: "Does removing the virus or installing antivirus bring files back?", a: "Usually not. It may remove the malware, but it does not reverse encryption that has already happened. Installing onto the affected disk can also overwrite recoverable data." },
+      { q: "Does renaming the file extension restore it?", a: "No. The extension is part of the file name, not the decryption key. Keep the name and extension exactly as they are." },
+      { q: "What should I send for the initial assessment?", a: "The ransom note, the extension, a small non-sensitive sample, the device types, the time of the incident, and how many systems are affected. If you have an original copy matching the sample, send it once the channel is agreed." },
+      { q: "Can the assessment be done remotely?", a: "Triage can often start remotely, but some cases require receiving the storage medium or an image of it, or controlled access to the company environment. That is decided after the initial details." },
+      { q: "How long do assessment and recovery take?", a: "It varies with the number of systems, data volume, encryption type, storage health, and the recovery path. We give an estimate after the initial inspection, prioritising critical systems in company cases." },
+      { q: "How much does it cost?", a: "It depends on the scope of devices, storage type, volume of work, whether a complex structure must be examined, and the recovery path. A case cannot be priced accurately from the extension alone." },
+      { q: "Do you guarantee full recovery?", a: "We do not give a guarantee before inspection. We set out the scope of testing, which files succeeded, and the expected outcome before carrying out a full recovery." },
+      { q: "Can file and folder names be recovered?", a: "It depends on the encryption mode, file-system integrity, and available copies. Sometimes the structure is recovered intact; sometimes files come back with partial names or paths." },
+      { q: "What if the backups are encrypted too?", a: "We examine offline copies, previous versions, snapshots, backup logs, and older storage media. Backups are not reconnected to the infected network before containment." },
+      { q: "Can VMware or Hyper-V be recovered?", a: "There may be options through backups, snapshots, virtual machine files, or partial data extraction. It depends on the platform, the state of its files, and the level of encryption." },
+      { q: "Can databases be recovered?", a: "It may be possible from a backup, a transaction log, a partially intact database file, or a logical extraction. Encryption is examined first, then the internal integrity of the database." },
+      { q: "Can I open an encrypted file just to test it?", a: "Avoid testing on the source. Some applications modify the file or write new data to the disk. Work on a copy, and after technical guidance." },
+      { q: "I found no ransom note — can the infection still be identified?", a: "Extensions, samples, logs, incident timing, and suspicious processes can all help, but the absence of a note can make identification harder." },
+      { q: "Do encrypted files spread the infection?", a: "The encrypted file itself is not necessarily the malware, but the environment it came from may contain executables or harmful scripts. Do not move its contents to a connected work machine without inspection." },
+      { q: "Can the attack come back after recovery?", a: "Yes, if the compromised account, the entry point, or an attacker access tool remains. The incident must be contained and the environment cleaned or rebuilt, and credentials changed, before a full return." },
+      { q: "What if the attacker claims to have stolen our data?", a: "Treat the claim as a security incident separate from file recovery: preserve the logs, identify the affected systems and data, and involve cyber security, legal counsel, and the relevant authorities." },
+      { q: "Are free decryption tools safe?", a: "Trustworthy tools exist for some families from known organisations, but the family and build must match, the instructions must be read, and testing must happen on a copy. Avoid unknown links and adverts." },
+      { q: "Should I keep the encrypted files if there is no solution now?", a: "Yes. Keep an unmodified copy along with the ransom note and the case details. A trustworthy tool may appear later for some families, though it cannot be promised." },
+      { q: "Is recovery done onto the same device?", a: "Usually it is better to recover onto a clean medium or environment after the breach is contained. Writing to a damaged source can reduce the chance of recovery or put the data back at risk." },
+      { q: "What if the disk is failing as well as encrypted?", a: "Storage health is addressed first and a suitable image is taken where possible, then the encryption is analysed on that copy. Running a degrading disk without a plan can increase the damage." },
+      { q: "The machine stopped mid-encryption — is that good?", a: "It may mean part of the data is untouched, but it can also leave partially encrypted files or an inconsistent structure. Do not keep power-cycling it; isolate the machine and ask for an assessment." },
+      { q: "Are OneDrive, Google Drive or cloud services affected?", a: "The service may sync the encrypted or deleted files. Pause syncing from the suspected devices and check version history and restore options before resuming." },
+      { q: "Should the incident be reported?", a: "There may be regulatory or contractual obligations that differ by organisation type, data, and customers. Coordinate with your cyber security lead, legal counsel, and the relevant authorities to determine what applies." },
+      { q: "What is the difference between BitLocker and ransomware?", a: "BitLocker is a legitimate disk-encryption feature. An attacker may misuse legitimate tools or change their keys, but losing a BitLocker key alone does not prove ransomware. Diagnosis rests on the incident context, the logs, and the messages." },
+      { q: "Does recovering the files mean the network is safe?", a: "No. Data recovery and incident response are related but different tracks. Attacker access must be removed, the entry point addressed, credentials changed, and verification done before normal operation resumes." }
     ]
   },
   "phones": {
@@ -851,6 +901,96 @@ function nextServiceOf(slug) {
   const order = config.serviceOrder;
   const i = order.indexOf(slug);
   return order[(i + 1) % order.length];
+}
+
+/* ---------- Deep expansion blocks (opt-in, per service) ----------
+   A service in build/depth.js may declare `alert` and `expand`. `expand` is an
+   ordered list of blocks, each naming one of a small set of shapes below.
+
+   Every shape reuses the site's existing visual vocabulary — .cases, .devices,
+   .how, .faq__rows, .warn-box — rather than inventing components. That is the
+   whole point: a page three times longer must still read as the same site, and
+   a bespoke component per section is how a page starts looking bolted together.
+
+   Tone alternates light/dark automatically so the rhythm holds however many
+   blocks a service declares. serviceDepth() ends dark, so this starts light.
+
+   A service with no `expand` renders exactly as before. */
+function expansionBlocks(lang, blocks, startLight = true) {
+  const t = ui[lang];
+  return blocks.map((b, i) => {
+    const tone = (startLight ? i % 2 === 0 : i % 2 === 1) ? "light" : "dark";
+    const id = `xb-${i + 1}`;
+    const head = sectionHead(b.eyebrow || "", id, b.title, b.lead || "", "");
+    const warn = b.warn ? `
+          <aside class="warn-box">
+            <p class="warn-box__label">${esc(b.warn.label || t.dangerLabel)}</p>
+            <p class="warn-box__title">${esc(b.warn.t)}</p>
+            <p class="warn-box__body">${esc(b.warn.b)}</p>
+          </aside>` : "";
+    let body = "";
+
+    if (b.kind === "cards") {
+      body = `<ul class="cases">
+            ${b.items.map((x, n) => `<li class="case-card"><span class="case-card__num" dir="ltr">${pad(n + 1)}</span><h3 class="case-card__title">${esc(x.t)}</h3><p class="case-card__text">${esc(x.b)}</p></li>`).join("\n            ")}
+          </ul>`;
+    } else if (b.kind === "notes") {
+      body = `<ul class="devices">
+            ${b.items.map((x) => `<li class="device"><h3 class="device__t">${esc(x.t)}</h3><p class="device__b">${esc(x.b)}</p></li>`).join("\n            ")}
+          </ul>`;
+    } else if (b.kind === "steps") {
+      body = `<ol class="how">
+            ${b.items.map((x, n) => `<li class="how__step"><span class="how__n" dir="ltr">${pad(n + 1)}</span><div><h3 class="how__t">${esc(x.t)}</h3><p class="how__b">${esc(x.b)}</p></div></li>`).join("\n            ")}
+          </ol>`;
+    } else if (b.kind === "accordion") {
+      body = `<div class="faq__rows">
+            ${b.items.map((x, n) => faqRow({ q: x.t, a: x.b }, n, id)).join("\n            ")}
+          </div>`;
+    } else if (b.kind === "list") {
+      const mod = b.tone === "avoid" ? " checklist--avoid" : "";
+      body = `<ul class="checklist${mod}">
+            ${b.items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
+          </ul>`;
+    } else if (b.kind === "prose") {
+      body = b.paras.map((x) => `<p class="prose-block__p">${esc(x)}</p>`).join("\n          ");
+      body = `<div class="prose-block">${body}</div>`;
+    } else {
+      throw new Error(`Unknown expansion block kind: ${b.kind}`);
+    }
+
+    return `
+      <section class="section section--${tone}" aria-labelledby="${id}">
+        <div class="container">
+          ${head}
+          ${body}${warn}
+        </div>
+      </section>`;
+  }).join("\n");
+}
+
+function serviceExpansion(lang, slug) {
+  const block = depth[slug];
+  if (!block || !block[lang] || !block[lang].expand) return "";
+  return expansionBlocks(lang, block[lang].expand);
+}
+
+/* The emergency bar sits directly under the hero, not with the other blocks:
+   a reader whose files encrypted an hour ago must meet the first instruction
+   before scrolling, and burying it eight sections down defeats it. */
+function serviceAlert(lang, slug) {
+  const block = depth[slug];
+  const a = block && block[lang] && block[lang].alert;
+  if (!a) return "";
+  return `
+    <section class="svc-alert" aria-labelledby="alert-title">
+      <div class="container svc-alert__inner">
+        <div class="svc-alert__copy">
+          <h2 class="svc-alert__title" id="alert-title">${esc(a.t)}</h2>
+          <p class="svc-alert__body">${esc(a.b)}</p>
+        </div>
+        <a class="btn btn--dark svc-alert__btn" href="${contactUrl(lang)}">${esc(a.btn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+      </div>
+    </section>`;
 }
 
 /* Depth sections appended to every service page: supported devices, the process
@@ -931,6 +1071,8 @@ function servicePage(lang, s) {
       </div>
     </section>
 
+    ${serviceAlert(lang, s.slug)}
+
     <section class="section section--light" aria-labelledby="sym-title">
       <div class="container">
         ${sectionHead(c.symHook, "sym-title", c.symTitle, "", "")}
@@ -961,6 +1103,7 @@ function servicePage(lang, s) {
     </section>
 
     ${serviceDepth(lang, s.slug)}
+    ${serviceExpansion(lang, s.slug)}
 
     <section class="section section--light" id="faq" aria-labelledby="svcfaq-title">
       <div class="container">
@@ -1986,9 +2129,11 @@ function sectionHead(eyebrow, titleId, title, noteStrong, note) {
           ${noteBlock}
         </div>`;
 }
-function faqRow(f, i) {
-  const qId = `faq-q-${i + 1}`;
-  const aId = `faq-a-${i + 1}`;
+function faqRow(f, i, ns = "faq") {
+  // `ns` يفصل معرّفات كل أكورديون: صفحة فيها أكورديونان بمعرّفات متطابقة
+  // تكسر aria-controls وتجعل قارئ الشاشة يفتح الإجابة الخطأ.
+  const qId = `${ns}-q-${i + 1}`;
+  const aId = `${ns}-a-${i + 1}`;
   // No `hidden` in the static markup: without JS the answers stay readable.
   // main.js collapses them and manages `hidden`/aria once JS is available.
   // The trigger sits inside a heading (WAI-ARIA accordion pattern), which also

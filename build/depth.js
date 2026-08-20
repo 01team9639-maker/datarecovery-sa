@@ -548,6 +548,211 @@ module.exports = {
   },
   ransomware: {
     ar: {
+      /* التوسعة العميقة — خطة العميل 2026-08-20. الكتل اختيارية ويعرضها
+         serviceExpansion() بترتيبها هنا، بمفردات تصميم الموقع نفسها.
+         ولا ادعاءات قدرة جديدة: قائمة الأنظمة تبقى في devices أعلاه كما
+         أقرّها العميل، ولا نِسَب نجاح ولا وعد بفكّ تشفير ولا مشورة قانونية. */
+      alert: {
+          t: "الإصابة ما زالت نشطة؟ افصل الجهاز عن الشبكة أولًا.",
+          b: "افصل كابل الشبكة وأوقف Wi‑Fi وVPN، وافصل وحدات التخزين والنسخ الاحتياطية المتصلة. لا تُطفئ الجهاز إن أمكن عزله وكان فريق الاستجابة متاحًا، فالذاكرة والسجلات قد تساعد في التحليل. وإن تعذّر عزله واستمر التشفير أو الانتشار، اطلب توجيهًا فوريًا.",
+          btn: "أحتاج توجيهًا عاجلًا"
+        },
+        expand: [
+          {
+            kind: "cards",
+            eyebrow: "ابدأ من حالتك",
+            title: "أي حالة تصف ما حدث لديك؟",
+            lead: "لا تتشابه إصابات الفدية. اختر الأقرب، ويبدأ التقييم من البيانات المتاحة بلا تعديل الملفات الأصلية.",
+            items: [
+              { t: "ملفات جهاز واحد لا تفتح", b: "ظهرت امتدادات جديدة أو رسالة فدية على كمبيوتر مكتبي أو محمول، وبقية الأجهزة تعمل." },
+              { t: "سيرفر أو شبكة شركة توقّفت", b: "تأثّرت مشاركات الشبكة أو حسابات المستخدمين أو أكثر من جهاز في الوقت نفسه." },
+              { t: "NAS أو RAID أو تخزين مشترك", b: "تشفّرت الملفات على وحدة تخزين شبكية أو مصفوفة أقراص أو مخزن مركزي." },
+              { t: "النسخ الاحتياطية تشفّرت أو حُذفت", b: "النسخ موجودة لكنها لا تفتح، أو حُذفت نقاط الاستعادة واللقطات." },
+              { t: "بيئة افتراضية أو ملفات آلات", b: "تأثّرت بيئة VMware أو Hyper‑V أو ملفات الأقراص الافتراضية والأنظمة المستضافة." },
+              { t: "تهديد بتسريب البيانات", b: "وصلت رسالة تدّعي سرقة بيانات أو تهدّد بنشرها، سواء حدث تشفير للملفات أو لا." }
+            ]
+          },
+          {
+            kind: "prose",
+            eyebrow: "تعريف قبل أي إجراء",
+            title: "ما هو فيروس الفدية؟",
+            paras: [
+              "فيروس الفدية برمجية خبيثة تمنع الوصول إلى الملفات أو الأنظمة، ثم يطلب المهاجم مقابلًا ماليًا لاستعادة الوصول أو لمنع نشر بيانات يدّعي أنه سرقها. قد يقتصر الهجوم على جهاز واحد، وقد ينتقل عبر الشبكة فيصل إلى السيرفرات ووحدات التخزين المشتركة والنسخ الاحتياطية والخدمات السحابية المتزامنة.",
+              "تغيّر امتداد الملف لا يعني أن اسم الامتداد هو مفتاح فك التشفير، ولا أن حذف البرمجية الخبيثة يعيد الملفات تلقائيًا. يبدأ التقييم الصحيح بتحديد نمط الإصابة، وحفظ الأدلة، وفحص مسارات الاستعادة المتاحة من دون الكتابة فوق المصدر."
+            ]
+          },
+          {
+            kind: "list",
+            eyebrow: "قبل أن تفترض",
+            title: "كيف تعرف أن ما حدث قد يكون هجوم فدية؟",
+            lead: "المؤشّرات مجتمعة أدقّ من أي مؤشّر منفرد. اقرأها كصورة كاملة لا كقائمة تحقّق.",
+            items: [
+              "ظهور امتداد جديد على عدد كبير من الملفات.",
+              "تعذّر فتح الصور والمستندات وقواعد البيانات رغم بقاء أحجامها.",
+              "وجود ملف نصّي أو HTML يتضمّن تعليمات دفع أو وسيلة تواصل.",
+              "تغيّر خلفية سطح المكتب أو ظهور شاشة قفل.",
+              "توقّف خدمات أو تطبيقات شركة بشكل مفاجئ.",
+              "تشفير ملفات على مجلدات مشتركة أو عدة أجهزة في وقت متقارب.",
+              "اختفاء نسخ احتياطية أو نقاط استعادة أو لقطات افتراضية.",
+              "رسائل تهدّد بنشر بيانات أو بالتواصل مع العملاء والشركاء."
+            ],
+            warn: {
+              label: "انتبه",
+              t: "ليس كل عطل يشبه الفدية هجومًا",
+              b: "تلف نظام الملفات، وفساد قاعدة البيانات، وخلل مفاتيح التشفير، والتشفير الشرعي مثل BitLocker — كلها قد تُنتج الأعراض نفسها. لذلك لا يُعتمد التشخيص على الامتداد أو الصورة وحدهما."
+            }
+          },
+          {
+            kind: "prose",
+            eyebrow: "الترتيب يسبق الأدوات",
+            title: "الاستعادة تبدأ بتحديد الإصابة، لا بتجربة البرامج",
+            paras: [
+              "نقارن رسالة الفدية، وامتداد الملفات، ونمط التشفير، وتوقيت الحادث، والملفات التنفيذية والسجلات المتاحة. وقد نطلب عيّنة صغيرة مشفّرة مع نسخة أصلية مطابقة إن توفّرت. هذه المؤشّرات تساعد في تحديد العائلة أو النمط التقني، والتحقّق من وجود أداة موثوقة، أو نسخة احتياطية صالحة، أو إصدار سابق، أو بقايا بيانات غير مشفّرة، أو مسار آخر للاستعادة.",
+              "ولا يكفي اسم الامتداد وحده لتحديد العائلة: قد تستخدم عائلات مختلفة الامتداد نفسه، وقد تغيّر العائلة امتداداتها أو رسائلها بين ضحية وأخرى."
+            ]
+          },
+          {
+            kind: "accordion",
+            eyebrow: "ليست نوعًا واحدًا",
+            title: "أنواع هجمات الفدية",
+            lead: "يختلف مسار التعامل باختلاف النوع. هذه الأنواع الثمانية تغطّي معظم ما يصل إلينا.",
+            items: [
+              { t: "فدية تشفير الملفات — Crypto Ransomware", b: "تشفير الملفات أو أجزاء منها مع بقاء النظام قادرًا على العمل أحيانًا. قد تستهدف المستندات والصور وقواعد البيانات والنسخ الاحتياطية وملفات الآلات الافتراضية." },
+              { t: "فدية قفل الجهاز — Locker Ransomware", b: "تمنع تسجيل الدخول أو استخدام الجهاز عبر شاشة قفل، من دون أن يعني ذلك بالضرورة تشفير كل ملف. يحتاج التقييم إلى التمييز بين قفل الواجهة وتشفير البيانات فعليًا." },
+              { t: "الابتزاز المزدوج — Double Extortion", b: "يدّعي المهاجم سرقة بيانات قبل تشفيرها، ثم يهدّد بالنشر بالإضافة إلى تعطيل الوصول. هنا مهمتان منفصلتان: استعادة التشغيل، والتحقّق من نطاق التسريب والاستجابة النظامية والقانونية." },
+              { t: "الابتزاز المتعدّد — Multi/Triple Extortion", b: "قد يضيف المهاجم ضغطًا آخر مثل التواصل مع العملاء أو الشركاء، أو تعطيل الخدمات، أو التهديد بهجوم حجب خدمة. لا يعني فكّ التشفير وحده انتهاء الحادث." },
+              { t: "ابتزاز بتسريب البيانات من دون تشفير", b: "في بعض الحوادث يسرق المهاجم بيانات ويطلب المال من دون تشفير الملفات. هذه حالة استجابة لحادث تسريب بيانات، وليست استعادة ملفات فقط." },
+              { t: "برمجيات مسح تتظاهر بأنها فدية — Wiper", b: "قد يبدو الهجوم كفدية لكنه يتلف البيانات أو مفاتيحها بقصد التخريب. فرص الاستعادة تختلف جذريًا، ولذلك لا يُوعَد بوجود مفتاح أو فكّ تشفير قبل التحليل." },
+              { t: "فدية تستهدف الأنظمة والخوادم", b: "قد تُنفَّذ على Windows أو Linux أو بيئات افتراضية، وقد تشفّر مخازن كبيرة بسرعة. الأولوية هي عزل نقاط الانتشار، وحماية النسخ غير المتأثّرة، ثم تحديد الأنظمة الحرجة وترتيب استعادتها." },
+              { t: "نموذج «الفدية كخدمة» — Ransomware as a Service", b: "ليس نوع تشفير مستقلًّا، بل نموذج تشغيل يوفّر فيه مطوّرو أدوات بنية ابتزاز لجهات أخرى تنفّذ الهجمات. قد تظهر اختلافات في الرسائل والامتدادات حتى ضمن العائلة نفسها." }
+            ]
+          },
+          {
+            kind: "notes",
+            eyebrow: "أكثر من طريق واحد",
+            title: "ما الخيارات التي نفحصها قبل الوصول إلى النتيجة؟",
+            lead: "لا تعتمد الاستعادة على طريق واحد. نفحص المسارات التالية حسب الحالة، مع العمل على نسخة مطابقة قدر الإمكان والحفاظ على المصدر الأصلي.",
+            items: [
+              { t: "أداة فكّ تشفير موثوقة", b: "قد تتوفّر أداة معروفة لبعض الإصدارات أو الضحايا. ووجود أداة لعائلة معيّنة لا يعني أنها تعمل مع كل إصدار أو مفتاح، ولذلك تُختبر على نسخة قبل أي تطبيق واسع." },
+              { t: "نسخة احتياطية سليمة", b: "يتم التحقّق من تاريخ النسخة واكتمالها وسلامتها، ومن عدم احتوائها على بقايا الاختراق، قبل إعادتها إلى بيئة نظيفة." },
+              { t: "الإصدارات السابقة واللقطات", b: "قد توجد نسخ سابقة في نظام التخزين أو الخدمة السحابية أو المنصّة الافتراضية. يجب فحصها قبل مزامنة أو كتابة بيانات جديدة تمحوها." },
+              { t: "بقايا الملفات الأصلية", b: "قد يترك أسلوب التشفير نسخًا محذوفة أو مؤقّتة أو أجزاء غير مشفّرة. تعتمد الفرصة على نوع وسيط التخزين، ومقدار الاستخدام بعد الحادث، وخصائص TRIM أو إعادة الكتابة." },
+              { t: "استعادة من التطبيق أو قاعدة البيانات", b: "قد تتوفّر سجلّات معاملات، أو نسخ تصدير، أو ملفات مؤقّتة، أو مرفقات ومخرجات تطبيق تساعد في إعادة جزء من البيانات حتى عندما لا يمكن فكّ الملفات مباشرة." },
+              { t: "استعادة بيئة افتراضية أو تخزين مركزي", b: "قد يكون المسار عبر ملفات آلة افتراضية، أو لقطات، أو نسخ Replication، أو طبقات تخزين لم تتأثّر بالكامل. يحتاج ذلك إلى فحص البنية وليس ملفًا واحدًا فقط." },
+              { t: "استعادة جزئية مرتّبة حسب الأولوية", b: "عندما لا تكون الاستعادة الكاملة ممكنة، تُرتَّب الملفات والأنظمة حسب أولويتها التشغيلية، ثم تُقاس النتيجة ويُتحقَّق من صلاحية الملفات المستعادة." },
+              { t: "عدم وجود مسار تقني حالي", b: "بعض الحالات لا يتوفّر لها مفتاح ولا نسخة ولا بقايا قابلة للاستعادة. تُذكر هذه النتيجة بصراحة، مع حفظ نسخة من البيانات المشفّرة لاحتمال ظهور حلّ موثوق مستقبلًا." }
+            ],
+            warn: {
+              label: "الصريح أولًا",
+              t: "لا توجد نسبة نجاح ثابتة لفيروس الفدية",
+              b: "تعتمد النتيجة على العائلة والإصدار، وطريقة التشفير، وحالة المفتاح، ونوع التخزين، والنسخ الاحتياطية، وحجم الكتابة على الجهاز بعد الحادث. أي رقم يُعطى قبل الفحص تخمين لا تقدير."
+            }
+          },
+          {
+            kind: "steps",
+            title: "ما الذي نحتاجه لتقييم الحالة؟",
+            items: [
+              { t: "رسالة الفدية", b: "صورة أو نسخة منها، ويُفضّل الملف النصّي أو HTML الأصلي كما هو." },
+              { t: "الامتداد الذي ظهر على الملفات", b: "كما هو تمامًا، بلا تصحيح أو إعادة كتابة." },
+              { t: "عيّنة صغيرة مشفّرة", b: "ملف غير حسّاس، ومعه نسخة أصلية مطابقة للعيّنة إن كانت متوفّرة." },
+              { t: "نوع الأجهزة والأنظمة", b: "الأجهزة والأنظمة ووسائط التخزين المتأثّرة، وعددها التقريبي." },
+              { t: "توقيت الحادث", b: "وقت ملاحظة المشكلة، وآخر وقت كانت فيه الملفات تعمل." },
+              { t: "حالة الشبكة والنسخ", b: "هل ما زال أي جهاز متصلًا؟ وهل توجد نسخ احتياطية، وهل كانت متصلة؟" },
+              { t: "ما جرى بعد الإصابة", b: "هل شُغّل برنامج تنظيف أو فكّ تشفير أو تهيئة؟ وهل توجد مؤشّرات على وصول غير مصرّح به؟" },
+              { t: "أولويات الاستعادة", b: "أيّ الأنظمة والملفات يجب إعطاؤها الأولوية إن تعذّرت الاستعادة الكاملة." }
+            ],
+            warn: {
+              label: "خصوصية",
+              t: "لا ترسل ملفات حسّاسة كاملة في أول تواصل",
+              b: "ابدأ برسالة الفدية وعيّنة غير حسّاسة، وانتظر تحديد القناة التي تُعتمد للحالة. وأي تفاصيل تقنية إضافية تُجمَع بعد أول تواصل، لا في نموذج طويل قبله."
+            }
+          },
+          {
+            kind: "steps",
+            title: "من إرسال الحالة إلى التسليم",
+            items: [
+              { t: "فرز الحالة العاجل", b: "نتحقّق من نشاط الهجوم، ونطاق الأجهزة المتأثّرة، ووجود خطر على أجهزة أو نسخ احتياطية أخرى." },
+              { t: "حفظ الأدلة والمصدر", b: "نحدّد ما يجب الاحتفاظ به، ونوصي بالعمل على نسخة من وسيط التخزين متى كان ذلك مناسبًا." },
+              { t: "تحديد نمط الإصابة", b: "نفحص رسالة الفدية والامتداد والعيّنات والسجلات والبنية المتأثّرة لتقييم التخمين الأقرب." },
+              { t: "اختبار مسارات الاستعادة", b: "نختبر الأدوات الموثوقة والنسخ والإصدارات السابقة وبقايا البيانات أو مسارات التطبيق على نطاق محدود وآمن." },
+              { t: "عرض النتيجة والنطاق", b: "نوضّح ما هو ممكن، وما هو غير مؤكّد، والأولويات، والوقت والتكلفة قبل الاستمرار في العمل الكامل." },
+              { t: "الاستعادة في بيئة نظيفة", b: "تتمّ الاستعادة إلى وسيط أو بيئة نظيفة، مع عدم إعادة الملفات مباشرة إلى نظام ما زال مخترقًا." },
+              { t: "التحقّق والتسليم", b: "تُراجَع سلامة عيّنة موثّقة من الملفات والأنظمة، وتُسلَّم البيانات وفق النطاق المتّفق عليه." },
+              { t: "تقليل احتمال التكرار", b: "بعد الاستعادة، يمكن تقديم توصيات عن النسخ الاحتياطية والحسابات والتحديثات والتقسيم الشبكي والمراقبة." }
+            ]
+          },
+          {
+            kind: "cards",
+            eyebrow: "بين الطرفين",
+            title: "ليست كل حالة «فكّ تشفير أو لا شيء»",
+            lead: "هذه أنماط شائعة ونتائجها المحتملة. ليست وعودًا، بل توضيح لما يحدث فعليًا بين الحالتين القصوى.",
+            items: [
+              { t: "أداة موثوقة متاحة للإصدار نفسه", b: "يُجرى اختبار على نسخ من عيّنات محدودة. إن نجح الاختبار مع الحفاظ على سلامة الملف، يمكن توسيع النطاق وفق خطة واضحة." },
+              { t: "النسخة الاحتياطية سليمة والبيئة مخترقة", b: "لا تُعاد النسخة فورًا. الأولوية لعزل الاختراق، والتحقّق من النسخة، وتنظيف أو إعادة بناء البيئة، ثم الاستعادة." },
+              { t: "النسخ الاحتياطية نفسها مشفّرة", b: "يتم فحص النسخ غير المتصلة، والإصدارات السابقة، والتخزين القديم، وسجلّات النسخ وطبقات الحماية أو اللقطات التي قد لا تكون ظاهرة للمستخدم." },
+              { t: "تشفير جزئي أو توقّف الهجوم أثناء التنفيذ", b: "قد تبقى ملفات أو أجزاء أو أجهزة غير متأثّرة. يجب حماية ما تبقّى فورًا، ثم فرز البيانات بدلًا من افتراض أن كل شيء في الحالة نفسها." },
+              { t: "قاعدة بيانات أو آلة افتراضية كبيرة لا تفتح", b: "قد يكون الملف الحالي مشفّرًا جزئيًا أو تالفًا. يُقيَّم التشفير أولًا، ثم سلامة البنية الداخلية وإمكانية استخراج بيانات جزئية." },
+              { t: "SSD استُخدم بكثافة بعد الإصابة", b: "إعادة الكتابة وخصائص TRIM قد تُقلّلان فرصة استعادة النسخ المحذوفة. لذلك يجب تقليل الاستخدام وعدم تثبيت أدوات على القرص نفسه." },
+              { t: "تهديد بتسريب بيانات من دون تشفير", b: "التركيز يكون على احتواء الوصول، وحفظ السجلّات، وتحديد البيانات والحسابات المتأثّرة، والتنسيق مع الأمن السيبراني والشؤون القانونية والجهات المختصة." },
+              { t: "لا يوجد حلّ تقني حالي", b: "تُحفظ الملفات المشفّرة ورسالة الفدية ومعلومات الحالة من دون تعديل. قد تظهر أدوات موثوقة لاحقًا لبعض العائلات، لكن لا يمكن ضمان ذلك أو تحديد موعد له." }
+            ]
+          },
+          {
+            kind: "list",
+            tone: "avoid",
+            eyebrow: "الأكثر ضررًا",
+            title: "تجنّب الخطوات التي قد تُقلّل فرص الاستعادة",
+            lead: "معظم ما يُفقد نهائيًا يُفقد في الساعات الأولى، وبأفعال تبدو معقولة.",
+            items: [
+              "لا تُهيّئ القرص ولا تعد تثبيت النظام على المصدر الأصلي.",
+              "لا تحذف الملفات المشفّرة أو رسالة الفدية أو السجلّات.",
+              "لا تغيّر امتداد الملفات يدويًا؛ تغيير الاسم لا يفكّ التشفير.",
+              "لا تشغّل أدوات فكّ تشفير من إعلانات أو روابط غير موثوقة.",
+              "لا تثبّت برامج على القرص المتضرّر ولا تنسخ إليه ملفات جديدة.",
+              "لا تُوصِل النسخ الاحتياطية أو الأقراص السليمة بجهاز مشتبه بإصابته.",
+              "لا تبدأ استعادة النسخ إلى الشبكة قبل احتواء الاختراق.",
+              "لا تفتح العيّنات على جهاز عمل متصل بالشبكة.",
+              "لا تعد تشغيل الأجهزة مرات متكرّرة بلا خطة.",
+              "لا تتفاوض أو تدفع قبل تقييم تقني وقانوني وإداري للحادث.",
+              "لا تفترض أن حذف البرمجية يعني أن الحسابات أو الشبكة أصبحت آمنة.",
+              "لا تعلن تفاصيل حسّاسة عن الحادث علنًا قبل تنسيق الاستجابة."
+            ]
+          },
+          {
+            kind: "prose",
+            eyebrow: "قرار لا يُختصر",
+            title: "الدفع لا يضمن عودة البيانات ولا انتهاء الحادث",
+            paras: [
+              "قد لا يرسل المهاجم مفتاحًا، وقد تكون أداة الفكّ بطيئة أو تالفة، وقد يستمرّ الابتزاز بسبب نسخة مسروقة من البيانات. كما أن الدفع قد يشجّع على إعادة الاستهداف. لذلك يجب تقييم النسخ الاحتياطية، والأدوات الموثوقة، ونطاق الاختراق ومسارات الاستعادة أولًا، مع إشراف الإدارة والأمن السيبراني والمستشار القانوني والجهات المختصة عند الحاجة.",
+              "وحتى عند توفّر أداة فكّ من المهاجم، تبقى الحاجة إلى احتواء الاختراق، وتغيير بيانات الاعتماد، وفحص الأنظمة، والتأكّد من عدم وجود وصول مستمرّ."
+            ],
+            warn: {
+              label: "حدود هذه الصفحة",
+              t: "هذه ليست مشورة قانونية",
+              b: "الالتزامات تختلف حسب الجهة والأطراف والأنظمة المطبّقة. حدّد ما ينطبق على حالتك مع مسؤول الأمن السيبراني والمستشار القانوني والجهات المختصة."
+            }
+          },
+          {
+            kind: "list",
+            eyebrow: "بعد الاستعادة",
+            title: "امنع تكرار نقطة الدخول نفسها",
+            lead: "العودة إلى التشغيل ليست نهاية الحادث. إن بقيت نقطة الدخول مفتوحة، قد تتكرّر الإصابة بعد الاستعادة.",
+            items: [
+              "احتفظ بنسخ احتياطية منفصلة وغير متصلة دائمًا، واختبر الاستعادة دوريًا.",
+              "استخدم نسخة غير قابلة للتعديل أو الحذف من حسابات التشغيل اليومية متى أمكن.",
+              "فعّل المصادقة متعدّدة العوامل، خصوصًا للبريد وVPN والحسابات الإدارية.",
+              "حدّث الأنظمة والتطبيقات وأجهزة الشبكة وفق برنامج واضح.",
+              "قلّل صلاحيات المدير وافصل الحسابات الإدارية عن الاستخدام اليومي.",
+              "قيّد خدمات الوصول البعيد، ولا تترك RDP أو لوحات الإدارة مكشوفة للإنترنت.",
+              "قسّم الشبكة حتى لا ينتقل اختراق جهاز واحد إلى كل الخوادم والنسخ.",
+              "راقب محاولات الدخول وإنشاء الحسابات وتعطيل الحماية وحذف النسخ.",
+              "استخدم حماية نقاط النهاية والبريد وتصفية المرفقات والروابط.",
+              "ضع خطة استجابة تحدّد من يعزل الأنظمة، ومن يتواصل، وما ترتيب الاستعادة.",
+              "اختبر استمرارية الأعمال، لا مجرّد نجاح النسخ الاحتياطي.",
+              "راجع وصول الأطراف الخارجية والحسابات القديمة والمفاتيح السرّية."
+            ]
+          }
+        ],
       devicesTitle: "الأنظمة والبيئات التي نفحصها بعد التشفير",
       devicesLead: "أثر الفدية يختلف باختلاف ما أصابه. ملف قاعدة بيانات وصورة قرص افتراضي لا يُقرآن كما تُقرأ المستندات. نبدأ بتحديد عائلة التشفير من الامتداد الجديد ورسالة الفدية وبنية الملف المشفر — عائلات مثل LockBit وPhobos وMakop لها بصمات معروفة — ثم نقيس كم شُفّر فعلياً من كل ملف.",
       devices: [
@@ -600,6 +805,208 @@ module.exports = {
       caseResult: "عاد جزء من المستندات من أصول محذوفة، وأمكن بناء قاعدة البيانات من صفحات لم يمسّها التشفير ومن نسخة أقدم على وحدة أخرى. ملفات أخرى بقيت مشفرة بلا مصدر بديل. هذه الحصة لا تُعرف قبل الفحص، وتختلف من إصابة إلى أخرى."
     },
     en: {
+      /* مرآة العربية كتلةً بكتلة — نفس الترتيب ونفس الأعداد. */
+      alert: {
+          t: "Is the infection still active? Disconnect the machine from the network first.",
+          b: "Unplug the network cable, turn off Wi-Fi and VPN, and disconnect attached storage and backups. Do not power the machine off if it can be isolated and a response team is available, because memory and logs may help the analysis. If it cannot be isolated and encryption or spread continues, ask for immediate guidance.",
+          btn: "I need urgent guidance"
+        },
+        expand: [
+          {
+            kind: "cards",
+            eyebrow: "Start from your case",
+            title: "Which case describes what happened to you?",
+            lead: "Ransomware incidents are not alike. Pick the closest one, and the assessment starts from the available evidence without altering the original files.",
+            items: [
+              { t: "One machine's files will not open", b: "New extensions or a ransom note appeared on a desktop or laptop, and the rest of the machines are working." },
+              { t: "A company server or network stopped", b: "Network shares, user accounts, or more than one machine were affected at the same time." },
+              { t: "NAS, RAID or shared storage", b: "Files were encrypted on network-attached storage, a disk array, or central storage." },
+              { t: "Backups encrypted or deleted", b: "The backups exist but will not open, or restore points and snapshots were deleted." },
+              { t: "Virtual environment or VM files", b: "A VMware or Hyper-V environment, virtual disk files, or hosted systems were affected." },
+              { t: "Threat to leak data", b: "A message arrived claiming data was stolen or threatening to publish it, whether or not files were encrypted." }
+            ]
+          },
+          {
+            kind: "prose",
+            eyebrow: "Definition before action",
+            title: "What is ransomware?",
+            paras: [
+              "Ransomware is malicious software that blocks access to files or systems, after which the attacker demands payment to restore access or to withhold data they claim to have stolen. An attack may stay on a single machine, or move across the network to reach servers, shared storage, backups, and synchronised cloud services.",
+              "A changed file extension does not mean the extension name is the decryption key, nor does removing the malware bring the files back on its own. A sound assessment starts by identifying the pattern of infection, preserving the evidence, and examining the available recovery paths without writing over the source."
+            ]
+          },
+          {
+            kind: "list",
+            eyebrow: "Before you assume",
+            title: "How do you know what happened might be a ransomware attack?",
+            lead: "The indicators are more reliable together than any one of them alone. Read them as a whole picture, not a checklist.",
+            items: [
+              "A new extension appearing on a large number of files.",
+              "Images, documents and databases failing to open while their sizes stay the same.",
+              "A text or HTML file containing payment instructions or a contact method.",
+              "The desktop wallpaper changing, or a lock screen appearing.",
+              "Company services or applications stopping suddenly.",
+              "Files encrypted across shared folders or several machines at around the same time.",
+              "Backups, restore points, or virtual snapshots disappearing.",
+              "Messages threatening to publish data or to contact your customers and partners."
+            ],
+            warn: {
+              label: "Careful",
+              t: "Not every fault that looks like ransomware is an attack",
+              b: "File-system corruption, a damaged database, lost encryption keys, and legitimate encryption such as BitLocker can all produce the same symptoms. That is why diagnosis never rests on the extension or a screenshot alone."
+            }
+          },
+          {
+            kind: "prose",
+            eyebrow: "Order before tools",
+            title: "Recovery starts by identifying the infection, not by trying software",
+            paras: [
+              "We compare the ransom note, the file extension, the encryption pattern, the timing of the incident, and the executables and logs available. We may ask for a small encrypted sample together with a matching original file if you have one. These indicators help identify the family or the technical pattern, and establish whether there is a trustworthy tool, a valid backup, an earlier version, unencrypted remnants, or another route to recovery.",
+              "The extension name alone is not enough to identify the family: different families may use the same extension, and a family may change its extensions or messages from one victim to the next."
+            ]
+          },
+          {
+            kind: "accordion",
+            eyebrow: "Not one single thing",
+            title: "Types of ransomware attack",
+            lead: "The route differs with the type. These eight cover most of what reaches us.",
+            items: [
+              { t: "File-encrypting ransomware — Crypto", b: "Encrypts files or parts of them while the system sometimes keeps working. It may target documents, images, databases, backups, and virtual machine files." },
+              { t: "Device-locking ransomware — Locker", b: "Blocks sign-in or use of the machine behind a lock screen, without that necessarily meaning every file is encrypted. The assessment has to separate a locked interface from data that is genuinely encrypted." },
+              { t: "Double extortion", b: "The attacker claims to have stolen data before encrypting it, then threatens publication as well as blocking access. That is two separate jobs: restoring operations, and establishing the scope of the leak alongside the regulatory and legal response." },
+              { t: "Multi or triple extortion", b: "The attacker may add further pressure such as contacting customers or partners, disrupting services, or threatening a denial-of-service attack. Decryption alone does not end the incident." },
+              { t: "Data-leak extortion without encryption", b: "In some incidents the attacker steals data and demands payment without encrypting anything. That is a data-breach response case, not only a file recovery one." },
+              { t: "Wipers disguised as ransomware", b: "The attack may look like ransomware while actually destroying the data or its keys for sabotage. The odds of recovery are fundamentally different, which is why no key or decryption is promised before analysis." },
+              { t: "Ransomware targeting systems and servers", b: "It may run on Windows, Linux, or virtual environments, and can encrypt large stores quickly. The priority is isolating the points of spread, protecting unaffected copies, then identifying critical systems and the order in which to restore them." },
+              { t: "Ransomware as a Service", b: "Not a distinct encryption type but an operating model, in which tool developers supply an extortion infrastructure to other groups who carry out the attacks. Messages and extensions can vary even within the same family." }
+            ]
+          },
+          {
+            kind: "notes",
+            eyebrow: "More than one route",
+            title: "Which options do we examine before reaching a result?",
+            lead: "Recovery does not rest on a single route. We examine the following paths as the case allows, working on a matching copy wherever possible and preserving the original source.",
+            items: [
+              { t: "A trustworthy decryption tool", b: "A known tool may exist for certain builds or victims. A tool existing for a family does not mean it works with every build or key, so it is tested on a copy before any wider use." },
+              { t: "An intact backup", b: "The backup's date, completeness and integrity are verified, along with the absence of any remnants of the breach, before it is restored into a clean environment." },
+              { t: "Earlier versions and snapshots", b: "Earlier copies may exist in the storage system, the cloud service, or the virtualisation platform. They must be examined before any sync or new write erases them." },
+              { t: "Remnants of the original files", b: "The encryption method may leave deleted or temporary copies, or unencrypted fragments. The odds depend on the storage medium, how much the device was used after the incident, and TRIM or overwriting behaviour." },
+              { t: "Recovery from the application or database", b: "Transaction logs, export copies, temporary files, attachments, or application output may help return part of the data even when the files themselves cannot be decrypted directly." },
+              { t: "Virtual environment or central storage", b: "The route may run through virtual machine files, snapshots, replication copies, or storage layers that were not fully affected. That calls for examining the structure, not a single file." },
+              { t: "Partial recovery ordered by priority", b: "Where full recovery is not possible, files and systems are ordered by operational priority, then the result is measured and the recovered files checked for validity." },
+              { t: "No current technical route", b: "Some cases have no key, no copy, and no recoverable remnants. That result is stated plainly, and a copy of the encrypted data is preserved in case a trustworthy solution appears later." }
+            ],
+            warn: {
+              label: "Plainly",
+              t: "There is no fixed success rate for ransomware",
+              b: "The outcome depends on the family and build, the encryption method, the state of the key, the storage type, the backups, and how much was written to the machine after the incident. Any figure given before inspection is a guess, not an estimate."
+            }
+          },
+          {
+            kind: "steps",
+            title: "What do we need to assess the case?",
+            items: [
+              { t: "The ransom note", b: "A photograph or copy, ideally the original text or HTML file exactly as it is." },
+              { t: "The extension that appeared", b: "Exactly as it appears, with no correction or retyping." },
+              { t: "A small encrypted sample", b: "A non-sensitive file, together with a matching original of that same file if you have one." },
+              { t: "Device and system types", b: "The devices, systems and storage media affected, and roughly how many." },
+              { t: "Timing of the incident", b: "When the problem was noticed, and the last time the files were working." },
+              { t: "Network and backup state", b: "Is any machine still connected? Do backups exist, and were they connected?" },
+              { t: "What happened after the infection", b: "Was a cleanup, decryption or formatting tool run? Are there signs of unauthorised access?" },
+              { t: "Recovery priorities", b: "Which systems and files should come first if full recovery is not possible." }
+            ],
+            warn: {
+              label: "Privacy",
+              t: "Do not send whole sensitive files in first contact",
+              b: "Start with the ransom note and a non-sensitive sample, and wait until the channel for the case is agreed. Further technical detail is gathered after first contact, not in a long form before it."
+            }
+          },
+          {
+            kind: "steps",
+            title: "From sending the case to handover",
+            items: [
+              { t: "Urgent triage", b: "We establish whether the attack is still active, the scope of affected machines, and any risk to other machines or backups." },
+              { t: "Preserving evidence and source", b: "We identify what must be kept, and recommend working from an image of the storage medium where that is appropriate." },
+              { t: "Identifying the pattern", b: "We examine the ransom note, extension, samples, logs, and affected structure to assess the closest match." },
+              { t: "Testing recovery paths", b: "We test trustworthy tools, backups, earlier versions, data remnants, or application routes on a limited and safe scope." },
+              { t: "Presenting result and scope", b: "We set out what is possible, what is uncertain, the priorities, and the time and cost before continuing with the full job." },
+              { t: "Recovery into a clean environment", b: "Data is recovered onto a clean medium or environment, and files are not returned directly to a system that is still compromised." },
+              { t: "Verification and handover", b: "A documented sample of files and systems is checked for integrity, and the data is handed over within the agreed scope." },
+              { t: "Reducing the chance of recurrence", b: "After recovery we can give recommendations on backups, accounts, patching, network segmentation, and monitoring." }
+            ]
+          },
+          {
+            kind: "cards",
+            eyebrow: "Between the extremes",
+            title: "Not every case is decryption or nothing",
+            lead: "These are common patterns and their likely outcomes. Not promises — an account of what actually happens between the two extremes.",
+            items: [
+              { t: "A trustworthy tool exists for the same build", b: "Testing is carried out on copies of a limited set of samples. If the test succeeds while file integrity holds, the scope can be widened under a clear plan." },
+              { t: "The backup is intact but the environment is compromised", b: "The backup is not restored straight away. The priority is isolating the breach, verifying the backup, cleaning or rebuilding the environment, and then restoring." },
+              { t: "The backups themselves are encrypted", b: "We examine offline copies, earlier versions, older storage, backup logs, and protection layers or snapshots that may not be visible to the user." },
+              { t: "Partial encryption, or the attack stopped mid-run", b: "Files, fragments or whole machines may be untouched. What remains must be protected immediately, then the data triaged rather than assumed to be all in the same state." },
+              { t: "A large database or VM will not open", b: "The current file may be partially encrypted or corrupted. Encryption is assessed first, then internal structural integrity and whether partial extraction is possible." },
+              { t: "An SSD used heavily after infection", b: "Overwriting and TRIM can reduce the chance of recovering deleted copies. Usage should therefore be minimised, and no tools installed onto that disk." },
+              { t: "A leak threat with no encryption", b: "The focus is containing access, preserving logs, identifying the affected data and accounts, and coordinating with cyber security, legal counsel, and the relevant authorities." },
+              { t: "No current technical solution", b: "The encrypted files, the ransom note, and the case details are preserved unmodified. Trustworthy tools may appear later for some families, but that cannot be guaranteed or dated." }
+            ]
+          },
+          {
+            kind: "list",
+            tone: "avoid",
+            eyebrow: "Most damaging",
+            title: "Avoid the steps that can reduce the chance of recovery",
+            lead: "Most of what is lost for good is lost in the first hours, through actions that look reasonable.",
+            items: [
+              "Do not format the disk or reinstall the system onto the original source.",
+              "Do not delete the encrypted files, the ransom note, or the logs.",
+              "Do not rename file extensions by hand; renaming does not decrypt anything.",
+              "Do not run decryption tools from adverts or untrusted links.",
+              "Do not install software onto the affected disk or copy new files to it.",
+              "Do not connect backups or healthy disks to a machine you suspect is infected.",
+              "Do not start restoring backups to the network before the breach is contained.",
+              "Do not open samples on a work machine that is connected to the network.",
+              "Do not keep power-cycling the machines without a plan.",
+              "Do not negotiate or pay before a technical, legal and management assessment.",
+              "Do not assume that removing the malware makes the accounts or network safe.",
+              "Do not disclose sensitive incident details publicly before the response is coordinated."
+            ]
+          },
+          {
+            kind: "prose",
+            eyebrow: "Not a shortcut",
+            title: "Paying does not guarantee the data back, nor the end of the incident",
+            paras: [
+              "The attacker may not send a key, the decryption tool may be slow or faulty, and the extortion may continue because of a stolen copy of the data. Payment can also encourage repeat targeting. Backups, trustworthy tools, the scope of the breach, and the recovery paths should therefore be assessed first, with oversight from management, cyber security, legal counsel, and the relevant authorities where needed.",
+              "Even where a decryption tool is supplied by the attacker, the breach still has to be contained, credentials changed, systems examined, and continued access ruled out."
+            ],
+            warn: {
+              label: "Limits of this page",
+              t: "This is not legal advice",
+              b: "Obligations differ by organisation, the parties involved, and the regulations that apply. Establish what applies to your case with your cyber security lead, legal counsel, and the relevant authorities."
+            }
+          },
+          {
+            kind: "list",
+            eyebrow: "After recovery",
+            title: "Close the entry point so it is not used again",
+            lead: "Returning to operation is not the end of the incident. If the entry point stays open, the infection can return after recovery.",
+            items: [
+              "Keep separate, offline backups at all times, and test restoring them regularly.",
+              "Use a copy that day-to-day operational accounts cannot modify or delete, wherever possible.",
+              "Enable multi-factor authentication, especially for email, VPN, and administrative accounts.",
+              "Patch systems, applications and network devices under a clear programme.",
+              "Reduce administrator rights and separate admin accounts from daily use.",
+              "Restrict remote access services; do not leave RDP or management panels exposed to the internet.",
+              "Segment the network so one compromised machine cannot reach every server and backup.",
+              "Monitor sign-in attempts, account creation, protection being disabled, and backup deletions.",
+              "Use endpoint and email protection with attachment and link filtering.",
+              "Set out a response plan naming who isolates systems, who communicates, and the order of recovery.",
+              "Test business continuity, not merely that the backup job succeeded.",
+              "Review third-party access, dormant accounts, and secret keys."
+            ]
+          }
+        ],
       devicesTitle: "The systems and environments we inspect after encryption",
       devicesLead: "What ransomware leaves behind depends on what it hit. A database file and a virtual disk image are not read the way documents are read. We start by identifying the encryptor family from the new extension, the ransom note and the structure of an encrypted file — families such as LockBit, Phobos and Makop leave known markers — then measure how much of each file was actually encrypted.",
       devices: [

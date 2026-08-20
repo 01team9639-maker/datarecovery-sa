@@ -1520,3 +1520,43 @@ body.drawer-open { overflow: hidden; }
   .device, .post-card__link, .logos__item img { transition: none; }
   .device:hover { transform: none; }
 }
+
+/* ---- Deep service pages: emergency bar, checklists, prose ---------------- */
+
+/* شريط الطوارئ تحت الـhero مباشرة. بلون التنبيه لا بلون القسم، فيقرأ كمقاطعة
+   لا كقسم تالٍ — والقارئ الذي تشفّرت ملفاته قبل ساعة يجب أن يلتقي أول تعليمة
+   قبل أن يمرّر. ولا `position: sticky` عمدًا: شريط لاصق يزاحم الهيدر اللاصق
+   ويقضم مساحة القراءة على الجوّال، وهو المكان الذي يُقرأ فيه هذا النص أصلًا. */
+.svc-alert { background: var(--warning); color: var(--ink); }
+.svc-alert__inner {
+  display: flex; flex-wrap: wrap; align-items: center; gap: clamp(18px, 2.5vw, 34px);
+  padding-block: clamp(26px, 3vw, 40px);
+}
+.svc-alert__copy { flex: 1 1 22rem; }
+.svc-alert__title { font-size: clamp(1.15rem, 1.6vw, 1.5rem); font-weight: 650; margin: 0 0 6px; }
+.svc-alert__body { margin: 0; max-width: 68ch; }
+.svc-alert__btn { flex: 0 0 auto; }
+
+/* قوائم مرقّمة بعلامة بدل النقطة. الفرق بين النسختين دلالي لا تزييني:
+   الخضراء «افعل» والحمراء «لا تفعل»، فيفرزهما القارئ بلا قراءة العنوان. */
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+@media (min-width: 760px) { .checklist { grid-template-columns: 1fr 1fr; gap: 12px clamp(24px, 3vw, 48px); } }
+.checklist__item { position: relative; padding-inline-start: 30px; line-height: 1.55; }
+.checklist__item::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: 0.55em;
+  width: 10px; height: 10px; border-radius: 3px;
+  background: var(--accent);
+}
+.checklist--avoid .checklist__item::before {
+  background: none;
+  width: 12px; height: 12px; top: 0.42em;
+  border-inline-start: 2px solid var(--warning);
+  border-top: 2px solid var(--warning);
+  transform: rotate(45deg); border-radius: 0;
+}
+.section--dark .checklist--avoid .checklist__item::before { border-color: var(--accent); }
+
+/* فقرات نصّية طويلة داخل قسم: عمود قراءة محدود لا بعرض الحاوية.
+   السطر الأطول من ~90 محرفًا يُتعب العين ويجعل الرجوع لأول السطر تخمينًا. */
+.prose-block { max-width: 74ch; display: grid; gap: 1.1em; }
+.prose-block__p { margin: 0; line-height: 1.7; }
