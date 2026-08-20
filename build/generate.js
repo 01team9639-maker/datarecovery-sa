@@ -757,11 +757,23 @@ ${trustSections(lang)}
 const svcExtraFaqs = {
   "hdd": {
     ar: [
+      { q: "هل تبديل اللوحة الإلكترونية يكفي؟", a: "ليس دائمًا. قد تكون اللوحة سليمة والمشكلة داخلية، كما أن بعض الأقراص تحتاج نقل معلومات معايرة مرتبطة بالقرص الأصلي. التبديل العشوائي قد يضيف عطلًا جديدًا." },
+      { q: "هل أضع الهارد في الفريزر؟", a: "لا. الرطوبة والتكاثف قد يسبّبان ضررًا إضافيًّا، وهذه الطريقة ليست مسار استعادة آمنًا." },
+      { q: "هل أشغّل CHKDSK أو إصلاح الأخطاء؟", a: "إذا كانت البيانات مهمّة، لا تبدأ الإصلاح قبل أخذ نسخة. أدوات الإصلاح مصمّمة لجعل نظام الملفات قابلًا للاستخدام، وقد تحذف أو تعدّل سجلّات نحتاجها للاستعادة." },
+      { q: "هل تعود أسماء الملفات والمجلدات؟", a: "قد تعود البنية كاملة إذا كانت بيانات نظام الملفات سليمة. وإذا تضرّرت، قد تُستعاد الملفات بحسب نوعها من دون أسمائها الأصلية أو ترتيب مجلداتها." },
+      { q: "هل يمكن استعادة هارد مشفّر؟", a: "يمكن تقييمه، لكن فتح البيانات يحتاج كلمة المرور أو مفتاح الاسترداد الصحيح. إصلاح العطل المادي لا يُلغي التشفير." },
+      { q: "هل أستعيد الملفات إلى الهارد نفسه؟", a: "لا يُنصح بالكتابة على المصدر المتضرّر. تُسلَّم البيانات على وسيط منفصل بعد التحقّق من عيّنة موثّقة." },
       { q: "كم تستغرق عملية استرجاع بيانات الهارد؟", a: "تختلف حسب نوع العطل وحجم القرص؛ الحالات المنطقية قد تنتهي خلال يوم إلى يومين، بينما تحتاج الأعطال الميكانيكية وقتاً أطول. نعطيك مدة تقديرية واضحة بعد التشخيص." },
       { q: "هل يمكن استرجاع بيانات هارد تعرّض للماء أو الحريق؟", a: "في كثير من الحالات نعم، بشرط عدم تشغيله أو محاولة تجفيفه بنفسك. أبقِه كما هو وسلّمه للفحص بأسرع وقت." },
       { q: "هل تحافظون على سرية الملفات المستعادة؟", a: "نعم، نتعامل مع كل حالة بسرية كاملة ونسلّم البيانات على وسيط منفصل، مع إمكانية توقيع اتفاقية سرية عند الحاجة." }
     ],
     en: [
+      { q: "Is swapping the circuit board enough?", a: "Not always. The board may be healthy while the problem is internal, and some drives need calibration data tied to the original drive. Swapping at random can add a new fault." },
+      { q: "Should I put the drive in the freezer?", a: "No. Moisture and condensation can cause further damage, and this is not a safe recovery route." },
+      { q: "Should I run CHKDSK or error repair?", a: "If the data matters, do not start repairs before an image is taken. Repair tools are built to make a file system usable, and they may delete or alter records we need for recovery." },
+      { q: "Do file and folder names come back?", a: "The structure may return intact if the file-system metadata survived. If it was damaged, files may be recovered by type without their original names or folder order." },
+      { q: "Can an encrypted drive be recovered?", a: "It can be assessed, but opening the data needs the correct password or recovery key. Fixing a physical fault does not remove the encryption." },
+      { q: "Should I recover the files back to the same drive?", a: "Writing to a damaged source is not advisable. Data is delivered on a separate medium after a documented sample is verified." },
       { q: "How long does hard drive recovery take?", a: "It depends on the fault type and disk size; logical cases can finish within a day or two, while mechanical faults take longer. We give a clear estimate after diagnosis." },
       { q: "Can data be recovered from a water- or fire-damaged drive?", a: "In many cases yes—provided you don't power it on or try to dry it yourself. Leave it as is and bring it in for inspection quickly." },
       { q: "Do you keep the recovered files confidential?", a: "Yes. Every case is handled with full confidentiality and delivered on a separate medium, with an NDA available on request." }
@@ -769,11 +781,27 @@ const svcExtraFaqs = {
   },
   "ssd-nvme": {
     ar: [
+      { q: "هل كل قرص M.2 هو NVMe؟", a: "لا. M.2 شكل مادي، وقد يكون القرص SATA أو NVMe. الطراز الكامل هو ما يحدّد النوع." },
+      { q: "هل TRIM يعني أن الاستعادة مستحيلة دائمًا؟", a: "لا يمكن الحكم من اسم الميزة وحده. يعتمد الأمر على النظام، وطريقة الحذف أو الفورمات، ووصول الأمر إلى القرص، وما حدث بعده. لكنه يقلّل الفرص بصورة كبيرة." },
+      { q: "هل يمكن استخدام علبة USB لفحص NVMe؟", a: "يمكن للمحوّل المناسب أن يساعد في حالة قرص سليم، لكنه ليس علاجًا لقرص يسخن أو ينفصل أو لا يظهر. واختيار علبة غير متوافقة قد يعطي تشخيصًا مضلّلًا." },
+      { q: "هل تحديث Firmware قد يعيد القرص؟", a: "قد يصلح التحديث مشكلة تشغيل عامة، لكنه ليس خطوة آمنة عندما تكون البيانات في الأولوية. بعض الأدوات تعيد تهيئة القرص أو تغيّر حالته." },
+      { q: "هل يمكن استعادة SSD بعد Secure Erase؟", a: "عادةً تكون الفرص شديدة الانخفاض لأن العملية مصمّمة لإزالة إمكانية الوصول إلى البيانات. يلزم معرفة الأداة المستخدمة وما حدث بعدها قبل أي حكم." },
+      { q: "هل تعود أسماء الملفات والمجلدات؟", a: "تعتمد على سلامة نظام الملفات والبيانات الوصفية. قد تعود البنية كاملة أو تعود الملفات بحسب نوعها من دون أسمائها الأصلية." },
+      { q: "القرص يسخن بسرعة، ماذا أفعل؟", a: "أوقف تشغيله ولا تكرّر تجربته في أكثر من جهاز. الحرارة المتكرّرة قد تزيد حالة القرص سوءًا قبل أخذ أي نسخة." },
+      { q: "هل تُكتب البيانات المستعادة على القرص نفسه؟", a: "لا. تُحفظ على وسيط آخر حتى لا تتغيّر حالة المصدر أو تُستبدل بيانات لم تُستعد بعد." },
       { q: "هل تمنع ميزة TRIM استرجاع بيانات SSD؟", a: "TRIM قد تقلّل فرص الاستعادة لأنها تمسح الخلايا المحذوفة، لذلك السرعة في التوقف عن الاستخدام عامل حاسم في النتيجة." },
       { q: "هل يمكن استرجاع بيانات SSD مشفّر (BitLocker أو FileVault)؟", a: "ممكن إذا توفّر مفتاح فك التشفير أو كلمة المرور؛ بدونها تبقى البيانات مشفّرة حتى لو استُعيدت فيزيائياً." },
       { q: "قرص NVMe لا يظهر في BIOS، هل من فائدة؟", a: "نعم، قد يكون العطل في وحدة التحكم أو الـFirmware؛ نفحص القرص على مستوى أعمق من نظام التشغيل لتحديد الإمكانية." }
     ],
     en: [
+      { q: "Is every M.2 drive an NVMe?", a: "No. M.2 is a physical form factor, and the drive may be SATA or NVMe. The full model number determines which." },
+      { q: "Does TRIM always make recovery impossible?", a: "You cannot judge from the feature's name alone. It depends on the system, how the deletion or format happened, whether the command reached the drive, and what followed. It does reduce the odds considerably." },
+      { q: "Can a USB enclosure be used to check an NVMe?", a: "A suitable adapter can help with a healthy drive, but it is no remedy for one that overheats, disconnects, or does not appear. An incompatible enclosure can also give a misleading diagnosis." },
+      { q: "Could a firmware update bring the drive back?", a: "An update may fix a general operating problem, but it is not a safe step when the data is the priority. Some tools reinitialise the drive or change its state." },
+      { q: "Can an SSD be recovered after a secure erase?", a: "The odds are usually very low, because the operation is designed to remove access to the data. The tool used and what happened afterwards must be known before any judgement." },
+      { q: "Do file and folder names come back?", a: "It depends on the integrity of the file system and its metadata. The structure may return intact, or files may return by type without their original names." },
+      { q: "The drive heats up quickly — what should I do?", a: "Stop powering it and do not keep trying it in different machines. Repeated heating can worsen the drive's condition before any image is taken." },
+      { q: "Is the recovered data written back to the same drive?", a: "No. It is saved to another medium so the source's state does not change and data not yet recovered is not overwritten." },
       { q: "Does TRIM prevent SSD data recovery?", a: "TRIM can lower the odds because it wipes deleted cells, so how quickly you stop using the drive is a decisive factor in the outcome." },
       { q: "Can data be recovered from an encrypted SSD (BitLocker or FileVault)?", a: "Yes, if the decryption key or password is available; without it the data stays encrypted even after a physical recovery." },
       { q: "The NVMe isn't detected in BIOS — is it still worth it?", a: "Yes. The fault may be in the controller or firmware; we inspect the drive below the operating-system level to assess the possibility." }
@@ -781,11 +809,27 @@ const svcExtraFaqs = {
   },
   "raid-servers": {
     ar: [
+      { q: "النظام ما زال يعمل لكنه Degraded، هل أتركه؟", a: "كل كتابة جديدة وقراءة مكثّفة تزيد الضغط. نسّق حفظ الحالة وإيقافًا آمنًا بحسب أهمّية الخدمة، ولا تبدأ Rebuild تلقائيًّا قبل تقييم الأقراص." },
+      { q: "هل Hot Spare يعني أن البيانات آمنة؟", a: "لا. هو قرص احتياطي يدخل في إعادة البناء، وليس نسخة احتياطية مستقلّة. قد يفشل Rebuild أو تُنقَل إليه بيانات تالفة." },
+      { q: "هل يمكن الاستعادة إذا فقدنا ترتيب الأقراص؟", a: "قد يمكن استنتاج الترتيب من البيانات، لكن ذلك يزيد التعقيد. أرسل جميع الأقراص والصور والسجلّات ولا تجرّب ترتيبات عشوائية." },
+      { q: "هل يمكن إرسال الأقراص التي عليها Failed فقط؟", a: "لا. البيانات موزّعة بين المجموعة، ونحتاج غالبًا كل الأقراص — إضافة إلى أي قرص أُزيل أو استُبدل أثناء الحادث." },
+      { q: "هل يمكن إعادة الملفات إلى السيرفر نفسه؟", a: "الأفضل التسليم إلى تخزين منفصل أو بيئة نظيفة. الكتابة على المصفوفة الأصلية قبل التحقّق قد تضيّع فرصة الرجوع." },
+      { q: "هل يمكن بدء التقييم عن بُعد؟", a: "يمكن جمع الصور والسجلّات والمعلومات عن بُعد، لكن فحص الأقراص وأخذ نسخ منها قد يتطلّب استلام الوسائط أو وصولًا منظّمًا إلى البيئة." },
+      { q: "كم يستغرق العمل؟", a: "يعتمد على عدد الأقراص وسعتها وحالتها وسرعة القراءة وبنية الخدمات. نعطي التقدير بعد فحص المجموعة، لا من مستوى RAID وحده." },
+      { q: "هل استعادة RAID تعيد قاعدة البيانات سليمة؟", a: "ليس بالضرورة. إعادة بناء التخزين خطوة، واتّساق قاعدة البيانات خطوة أخرى تحتاج فحص الملفات والسجلّات أو نسخة التطبيق." },
       { q: "ما مستويات RAID التي تتعاملون معها؟", a: "نتعامل مع RAID 0 و1 و5 و6 و10 وأنظمة NAS وSAN، مع إعادة بناء منطقي للمصفوفة دون الكتابة على الأقراص الأصلية." },
       { q: "هل أرسل كل الأقراص أم قرصاً واحداً؟", a: "أرسل كل أقراص المصفوفة مع ترقيمها بترتيبها الأصلي؛ استعادة RAID تحتاج قراءة الأقراص مجتمعة لفهم توزيع البيانات." },
       { q: "هل يمكن الاستعادة والسيرفر ما زال يعمل؟", a: "أوقف السيرفر فوراً؛ الاستمرار في التشغيل أو إعادة البناء التلقائي قد يضاعف الضرر. نعمل على نسخ من الأقراص لا على الأصل." }
     ],
     en: [
+      { q: "The system still runs but is degraded — should I leave it?", a: "Every new write and heavy read adds strain. Coordinate preserving the state and a safe shutdown according to how critical the service is, and do not start a rebuild automatically before the disks are assessed." },
+      { q: "Does a hot spare mean the data is safe?", a: "No. It is a standby disk that joins a rebuild, not an independent backup. The rebuild may fail, or corrupted data may be written onto it." },
+      { q: "Can recovery work if we lost the disk order?", a: "The order may be deducible from the data, but it adds complexity. Send every disk, the photographs and the logs, and do not try random orders." },
+      { q: "Can we send only the disks marked failed?", a: "No. Data is distributed across the set, and we usually need every disk — plus any that was removed or replaced during the incident." },
+      { q: "Can the files be returned to the same server?", a: "Handover to separate storage or a clean environment is better. Writing to the original array before verification can cost you the chance to go back." },
+      { q: "Can the assessment start remotely?", a: "Photographs, logs and information can be gathered remotely, but examining the disks and imaging them may require receiving the media or structured access to the environment." },
+      { q: "How long does the work take?", a: "It depends on the number of disks, their capacity and condition, read speed, and the structure of the services. We give an estimate after examining the set, not from the RAID level alone." },
+      { q: "Does recovering the RAID return the database intact?", a: "Not necessarily. Rebuilding the storage is one step; database consistency is another that needs the data files and logs, or an application copy, to be examined." },
       { q: "Which RAID levels do you handle?", a: "RAID 0, 1, 5, 6 and 10, plus NAS and SAN systems — rebuilt logically without writing to the original disks." },
       { q: "Should I send all disks or just one?", a: "Send every disk in the array, labelled in its original order; RAID recovery needs the disks read together to understand how data is distributed." },
       { q: "Can you recover while the server is still running?", a: "Stop the server immediately — continuing to run it or letting it auto-rebuild can multiply the damage. We work on images of the disks, never the originals." }
@@ -793,11 +837,27 @@ const svcExtraFaqs = {
   },
   "cctv": {
     ar: [
+      { q: "هل يمكن استعادة تسجيل أقدم من مدة الاحتفاظ؟", a: "إذا كان الجهاز قد كتب فوقه بالكامل فلن يعود من المساحة المستبدلة. قد توجد أجزاء أو فجوات بحسب نمط التسجيل، ويحدّد الفحص ما بقي فعليًّا." },
+      { q: "هل مشاهدة أو تصدير مقطع تكتب على الهارد؟", a: "يعتمد على الجهاز، لكن استمرار التسجيل هو الخطر الأكبر. الأفضل إيقافه وعدم تنفيذ عمليات غير ضرورية على النسخة الوحيدة." },
+      { q: "هل يمكن استعادة الصوت مع الفيديو؟", a: "إذا كانت القناة تسجّل صوتًا وكانت بياناته موجودة، فقد يُستخرج معه. بعض الأنظمة تسجّل الصوت بصورة منفصلة أو لا تسجّله أصلًا." },
+      { q: "هل يمكن الاستعادة من NVR يعمل على RAID؟", a: "يمكن تقييمه، لكنه يحتاج جميع الأقراص وترتيبها وإعداد RAID، وتُعامَل الحالة أيضًا كاستعادة مصفوفة." },
+      { q: "هل يمكن استعادة تسجيل من بطاقة داخل الكاميرا؟", a: "نعم، حسب حالة البطاقة والكتابة عليها. أخرج البطاقة ولا تعدها إلى الكاميرا ولا تلتقط تسجيلات جديدة." },
+      { q: "هل يمكن الاعتماد على التاريخ الظاهر في المقطع؟", a: "هو مؤشّر مهمّ لكنه قد يتأثّر بإعدادات الساعة والمنطقة الزمنية. في الحالات الحسّاسة يجب توثيق طريقة استخراج المقطع وأي فرق زمني معروف." },
+      { q: "هل الملف المستخرج مقبول أمام المحكمة؟", a: "القبول قرار للجهة المختصّة، ولا يمكن ضمانه من صفحة خدمة. إذا كان الغرض قانونيًّا فأخبرنا قبل الاستلام لتحديد متطلّبات التوثيق والنسخ وسلسلة الحيازة." },
+      { q: "هارد الـDVR يصدر صوتًا، ماذا أفعل؟", a: "أوقف التشغيل. تتحوّل الحالة إلى استعادة قرص متضرّر، وتكرار التشغيل يجمع التسجيل المستمرّ والقراءة غير المستقرّة على المصدر نفسه." },
       { q: "كم مدة بقاء التسجيلات قبل أن تُستبدل؟", a: "تعتمد على سعة القرص وعدد الكاميرات وجودة التسجيل؛ لذلك أوقف الجهاز فوراً لأن كل تسجيل جديد قد يكتب فوق المطلوب." },
       { q: "هل يمكن استرجاع تسجيلات من هارد DVR بعد الفورمات؟", a: "في حالات كثيرة نعم، طالما لم يُسجَّل فوقها؛ نفحص نظام الملفات الخاص بالجهاز لاستخراج المقاطع." },
       { q: "هل تدعمون أنظمة Hikvision وDahua؟", a: "نعم، ونتعامل مع أنظمة التسجيل الشائعة الأخرى؛ نحلّل صيغة التخزين الخاصة بكل جهاز قبل الاستخراج." }
     ],
     en: [
+      { q: "Can footage older than the retention period be recovered?", a: "If the device has fully overwritten it, nothing returns from the replaced space. Fragments or gaps may exist depending on the recording mode, and examination establishes what actually survived." },
+      { q: "Does viewing or exporting a clip write to the disk?", a: "It depends on the device, but continued recording is the greater risk. It is better to stop it and avoid unnecessary operations on your only copy." },
+      { q: "Can audio be recovered along with the video?", a: "If the channel recorded audio and its data survives, it may be extracted with the video. Some systems record audio separately, or not at all." },
+      { q: "Can an NVR running on RAID be recovered?", a: "It can be assessed, but it needs every disk, their order, and the RAID configuration, and the case is also handled as an array recovery." },
+      { q: "Can footage be recovered from a card inside the camera?", a: "Yes, depending on the card's condition and what has been written to it. Remove the card, do not return it to the camera, and do not record anything new." },
+      { q: "Can the date shown in the clip be relied on?", a: "It is an important indicator but can be affected by clock settings and timezone. In sensitive cases the extraction method and any known time difference must be documented." },
+      { q: "Is the extracted file admissible in court?", a: "Admissibility is for the relevant authority to decide and cannot be guaranteed from a service page. If the purpose is legal, tell us before handover so documentation, copying and chain-of-custody requirements can be set." },
+      { q: "The DVR disk is making a noise — what should I do?", a: "Stop powering it. The case becomes a damaged-disk recovery, and repeated power-ups combine continuous recording with unstable reading on the same source." },
       { q: "How long before recordings get overwritten?", a: "It depends on disk capacity, number of cameras and recording quality — so power the unit off immediately, since every new recording can overwrite what you need." },
       { q: "Can footage be recovered from a formatted DVR drive?", a: "In many cases yes, as long as it wasn't recorded over; we inspect the device's proprietary file system to extract the clips." },
       { q: "Do you support Hikvision and Dahua systems?", a: "Yes, along with other common recorder brands; we analyse each device's storage format before extraction." }
@@ -805,11 +865,23 @@ const svcExtraFaqs = {
   },
   "after-format": {
     ar: [
+      { q: "هل تعود أسماء الملفات والمجلدات بعد الفورمات؟", a: "قد تعود إذا بقيت بيانات نظام الملفات. وإذا استُبدلت، قد يُستعاد المحتوى بحسب نوع الملف من دون الاسم أو المسار الأصلي." },
+      { q: "هل يمكن الاستعادة بعد تثبيت Windows جديد؟", a: "قد يمكن استعادة ما لم يُكتب فوقه. لكن التحديثات والتنزيلات والاستخدام الجديد تقلّل المساحة القديمة المتاحة، وتختلف النتيجة من مجلد إلى آخر." },
+      { q: "هل الفورمات مرّتين أسوأ من مرّة؟", a: "العدد وحده ليس المعيار؛ الأهمّ نوع كل عملية وما كُتب بعدها. لا تكرّرها ولا تنشئ أقسامًا جديدة." },
+      { q: "هل يمكن استعادة مجلد محدّد فقط؟", a: "يمكن ترتيب الأولوية، لكن العثور على المجلد يعتمد على بقاء بنية نظام الملفات. أحيانًا يحتاج الأمر فحص المساحة كلها للعثور على ملفاته." },
+      { q: "هل يمكن استعادة قرص BitLocker بعد الفورمات؟", a: "قد توجد بقايا من الحاوية المشفّرة، لكن فتحها يحتاج مفتاح الاسترداد وسلامة البنية اللازمة للتشفير. لا يمكن العثور على ملفات خام." },
+      { q: "هل أنقل القرص إلى جهاز آخر لأفحصه؟", a: "إذا كان مستقرًّا قد يتعرّف عليه الجهاز الآخر، لكنه قد يعرض تهيئة أو يبدأ عمليات تلقائية. عندما تكون البيانات مهمّة، الأفضل منع الكتابة وأخذ نسخة بطريقة مناسبة." },
       { q: "هل يختلف الاسترجاع بعد الفورمات السريع عن الكامل؟", a: "الفورمات السريع يترك البيانات قابلة للاستعادة غالباً، أما الفورمات الكامل فيقلّل الفرص كثيراً لأنه يكتب على القرص بالكامل." },
       { q: "عملت فورمات وثبّت نظاماً جديداً، هل من أمل؟", a: "قد يبقى جزء كبير من البيانات قابلاً للاستعادة إذا لم تُكتب ملفات كثيرة بعد ذلك؛ توقّف عن استخدام القرص وسلّمه للفحص." },
       { q: "فلاشة أو بطاقة تطلب التهيئة عند التوصيل، ماذا أفعل؟", a: "لا تعمل لها فورمات؛ غالباً يكون العطل في نظام الملفات ويمكن استخراج البيانات قبل أي إصلاح." }
     ],
     en: [
+      { q: "Do file and folder names come back after a format?", a: "They may, if the file-system metadata survived. If it was overwritten, content may be recovered by file type without the original name or path." },
+      { q: "Can data be recovered after installing a fresh Windows?", a: "Whatever was not overwritten may be recoverable. Updates, downloads and new use reduce the old space available, and the outcome varies from folder to folder." },
+      { q: "Is formatting twice worse than once?", a: "The count alone is not the measure; what matters is the type of each operation and what was written afterwards. Do not repeat it and do not create new partitions." },
+      { q: "Can only one specific folder be recovered?", a: "Priority can be set, but finding the folder depends on the file-system structure surviving. Sometimes the whole space must be examined to locate its files." },
+      { q: "Can a BitLocker drive be recovered after a format?", a: "Remnants of the encrypted container may exist, but opening it needs the recovery key and enough structural integrity for the encryption. Raw files cannot simply be found." },
+      { q: "Should I move the disk to another machine to check it?", a: "If it is stable another machine may recognise it, but it may also offer to format it or start automatic operations. When the data matters, it is better to prevent writing and take an image properly." },
       { q: "Is recovery after a quick format different from a full format?", a: "A quick format usually leaves data recoverable, while a full format greatly lowers the odds because it writes across the whole disk." },
       { q: "I formatted and installed a new OS — any hope?", a: "A large part of the data may still be recoverable if not much has been written since; stop using the disk and bring it in for inspection." },
       { q: "A USB or card asks to be formatted on connection — what do I do?", a: "Don't format it; the fault is usually in the file system and the data can often be extracted before any repair." }
@@ -879,11 +951,23 @@ const svcExtraFaqs = {
   },
   "phones": {
     ar: [
+      { q: "هل يمكن تجاوز رمز القفل؟", a: "لا ينبغي تقديم وعد بذلك. التشفير في الأجهزة الحديثة يعتمد على العتاد والرمز، ويُطلب في الغالب إدخاله عندما يصبح الجهاز قابلًا للإقلاع." },
+      { q: "هل Chip-off يعيد بيانات أي هاتف؟", a: "لا. في كثير من الأجهزة الحديثة تكون البيانات مشفّرة ومرتبطة باللوحة والمعالج، فقراءة الذاكرة منفردة قد تعطي بيانات غير قابلة للفهم." },
+      { q: "هل يمكن استرجاع WhatsApp أو تطبيقات المحادثة؟", a: "تُراجَع حالة الجهاز والنسخة المحلّية والنسخة السحابية وطريقة تشفير التطبيق. لا يمكن ضمان محادثات غير موجودة أو مفاتيح فُقدت." },
+      { q: "هل أزيل البطارية المنتفخة بنفسي؟", a: "لا تثقبها ولا تشحن الجهاز. البطارية المنتفخة خطر سلامة، ويجب إبقاء الجهاز بعيدًا عن الحرارة وتسليمه بطريقة آمنة." },
+      { q: "هل يمكن التقييم عن بُعد؟", a: "يمكن فرز الحالة من الصور والطراز والأعراض، لكن فحص اللوحة والذاكرة يتطلّب استلام الجهاز." },
+      { q: "هل تحتاجون كلمة مرور iCloud أو Google؟", a: "لا ترسل كلمات المرور في التواصل الأوّلي. إذا احتجنا وصولًا إلى نسخة يملكها العميل، نحدّد طريقة آمنة تبقى العملية تحت سيطرتك." },
       { q: "هل يمكن استعادة بيانات جوال مقفل برمز؟", a: "يعتمد ذلك على النظام وإصداره وطريقة القفل. التشفير في الأجهزة الحديثة مرتبط بالرمز نفسه، لذلك نوضح لك حدود الممكن بعد فحص الجهاز، ولا نعد بنتيجة قبل ذلك." },
       { q: "هل تحتاجون حساب iCloud أو Google الخاص بي؟", a: "لا نطلب كلمات المرور في مرحلة الفحص. إذا كانت الاستعادة تتطلب إثبات ملكية الجهاز أو فك القفل، نوضح ذلك لك مسبقاً وتبقى بياناتك تحت سيطرتك." },
       { q: "هل تتلف عملية الاستعادة الجهاز؟", a: "بعض الحالات تتطلب فتح الجهاز أو العمل على اللوحة مباشرة، وهذا قد يؤثر على صلاحيته للاستخدام لاحقاً. نخبرك بذلك قبل البدء لأن الهدف هو البيانات لا إصلاح الجهاز." }
     ],
     en: [
+      { q: "Can the lock code be bypassed?", a: "No such promise should be made. Encryption on modern devices depends on the hardware and the code, and entering it is usually required once the device can boot." },
+      { q: "Does chip-off recover data from any phone?", a: "No. On many modern devices the data is encrypted and tied to the board and processor, so reading the memory on its own can produce data that cannot be interpreted." },
+      { q: "Can WhatsApp or other chat apps be recovered?", a: "The device's state, the local backup, the cloud copy and the app's encryption are all reviewed. Chats that do not exist, or keys that are lost, cannot be guaranteed." },
+      { q: "Should I remove a swollen battery myself?", a: "Do not puncture it and do not charge the device. A swollen battery is a safety hazard; keep the device away from heat and hand it over safely." },
+      { q: "Can the assessment be done remotely?", a: "The case can be triaged from photographs, the model and the symptoms, but examining the board and memory requires receiving the device." },
+      { q: "Do you need my iCloud or Google password?", a: "Do not send passwords in first contact. If we need access to a backup you own, we agree a safe method that keeps the process under your control." },
       { q: "Can data be recovered from a phone locked with a passcode?", a: "It depends on the system, its version and the lock method. Encryption on modern devices is tied to the passcode itself, so we explain the limits after inspecting the device and never promise a result before that." },
       { q: "Do you need my iCloud or Google account?", a: "We don't ask for passwords at the inspection stage. If recovery requires proof of ownership or unlocking, we tell you up front and your data stays under your control." },
       { q: "Does the recovery process damage the device?", a: "Some cases require opening the device or working directly on the board, which can affect whether it stays usable afterwards. We tell you before starting, because the goal is the data, not repairing the phone." }
@@ -891,11 +975,25 @@ const svcExtraFaqs = {
   },
   "memory-cards": {
     ar: [
+      { q: "هل يمكن استرجاع صور RAW من الكاميرات الاحترافية؟", a: "قد يمكن إذا بقيت البيانات، لكن يجب التحقّق من سلامة كل ملف لأن الصور الكبيرة قد تكون مجزّأة أو مكتوبة جزئيًّا." },
+      { q: "البطاقة أصبحت Read Only، ماذا أفعل؟", a: "لا تحاول إجبار الكتابة أو التهيئة. قد يكون وضع الحماية علامة على مشكلة داخلية، لكنه أحيانًا فرصة لأخذ نسخة قبل أن تتوقّف البطاقة." },
+      { q: "هل CFexpress تُعامَل كبطاقة SD؟", a: "لا دائمًا. كثير من بطاقات CFexpress تعتمد تقنية قريبة من NVMe، فتختلف طريقة التقييم عن SD التقليدية." },
+      { q: "هل يمكن استعادة فيديو 4K متقطّع أو غير قابل للفتح؟", a: "قد يحتاج الفيديو إلى تجميع أجزائه وإعادة بناء الفهرس، والنتيجة تعتمد على الكتابة فوق البيانات وسلامة المقاطع الداخلية." },
+      { q: "هل أستخدم أداة الشركة لإصلاح الفلاش؟", a: "لا عندما تكون البيانات مهمّة. بعض أدوات المصنع تعيد تهيئة وحدة التحكّم وتزيل الوصول إلى المحتوى القديم." },
+      { q: "الفلاش يظهر بسعة أكبر أو أصغر من المكتوب، هل هو عطل؟", a: "قد يكون هناك خلل في وحدة التحكّم أو وسيط غير أصلي أو إعداد داخلي تالف. لا تهيّئه، وأرسل صورة الطراز والسعة التي تظهر في النظام." },
+      { q: "هل تعود أسماء الصور وترتيب المجلدات؟", a: "قد تعود إذا بقي نظام الملفات. وعند التلف الشديد قد تعود الصور والفيديوهات بأسماء جديدة ومن دون ترتيبها الأصلي." },
       { q: "بطاقة SD لا تظهر إطلاقاً، هل من فائدة؟", a: "قد يكون العطل في وحدة التحكم أو في الوصلات الداخلية. في هذه الحالات تُقرأ شريحة الذاكرة نفسها، والنتيجة تعتمد على حالة الشريحة ونوع البطاقة." },
       { q: "كم تستغرق استعادة بطاقة ذاكرة أو فلاش؟", a: "الحالات المنطقية قد تنتهي خلال يوم إلى يومين، أما الوسائط المدمجة أو التالفة كهربائياً فتحتاج وقتاً أطول. نعطيك مدة تقديرية بعد الفحص." },
       { q: "صوّرت على البطاقة بعد الحذف، هل ضاعت الملفات؟", a: "ليس بالضرورة، لكن كل ملف جديد قد يكتب فوق مساحة ملف قديم. توقف عن استخدام البطاقة فوراً؛ ما تبقى يحدده الفحص." }
     ],
     en: [
+      { q: "Can RAW images from professional cameras be recovered?", a: "They may be, if the data survived, but each file's integrity must be checked because large images can be fragmented or only partially written." },
+      { q: "The card has gone read-only — what should I do?", a: "Do not try to force writing or formatting. Protected mode may signal an internal problem, but it is sometimes an opportunity to take an image before the card stops entirely." },
+      { q: "Is CFexpress handled like an SD card?", a: "Not always. Many CFexpress cards use technology close to NVMe, so the assessment differs from traditional SD." },
+      { q: "Can stuttering or unopenable 4K video be recovered?", a: "The video may need its fragments reassembled and its index rebuilt, and the outcome depends on overwriting and the integrity of the internal segments." },
+      { q: "Should I use the manufacturer's tool to repair the flash drive?", a: "Not when the data matters. Some manufacturer tools reinitialise the controller and remove access to the old contents." },
+      { q: "The flash drive shows more or less capacity than labelled — is that a fault?", a: "There may be a controller problem, a non-genuine medium, or a corrupted internal configuration. Do not format it, and send a photo of the model and the capacity the system reports." },
+      { q: "Do photo names and folder order come back?", a: "They may, if the file system survived. With severe damage, photos and videos may return with new names and without their original ordering." },
       { q: "The SD card doesn't show up at all — is it worth trying?", a: "The fault may be in the controller or the internal connections. In those cases the memory chip itself is read, and the result depends on the chip's condition and the card type." },
       { q: "How long does memory card or flash recovery take?", a: "Logical cases can finish within a day or two, while monolithic media or electrically damaged devices take longer. We give a time estimate after inspection." },
       { q: "I shot new photos on the card after deleting — is it lost?", a: "Not necessarily, but every new file can overwrite the space an old one occupied. Stop using the card immediately; what remains is determined by the inspection." }

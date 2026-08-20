@@ -21,6 +21,117 @@
 module.exports = {
   hdd: {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "ابدأ من العرَض",
+          "title": "ما نوع عطل الهارد؟",
+          "lead": "لكل نوع مسار مختلف، والخطأ الشائع أن يُعامَل عطل مادي كأنه عطل برمجي.",
+          "items": [
+            {
+              "t": "عطل منطقي",
+              "b": "يظهر الهارد طبيعيًّا لكن القسم اختفى، أو أصبح RAW، أو يطلب النظام تهيئته، أو حُذفت ملفات ومجلدات. الأولوية منع أي كتابة جديدة، ثم العمل على نسخة."
+            },
+            {
+              "t": "قراءة غير مستقرة",
+              "b": "يظهر أحيانًا ويختفي أحيانًا، أو تنخفض السرعة بشدة، أو يتجمّد الجهاز عند فتح مجلد معيّن. الاستمرار في النسخ العادي قد يستهلك الوقت المتبقّي للقرص."
+            },
+            {
+              "t": "عطل إلكتروني",
+              "b": "قد يتوقّف بعد انقطاع كهرباء أو محوّل طاقة غير مناسب أو تلف في دائرة الحماية. تبديل اللوحة عشوائيًّا لا يعيد البيانات: بعض معلومات المعايرة مرتبطة بالقرص نفسه."
+            },
+            {
+              "t": "عطل ميكانيكي",
+              "b": "طقطقة متكرّرة، أو صوت احتكاك، أو عدم دوران، أو توقّف بعد سقوط. هذه مؤشّرات تستدعي إيقاف التشغيل — لا تشغيل برامج استرجاع."
+            },
+            {
+              "t": "ماء أو حريق أو صدمة",
+              "b": "لا تشغّله ولا تفتحه ولا تجفّفه بالحرارة. سجّل ما حدث واتركه في حالته. قد يتضرّر الغلاف أو الدائرة أو المكوّنات الداخلية بدرجات مختلفة."
+            },
+            {
+              "t": "هارد خارجي لا يظهر",
+              "b": "قد تكون المشكلة في الكابل أو الغلاف أو منفذ USB لا في القرص. إضاءة المؤشّر لا تدلّ على سلامة القرص. أرسله مع كابله ومحوّله الأصليين."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "لا أداة واحدة",
+          "title": "كيف نختار مسار الاستعادة؟",
+          "paras": [
+            "إذا كان القرص مستقرًّا، تُؤخذ نسخة كاملة للقراءة فقط ثم يُحلَّل نظام الملفات على النسخة. وإذا كانت القراءة متعثّرة، تتغيّر الأولوية إلى تثبيت الوصول ونسخ القطاعات المهمّة قبل تحليل الملفات. أما الصوت غير الطبيعي أو توقّف الدوران فيتطلّب تقييمًا ماديًّا قبل أي تشغيل جديد.",
+            "والهدف الأول ليس فتح مجلد واحد بسرعة، بل حماية أكبر قدر ممكن من المصدر. بعد إنشاء النسخة يمكن البحث عن بنية الأقسام والمجلدات، ثم التحقّق من سلامة عيّنة من الصور والمستندات والفيديوهات وقواعد البيانات قبل عرض النتيجة."
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "بين الطرفين",
+          "title": "حالات شائعة ونتائج محتملة",
+          "lead": "ليست وعودًا، بل توضيح لما يحدث فعليًّا حسب حالة القرص وما جرى بعد العطل.",
+          "items": [
+            {
+              "t": "هارد خارجي لا يظهر",
+              "b": "قد تكون المشكلة في الكابل أو الغلاف أو المنفذ، وقد تكون في القرص نفسه. يُفحص مصدر الطاقة والدائرة قبل أي خطوة."
+            },
+            {
+              "t": "الهارد يطلب فورمات",
+              "b": "قد يكون تلف جدول الأقسام أو نظام الملفات هو السبب. لا توافق على التهيئة ولا تشغّل CHKDSK إذا كانت الملفات مهمّة."
+            },
+            {
+              "t": "بطء شديد وملفات لا تُنسخ",
+              "b": "قد ترتبط الحالة بقطاعات متعثّرة. تكرار نسخ المجلد نفسه أو اختبار سطحي طويل يضغط على القرص. قد تكون الاستعادة جزئية، فتُرتَّب الملفات الحرجة أولًا."
+            },
+            {
+              "t": "طقطقة بعد سقوط",
+              "b": "حالة مادية محتملة. أوقف التشغيل ولا تجرّب كابلًا بعد آخر. كل محاولة دوران قد تزيد الضرر، وتُحدَّد الإمكانية بعد فحص القرص لا بعد سماع الصوت عبر الهاتف."
+            },
+            {
+              "t": "تعرّض للماء أو حرارة عالية",
+              "b": "قد تكون الدائرة وحدها متضرّرة، وقد يصل الضرر إلى الداخل. لا تستخدم الأرز ولا مجفّف الشعر ولا تفتح الغلاف."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "نوع الهارد",
+              "b": "داخلي أو خارجي، وهل هو HDD أم غير مؤكّد."
+            },
+            {
+              "t": "الشركة والطراز والسعة",
+              "b": "وصورة واضحة للملصق إن أمكن."
+            },
+            {
+              "t": "هل يظهر للنظام؟",
+              "b": "في BIOS أو إدارة الأقراص، وهل يظهر بالسعة الصحيحة."
+            },
+            {
+              "t": "الصوت الحالي",
+              "b": "طبيعي، طقطقة، صفير، احتكاك، أو لا يدور."
+            },
+            {
+              "t": "آخر حدث قبل العطل",
+              "b": "سقوط، كهرباء، ماء، بطء، فورمات أو حذف."
+            },
+            {
+              "t": "ما جُرّب بعد العطل",
+              "b": "البرامج، أو تغيير اللوحة، أو تشغيل CHKDSK."
+            },
+            {
+              "t": "أولوية المجلدات",
+              "b": "أي المجلدات أو أنواع الملفات تُرتَّب أولًا."
+            },
+            {
+              "t": "هل القرص مشفّر؟",
+              "b": "BitLocker أو أي نظام تشفير آخر، ومفتاح الاسترداد إن وُجد."
+            }
+          ]
+        }
+      ],
       devicesTitle: "الأقراص والماركات التي نتعامل معها",
       devicesLead: "لكل عائلة أقراص سلوك مختلف عند العطل. هذا ما نأخذه في الحسبان قبل أي محاولة قراءة.",
       devices: [
@@ -73,6 +184,117 @@ module.exports = {
       caseResult: "النتيجة: في حالات مشابهة يعود جزء كبير من الملفات قابلاً للقراءة، لكن لا حكم قبل فحص الأسطح. في هذه الحالة عادت المستندات والصور سليمة، وبقي جزء من مقاطع الفيديو ناقصاً في المنطقة التي لامستها الرؤوس."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Start from the symptom",
+          "title": "What kind of hard drive fault is it?",
+          "lead": "Each kind has a different route, and the common mistake is treating a physical fault as a software one.",
+          "items": [
+            {
+              "t": "Logical fault",
+              "b": "The drive appears normally but the partition has vanished, or shows as RAW, or the system asks to format it, or files and folders were deleted. The priority is preventing any new write, then working from an image."
+            },
+            {
+              "t": "Unstable reading",
+              "b": "It appears and disappears, or the speed drops sharply, or the machine freezes when opening a particular folder. Ordinary copying can consume whatever time the drive has left."
+            },
+            {
+              "t": "Electronic fault",
+              "b": "It may stop after a power cut, an unsuitable adapter, or damage to the protection circuit. Swapping the board at random does not bring the data back: some calibration data belongs to that specific drive."
+            },
+            {
+              "t": "Mechanical fault",
+              "b": "Repeated clicking, a grinding sound, no spin, or a stop after a fall. These call for powering down — not for running recovery software."
+            },
+            {
+              "t": "Water, fire or impact",
+              "b": "Do not power it on, open it, or dry it with heat. Record what happened and leave it as it is. The casing, the circuit, or the internal components may be damaged to different degrees."
+            },
+            {
+              "t": "External drive not showing",
+              "b": "The problem may be the cable, the enclosure or the USB port rather than the drive. A lit indicator says nothing about the drive's health. Send it with its original cable and adapter."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "No single tool",
+          "title": "How is the recovery route chosen?",
+          "paras": [
+            "If the drive is stable, a full read-only image is taken and the file system is then analysed on that image. If reading is unstable, the priority shifts to stabilising access and copying the important sectors before analysing files. An abnormal noise or a failure to spin calls for a physical assessment before any further power-on.",
+            "The first aim is not to open one folder quickly but to protect as much of the source as possible. Once the image exists, the partition and folder structure can be searched, then a sample of images, documents, videos and databases checked for integrity before any result is presented."
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "Between the extremes",
+          "title": "Common cases and likely outcomes",
+          "lead": "Not promises — an account of what actually happens, depending on the drive's condition and what was done after the fault.",
+          "items": [
+            {
+              "t": "External drive not showing",
+              "b": "The problem may be the cable, the enclosure or the port, and it may be the drive itself. Power source and circuit are examined before any other step."
+            },
+            {
+              "t": "The drive asks to be formatted",
+              "b": "Damage to the partition table or file system may be the cause. Do not agree to format, and do not run CHKDSK if the files matter."
+            },
+            {
+              "t": "Very slow, files will not copy",
+              "b": "The case may involve failing sectors. Repeatedly copying the same folder or running a long surface test puts the drive under strain. Recovery may be partial, so critical files are ordered first."
+            },
+            {
+              "t": "Clicking after a fall",
+              "b": "A likely physical case. Stop powering it and do not try one cable after another. Every spin-up attempt can add damage, and the odds are established after examining the drive, not after hearing the noise over the phone."
+            },
+            {
+              "t": "Exposed to water or high heat",
+              "b": "The circuit alone may be damaged, or the damage may have reached inside. Do not use rice or a hairdryer, and do not open the casing."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "Drive type",
+              "b": "Internal or external, and whether it is an HDD or unconfirmed."
+            },
+            {
+              "t": "Make, model and capacity",
+              "b": "With a clear photograph of the label if possible."
+            },
+            {
+              "t": "Does the system see it?",
+              "b": "In BIOS or Disk Management, and whether it reports the right capacity."
+            },
+            {
+              "t": "Current noise",
+              "b": "Normal, clicking, beeping, grinding, or not spinning."
+            },
+            {
+              "t": "The last event before the fault",
+              "b": "A fall, power, water, slowness, formatting or deletion."
+            },
+            {
+              "t": "What was tried afterwards",
+              "b": "Software, a board swap, or running CHKDSK."
+            },
+            {
+              "t": "Folder priority",
+              "b": "Which folders or file types should come first."
+            },
+            {
+              "t": "Is the drive encrypted?",
+              "b": "BitLocker or any other encryption, and the recovery key if you have it."
+            }
+          ]
+        }
+      ],
       devicesTitle: "Drives and brands we work on",
       devicesLead: "Each drive family behaves differently once it fails. This is what we account for before any read attempt.",
       devices: [
@@ -127,6 +349,112 @@ module.exports = {
   },
   "ssd-nvme": {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "ابدأ من العرَض",
+          "title": "أي حالة تصف قرصك؟",
+          "lead": "أقراص SSD وNVMe لا تتصرّف مثل الهارد الميكانيكي، ونتيجة الحذف عليها تختلف جذريًّا.",
+          "items": [
+            {
+              "t": "لا يظهر في BIOS أو النظام",
+              "b": "قد يكون السبب في الطاقة أو المنفذ أو وحدة التحكّم أو الـFirmware. عدم الظهور لا يثبت أن شرائح الذاكرة فارغة، لكنه يعني أن برامج الاسترجاع العادية لن تصل إليه."
+            },
+            {
+              "t": "يظهر ثم يختفي أو يجمّد الجهاز",
+              "b": "القرص غير مستقرّ أثناء القراءة، وقد تتدهور حالته مع الاختبارات الطويلة أو النسخ المتكرّر. أوقف الفحص التلقائي ولا تشغّل اختبارات سرعة أو تحديث Firmware."
+            },
+            {
+              "t": "يظهر بوضع القراءة فقط",
+              "b": "قد تدخل بعض الأقراص وضع حماية عند اكتشاف مشكلة داخلية. لا تحاول إجبار الكتابة أو التهيئة — قد يكون هذا آخر فرصة لنسخ المحتوى."
+            },
+            {
+              "t": "حُذفت الملفات أو تمّ الفورمات",
+              "b": "تختلف النتيجة بشدّة عن HDD بسبب أوامر TRIM وإدارة المساحات غير المستخدمة. التوقّف عن الاستخدام فورًا مهمّ، لكنه لا يجيز وعدًا بأن كل حذف قابل للعكس."
+            },
+            {
+              "t": "حرارة أو انطفاء مفاجئ",
+              "b": "تظهر بعض مشكلات NVMe مع الحرارة أو انقطاع الطاقة أو تلف المكوّنات. سجّل ما حدث ولا تكرّر التشغيل في أكثر من جهاز إذا كان القرص يسخن بسرعة."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "تفصيلان يُخلط بينهما",
+          "title": "‏M.2 ليس مرادفًا لـNVMe، وقراءة الشريحة ليست حلًّا سحريًّا",
+          "paras": [
+            "‏M.2 وصف لشكل البطاقة، بينما يمكن أن يعمل القرص ببروتوكول SATA أو NVMe. لذلك لا يكفي قول «عندي M.2»: نحتاج صورة الملصق أو الطراز الكامل، ونوع الجهاز الذي كان القرص مركّبًا فيه، وهل ظهر في BIOS وبأي سعة. تختلف وحدات التحكّم وطرق إدارة شرائح NAND، وهي التي تحدّد أدوات القراءة لا شكل الموصل.",
+            "وفي SSD لا تُحفظ الملفات بترتيب مباشر داخل شريحة واحدة. توزّع وحدة التحكّم البيانات بين الشرائح، وتصحّح الأخطاء، وتبدّل الخلايا، وتدير جدولًا يربط العناوين المنطقية بالمواقع الفعلية. وقد تكون البيانات مشفّرة داخليًّا أو بواسطة BitLocker وFileVault. لذلك لا تعني قراءة NAND الخام أن الملفات ستظهر تلقائيًّا: يعتمد المسار على سلامة وحدة التحكّم، وإمكانية الوصول إلى معلومات الترجمة، وحالة الشرائح، والتشفير."
+          ]
+        },
+        {
+          "kind": "notes",
+          "eyebrow": "حسب الحالة",
+          "title": "مسارات الاستعادة الممكنة",
+          "items": [
+            {
+              "t": "القرص مستقرّ ويظهر بالسعة الصحيحة",
+              "b": "تُؤخذ نسخة للقراءة فقط بأقلّ قدر من الضغط، ثم يُحلَّل نظام الملفات على النسخة. ولا تُحفظ الملفات المستعادة على القرص نفسه."
+            },
+            {
+              "t": "القرص يتقطّع أو بطيء",
+              "b": "تُعطى الأولوية لنسخ المناطق المهمّة مع مراقبة الحرارة والاستقرار. وقد تُرتَّب مجلدات العمل أو الصور المهمّة قبل بقية البيانات إذا كان الوصول محدودًا."
+            },
+            {
+              "t": "مشكلة وحدة تحكّم أو Firmware",
+              "b": "يحتاج القرص إلى تقييم متخصّص يحدّد هل توجد طريقة للوصول المؤقّت أو التعامل مع عائلة وحدة التحكّم. ولا يُحدَّث Firmware من الإنترنت ولا تُستخدم أدوات المصنع التي قد تمسح القرص."
+            },
+            {
+              "t": "القرص مشفّر",
+              "b": "تُفصَل مشكلة الوصول المادي عن التشفير. حتى إذا أمكن أخذ نسخة كاملة، تبقى كلمة المرور أو مفتاح BitLocker أو FileVault مطلوبة لفتح المحتوى."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "الشركة والطراز والسعة",
+              "b": "مع صورة الموصل والملصق."
+            },
+            {
+              "t": "نوع القرص إن كان معروفًا",
+              "b": "‏2.5 SATA أو M.2 SATA أو M.2 NVMe أو SSD خارجي."
+            },
+            {
+              "t": "الجهاز ونظام التشغيل",
+              "b": "الجهاز الذي كان القرص يعمل عليه، ونظامه."
+            },
+            {
+              "t": "هل يظهر للنظام؟",
+              "b": "في BIOS أو إدارة الأقراص، وبأي اسم وسعة."
+            },
+            {
+              "t": "سلوك القرص",
+              "b": "هل يسخن أو ينقطع الاتصال أو يظهر بوضع القراءة فقط."
+            },
+            {
+              "t": "آخر حدث قبل العطل",
+              "b": "تحديث، انقطاع طاقة، سقوط، فورمات، حذف أو اختفاء."
+            },
+            {
+              "t": "ما جُرّب بعد المشكلة",
+              "b": "البرامج والتحديثات والمحوّلات التي استُخدمت."
+            },
+            {
+              "t": "التشفير",
+              "b": "وجود BitLocker أو FileVault، وكلمة المرور أو مفتاح الاسترداد."
+            },
+            {
+              "t": "الملفات الأهمّ",
+              "b": "وترتيبها حسب الأولوية."
+            }
+          ]
+        }
+      ],
       devicesTitle: "أقراص SSD وNVMe التي نتعامل معها",
       devicesLead: "الاسم على الملصق لا يحدد المسار. ما يحدده هو وحدة التحكم وإصدار الـFirmware وحالة التشفير.",
       devices: [
@@ -176,6 +504,112 @@ module.exports = {
       caseResult: "النتيجة: قرص في هذه الحالة قد يتوقف عن الظهور في أي لحظة، والفرصة الحقيقية هي أول جلسة يظهر فيها. هنا قُرئ الجزء الأكبر من المساحة المستخدمة وفُتحت عينات للتأكد. ولو كان القرص مشفّراً بـBitLocker لكان مفتاح الاسترداد شرطاً لقراءة الملفات، ولا يمكن تجاوز ذلك."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Start from the symptom",
+          "title": "Which case describes your drive?",
+          "lead": "SSD and NVMe drives do not behave like mechanical disks, and the outcome of deletion on them is fundamentally different.",
+          "items": [
+            {
+              "t": "Not visible in BIOS or the system",
+              "b": "The cause may be power, the port, the controller, or firmware. Not appearing does not prove the memory chips are empty, but it does mean ordinary recovery software cannot reach it."
+            },
+            {
+              "t": "Appears then disappears, or freezes the machine",
+              "b": "The drive is unstable while reading, and its condition can degrade with long tests or repeated copying. Stop automatic scanning, and do not run speed tests or firmware updates."
+            },
+            {
+              "t": "Appears in read-only mode",
+              "b": "Some drives enter a protective mode when they detect an internal problem. Do not try to force writing or formatting — this may be the last opportunity to copy the contents."
+            },
+            {
+              "t": "Files deleted or the drive formatted",
+              "b": "The outcome differs sharply from an HDD because of TRIM and free-space management. Stopping use immediately matters, but it does not justify promising that every deletion is reversible."
+            },
+            {
+              "t": "Heat or a sudden shutdown",
+              "b": "Some NVMe problems appear with heat, power loss, or component damage. Record what happened, and do not keep trying it in several machines if the drive heats up quickly."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "Two things often confused",
+          "title": "M.2 is not a synonym for NVMe, and reading the chip is no magic answer",
+          "paras": [
+            "M.2 describes the card's form factor, while the drive itself may run the SATA or the NVMe protocol. So 'I have an M.2' is not enough: we need a photo of the label or the full model, the machine the drive was fitted in, and whether it appeared in BIOS and at what capacity. Controllers and NAND management differ, and it is those — not the connector shape — that determine the reading tools.",
+            "In an SSD, files are not stored in direct order inside a single chip. The controller spreads data across chips, corrects errors, swaps cells, and maintains a table mapping logical addresses to physical locations. The data may also be encrypted internally, or by BitLocker or FileVault. Reading raw NAND therefore does not mean the files will simply appear: the route depends on the controller's health, access to the translation data, the state of the chips, and the encryption."
+          ]
+        },
+        {
+          "kind": "notes",
+          "eyebrow": "Depending on the case",
+          "title": "Possible recovery routes",
+          "items": [
+            {
+              "t": "The drive is stable and reports the right capacity",
+              "b": "A read-only image is taken with as little strain as possible, then the file system is analysed on that image. Recovered files are never written back to the same drive."
+            },
+            {
+              "t": "The drive cuts out or is slow",
+              "b": "Priority goes to copying the important regions while monitoring temperature and stability. Work folders or important images may be ordered ahead of everything else if access is limited."
+            },
+            {
+              "t": "A controller or firmware problem",
+              "b": "The drive needs a specialist assessment to establish whether temporary access or handling of that controller family is possible. Firmware is not updated from the internet, and manufacturer tools that can erase the drive are not used."
+            },
+            {
+              "t": "The drive is encrypted",
+              "b": "The physical access problem is separated from the encryption. Even where a full image can be taken, the password or the BitLocker or FileVault key is still required to open the contents."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "Make, model and capacity",
+              "b": "With a photo of the connector and the label."
+            },
+            {
+              "t": "Drive type if known",
+              "b": "2.5in SATA, M.2 SATA, M.2 NVMe, or an external SSD."
+            },
+            {
+              "t": "Machine and operating system",
+              "b": "The machine the drive was running in, and its system."
+            },
+            {
+              "t": "Does the system see it?",
+              "b": "In BIOS or Disk Management, under what name and capacity."
+            },
+            {
+              "t": "How the drive behaves",
+              "b": "Whether it heats up, drops the connection, or appears read-only."
+            },
+            {
+              "t": "The last event before the fault",
+              "b": "An update, power loss, a fall, formatting, deletion, or disappearance."
+            },
+            {
+              "t": "What was tried afterwards",
+              "b": "The software, updates and adapters that were used."
+            },
+            {
+              "t": "Encryption",
+              "b": "Whether BitLocker or FileVault is present, and the password or recovery key."
+            },
+            {
+              "t": "The most important files",
+              "b": "And their order of priority."
+            }
+          ]
+        }
+      ],
       devicesTitle: "SSD and NVMe drives we work on",
       devicesLead: "The name on the label does not decide the path. The controller, the firmware revision and the encryption state do.",
       devices: [
@@ -230,6 +664,174 @@ module.exports = {
   },
   "raid-servers": {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "قرار الساعة الأولى",
+          "title": "متى يجب إيقاف النظام؟",
+          "lead": "كل كتابة جديدة على مصفوفة متضرّرة تُصعّب الاستعادة. هذه المؤشّرات تستدعي التوقّف والتوثيق قبل أي إجراء.",
+          "items": [
+            "المصفوفة أصبحت Degraded وظهر قرص ثانٍ بأخطاء قراءة.",
+            "بدأ Rebuild ثم توقّف أو تراجع الأداء بصورة شديدة.",
+            "اختفى Volume أو تغيّر إلى RAW أو Unmounted.",
+            "طلب المتحكّم Initialize أو Create New Array أو Import Foreign Configuration.",
+            "تغيّر ترتيب الأقراص أو نُقلت إلى جهاز آخر.",
+            "توقّف NAS أو SAN أو خادم الملفات بعد انقطاع كهرباء.",
+            "لم تعد آلات VMware أو Hyper-V أو قواعد البيانات قابلة للفتح.",
+            "توجد مؤشّرات تشفير أو حذف جماعي — وهنا تُعامَل الحالة كحادث أمني أيضًا."
+          ]
+        },
+        {
+          "kind": "accordion",
+          "eyebrow": "للتوجيه لا للتقنية",
+          "title": "دليل مبسّط لمستويات RAID",
+          "lead": "شرح موجز يساعدك على وصف حالتك. الإعدادات الفعلية تُقرأ من بيانات الأقراص لا من التخمين.",
+          "items": [
+            {
+              "t": "RAID 0",
+              "b": "يوزّع البيانات بين قرصين أو أكثر لتحسين الأداء بلا تكرار. فقدان جزء من قرص قد يؤثّر على الملفات الممتدّة عبر المصفوفة كلها، ويحتاج التحليل جميع الأقراص وترتيبها ومعاملات التوزيع."
+            },
+            {
+              "t": "RAID 1",
+              "b": "ينشئ نسخة متطابقة عادةً. ورغم ذلك قد تنتقل أخطاء الحذف أو التلف المنطقي إلى النسختين، وقد لا تكون الأقراص متزامنة تمامًا بعد عطل أو Rebuild."
+            },
+            {
+              "t": "RAID 5",
+              "b": "يستخدم Parity موزّعًا ويتحمّل عادةً فشل قرص واحد في الحالة السليمة. الخطر يظهر عندما يكون قرص آخر ضعيفًا أو عندما يبدأ Rebuild على أقراص قديمة."
+            },
+            {
+              "t": "RAID 6",
+              "b": "يستخدم Parity مزدوجًا ويتحمّل أعطالًا أكثر ضمن تصميمه، لكن فساد البيانات أو ترتيبًا خاطئًا أو فشل عدّة أقراص أثناء إعادة البناء قد يجعل الاستعادة معقّدة."
+            },
+            {
+              "t": "RAID 10",
+              "b": "يجمع بين المرايا والتوزيع. النتيجة تعتمد على أي الأقراص فشلت وعلى أزواج المرايا الفعلية، لا على عدد الأقراص المعطّلة وحده."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما الذي نفعله قبل فتح الملفات؟",
+          "items": [
+            {
+              "t": "توثيق البنية",
+              "b": "يُسجَّل ترتيب الأقراص وحالة كل قرص وموديل المتحكّم ورسائل النظام وأي Rebuild أو استبدال حدث. صور الـBays وواجهة الإدارة أدقّ من الذاكرة بعد أيام."
+            },
+            {
+              "t": "نسخة مستقلّة لكل قرص",
+              "b": "يُفحص كل قرص منفردًا وتُؤخذ نسخة قطاعية متى أمكن. لا يُكتب على الأقراص الأصلية ولا يُعتمد على قرص واحد ليمثّل مصفوفة موزّعة."
+            },
+            {
+              "t": "تحديد معاملات المصفوفة",
+              "b": "يُحلَّل ترتيب الأقراص وحجم Stripe واتجاه Parity والـOffset وحالة الأقراص البديلة أو القديمة، ثم تُبنى مصفوفة افتراضية على النسخ."
+            },
+            {
+              "t": "فحص نظام الملفات والخدمات",
+              "b": "بعد ظهور الـVolume منطقيًّا تُراجَع بنية الملفات ومخازن الآلات الافتراضية وقواعد البيانات. نجاح إعادة بناء RAID لا يعني تلقائيًّا أن كل ملف سليم."
+            },
+            {
+              "t": "ترتيب الأولويات والتحقّق",
+              "b": "تُستعاد الأنظمة والملفات بحسب أثرها على العمل، ثم تُفتح عيّنة من المستندات والفيديوهات وقواعد البيانات للتحقّق قبل التسليم."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "بين الطرفين",
+          "title": "حالات شائعة ونتائج محتملة",
+          "items": [
+            {
+              "t": "فشل قرص ثم فشل Rebuild",
+              "b": "قد يكون القرص البديل سليمًا بينما يحتوي قرص آخر على قطاعات متعثّرة لا تظهر أثناء التشغيل العادي. احتفظ بالقرص الأصلي والبديل معًا؛ قد تلزم مقارنة حالتيهما."
+            },
+            {
+              "t": "NAS يظهر Volume غير مركّب",
+              "b": "قد تكون الأقراص سليمة نسبيًّا والمشكلة في بنية RAID أو نظام الملفات أو إعداد الجهاز. لا تنشئ Storage Pool جديدًا ولا تهيّئ الأقراص."
+            },
+            {
+              "t": "تبدّل المتحكّم أو السيرفر",
+              "b": "قد يقرأ المتحكّم الجديد البيانات بطريقة مختلفة أو يطلب Initialize. لا توافق. يلزم طراز المتحكّم القديم والجديد ونسخة من الإعدادات إن وُجدت."
+            },
+            {
+              "t": "‏VMware أو Hyper-V لا ترى الآلات",
+              "b": "قد تكون المصفوفة قابلة لإعادة البناء بينما تضرّرت ملفات VMDK أو VHDX أو بنية Datastore. النتيجة قد تكون آلة كاملة، أو أقراصًا افتراضية جزئية، أو استخراج ملفات مهمّة فقط."
+            },
+            {
+              "t": "قاعدة بيانات لا تبدأ بعد عودة التخزين",
+              "b": "عودة الـVolume لا تثبت اتّساق قاعدة البيانات. تُفحص ملفات البيانات والسجلّات وتُنسخ قبل أي Repair يكتب عليها."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "الأكثر ضررًا",
+          "title": "تجنّب هذه الخطوات",
+          "items": [
+            "لا تبدأ Rebuild ثانيًا ولا تعمل Initialize.",
+            "لا تغيّر ترتيب الأقراص ولا منصّات الـBay.",
+            "لا تستبدل أكثر من قرص دفعة واحدة.",
+            "لا تجبر قرصًا Offline على Online ولا تمسح Foreign Configuration.",
+            "لا تحدّث Firmware للمتحكّم أو NAS أثناء الحادث.",
+            "لا تعد الأقراص القديمة إلى Pool يعمل قبل حفظ نسخ منها.",
+            "لا تستعيد النسخ الاحتياطية فوق النظام المتضرّر قبل معرفة سبب العطل.",
+            "لا تفترض أن Hot Spare يحتوي على نسخة كاملة؛ دوره يعتمد على حالة إعادة البناء."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه من مسؤول النظام",
+          "items": [
+            {
+              "t": "الجهاز والمتحكّم",
+              "b": "الشركة والطراز للسيرفر أو NAS أو SAN، وطراز المتحكّم."
+            },
+            {
+              "t": "إعداد المصفوفة",
+              "b": "مستوى RAID المتوقّع وعدد الأقراص وسعة كل قرص."
+            },
+            {
+              "t": "صور الـBays",
+              "b": "صور واضحة للأقراص داخل مواضعها قبل إخراجها."
+            },
+            {
+              "t": "حالة كل قرص",
+              "b": "‏Online أو Failed أو Degraded أو Foreign أو Rebuilding."
+            },
+            {
+              "t": "تسلسل الأحداث بالتوقيت",
+              "b": "أول إنذار، استبدال، Rebuild، انقطاع طاقة أو تحديث."
+            },
+            {
+              "t": "ما أُخرج أو أُضيف",
+              "b": "أي قرص أُخرج أو أُضيف، وأيّها يظنّ الفريق أنه قديم."
+            },
+            {
+              "t": "الأنظمة والخدمات",
+              "b": "نظام التشغيل ونظام الملفات والخدمات المهمّة."
+            },
+            {
+              "t": "التشفير",
+              "b": "وجود تشفير، ومكان مفاتيح BitLocker أو تشفير NAS."
+            },
+            {
+              "t": "البيئات الافتراضية",
+              "b": "وجود VMware أو Hyper-V أو قواعد بيانات، وأسماء الأنظمة الحرجة."
+            },
+            {
+              "t": "النسخ الاحتياطية",
+              "b": "حالتها وآخر اختبار استعادة ناجح."
+            },
+            {
+              "t": "مؤشّرات أمنية",
+              "b": "هل توجد شبهة فدية أو وصول غير مصرّح به."
+            }
+          ]
+        }
+      ],
       devicesTitle: "السيرفرات وأنظمة التخزين التي نتعامل معها",
       devicesLead: "لكل متحكم RAID طريقة خاصة في كتابة البيانات وترتيبها على الأقراص. هذه أكثر البيئات التي تصل المختبر، وما الذي يتغيّر في التعامل مع كل واحدة منها.",
       devices: [
@@ -282,6 +884,174 @@ module.exports = {
       caseResult: "في حالات مشابهة تعود المجلدات المشتركة وقواعد البيانات قابلة للفتح في كثير من الأحيان، وقد تبقى ملفات كُتب فوقها أثناء إعادة البناء غير قابلة للاستعادة. لا يمكن الحكم على أي حالة قبل قراءة الأقراص وفحصها."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "The first-hour decision",
+          "title": "When should the system be stopped?",
+          "lead": "Every new write to a damaged array makes recovery harder. These signs call for stopping and documenting before any action.",
+          "items": [
+            "The array has gone Degraded and a second disk is showing read errors.",
+            "A rebuild started then stopped, or performance collapsed.",
+            "A volume vanished, or turned RAW or unmounted.",
+            "The controller asked to Initialize, Create New Array, or Import Foreign Configuration.",
+            "The disk order changed, or the disks were moved to another machine.",
+            "A NAS, SAN or file server stopped after a power cut.",
+            "VMware or Hyper-V machines or databases will no longer open.",
+            "There are signs of encryption or mass deletion — in which case this is a security incident too."
+          ]
+        },
+        {
+          "kind": "accordion",
+          "eyebrow": "For orientation, not depth",
+          "title": "A simple guide to RAID levels",
+          "lead": "A brief explanation to help you describe your case. The actual parameters are read from the disks, not guessed.",
+          "items": [
+            {
+              "t": "RAID 0",
+              "b": "Spreads data across two or more disks for performance with no redundancy. Losing part of one disk can affect files spanning the whole array, and analysis needs every disk, its order, and the striping parameters."
+            },
+            {
+              "t": "RAID 1",
+              "b": "Normally creates an identical copy. Even so, deletion or logical corruption can propagate to both copies, and disks may not be perfectly in sync after a fault or a rebuild."
+            },
+            {
+              "t": "RAID 5",
+              "b": "Uses distributed parity and normally tolerates one disk failing while healthy. The danger appears when another disk is weak, or when a rebuild starts on ageing disks."
+            },
+            {
+              "t": "RAID 6",
+              "b": "Uses double parity and tolerates more failures by design, but data corruption, a wrong order, or several disks failing during a rebuild can make recovery complex."
+            },
+            {
+              "t": "RAID 10",
+              "b": "Combines mirroring and striping. The outcome depends on which disks failed and on the actual mirror pairs, not on the number of failed disks alone."
+            }
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we do before opening any files",
+          "items": [
+            {
+              "t": "Documenting the structure",
+              "b": "Disk order, the state of each disk, the controller model, system messages, and any rebuild or replacement are all recorded. Photographs of the bays and the management interface are more reliable than memory after a few days."
+            },
+            {
+              "t": "An independent image of each disk",
+              "b": "Each disk is examined on its own and imaged sector by sector where possible. Nothing is written to the original disks, and no single disk is treated as representing a distributed array."
+            },
+            {
+              "t": "Establishing the array parameters",
+              "b": "Disk order, stripe size, parity direction, offset, and the state of replacement or older disks are analysed, then a virtual array is assembled over the images."
+            },
+            {
+              "t": "Checking the file system and services",
+              "b": "Once the volume appears logically, the file structure, virtual machine stores and databases are reviewed. A successful RAID rebuild does not automatically mean every file is intact."
+            },
+            {
+              "t": "Prioritising and verifying",
+              "b": "Systems and files are recovered by their impact on operations, then a sample of documents, videos and databases is opened for verification before handover."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "Between the extremes",
+          "title": "Common cases and likely outcomes",
+          "items": [
+            {
+              "t": "A disk failed, then the rebuild failed",
+              "b": "The replacement disk may be healthy while another disk holds failing sectors that never showed in normal operation. Keep the original and the replacement together; comparing their state may be necessary."
+            },
+            {
+              "t": "A NAS shows an unmounted volume",
+              "b": "The disks may be relatively healthy while the problem lies in the RAID structure, the file system, or the device configuration. Do not create a new storage pool and do not format the disks."
+            },
+            {
+              "t": "The controller or server was swapped",
+              "b": "A new controller may read the data differently or ask to initialise. Do not agree. The old and new controller models are needed, along with a copy of the configuration if one exists."
+            },
+            {
+              "t": "VMware or Hyper-V cannot see the machines",
+              "b": "The array may be rebuildable while VMDK or VHDX files or the datastore structure are damaged. The outcome may be a complete machine, partial virtual disks, or extraction of important files only."
+            },
+            {
+              "t": "A database will not start after storage returns",
+              "b": "A returned volume does not prove database consistency. Data files and logs are examined and copied before any repair writes over them."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "Most damaging",
+          "title": "Avoid these steps",
+          "items": [
+            "Do not start another rebuild and do not initialise.",
+            "Do not change the disk order or the bay positions.",
+            "Do not replace more than one disk at a time.",
+            "Do not force an offline disk online and do not clear a foreign configuration.",
+            "Do not update controller or NAS firmware during the incident.",
+            "Do not return older disks to a working pool before images of them are kept.",
+            "Do not restore backups over the damaged system before the cause is known.",
+            "Do not assume a hot spare holds a complete copy; its role depends on the state of the rebuild."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need from the system administrator",
+          "items": [
+            {
+              "t": "Machine and controller",
+              "b": "Make and model of the server, NAS or SAN, and the controller model."
+            },
+            {
+              "t": "Array configuration",
+              "b": "The expected RAID level, the number of disks, and each disk's capacity."
+            },
+            {
+              "t": "Photographs of the bays",
+              "b": "Clear photographs of the disks in position before they are removed."
+            },
+            {
+              "t": "The state of each disk",
+              "b": "Online, Failed, Degraded, Foreign or Rebuilding."
+            },
+            {
+              "t": "A timed sequence of events",
+              "b": "First alert, replacement, rebuild, power loss or update."
+            },
+            {
+              "t": "What was removed or added",
+              "b": "Which disk was taken out or added, and which the team believes is the older one."
+            },
+            {
+              "t": "Systems and services",
+              "b": "Operating system, file system, and the services that matter."
+            },
+            {
+              "t": "Encryption",
+              "b": "Whether encryption is present, and where BitLocker or NAS keys are held."
+            },
+            {
+              "t": "Virtual environments",
+              "b": "Whether VMware, Hyper-V or databases are involved, and the names of critical systems."
+            },
+            {
+              "t": "Backups",
+              "b": "Their state and the last successful restore test."
+            },
+            {
+              "t": "Security indicators",
+              "b": "Whether ransomware or unauthorised access is suspected."
+            }
+          ]
+        }
+      ],
       devicesTitle: "Servers and storage systems we work with",
       devicesLead: "Every RAID controller has its own way of writing and ordering data across disks. These are the environments that most often reach the lab, and what changes in handling each one.",
       devices: [
@@ -336,6 +1106,157 @@ module.exports = {
   },
   cctv: {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "قبل أي خطوة",
+          "title": "حدّد الحالة أولًا",
+          "lead": "الوقت هنا يعمل ضدّك: كل دقيقة تسجيل جديدة قد تستبدل المقطع المطلوب.",
+          "items": [
+            {
+              "t": "المقطع حُذف من الواجهة",
+              "b": "اختفاؤه من قائمة البحث لا يثبت أن بياناته أُزيلت، لكن استمرار التسجيل قد يستبدل المساحة القديمة. أوقف الجهاز وسجّل التاريخ والوقت ورقم الكاميرا المطلوبين."
+            },
+            {
+              "t": "الجهاز عمل فورمات للهارد",
+              "b": "تعتمد النتيجة على نوع التهيئة وما إذا عاد الجهاز إلى التسجيل بعدها. لا تعد إضافة القرص إلى DVR ولا توافق على Initialize مرة ثانية."
+            },
+            {
+              "t": "‏DVR أو NVR لا يعمل",
+              "b": "قد تكون المشكلة في الجهاز أو مصدر الطاقة أو القرص أو بنية التخزين. لا تنقل الهارد إلى جهاز آخر قد يهيّئه تلقائيًّا؛ احتفظ بالجهاز والقرص ومحوّل الطاقة."
+            },
+            {
+              "t": "التسجيل موجود لكنه لا يُصدَّر أو لا يعمل",
+              "b": "قد تكون المشكلة في صيغة التصدير أو المشغّل أو فهرس الجهاز، لا في الفيديو نفسه. احتفظ بالملف الأصلي وببرنامج المشاهدة الذي أنشأه الجهاز."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "ليست ملفات عادية",
+          "title": "أين تُحفظ تسجيلات المراقبة؟",
+          "paras": [
+            "قد تكون التسجيلات على هارد داخل DVR، أو مجموعة أقراص داخل NVR، أو بطاقة ذاكرة في الكاميرا، أو NAS، أو خدمة سحابية. تختلف طريقة الاستعادة بحسب مكان التخزين، ولذلك لا يكفي اسم ماركة الكاميرا وحده.",
+            "وبعض الأجهزة تستخدم نظام ملفات وتجزئة فيديو خاصّين بها، فلا تظهر المقاطع كملفات MP4 عادية عند توصيل القرص بالحاسب. وقد تكون المقاطع موزّعة على أجزاء ترتبط بفهرس داخلي. لذلك يبدأ العمل بأخذ نسخة من وسيط التخزين، ثم فهم بنية الجهاز وتجميع المقاطع من النسخة."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "من القرص إلى مقطع قابل للتحقّق",
+          "items": [
+            {
+              "t": "حفظ الحالة",
+              "b": "يُوقَف التسجيل، وتُوثَّق شاشة الجهاز وطرازه وعدد الكاميرات والوقت الظاهر. وإذا كانت الحالة مرتبطة ببلاغ أو نزاع، لا تُغيَّر الإعدادات ولا يُعاد تشغيل الجهاز بلا تنسيق."
+            },
+            {
+              "t": "أخذ نسخة من وسيط التخزين",
+              "b": "يُقرأ الهارد بطريقة تمنع الكتابة عليه. وإذا كان متضرّرًا، تُعالَج مشكلة القراءة أولًا ثم يستمرّ التحليل على النسخة."
+            },
+            {
+              "t": "تحديد بنية التسجيل",
+              "b": "يُبحث عن فهرس الجهاز والقنوات والطوابع الزمنية وأجزاء الفيديو. وإذا كان الفهرس مفقودًا، يمكن البحث عن بنية المقاطع نفسها، لكن الأسماء والتواريخ الدقيقة قد تتأثّر."
+            },
+            {
+              "t": "تجميع المدة المطلوبة",
+              "b": "تُعطى الأولوية للقناة والفترة الحرجة مع هامش قبل الحدث وبعده. وقد تكون النتيجة مقطعًا كاملًا، أو أجزاء متفرّقة، أو تسجيلات مجاورة، أو لا شيء إذا تمّت الكتابة فوق البيانات فعليًّا."
+            },
+            {
+              "t": "التحقّق والتسليم",
+              "b": "يُفحص تشغيل الفيديو وتوضَّح الفترة والقناة. وعند الحاجة التشغيلية يمكن تسليم نسخة قابلة للمشاهدة مع الاحتفاظ بالنسخة الأصلية المستخرجة."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "بين الطرفين",
+          "title": "حالات شائعة ونتائج محتملة",
+          "items": [
+            {
+              "t": "حُذف مقطع ثم استمرّ التسجيل ساعات قليلة",
+              "b": "قد تبقى أجزاء أو المقطع كاملًا إذا لم تصل الكتابة الجديدة إلى مساحته. الأولوية لإيقاف الجهاز وتحديد النافذة الزمنية بدقّة."
+            },
+            {
+              "t": "استمرّ التسجيل أيامًا بعد الحذف",
+              "b": "ترتفع احتمالية الكتابة فوق البيانات، خصوصًا مع قرص صغير وعدد كاميرات كبير ودقّة عالية. لا يمكن استنتاج النتيجة من عدد الأيام وحده."
+            },
+            {
+              "t": "القرص يُقرأ لكن الجهاز يقول «لا يوجد تسجيل»",
+              "b": "قد يكون الفهرس أو قاعدة بيانات الجهاز متضرّرين بينما أجزاء الفيديو موجودة. لا تعمل Repair أو Format قبل حفظ نسخة."
+            },
+            {
+              "t": "هارد DVR يصدر صوتًا أو يختفي",
+              "b": "تتحوّل الحالة أولًا إلى استعادة قرص متضرّر. لا تشغّل الجهاز مرارًا: التسجيل المستمرّ والقراءة غير المستقرّة يجتمعان على المصدر نفسه."
+            },
+            {
+              "t": "المقطع موجود بتوقيت مختلف",
+              "b": "قد يكون هناك انحراف ساعة أو تغيير منطقة زمنية. تُراجَع المقاطع حول الوقت المتوقّع وتُقارن بأحداث معروفة بدلًا من الاعتماد على طابع واحد."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "الأكثر ضررًا",
+          "title": "تجنّب هذه الخطوات",
+          "items": [
+            "لا تعد تشغيل التسجيل «للتأكّد».",
+            "لا تعمل Initialize أو Format للهارد.",
+            "لا تنقل القرص إلى DVR آخر قد يعيد تهيئته.",
+            "لا تحدّث Firmware ولا تعمل Factory Reset.",
+            "لا تسجّل مقطع اختبار على القناة نفسها.",
+            "لا تحذف الملف الأصلي أو تحوّله إذا كانت الحالة قانونية — اعمل على نسخة.",
+            "لا تعدّل ساعة الجهاز قبل توثيق الفرق بينها وبين الوقت الحقيقي."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "الجهاز",
+              "b": "الشركة والطراز الكامل للـDVR أو NVR أو الكاميرا."
+            },
+            {
+              "t": "التخزين",
+              "b": "عدد الأقراص وسعتها، وهل النظام RAID أم قرص واحد."
+            },
+            {
+              "t": "القنوات",
+              "b": "عدد القنوات، والكاميرا المطلوبة ورقمها."
+            },
+            {
+              "t": "النافذة الزمنية",
+              "b": "التاريخ والوقت المطلوبان مع هامش قبل الحدث وبعده."
+            },
+            {
+              "t": "دقّة الساعة",
+              "b": "المنطقة الزمنية، وهل ساعة الجهاز صحيحة الآن."
+            },
+            {
+              "t": "نمط التسجيل",
+              "b": "مستمرّ، أو بالحركة، أو بالأحداث، أو بجدول زمني."
+            },
+            {
+              "t": "الإعدادات",
+              "b": "الدقّة ومعدّل الإطارات ومدة الاحتفاظ التقريبية إن عُرفت."
+            },
+            {
+              "t": "ما حدث",
+              "b": "حذف، فورمات، Reset، عطل جهاز، عطل هارد أو تصدير فاشل."
+            },
+            {
+              "t": "التسجيل بعد الفقد",
+              "b": "مقدار التسجيل الجديد بعد اختفاء المقطع."
+            },
+            {
+              "t": "الغرض",
+              "b": "هل توجد حاجة قانونية أو لسلسلة حيازة موثّقة."
+            }
+          ]
+        }
+      ],
       devicesTitle: "أجهزة التسجيل وأنظمة المراقبة التي نفحصها",
       devicesLead: "أجهزة DVR وNVR لا تحفظ الفيديو كملفات عادية، بل داخل تنسيق خاص بكل شركة. معرفة الجهاز وطريقة كتابته للتسجيل هي أول ما يحدد إمكانية الوصول إلى المقطع المطلوب.",
       devices: [
@@ -388,6 +1309,157 @@ module.exports = {
       caseResult: "في حالات كهذه يعود جزء من النافذة الزمنية قابلاً للعرض في كثير من الأحيان، بينما تكون أجزاء أخرى قد كُتب فوقها بالتسجيل الجديد. لا يمكن تحديد ما تبقى قبل قراءة القرص وفحص محتواه."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Before any step",
+          "title": "Identify the case first",
+          "lead": "Time works against you here: every minute of new recording can overwrite the footage you need.",
+          "items": [
+            {
+              "t": "The clip was deleted from the interface",
+              "b": "Its absence from the search list does not prove the data is gone, but continued recording can overwrite the old space. Stop the device and note the exact date, time and camera number you need."
+            },
+            {
+              "t": "The device formatted the disk",
+              "b": "The outcome depends on the type of format and whether the device resumed recording afterwards. Do not re-add the disk to the DVR and do not agree to initialise it again."
+            },
+            {
+              "t": "The DVR or NVR will not work",
+              "b": "The problem may be the device, the power supply, the disk, or the storage structure. Do not move the disk to another device that may format it automatically; keep the device, the disk and the power adapter together."
+            },
+            {
+              "t": "Footage exists but will not export or play",
+              "b": "The problem may lie in the export format, the player, or the device index rather than the video itself. Keep the original file and the viewer the device produced."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "Not ordinary files",
+          "title": "Where is surveillance footage stored?",
+          "paras": [
+            "Footage may sit on a disk inside a DVR, a set of disks inside an NVR, a memory card in the camera, a NAS, or a cloud service. The recovery method differs with where it is stored, which is why the camera brand alone is not enough.",
+            "Some devices use their own file system and video fragmentation, so clips do not appear as ordinary MP4 files when the disk is connected to a computer. Clips may also be split into fragments tied to an internal index. Work therefore starts by imaging the storage medium, then understanding the device structure and reassembling the clips from that image."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "From disk to a verifiable clip",
+          "items": [
+            {
+              "t": "Preserving the state",
+              "b": "Recording is stopped, and the device screen, model, camera count and displayed time are documented. If the case relates to a report or a dispute, settings are not changed and the device is not restarted without coordination."
+            },
+            {
+              "t": "Imaging the storage medium",
+              "b": "The disk is read in a way that prevents writing to it. If it is damaged, the reading problem is addressed first, then analysis continues on the image."
+            },
+            {
+              "t": "Establishing the recording structure",
+              "b": "The device index, channels, timestamps and video fragments are located. Where the index is missing, the clip structures themselves can be searched, but exact names and dates may be affected."
+            },
+            {
+              "t": "Assembling the period needed",
+              "b": "Priority goes to the channel and the critical window, with a margin before and after. The outcome may be a complete clip, scattered fragments, adjacent recordings, or nothing if the data was genuinely overwritten."
+            },
+            {
+              "t": "Verification and handover",
+              "b": "Playback is checked and the period and channel are made clear. Where operationally needed, a viewable copy can be handed over while the original extracted copy is retained."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "Between the extremes",
+          "title": "Common cases and likely outcomes",
+          "items": [
+            {
+              "t": "A clip was deleted and recording continued for a few hours",
+              "b": "Fragments or the whole clip may survive if new writing never reached its space. The priority is stopping the device and pinning down the time window precisely."
+            },
+            {
+              "t": "Recording continued for days after deletion",
+              "b": "The likelihood of overwriting rises, especially with a small disk, many cameras and high resolution. The outcome cannot be inferred from the number of days alone."
+            },
+            {
+              "t": "The disk reads but the device says 'no recordings'",
+              "b": "The index or the device database may be damaged while video fragments remain. Do not run repair or format before an image is taken."
+            },
+            {
+              "t": "A DVR disk makes a noise or disappears",
+              "b": "The case becomes a damaged-disk recovery first. Do not keep powering the device on: continuous recording and unstable reading meet on the same source."
+            },
+            {
+              "t": "The clip exists at a different time",
+              "b": "There may be clock drift or a timezone change. Clips around the expected time are reviewed and compared against known events rather than relying on a single timestamp."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "tone": "avoid",
+          "eyebrow": "Most damaging",
+          "title": "Avoid these steps",
+          "items": [
+            "Do not restart recording 'just to check'.",
+            "Do not initialise or format the disk.",
+            "Do not move the disk to another DVR that may reformat it.",
+            "Do not update firmware and do not factory reset.",
+            "Do not record a test clip on the same channel.",
+            "Do not delete or convert the original file if the case is legal — work on a copy.",
+            "Do not adjust the device clock before documenting its difference from real time."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "The device",
+              "b": "Make and full model of the DVR, NVR or camera."
+            },
+            {
+              "t": "Storage",
+              "b": "Number of disks and their capacity, and whether it is RAID or a single disk."
+            },
+            {
+              "t": "Channels",
+              "b": "How many channels, and which camera and number you need."
+            },
+            {
+              "t": "The time window",
+              "b": "The date and time required, with a margin before and after."
+            },
+            {
+              "t": "Clock accuracy",
+              "b": "The timezone, and whether the device clock is correct now."
+            },
+            {
+              "t": "Recording mode",
+              "b": "Continuous, motion, event-based, or scheduled."
+            },
+            {
+              "t": "Settings",
+              "b": "Resolution, frame rate and approximate retention period if known."
+            },
+            {
+              "t": "What happened",
+              "b": "Deletion, formatting, a reset, device failure, disk failure or a failed export."
+            },
+            {
+              "t": "Recording since the loss",
+              "b": "How much new recording has happened since the clip disappeared."
+            },
+            {
+              "t": "The purpose",
+              "b": "Whether there is a legal need or a documented chain of custody."
+            }
+          ]
+        }
+      ],
       devicesTitle: "Recorders and surveillance systems we inspect",
       devicesLead: "DVRs and NVRs don't store video as ordinary files; each vendor writes it in its own format. Knowing the device and how it records is the first thing that decides whether the requested clip can be reached.",
       devices: [
@@ -442,6 +1514,148 @@ module.exports = {
   },
   "after-format": {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "ابدأ من الفعل",
+          "title": "ما الذي حدث بالضبط؟",
+          "lead": "كلمة «فورمات» تصف أفعالًا مختلفة جدًّا، ولكلٍّ منها نتيجة مختلفة.",
+          "items": [
+            {
+              "t": "فورمات سريع",
+              "b": "ينشئ نظام ملفات جديدًا فيزيل أو يستبدل أجزاء من بيانات الفهرسة، لكنه لا يساوي دائمًا الكتابة على كل قطاع. الفرصة تعتمد على نوع الوسيط وما كُتب بعد العملية."
+            },
+            {
+              "t": "فورمات كامل أو مسح آمن",
+              "b": "قد يكتب على مساحة القرص أو يرسل أوامر إزالة للوسيط، وحينها تقلّ الفرص بكثير. نحتاج اسم الأداة ونوع العملية والمدة التي استغرقتها قبل أي تقدير."
+            },
+            {
+              "t": "حذف قسم أو إنشاء قسم جديد",
+              "b": "قد تكون بيانات الملفات ما زالت موجودة، لكن معلومات بداية القسم ونظام الملفات تغيّرت. لا تنشئ أقسامًا إضافية ولا تحاول «إصلاح» جدول الأقسام على المصدر."
+            },
+            {
+              "t": "تثبيت نظام جديد",
+              "b": "يكتب Windows أو macOS ملفات النظام والتحديثات والملفات المؤقّتة على أجزاء من المساحة القديمة. قد تعود ملفات من المناطق التي لم تُستبدل، بينما تتضرّر بنية المجلدات في المنطقة المستخدمة للتثبيت."
+            },
+            {
+              "t": "حذف عادي أو إفراغ سلة المحذوفات",
+              "b": "لا يعني بالضرورة أن محتوى الملف اختفى فورًا، لكن استمرار استخدام الجهاز قد يكتب فوقه. أوقف التطبيقات والمزامنة والتنزيلات ولا تثبّت برنامج استرجاع على القرص نفسه."
+            }
+          ]
+        },
+        {
+          "kind": "notes",
+          "eyebrow": "العامل الحاسم",
+          "title": "نوع الوسيط يغيّر النتيجة",
+          "items": [
+            {
+              "t": "HDD",
+              "b": "قد تبقى محتويات كثيرة بعد فورمات سريع إذا لم تتمّ الكتابة فوقها. يمكن تحليل بيانات نظام الملفات أو البحث عن الملفات بحسب بنيتها، مع احتمال فقد الأسماء والمجلدات إذا تضرّرت البيانات الوصفية."
+            },
+            {
+              "t": "SSD وNVMe",
+              "b": "قد تُرسَل أوامر TRIM للمساحات التي أصبحت غير مستخدمة، فتقلّ فرص الاستعادة. لا يمكن تطبيق نتيجة HDD على SSD، ولا يجوز إعطاء وعد قبل معرفة النظام ونوع العملية وحالة القرص."
+            },
+            {
+              "t": "بطاقات الذاكرة والفلاش",
+              "b": "تعتمد النتيجة على وحدة التحكّم ونظام الملفات واستخدام البطاقة بعد الفورمات. التصوير الجديد قد يستبدل المقاطع القديمة بسرعة، وبعض الفيديوهات تحتاج إعادة تجميع حتى لو عادت بياناتها الخام."
+            },
+            {
+              "t": "قرص مشفّر",
+              "b": "قد يكون المحتوى القديم مشفّرًا بـBitLocker أو FileVault أو تشفير جهاز آخر. الاستعادة التقنية للقطاعات لا تتجاوز التشفير: يبقى مفتاح الاسترداد أو كلمة المرور مطلوبًا."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "بين الطرفين",
+          "title": "حالات شائعة ونتائج محتملة",
+          "items": [
+            {
+              "t": "‏HDD عليه Quick Format ولم يُستخدم بعده",
+              "b": "من الحالات التي تستحقّ الفحص سريعًا. قد تعود البنية أو نسبة كبيرة من الملفات، لكن لا ضمان قبل إنشاء نسخة وتحليلها."
+            },
+            {
+              "t": "تُثبّت Windows بعد الفورمات",
+              "b": "قد تكون بعض المناطق استُبدلت بالنظام والتحديثات. تختلف النتيجة من مجلد إلى آخر، وقد تعود ملفات بلا أسماء أو تكون أجزاء منها تالفة."
+            },
+            {
+              "t": "حُذف القسم وأصبح القرص Unallocated",
+              "b": "لا تنشئ New Volume ولا تهيّئه. قد يكون جدول الأقسام فقط مفقودًا، ويمكن تحليل بداية ونهاية البنية على نسخة."
+            },
+            {
+              "t": "‏SSD تمّ فورماته واستمرّ استخدامه",
+              "b": "تقلّ الفرص بسبب TRIM والكتابة اللاحقة، لكن التقييم يحتاج تفاصيل النظام ونوع العملية. لا نستخدم عبارة «مستحيل» ولا «مضمون» قبل الفحص."
+            },
+            {
+              "t": "بطاقة كاميرا فُرمتت ثم استمرّ التصوير",
+              "b": "قد تُستبدل المقاطع بالتسلسل، فتعود تسجيلات أحدث بينما تتضرّر الأقدم. توقّف عن التصوير وحدّد التاريخ والملفات المطلوبة."
+            },
+            {
+              "t": "القرص يطلب فورمات بلا أن يفرمت المستخدم",
+              "b": "ليست حالة «بعد الفورمات» بالضرورة: قد يكون نظام الملفات تالفًا أو القرص غير مستقرّ. لا توافق على الرسالة، وتُقيَّم الحالة كعطل منطقي أو مادي."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "eyebrow": "صريح",
+          "title": "ماذا تتوقّع من النتيجة؟",
+          "lead": "هذه هي الاحتمالات الفعلية، لا سيناريو واحد.",
+          "items": [
+            "قد تعود المجلدات والأسماء كاملة إذا بقيت البيانات الوصفية.",
+            "قد تعود الملفات بأسماء عامة ومن دون مساراتها الأصلية.",
+            "قد تعود بعض الملفات ناقصة أو غير قابلة للفتح بسبب الكتابة فوق أجزاء منها.",
+            "قد يظهر أكثر من إصدار للملف نفسه.",
+            "نجاح العثور على ملف لا يعني أنه سليم؛ تُفتح عيّنة موثّقة قبل اعتماد النتيجة.",
+            "إذا كُتبت المنطقة فعليًّا، فلا أداة تعيد البتات القديمة منها."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "نوع الوسيط",
+              "b": "‏HDD أو SSD أو NVMe أو USB أو SD أو غير ذلك."
+            },
+            {
+              "t": "الشركة والطراز والسعة",
+              "b": "ونظام التشغيل المستخدم."
+            },
+            {
+              "t": "ما الذي اختير بالضبط",
+              "b": "‏Quick Format أو Full Format أو Reset أو حذف قسم أو غير معروف."
+            },
+            {
+              "t": "نظام الملفات",
+              "b": "القديم والجديد إن عُرف: NTFS أو exFAT أو APFS أو HFS+."
+            },
+            {
+              "t": "الوقت والاستخدام",
+              "b": "الوقت منذ الفقد، ومقدار الاستخدام، والملفات التي نُسخت بعده."
+            },
+            {
+              "t": "ما ثُبّت على الوسيط",
+              "b": "هل ثُبّت نظام أو برنامج استرجاع على الوسيط نفسه."
+            },
+            {
+              "t": "التشفير",
+              "b": "هل كان هناك BitLocker أو FileVault أو كلمة مرور."
+            },
+            {
+              "t": "الأولويات",
+              "b": "أنواع الملفات والمجلدات والفترة الزمنية المطلوبة."
+            },
+            {
+              "t": "ما جُرّب",
+              "b": "البرامج أو أوامر الإصلاح التي شُغّلت."
+            }
+          ]
+        }
+      ],
       devicesTitle: "الأجهزة وأنظمة الملفات التي نفحصها بعد الفورمات",
       devicesLead: "الفورمات ليس عملية واحدة. ما يبقى من البيانات يعتمد على نظام الملفات، ونوع التهيئة، والوسيط نفسه. لذلك يبدأ الفحص بتحديد هذه الثلاثة قبل أي قراءة.",
       devices: [
@@ -494,6 +1708,148 @@ module.exports = {
       caseResult: "عاد جزء كبير من الصور والمستندات بأسمائه ومجلداته، وعاد جزء آخر عبر التواقيع دون أسماء. الملفات التي وقعت تحت مساحة التثبيت الجديد لم تكن قابلة للاستعادة. هذه نتيجة حالة واحدة، وتختلف حسب حجم الاستخدام بعد الفورمات."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Start from the action",
+          "title": "What exactly happened?",
+          "lead": "The word 'format' describes very different actions, and each has a different outcome.",
+          "items": [
+            {
+              "t": "Quick format",
+              "b": "Creates a new file system, removing or replacing parts of the indexing data, but that is not always the same as writing over every sector. The odds depend on the medium and on what was written afterwards."
+            },
+            {
+              "t": "Full format or secure erase",
+              "b": "May write across the disk or send removal commands to the medium, at which point the odds fall sharply. We need the tool's name, the type of operation, and how long it took before any estimate."
+            },
+            {
+              "t": "Deleting or creating a partition",
+              "b": "File data may still be there, but the partition start and file system information have changed. Do not create further partitions and do not try to 'repair' the partition table on the source."
+            },
+            {
+              "t": "Installing a new operating system",
+              "b": "Windows or macOS writes system files, updates and temporary files over parts of the old space. Files may return from regions that were not overwritten, while the folder structure in the installation area is damaged."
+            },
+            {
+              "t": "Ordinary deletion or emptying the bin",
+              "b": "It does not necessarily mean the file's contents vanished at once, but continuing to use the machine can write over them. Stop applications, syncing and downloads, and do not install recovery software onto the same disk."
+            }
+          ]
+        },
+        {
+          "kind": "notes",
+          "eyebrow": "The decisive factor",
+          "title": "The medium changes the outcome",
+          "items": [
+            {
+              "t": "HDD",
+              "b": "A great deal may survive a quick format if nothing was written over it. File-system metadata can be analysed or files located by their structure, with the possibility of losing names and folders if the metadata was damaged."
+            },
+            {
+              "t": "SSD and NVMe",
+              "b": "TRIM commands may be sent for space that became unused, reducing the chance of recovery. An HDD outcome cannot be applied to an SSD, and no promise is justified before the system, the operation and the drive's state are known."
+            },
+            {
+              "t": "Memory cards and flash",
+              "b": "The outcome depends on the controller, the file system, and use of the card after formatting. New shooting can overwrite older clips quickly, and some videos need reassembly even when their raw data returns."
+            },
+            {
+              "t": "An encrypted drive",
+              "b": "The old contents may be encrypted with BitLocker, FileVault or another device's encryption. Recovering sectors technically does not bypass encryption: the recovery key or password is still required."
+            }
+          ]
+        },
+        {
+          "kind": "cards",
+          "eyebrow": "Between the extremes",
+          "title": "Common cases and likely outcomes",
+          "items": [
+            {
+              "t": "An HDD quick-formatted and not used since",
+              "b": "One of the cases that deserves prompt examination. The structure or a large share of files may return, but nothing is guaranteed before an image is taken and analysed."
+            },
+            {
+              "t": "Windows installed after the format",
+              "b": "Some regions may have been overwritten by the system and its updates. The outcome varies from folder to folder, and files may return without names or with damaged parts."
+            },
+            {
+              "t": "The partition was deleted and the disk shows unallocated",
+              "b": "Do not create a new volume and do not format it. Only the partition table may be missing, and the start and end of the structure can be analysed on an image."
+            },
+            {
+              "t": "An SSD was formatted and kept in use",
+              "b": "The odds fall because of TRIM and later writing, but assessment needs the system details and the type of operation. We use neither 'impossible' nor 'guaranteed' before examination."
+            },
+            {
+              "t": "A camera card formatted, then shooting continued",
+              "b": "Clips may be overwritten in sequence, so newer recordings return while older ones are damaged. Stop shooting and identify the date and the files you need."
+            },
+            {
+              "t": "The disk asks to be formatted without the user formatting it",
+              "b": "This is not necessarily an 'after format' case: the file system may be corrupt or the disk unstable. Do not agree to the prompt; the case is assessed as a logical or physical fault."
+            }
+          ]
+        },
+        {
+          "kind": "list",
+          "eyebrow": "Plainly",
+          "title": "What to expect from the result",
+          "lead": "These are the real possibilities, not a single scenario.",
+          "items": [
+            "Folders and names may return intact if the metadata survived.",
+            "Files may return with generic names and without their original paths.",
+            "Some files may return incomplete or unopenable because parts were overwritten.",
+            "More than one version of the same file may appear.",
+            "Finding a file does not mean it is intact; a documented sample is opened before the result is accepted.",
+            "If a region was genuinely overwritten, no tool returns the old bits from it."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "Medium type",
+              "b": "HDD, SSD, NVMe, USB, SD or something else."
+            },
+            {
+              "t": "Make, model and capacity",
+              "b": "And the operating system in use."
+            },
+            {
+              "t": "Exactly what was chosen",
+              "b": "Quick format, full format, reset, partition deletion, or unknown."
+            },
+            {
+              "t": "File system",
+              "b": "The old and the new, if known: NTFS, exFAT, APFS or HFS+."
+            },
+            {
+              "t": "Time and use",
+              "b": "Time since the loss, how much use, and files copied afterwards."
+            },
+            {
+              "t": "What was installed onto it",
+              "b": "Whether an operating system or recovery software was installed on the medium itself."
+            },
+            {
+              "t": "Encryption",
+              "b": "Whether BitLocker, FileVault or a password was in place."
+            },
+            {
+              "t": "Priorities",
+              "b": "File types, folders and the period you need."
+            },
+            {
+              "t": "What was tried",
+              "b": "The software or repair commands that were run."
+            }
+          ]
+        }
+      ],
       devicesTitle: "The devices and file systems we inspect after a format",
       devicesLead: "A format is not one single operation. What survives depends on the file system, the type of format and the medium itself. So the inspection starts by establishing those three before anything is read.",
       devices: [
@@ -1113,6 +2469,89 @@ module.exports = {
   },
   phones: {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "ابدأ من الحالة",
+          "title": "اختر الحالة الأقرب",
+          "lead": "التشفير في الأجهزة الحديثة يجعل ترتيب الخطوات أهمّ من سرعتها.",
+          "items": [
+            {
+              "t": "يعمل لكن الشاشة أو اللمس متعطّل",
+              "b": "قد يكون المسار إصلاح الوصول المؤقّت إلى الشاشة أو منفذ البيانات، مع بقاء رمز القفل ضروريًّا في الأجهزة المشفّرة. لا تعمل Reset ولا تغيّر الحساب."
+            },
+            {
+              "t": "لا يعمل بعد ماء أو سقوط",
+              "b": "لا تشحنه ولا تستخدم حرارة. نحتاج معرفة متى وقع الحادث وهل شُغّل أو شُحن بعده، فالتيّار والتآكل قد يفعلان أكثر من مدّة ملامسة الماء."
+            },
+            {
+              "t": "عالق على الشعار أو يعيد التشغيل",
+              "b": "قد تكون المشكلة برمجية أو في التخزين أو اللوحة. لا تعمل Restore أو Factory Reset إذا كانت البيانات في الأولوية، ولا تثبّت تحديثًا قبل تقييم أثره."
+            },
+            {
+              "t": "حُذفت صور أو تمّ ضبط المصنع",
+              "b": "تستخدم الهواتف الحديثة تشفيرًا مرتبطًا بالجهاز ورمز القفل، وبعد ضبط المصنع قد تُفقَد مفاتيح الوصول إلى البيانات القديمة. تُراجَع النسخ السحابية والمحلّية أولًا."
+            },
+            {
+              "t": "يعمل ويُفتح لكن البيانات داخل تطبيق",
+              "b": "تختلف إمكانية التصدير حسب التطبيق وإصداره والحساب والتشفير. لا نعد باسترجاع محادثات أو بيانات تطبيق بعينه قبل التحقّق من طريقة تخزينه والنسخ المتاحة."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "توقّع واقعي",
+          "title": "ما الذي يمكن تسليمه؟",
+          "paras": [
+            "عندما يمكن تشغيل الجهاز وفتحه بصورة مستقرّة، قد يشمل التسليم الصور والفيديوهات والمستندات وجهات الاتصال والملفات المتاحة للتصدير. أما بيانات التطبيقات والمحادثات فليست ملفًّا واحدًا دائمًا: بعضها مشفّر داخل الجهاز أو مرتبط بالحساب أو مخزّن في السحابة، ولذلك تُحدَّد النتيجة لكلّ نوع على حدة.",
+            "والهدف في حالة اللوحة المتضرّرة هو إيقاع مستقرّ يكفي للوصول إلى البيانات، وليس بالضرورة إعادة الهاتف للاستخدام اليومي. وقد تتطلّب العملية فتح الجهاز أو العمل على اللوحة، ويجب توضيح أثر ذلك على الضمان أو مقاومة الماء أو قابلية الاستخدام قبل البدء."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "الجهاز",
+              "b": "الشركة والطراز الكامل وسعة الجهاز."
+            },
+            {
+              "t": "نظام التشغيل",
+              "b": "التقريبي إن عُرف."
+            },
+            {
+              "t": "ما حدث ومتى",
+              "b": "ماء، سقوط، حرارة، تحديث، حذف أو Reset."
+            },
+            {
+              "t": "ما جرى بعد الحادث",
+              "b": "هل شُغّل أو شُحن أو فُتح أو أُصلح."
+            },
+            {
+              "t": "سلوك الجهاز",
+              "b": "هل يلمع أو يهتزّ أو يصدر صوتًا أو يتصل بالحاسب."
+            },
+            {
+              "t": "رمز القفل",
+              "b": "هل هو معروف ويمكن إدخاله."
+            },
+            {
+              "t": "النسخ الاحتياطية",
+              "b": "وجود نسخة iCloud أو Google أو نسخة حاسب، وآخر مزامنة."
+            },
+            {
+              "t": "أولوية البيانات",
+              "b": "صور، فيديو، جهات اتصال، مستندات أو تطبيق محدّد."
+            },
+            {
+              "t": "إثبات الملكية",
+              "b": "عند الحاجة — ومن دون إرسال كلمات مرور الحساب في نموذج أوّلي."
+            }
+          ]
+        }
+      ],
       devicesTitle: "كل جوال له طريقة وصول مختلفة.",
       devicesLead: "الماركة تحدد نوع الذاكرة وطريقة التشفير، وهما يحددان ما يمكن الوصول إليه وما لا يمكن. هذه أكثر الأجهزة التي تصل المختبر.",
       devices: [
@@ -1165,6 +2604,89 @@ module.exports = {
       caseResult: "في كثير من الحالات المشابهة تعود الصور والمحادثات بعد إصلاح مسار الطاقة. وفي حالات أخرى يكون التآكل قد قطع مسارات تحت الشريحة فلا تكون القراءة ممكنة. الفحص وحده يفرّق بين الحالتين، ولا نعد بنتيجة قبله."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Start from the case",
+          "title": "Choose the closest case",
+          "lead": "Encryption on modern devices makes the order of steps matter more than their speed.",
+          "items": [
+            {
+              "t": "It works but the screen or touch is dead",
+              "b": "The route may be restoring temporary access to the display or the data port, with the lock code still required on encrypted devices. Do not reset and do not change the account."
+            },
+            {
+              "t": "Dead after water or a fall",
+              "b": "Do not charge it and do not use heat. We need to know when the incident happened and whether it was powered or charged afterwards — current and corrosion can do more than the length of water contact."
+            },
+            {
+              "t": "Stuck on the logo or rebooting",
+              "b": "The problem may be software, storage or the board. Do not restore or factory reset if the data is the priority, and do not install an update before its effect is assessed."
+            },
+            {
+              "t": "Photos deleted or the device factory reset",
+              "b": "Modern phones use encryption tied to the device and the lock code, and after a factory reset the keys to older data may be gone. Cloud and local backups are reviewed first."
+            },
+            {
+              "t": "It works and unlocks, but the data is inside an app",
+              "b": "Exporting depends on the app, its version, the account and the encryption. We do not promise to retrieve chats or a specific app's data before verifying how it stores them and what copies exist."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "A realistic expectation",
+          "title": "What can actually be handed over?",
+          "paras": [
+            "When a device can be powered and unlocked reliably, handover may include photos, videos, documents, contacts and files available for export. App data and chats are not always a single file: some are encrypted on the device, tied to the account, or held in the cloud, so the outcome is established for each type separately.",
+            "Where the board is damaged, the aim is a stable enough state to reach the data, not necessarily returning the phone to daily use. The work may require opening the device or working on the board, and the effect on warranty, water resistance or usability must be made clear before starting."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "The device",
+              "b": "Make, full model and capacity."
+            },
+            {
+              "t": "Operating system",
+              "b": "Approximately, if known."
+            },
+            {
+              "t": "What happened and when",
+              "b": "Water, a fall, heat, an update, deletion or a reset."
+            },
+            {
+              "t": "What happened afterwards",
+              "b": "Whether it was powered, charged, opened or repaired."
+            },
+            {
+              "t": "How it behaves",
+              "b": "Whether it lights up, vibrates, makes a sound, or connects to a computer."
+            },
+            {
+              "t": "The lock code",
+              "b": "Whether it is known and can be entered."
+            },
+            {
+              "t": "Backups",
+              "b": "Whether an iCloud, Google or computer backup exists, and the last sync."
+            },
+            {
+              "t": "Data priority",
+              "b": "Photos, video, contacts, documents or a specific app."
+            },
+            {
+              "t": "Proof of ownership",
+              "b": "Where needed — and without sending account passwords in an initial form."
+            }
+          ]
+        }
+      ],
       devicesTitle: "Every phone has a different way in.",
       devicesLead: "The brand decides the memory type and the encryption method, and those two decide what can be reached and what cannot. These are the devices that reach the lab most often.",
       devices: [
@@ -1219,6 +2741,92 @@ module.exports = {
   },
   "memory-cards": {
     ar: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "ابدأ من العرَض",
+          "title": "أي عطل تصف بطاقتك؟",
+          "items": [
+            {
+              "t": "تطلب فورمات أو أصبحت RAW",
+              "b": "قد يكون نظام الملفات أو جدول المجلدات متضرّرًا بينما البيانات ما زالت موجودة. لا توافق على التهيئة ولا تشغّل أداة Repair على النسخة الوحيدة."
+            },
+            {
+              "t": "تظهر ببطء أو تنفصل أثناء النسخ",
+              "b": "قد توجد مناطق قراءة متعثّرة أو مشكلة في وحدة التحكّم. لا تكرّر نسخ المجلد نفسه ولا تفحصها ببرنامج طويل؛ تُؤخذ نسخة كاملة بقراءة محسوبة أولًا."
+            },
+            {
+              "t": "لا تظهر أو تظهر بسعة خاطئة",
+              "b": "قد يكون الخلل في وحدة التحكّم أو الموصّلات أو الشريحة. برامج الاسترجاع لا ترى وسيطًا لا يُعلن سعته بصورة صحيحة."
+            },
+            {
+              "t": "كسر في موصّل USB أو جسم البطاقة",
+              "b": "لا تلحمها ولا تثبّتها بالغراء ولا تكرّر إدخالها. احتفظ بكل القطع؛ سلامة الشريحة أهمّ من شكل الغلاف."
+            },
+            {
+              "t": "حُذفت صور أو تمّ الفورمات ثم استمرّ التصوير",
+              "b": "كل صورة أو فيديو جديد قد يستبدل مساحة قديمة. أخرج البطاقة وحدّد تقريبًا عدد الملفات الجديدة والوقت المطلوب."
+            },
+            {
+              "t": "تسجيل فيديو توقّف فجأة",
+              "b": "قد يبقى ملف فيديو غير مكتمل أو بلا فهرس نهائي. نحتاج البطاقة الأصلية، ونوع الكاميرا، وإعداد الدقّة ومعدّل الإطارات، وأحيانًا ملفًّا سليمًا مصوَّرًا بالجهاز نفسه للمقارنة."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "توقّع واقعي",
+          "title": "ماذا قد يعود؟",
+          "paras": [
+            "قد تعود الصور بصيغ JPEG أو RAW والفيديوهات والمستندات مع مجلداتها وأسمائها إذا بقي نظام الملفات سليمًا. وإذا تضرّرت الفهارس، قد تُستعاد الملفات بحسب بنيتها من دون الأسماء الأصلية أو الترتيب.",
+            "والفيديو الطويل، وخصوصًا من الكاميرات الاحترافية أو كاميرات الحركة، قد يكون مجزّأً إلى أجزاء موزّعة على البطاقة. العثور على بداية الفيديو لا يعني أن المقطع مكتمل، ولذلك يجب تشغيله والتحقّق من المدة والصوت والصورة بعد التجميع. وإذا كُتبت بيانات جديدة فوق جزء من ملف قديم، قد يعود الملف ناقصًا أو يتوقّف أثناء التشغيل. تُعرض النتيجة الفعلية بعد فحص النسخة، لا بعد عدّ أسماء الملفات فقط."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "ما نحتاجه للتقييم الأولي",
+          "items": [
+            {
+              "t": "نوع الوسيط",
+              "b": "‏SD أو microSD أو CF أو CFexpress أو USB."
+            },
+            {
+              "t": "الشركة والطراز والسعة",
+              "b": "مع صورة للجهتين."
+            },
+            {
+              "t": "الجهاز المستخدم",
+              "b": "الكاميرا أو الهاتف أو الجهاز الذي استُخدمت معه."
+            },
+            {
+              "t": "الرسالة التي ظهرت",
+              "b": "‏Format أو Card Error أو No Card أو Write Protected أو سعة خاطئة."
+            },
+            {
+              "t": "الاستخدام بعد المشكلة",
+              "b": "هل تمّ الفورمات أو التصوير أو النسخ، وكم تقريبًا."
+            },
+            {
+              "t": "الحالة المادية",
+              "b": "هل الوسيط يسخن أو ينفصل أو مكسور."
+            },
+            {
+              "t": "الملفات المطلوبة",
+              "b": "نوعها والتاريخ أو جلسة التصوير المعنيّة."
+            },
+            {
+              "t": "تفاصيل الفيديو",
+              "b": "الدقّة ومعدّل الإطارات ونوع الكاميرا ومدة المقطع المتوقّعة."
+            },
+            {
+              "t": "ما جُرّب",
+              "b": "أي برامج أو أدوات مصنع استُخدمت."
+            }
+          ]
+        }
+      ],
       devicesTitle: "الاسم على الغلاف لا يحدد المسار.",
       devicesLead: "ما يحدد طريقة القراءة هو نوع الشريحة ووحدة التحكم داخل الوسيط وطريقة تجميعهما. هذه أكثر البطاقات والفلاشات التي تصل المختبر.",
       devices: [
@@ -1271,6 +2879,92 @@ module.exports = {
       caseResult: "في كثير من الحالات المشابهة تعود الصور والمقاطع كاملة أو شبه كاملة، ما دامت التهيئة لم تتم ولم يُصوَّر على الكرت بعدها. وإذا كانت الكتابة قد طالت أجزاء من المقاطع، فقد يعود بعضها ناقصاً أو لا يعود. نعرض ما ظهر في النسخة قبل أي وعد."
     },
     en: {
+      /* التوسعة العميقة — خطة العميل. اختيارية ويعرضها serviceExpansion()
+         بمفردات تصميم الموقع نفسها، بلا ادعاءات قدرة جديدة. */
+      expand: [
+        {
+          "kind": "cards",
+          "eyebrow": "Start from the symptom",
+          "title": "Which fault describes your card?",
+          "items": [
+            {
+              "t": "It asks to be formatted, or shows as RAW",
+              "b": "The file system or directory table may be damaged while the data is still there. Do not agree to format and do not run a repair tool on your only copy."
+            },
+            {
+              "t": "It appears slowly or disconnects while copying",
+              "b": "There may be failing read areas or a controller problem. Do not repeatedly copy the same folder or scan it with a long-running tool; a full image is taken with measured reading first."
+            },
+            {
+              "t": "It does not appear, or shows the wrong capacity",
+              "b": "The fault may be in the controller, the contacts, or the chip. Recovery software cannot see a medium that does not report its capacity correctly."
+            },
+            {
+              "t": "A broken USB connector or card body",
+              "b": "Do not solder it, glue it, or keep re-inserting it. Keep every piece; the chip's integrity matters more than the casing."
+            },
+            {
+              "t": "Photos deleted or formatted, then shooting continued",
+              "b": "Every new photo or video can overwrite older space. Remove the card and estimate how many new files were made and the time you need."
+            },
+            {
+              "t": "A video recording stopped suddenly",
+              "b": "An incomplete video file may remain, or one with no final index. We need the original card, the camera type, the resolution and frame rate settings, and sometimes a known-good file shot on the same device for comparison."
+            }
+          ]
+        },
+        {
+          "kind": "prose",
+          "eyebrow": "A realistic expectation",
+          "title": "What might come back?",
+          "paras": [
+            "Photos in JPEG or RAW, videos and documents may return with their folders and names if the file system survived. Where the directories are damaged, files may be recovered by their structure without the original names or ordering.",
+            "Long video, especially from professional or action cameras, may be split into fragments spread across the card. Finding the start of a video does not mean the clip is complete, so it must be played and its duration, audio and picture checked after reassembly. If new data was written over part of an older file, the file may return incomplete or stop during playback. The real outcome is presented after examining the image, not after counting file names."
+          ]
+        },
+        {
+          "kind": "steps",
+          "title": "What we need for the initial assessment",
+          "items": [
+            {
+              "t": "Medium type",
+              "b": "SD, microSD, CF, CFexpress or USB."
+            },
+            {
+              "t": "Make, model and capacity",
+              "b": "With a photo of both sides."
+            },
+            {
+              "t": "The device used",
+              "b": "The camera, phone or device it was used with."
+            },
+            {
+              "t": "The message shown",
+              "b": "Format, Card Error, No Card, Write Protected, or a wrong capacity."
+            },
+            {
+              "t": "Use since the problem",
+              "b": "Whether it was formatted, shot on, or copied from, and roughly how much."
+            },
+            {
+              "t": "Physical condition",
+              "b": "Whether the medium heats up, disconnects, or is broken."
+            },
+            {
+              "t": "The files you need",
+              "b": "Their type and the date or shooting session concerned."
+            },
+            {
+              "t": "Video details",
+              "b": "Resolution, frame rate, camera type, and the expected clip length."
+            },
+            {
+              "t": "What was tried",
+              "b": "Any software or manufacturer tools that were used."
+            }
+          ]
+        }
+      ],
       devicesTitle: "The name on the label doesn't decide the method.",
       devicesLead: "What decides how a card is read is the chip inside it, its controller, and the way the two are packaged together. These are the cards and sticks that reach the lab most often.",
       devices: [
