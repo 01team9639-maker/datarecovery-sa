@@ -29,6 +29,16 @@ ErrorDocument 404 /404.html
   # done: Google treats that as a soft 404 and it loses the same link equity as
   # the 404 did, while also hiding the problem from Search Console.
 
+  # 410 Gone, not 404, for pages the old site had and this one deliberately does
+  # not. Both remove the URL, but 410 states the removal is permanent, and Google
+  # retires a 410 faster than a 404 — which it re-crawls for a while in case the
+  # page returns. Used only where a real equivalent does not exist; where one
+  # does, the 301 above is the better answer.
+  RewriteRule ^wp-(content|admin|includes|json)(/|$) - [G,L]
+  RewriteRule ^our-team/?$ - [G,L]
+  RewriteRule ^secure-data-destruction-services/?$ - [G,L]
+  RewriteRule ^20(2[0-9])/?$ - [G,L]
+
   # Two legacy paths the 2026-08-20 audit found still live in Google's index.
   # /services/ answered 403 — a directory with no index and listing denied. To a
   # crawler a 403 reads as "temporarily withheld", so it keeps the old URL rather

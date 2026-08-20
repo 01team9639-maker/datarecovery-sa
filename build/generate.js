@@ -1276,6 +1276,40 @@ function ransomwareCasePage(lang, c) {
   </main>` + footer(lang, true) + docEnd();
 }
 
+/* ---------- Service hero image ----------
+   Replaces the animated data-core circle on service pages with a photograph of
+   the medium that service recovers. The circle stays on every other page and
+   remains the fallback here: a service with no image renders exactly as before,
+   so adding art never breaks a build.
+
+   The markup follows the rules that actually matter for this element, because
+   it is the largest thing above the fold and therefore the LCP candidate:
+     - AVIF then WebP, with a JPEG-free chain; the source images are ours.
+     - srcset at three widths with `sizes`, so a phone never downloads the
+       desktop file. This is where most of the weight is saved.
+     - explicit width/height, so the layout does not shift while it loads. The
+       audit measured CLS at 0 and it must stay there.
+     - fetchpriority="high" and no lazy loading: this image is above the fold,
+       and `loading="lazy"` on an LCP element delays the very metric it is
+       meant to help.
+     - a descriptive alt naming the medium, not the file. */
+function serviceHero(lang, slug) {
+  const alt = ui[lang].serviceImageAlt && ui[lang].serviceImageAlt[slug];
+  const base = `assets/img/services/${slug}`;
+  /* Gated on the file, not on the alt text. Alt text ships with the code; the
+     photographs arrive later. Keying the switch to the alt string would have
+     published eight broken images the moment the strings landed. */
+  if (!alt || !fs.existsSync(path.join(ROOT, `${base}-800.webp`))) return dataCore(false);
+  const set = (ext) => [480, 800, 1200]
+    .map((w) => `${asset(`${base}-${w}.${ext}`)} ${w}w`).join(", ");
+  return `<picture class="svc-photo">
+          <source type="image/avif" srcset="${set("avif")}" sizes="(max-width: 900px) 92vw, 44vw">
+          <source type="image/webp" srcset="${set("webp")}" sizes="(max-width: 900px) 92vw, 44vw">
+          <img src="${asset(`${base}-800.webp`)}" width="1200" height="1200"
+               alt="${esc(alt)}" fetchpriority="high" decoding="async" class="svc-photo__img">
+        </picture>`;
+}
+
 function servicePage(lang, s) {
   const t = ui[lang];
   const c = s[lang];
@@ -1311,7 +1345,7 @@ function servicePage(lang, s) {
             <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
           </div>
         </div>
-        <div class="hero__visual">${dataCore(false)}</div>
+        <div class="hero__visual">${serviceHero(lang, s.slug)}</div>
       </div>
       <div class="container">
         <dl class="trust-strip">

@@ -30,25 +30,24 @@ const config = {
   // brand's registered address is Riyadh — mapsUrl points to a brand search; adjust if needed.
   mapsUrl: "https://maps.app.goo.gl/3Pa3LR1e7HWd6fko9",
   timezone: "Asia/Riyadh", // GMT+3 — used for the footer local-time clock
-  geo: { lat: "24.68148", lng: "46.6908087" }, // Riyadh (Osool Data Recovery)
+  geo: { lat: "24.68148", lng: "46.6908087" }, // Riyadh — the lab
   // Social profiles. These URLs are the *live* accounts and double as the JSON-LD
   // `sameAs` list, so a dead URL here becomes a broken entity signal on every page.
   // Verified reachable 2026-08-11. The X account (x.com/osoolrecovery) returned 404
   // and was removed — re-add it here once a working handle exists.
-  // The accounts still carry the Osool name; the rebrand is handled for search
-  // engines by `alternateNames` below rather than by dropping the profiles, which
-  // would throw away the entity history Google has already associated with them.
+  // Only profiles whose URL does not carry the former name. Three accounts
+  // (Instagram, TikTok, LinkedIn) have `osooldatarecovery` in their handle, so
+  // linking them would reintroduce the name the site is retiring — in the link
+  // text, in the profile itself, and in sameAs. They return the day the handles
+  // are renamed or replaced.
   socials: [
-    { name: "Instagram", url: "https://www.instagram.com/osooldatarecovery", icon: "instagram" },
-    { name: "TikTok", url: "https://www.tiktok.com/@osooldatarecovery", icon: "tiktok" },
     { name: "Facebook", url: "https://www.facebook.com/share/1Gy9Ku7Gx8/", icon: "facebook" },
     { name: "YouTube", url: "https://www.youtube.com/channel/UC36WAnDT1fOpNHQ69UeA-Ew", icon: "youtube" },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/osool-data-recovery-b4b3b4379", icon: "linkedin" }
   ],
-  // Former trading name. Emitted as schema.org `alternateName` so search engines
-  // merge the old Osool entity into the current one instead of ranking two rival
-  // businesses on the same domain — the identity split the site audit flagged.
-  alternateNames: ["Osool Data Recovery", "أصول لاستعادة البيانات"],
+  // No alternateName. The rebrand was previously declared to search engines so
+  // they would merge the old entity into this one; the owner decided on
+  // 2026-08-20 to retire the former name entirely instead. Declaring a name the
+  // business no longer uses keeps it alive in knowledge panels and autocomplete.
   serviceOrder: ["ransomware", "hdd", "ssd-nvme", "raid-servers", "cctv", "after-format", "phones", "memory-cards"],
   // Cities with dedicated landing pages. The lab is in Riyadh; the other cities are
   // served by secure shipping, and their pages say so explicitly.
@@ -131,6 +130,18 @@ const ui = {
     citiesLabel: "نخدم في",
     areasLabel: "أحياء ومناطق نستقبل منها",
     devicesLabel: "الأجهزة والماركات المدعومة",
+    /* نص بديل لصور الخدمات. يصف الوسيط والحالة، لا اسم الملف: قارئ الشاشة
+       يسمع هذا بدل الصورة، ومحرك البحث يقرؤه كوصف للصفحة. */
+    serviceImageAlt: {
+      "hdd": "يد تحمل قرصًا صلبًا خارجيًّا داخل علبة شفافة موصولة بكابل، وقرص داخلي مفكوك في الخلفية",
+      "ssd-nvme": "حاسب محمول موصول بقرص خارجي وعلى شاشته مجلدات ونافذة عملية جارية",
+      "raid-servers": "ثلاث شاشات في غرفة خوادم تعرض لوحات مراقبة وسجلّات نظام",
+      "cctv": "بطاقة ذاكرة تُدخَل في حاسب محمول وبجانبه كاميرا",
+      "after-format": "شاشة حاسب تعرض شريط تقدّم استعادة بيانات عند سبعين بالمئة",
+      "ransomware": "قفل رقمي مضيء على شاشة حاسب فوق تدفّق بيانات",
+      "phones": "يدان تمسكان هاتفًا وتكتبان على شاشته",
+      "memory-cards": "أربع بطاقات ذاكرة من مقاسات مختلفة على لوحة مفاتيح حاسب محمول"
+    },
     caseLabel: "حالة نموذجية",
     caseDisclaimer: "حالة نموذجية مركّبة تشرح المسار — وليست قصة عميل بعينه.",
     caseResultLabel: "النتيجة",
@@ -194,6 +205,16 @@ const ui = {
     citiesLabel: "We serve",
     areasLabel: "Districts and areas we receive from",
     devicesLabel: "Supported devices & brands",
+    serviceImageAlt: {
+      "hdd": "A hand holding an external hard drive in a clear enclosure connected by cable, with a bare internal drive behind it",
+      "ssd-nvme": "A laptop connected to an external drive, its screen showing folder windows and an operation in progress",
+      "raid-servers": "Three monitors in a server room showing dashboards and system logs",
+      "cctv": "A memory card being inserted into a laptop with a camera beside it",
+      "after-format": "A desktop screen showing a data recovery progress bar at seventy per cent",
+      "ransomware": "A lit digital padlock on a computer screen above a stream of data",
+      "phones": "Two hands holding a phone and typing on its screen",
+      "memory-cards": "Four memory cards of different sizes on a laptop keyboard"
+    },
     caseLabel: "A typical case",
     caseDisclaimer: "A composite illustrative case explaining the route — not any one client's story.",
     caseResultLabel: "Outcome",

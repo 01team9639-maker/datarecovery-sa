@@ -80,7 +80,7 @@ function assertNothingSilentlyDropped() {
 let copiedFiles = 0;
 // .webp is allowed ahead of the lab/testimonial photography: photo() emits WebP
 // only, so the format is permitted here rather than on the day the art lands.
-const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2", ".webp", ".ico"]);
+const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2", ".webp", ".avif", ".ico"]);
 const htmlSections = ["services/", "cities/", "articles/", "en/", "blog/"];
 // Hugo emits these alongside the blog's HTML; they are public by design.
 const blogAssetExtensions = new Set([".css", ".woff2", ".webp", ".avif", ".xml", ".txt", ".png", ".svg"]);

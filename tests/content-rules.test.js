@@ -122,9 +122,16 @@ test("each headline figure carries one consistent label", () => {
 
 /* sameAs feeds the business entity in JSON-LD. A dead profile there is a broken
    identity signal on every page — x.com/osoolrecovery was returning 404. */
-test("no known-dead social profile in sameAs", () => {
+/* The rule inverted on 2026-08-20. It used to require the former trading name in
+   alternateName so search engines would merge the two entities. The owner chose
+   to retire that name outright instead, so the test now guards the opposite: no
+   alternateName, and no profile whose handle carries the retired name — a link
+   to /osooldatarecovery reintroduces it in the URL, the profile and sameAs. */
+test("the retired trading name appears nowhere in identity data", () => {
   const { config } = require("../build/site.js");
-  const dead = config.socials.filter((s) => /x\.com\/osoolrecovery/.test(s.url));
-  assert.deepStrictEqual(dead, [], "a social profile known to 404 is still in sameAs");
-  assert.ok(config.alternateNames.length >= 1, "the former trading name must stay declared as alternateName");
+  assert.equal(config.alternateNames, undefined,
+    "the retired trading name must not be declared as alternateName");
+  const named = config.socials.filter((s) => /osool/i.test(s.url));
+  assert.deepStrictEqual(named, [],
+    "a social profile whose URL carries the retired name is still in sameAs");
 });

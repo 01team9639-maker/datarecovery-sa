@@ -121,7 +121,8 @@ expect "/blog/" 200
 expect "/blog/what-is-raid/" 404
 
 echo "Unrelated junk falls through to the 404 page, not a soft redirect:"
-expect "/wp-admin/" 404
+# 410 لا 404: مسار ووردبريس معروف من الموقع القديم، والدائم يتقاعد أسرع.
+expect "/wp-admin/" 410
 expect "/some/random/path" 404
 
 echo "Source and config stay unreachable:"
