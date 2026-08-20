@@ -62,14 +62,35 @@ function build() {
   console.log(`Emitting site chrome → ${path.relative(process.cwd(), outDir)}`);
 
   for (const lang of LANGS) {
-    const { navbar, nav } = splitHeader(absolutise(header(lang)));
-    // __LANGSWITCH__ is left in place deliberately: the blog fills it per page
-    // with that article's translated URL, which only Hugo knows.
-    write(`navbar-${lang}.html`, navbar);
-    write(`nav-${lang}.html`, nav);
-    write(`footer-${lang}.html`, absolutise(footer(lang)));
+    const raw = splitHeader(absolutise(header(lang)));
+    /* __LANGSWITCH__ used to be left here "for the blog to fill per page".
+       Nothing filled it: Hugo has no substitution step for a raw partial, so
+       every blog page shipped href="__LANGSWITCH__" — both languages, each
+       producing its own distinct 404. The audit of 2026-08-20 found it on 20
+       of 20 pages.
+       The division of labour was right; it simply was never implemented. We now
+       emit a call to a partial we also write, and Hugo resolves the translated
+       URL of the page being rendered — the one thing only Hugo knows. */
+    const fill = (html) => html.split("__LANGSWITCH__")
+      .join('{{ partial "site/langswitch.html" . }}');
+    write(`navbar-${lang}.html`, fill(raw.navbar));
+    write(`nav-${lang}.html`, fill(raw.nav));
+    write(`footer-${lang}.html`, fill(absolutise(footer(lang))));
     write(`bodyattrs-${lang}.txt`, "");
   }
+
+  /* Resolves the current page's translation. Falls back to the other language's
+     blog index when a page has no translation: an index in the right language
+     is worse than the translated page and far better than a dead end. */
+  write("langswitch.html", `{{- $target := "" -}}
+{{- range .AllTranslations -}}
+  {{- if ne .Lang $.Lang }}{{ $target = .RelPermalink }}{{ end -}}
+{{- end -}}
+{{- if not $target -}}
+  {{- $target = cond (eq .Lang "ar") "/blog/en/" "/blog/" -}}
+{{- end -}}
+{{- $target -}}
+`);
 
   // The stylesheet and script tags, with the same content hashes the site uses,
   // so the browser reuses what it already cached from the main site.

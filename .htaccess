@@ -29,6 +29,14 @@ ErrorDocument 404 /404.html
   # done: Google treats that as a soft 404 and it loses the same link equity as
   # the 404 did, while also hiding the problem from Search Console.
 
+  # Two legacy paths the 2026-08-20 audit found still live in Google's index.
+  # /services/ answered 403 — a directory with no index and listing denied. To a
+  # crawler a 403 reads as "temporarily withheld", so it keeps the old URL rather
+  # than following it onward. A 404 would at least retire it; a 301 to the real
+  # section retires it AND passes the link equity on.
+  RewriteRule ^services/?$ /#services [R=301,L]
+  RewriteRule ^contacts/?$ /contact.html [R=301,L]
+
   # ORDER MATTERS. The Arabic-slug pages from the old Osool site must be matched
   # BEFORE the generic /ar/ prefix strip below, because that strip is [L]: it
   # would rewrite /ar/raid-… to /raid-…, stop, and hand the visitor a second 404.
@@ -136,7 +144,7 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_headers.c>
   Header always unset Server
-  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.g.doubleclick.net https://www.google.com; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests"
   Header always set Strict-Transport-Security "max-age=31536000"
   Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), xr-spatial-tracking=()"
   Header always set X-Content-Type-Options "nosniff"

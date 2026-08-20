@@ -12,6 +12,9 @@
   <link rel="canonical" href="https://datarecovery-sa.com/en/">
   <link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/">
   <link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/">
+  <!-- x-default يشير إلى النسخة العربية من هذه الصفحة، لا إلى الصفحة الرئيسية.
+       المجموعة يجب أن تكون متبادلة: صفحة HDD تشير إلى الرئيسية كافتراضي بينما
+       الرئيسية لا تعرف مجموعة HDD إطلاقًا — ومجموعة غير متبادلة تُهمَل. -->
   <link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
@@ -28,7 +31,7 @@
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
-  <link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0">
+  <link rel="stylesheet" href="/assets/css/main.css?v=1dce6216">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -171,10 +174,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/ransomware.html" aria-label="Ransomware &amp; databases">
               <span class="service__index" dir="ltr">01</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">Ransomware &amp; databases</h3>
                 <span class="service__desc">Isolating the case, analysing damage, and assessing safe recovery options.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SQL · Ransomware</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -182,10 +185,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/hdd.html" aria-label="Hard drives">
               <span class="service__index" dir="ltr">02</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">Hard drives</h3>
                 <span class="service__desc">Recovery from mechanical, electronic and logical faults.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">HDD</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -193,10 +196,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/ssd-nvme.html" aria-label="SSD &amp; NVMe drives">
               <span class="service__index" dir="ltr">03</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">SSD &amp; NVMe drives</h3>
                 <span class="service__desc">Specialised handling of firmware and controller issues.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SSD · NVMe · M.2</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -204,10 +207,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/raid-servers.html" aria-label="RAID &amp; servers">
               <span class="service__index" dir="ltr">04</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">RAID &amp; servers</h3>
                 <span class="service__desc">Analysing the array and its structure before any rebuild or write.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">RAID · NAS · SAN</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -215,10 +218,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/cctv.html" aria-label="Surveillance systems">
               <span class="service__index" dir="ltr">05</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">Surveillance systems</h3>
                 <span class="service__desc">Recovering deleted or damaged DVR and NVR footage.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">DVR · NVR</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -226,10 +229,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/after-format.html" aria-label="After formatting &amp; deletion">
               <span class="service__index" dir="ltr">06</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">After formatting &amp; deletion</h3>
                 <span class="service__desc">Retrieving deleted files before the data is overwritten.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">Format · Delete</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -237,10 +240,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/phones.html" aria-label="Phones &amp; smart devices">
               <span class="service__index" dir="ltr">07</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">Phones &amp; smart devices</h3>
                 <span class="service__desc">Recovery based on memory type, system and damage nature.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">iOS · Android</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>
@@ -248,10 +251,10 @@
           <li class="service">
             <a class="service__link" href="/en/services/memory-cards.html" aria-label="Memory cards &amp; flash">
               <span class="service__index" dir="ltr">08</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">Memory cards &amp; flash</h3>
                 <span class="service__desc">Deletion, formatting and logical or electrical damage cases.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SD · USB</span>
               <span class="service__arrow" aria-hidden="true">→</span>
             </a>

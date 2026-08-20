@@ -1584,3 +1584,20 @@ body.drawer-open { overflow: hidden; }
    وإخراجه من الصفحة إلى مرجع حكومي يعني غالبًا ألّا يعود. */
 .source-list { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 8px; }
 .source-list a { font-weight: 500; }
+
+/* سطر يفصل الحالة التوضيحية عن سجلّ عميل. بلون التنبيه لا بلون النص العادي:
+   قارئ يمرّ سريعًا يجب أن يلتقطه قبل أن يقرأ الحالة، لا بعدها. */
+.case-note {
+  margin: 0 0 1.1em; padding-inline-start: 14px;
+  border-inline-start: 3px solid var(--accent);
+  font-size: 0.95rem; font-weight: 500; opacity: .9;
+}
+
+/* تحذير فوق زر الإرسال لا في التذييل: القارئ يقرّر ما يكتبه في حقل التفاصيل
+   قبل الضغط، لا بعده. وبلون التنبيه كي يُلتقط بلا قراءة. */
+.cform__warn {
+  margin: 0 0 12px; padding: 12px 14px;
+  border-inline-start: 3px solid var(--warning);
+  background: rgba(255, 99, 70, 0.08);
+  font-size: 0.9rem; line-height: 1.55;
+}

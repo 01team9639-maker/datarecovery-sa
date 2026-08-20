@@ -132,6 +132,7 @@ const ui = {
     areasLabel: "أحياء ومناطق نستقبل منها",
     devicesLabel: "الأجهزة والماركات المدعومة",
     caseLabel: "حالة نموذجية",
+    caseDisclaimer: "حالة نموذجية مركّبة تشرح المسار — وليست قصة عميل بعينه.",
     caseResultLabel: "النتيجة",
     notFound: {
       metaTitle: "الصفحة غير موجودة | من الصفر إلى الواحد",
@@ -194,6 +195,7 @@ const ui = {
     areasLabel: "Districts and areas we receive from",
     devicesLabel: "Supported devices & brands",
     caseLabel: "A typical case",
+    caseDisclaimer: "A composite illustrative case explaining the route — not any one client's story.",
     caseResultLabel: "Outcome",
     notFound: {
       metaTitle: "Page not found | Zero 2 One Data Recovery",
@@ -407,6 +409,7 @@ const contact = {
     title: "أرسل تفاصيل حالتك.",
     lead: "كل ما زادت التفاصيل، صار التشخيص أدق. املأ النموذج وسنعود إليك بأول خطوة صحيحة — بدون أي التزام.",
     formTitle: "تفاصيل الحالة",
+    formWarn: "لا ترسل كلمات مرور، أو مفاتيح فك تشفير، أو بيانات صحية، أو أي معلومة سرّية داخل النموذج. سنتواصل معك لترتيب قناة آمنة عند الحاجة.",
     formNote: "نتعامل مع كل حالة بسرية كاملة. نستخدم بياناتك للرد على حالتك وحماية النموذج من إساءة الاستخدام فقط.",
     submit: "أرسل الحالة",
     required: "مطلوب",
@@ -438,6 +441,7 @@ const contact = {
     title: "Send your case details.",
     lead: "The more detail you give, the more accurate the diagnosis. Fill in the form and we'll come back with the right first step — no obligation.",
     formTitle: "Case details",
+    formWarn: "Do not send passwords, decryption keys, health data, or any confidential information in this form. We will contact you to arrange a secure channel if one is needed.",
     formNote: "Every case is handled with full confidentiality. Your details are used only to respond to your case and protect the form from abuse.",
     submit: "Send the case",
     required: "required",

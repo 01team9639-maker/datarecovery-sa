@@ -12,6 +12,9 @@
   <link rel="canonical" href="https://datarecovery-sa.com/">
   <link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/">
   <link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/">
+  <!-- x-default يشير إلى النسخة العربية من هذه الصفحة، لا إلى الصفحة الرئيسية.
+       المجموعة يجب أن تكون متبادلة: صفحة HDD تشير إلى الرئيسية كافتراضي بينما
+       الرئيسية لا تعرف مجموعة HDD إطلاقًا — ومجموعة غير متبادلة تُهمَل. -->
   <link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_AR">
@@ -28,7 +31,7 @@
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
-  <link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0">
+  <link rel="stylesheet" href="/assets/css/main.css?v=1dce6216">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -171,10 +174,10 @@
           <li class="service">
             <a class="service__link" href="/services/ransomware.html" aria-label="هجمات الفدية وقواعد البيانات">
               <span class="service__index" dir="ltr">01</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">هجمات الفدية وقواعد البيانات</h3>
                 <span class="service__desc">عزل الحالة، تحليل الضرر، وتقييم خيارات الاستعادة الآمنة.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SQL · Ransomware</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -182,10 +185,10 @@
           <li class="service">
             <a class="service__link" href="/services/hdd.html" aria-label="الأقراص الصلبة">
               <span class="service__index" dir="ltr">02</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">الأقراص الصلبة</h3>
                 <span class="service__desc">استعادة من الأعطال الميكانيكية، الإلكترونية والمنطقية.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">HDD</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -193,10 +196,10 @@
           <li class="service">
             <a class="service__link" href="/services/ssd-nvme.html" aria-label="أقراص SSD وNVMe">
               <span class="service__index" dir="ltr">03</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">أقراص SSD وNVMe</h3>
                 <span class="service__desc">تعامل متخصص مع مشاكل الـFirmware ووحدات التحكم.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SSD · NVMe · M.2</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -204,10 +207,10 @@
           <li class="service">
             <a class="service__link" href="/services/raid-servers.html" aria-label="RAID والسيرفرات">
               <span class="service__index" dir="ltr">04</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">RAID والسيرفرات</h3>
                 <span class="service__desc">تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">RAID · NAS · SAN</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -215,10 +218,10 @@
           <li class="service">
             <a class="service__link" href="/services/cctv.html" aria-label="أنظمة المراقبة">
               <span class="service__index" dir="ltr">05</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">أنظمة المراقبة</h3>
                 <span class="service__desc">استعادة تسجيلات DVR وNVR المحذوفة أو المتضررة.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">DVR · NVR</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -226,10 +229,10 @@
           <li class="service">
             <a class="service__link" href="/services/after-format.html" aria-label="بعد الفورمات والحذف">
               <span class="service__index" dir="ltr">06</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">بعد الفورمات والحذف</h3>
                 <span class="service__desc">استرجاع الملفات المحذوفة قبل أن تُستبدل البيانات.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">Format · Delete</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -237,10 +240,10 @@
           <li class="service">
             <a class="service__link" href="/services/phones.html" aria-label="الهواتف والأجهزة الذكية">
               <span class="service__index" dir="ltr">07</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">الهواتف والأجهزة الذكية</h3>
                 <span class="service__desc">استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">iOS · Android</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>
@@ -248,10 +251,10 @@
           <li class="service">
             <a class="service__link" href="/services/memory-cards.html" aria-label="بطاقات الذاكرة والفلاش">
               <span class="service__index" dir="ltr">08</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">بطاقات الذاكرة والفلاش</h3>
                 <span class="service__desc">حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">SD · USB</span>
               <span class="service__arrow" aria-hidden="true">←</span>
             </a>

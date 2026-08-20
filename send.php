@@ -78,7 +78,7 @@ function respond(bool $ok, string $message, int $status = 200): void {
             . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
             . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
             . '<link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">'
-            . '<link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0"></head>'
+            . '<link rel="stylesheet" href="/assets/css/main.css?v=1dce6216"></head>'
             . '<body class="section--dark form-fallback"><main class="container">'
             . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
             . '<p><a class="btn btn--accent" href="' . $e($home) . '">' . $e($back) . '</a></p>'

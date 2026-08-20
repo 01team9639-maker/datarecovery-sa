@@ -252,7 +252,10 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
   <link rel="canonical" href="${canonical}">
   <link rel="alternate" hreflang="ar" href="${altAr}">
   <link rel="alternate" hreflang="en" href="${altEn}">
-  <link rel="alternate" hreflang="x-default" href="${BASE}/">
+  <!-- x-default يشير إلى النسخة العربية من هذه الصفحة، لا إلى الصفحة الرئيسية.
+       المجموعة يجب أن تكون متبادلة: صفحة HDD تشير إلى الرئيسية كافتراضي بينما
+       الرئيسية لا تعرف مجموعة HDD إطلاقًا — ومجموعة غير متبادلة تُهمَل. -->
+  <link rel="alternate" hreflang="x-default" href="${altAr}">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="${lang === "ar" ? "ar_AR" : "en_US"}">
   <meta property="og:site_name" content="${esc(t.brand)}">
@@ -1161,22 +1164,37 @@ function ransomwareCasePage(lang, c) {
   const t = ui[lang];
   const d = c[lang];
   const svc = services.find((x) => x.slug === "ransomware");
-  const crumbs = jsonLd({
-    "@context": "https://schema.org",
+  /* كائنات لا نصوص: docStart يضعها في @graph ويسلسلها بنفسه. تمرير ناتج
+     jsonLd() هنا كان يضع نصًّا داخل الرسم البياني فيخرج @graph فارغًا —
+     مخطّط موجود في الترميز وغير قابل للقراءة. */
+  const crumbs = {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
       { "@type": "ListItem", position: 2, name: svc[lang].title, item: absSvc(lang, "ransomware") },
       { "@type": "ListItem", position: 3, name: d.title, item: absCase(lang, c.slug) },
     ],
-  });
+  };
+  /* WebPage لا Article: لا مؤلف ولا تاريخ نشر حقيقيان هنا، وArticle بلا
+     author يُقرأ كادعاء تأليف. و`about` يربط الصفحة بخدمة الفدية فيفهم
+     محرك البحث أنها فرع منها لا صفحة مستقلّة. */
+  const page = {
+    "@type": "WebPage",
+    "@id": absCase(lang, c.slug),
+    name: d.title,
+    description: d.metaDesc,
+    inLanguage: lang,
+    isPartOf: { "@id": absSvc(lang, "ransomware") },
+    about: { "@type": "Service", name: svc[lang].title, url: absSvc(lang, "ransomware") },
+    publisher: { "@id": `${BASE}/#business` },
+  };
   const list = (items, cls) => `<ul class="checklist${cls}">
             ${items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
           </ul>`;
 
   return docStart({
     lang, title: d.metaTitle, desc: d.metaDesc, canonical: absCase(lang, c.slug),
-    altAr: absCase("ar", c.slug), altEn: absCase("en", c.slug), schemas: [crumbs],
+    altAr: absCase("ar", c.slug), altEn: absCase("en", c.slug), schemas: [page, crumbs],
   }) + header(lang) + `
   <main class="main inner-page" id="main">
     <section class="hero svc-hero section--dark" aria-labelledby="case-title">
@@ -1190,6 +1208,7 @@ function ransomwareCasePage(lang, c) {
         <div class="hero__copy">
           <p class="svc-hook">${esc(d.hook)}</p>
           <h1 class="hero__title" id="case-title">${esc(d.title)}</h1>
+          <p class="case-note">${esc(t.caseDisclaimer)}</p>
           <p class="hero__lead">${esc(d.lead)}</p>
           <div class="hero__actions">
             <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
@@ -1479,7 +1498,8 @@ function contactPage(lang) {
           </div>
 
           <button class="btn btn--accent cform__submit" type="submit"><span class="cform__submit-label">${esc(c.submit)}</span> <span aria-hidden="true">${fwd(lang)}</span></button>
-          <p class="cform__note">${esc(c.formNote)}</p>
+          <p class="cform__warn">${esc(c.formWarn)}</p>
+          <p class="cform__note">${esc(c.formNote)} <a href="${privacyUrl(lang)}">${esc(t.footer.privacy)}</a></p>
 
           <div class="cform__status" id="formStatus" hidden role="status" aria-live="polite">
             <strong class="cform__status-title"></strong>
@@ -2405,15 +2425,18 @@ function serviceRows(lang, rows) {
     .join("\n          ");
 }
 
+/* .service__body is a <div>, not a <span>: an <h3> may not be a child of a
+   <span>, and the W3C validator reported it eight times — once per service
+   card. The class carries display:flex either way, so nothing moves. */
 function serviceRow(lang, r, i) {
   const href = r.link ? svcUrl(lang, r.link) : "#contact";
   return `<li class="service">
             <a class="service__link" href="${href}" aria-label="${esc(r.t)}">
               <span class="service__index" dir="ltr">${pad(i + 1)}</span>
-              <span class="service__body">
+              <div class="service__body">
                 <h3 class="service__title">${esc(r.t)}</h3>
                 <span class="service__desc">${esc(r.d)}</span>
-              </span>
+              </div>
               <span class="service__tags" dir="ltr">${esc(r.tags)}</span>
               <span class="service__arrow" aria-hidden="true">${fwd(lang)}</span>
             </a>
@@ -2907,7 +2930,7 @@ function sitemap() {
     <lastmod>${now}</lastmod>
     <xhtml:link rel="alternate" hreflang="ar" href="${arU}"/>
     <xhtml:link rel="alternate" hreflang="en" href="${enU}"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE}/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${arU}"/>
   </url>`);
     }
   };

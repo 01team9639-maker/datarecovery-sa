@@ -12,7 +12,10 @@
   <link rel="canonical" href="https://datarecovery-sa.com/en/contact.html">
   <link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/contact.html">
   <link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/contact.html">
-  <link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/">
+  <!-- x-default يشير إلى النسخة العربية من هذه الصفحة، لا إلى الصفحة الرئيسية.
+       المجموعة يجب أن تكون متبادلة: صفحة HDD تشير إلى الرئيسية كافتراضي بينما
+       الرئيسية لا تعرف مجموعة HDD إطلاقًا — ومجموعة غير متبادلة تُهمَل. -->
+  <link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/contact.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="Zero 2 One Data Recovery">
@@ -28,7 +31,7 @@
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css?v=888ddaf6">
-  <link rel="stylesheet" href="/assets/css/main.css?v=2f6322c0">
+  <link rel="stylesheet" href="/assets/css/main.css?v=1dce6216">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -188,7 +191,8 @@
           </div>
 
           <button class="btn btn--accent cform__submit" type="submit"><span class="cform__submit-label">Send the case</span> <span aria-hidden="true">→</span></button>
-          <p class="cform__note">Every case is handled with full confidentiality. Your details are used only to respond to your case and protect the form from abuse.</p>
+          <p class="cform__warn">Do not send passwords, decryption keys, health data, or any confidential information in this form. We will contact you to arrange a secure channel if one is needed.</p>
+          <p class="cform__note">Every case is handled with full confidentiality. Your details are used only to respond to your case and protect the form from abuse. <a href="/en/privacy.html">Privacy policy</a></p>
 
           <div class="cform__status" id="formStatus" hidden role="status" aria-live="polite">
             <strong class="cform__status-title"></strong>
