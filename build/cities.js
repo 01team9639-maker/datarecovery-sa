@@ -137,7 +137,7 @@ module.exports = [
         }
       ],
       coverageTitle: "الشحن من جدة: التغليف والتتبع ونتيجة الفحص.",
-      coverageBody: "لا يوجد فرع في جدة؛ نستقبل الحالات القادمة منها عبر الشحن. تبدأ بوصف الحالة عبر واتساب أو الهاتف، ثم نوضح طريقة التغليف: الجهاز في كيس مضاد للكهرباء الساكنة، داخل صندوق صلب مع حشوة تمنع الحركة، ومعه الغلاف الخارجي والكابل إن وُجدا. ونتّفق معك على تفاصيل الشحن قبل أن يغادر الجهاز. عند وصوله إلى مختبر الرياض يُسجَّل ويُفتح ويُفحص، ثم نتواصل معك بنتيجة الفحص قبل أي محاولة استعادة. ومدة النقل لا تدخل في تقديرنا الفني.",
+      coverageBody: "الخدمة متاحة لك في جدة كما هي لأي عميل في الرياض؛ الفرق الوحيد أن الجهاز يصل شحنًا لأن المختبر واحد ولا فرع لنا في جدة. تبدأ بوصف الحالة عبر واتساب أو الهاتف، ثم نوضح طريقة التغليف: الجهاز في كيس مضاد للكهرباء الساكنة، داخل صندوق صلب مع حشوة تمنع الحركة، ومعه الغلاف الخارجي والكابل إن وُجدا. ثم ترسله بنفسك من أي مكتب شحن في جدة بخدمة تتيح التتبع، وتزوّدنا برقم التتبع — الشحن وتكلفته على مسؤوليتك. عند وصوله إلى مختبر الرياض يُسجَّل ويُفتح ويُفحص، ثم نتواصل معك بنتيجة الفحص قبل أي محاولة استعادة. ومدة النقل تتبع شركة الشحن ولا تدخل في تقديرنا الفني.",
       areas: ["الروضة", "الحمراء", "السلامة", "أبحر الشمالية", "البلد", "الشاطئ", "النزهة", "الصفا"],
       faqs: [
         {
@@ -183,7 +183,7 @@ module.exports = [
         }
       ],
       coverageTitle: "How your case travels from Jeddah to the lab.",
-      coverageBody: "There is no Jeddah branch; cases from the city reach us by courier. You start by describing the case on WhatsApp or by phone, then we explain how to pack it: the device in an anti-static bag, inside a rigid box with padding that stops it moving, along with its enclosure and cable if it has them. We agree the shipping details with you before the device leaves. When it reaches the Riyadh lab it is logged, opened and inspected, and we come back to you with the inspection result before any recovery attempt. Transit time is not part of our technical estimate.",
+      coverageBody: "The service is open to you in Jeddah exactly as it is to a client in Riyadh; the only difference is that the device arrives by courier, because there is one lab and no Jeddah branch. You start by describing the case on WhatsApp or by phone, then we explain how to pack it: the device in an anti-static bag, inside a rigid box with padding that stops it moving, along with its enclosure and cable if it has them. You then send it yourself from any courier office in Jeddah using a tracked service, and share the tracking number with us — shipping and its cost are your responsibility. When it reaches the Riyadh lab it is logged, opened and inspected, and we come back to you with the inspection result before any recovery attempt. Transit time follows the courier and is not part of our technical estimate.",
       areas: ["Ar Rawdah", "Al Hamra", "As Salamah", "North Obhur", "Al Balad", "Ash Shati", "An Nuzha", "As Safa"],
       faqs: [
         {
@@ -232,7 +232,7 @@ module.exports = [
         }
       ],
       coverageTitle: "شحن الوسائط من الشرقية إلى مختبر الرياض",
-      coverageBody: "المختبر في الرياض، ولا يوجد لنا فرع في الدمام. في حالات المنشآت يتولى الترتيب غالبًا مسؤول تقنية المعلومات أو المشتريات، لذلك يبدأ المسار موثقًا: محادثة فنية عبر واتساب أو الهاتف نحدد فيها نوع النظام وعدد الأقراص ورسائل الخطأ وما جُرّب حتى الآن، ويمكن توقيع اتفاقية عدم إفصاح قبل أن تغادر الوسائط موقعك. عند التغليف يُرقّم كل قرص بموضعه داخل الهيكل، ويوضع في كيس مضاد للكهرباء الساكنة، ثم داخل صندوق صلب بحشوة تمنع الحركة. ونتّفق على تفاصيل الشحن قبل أن تغادر الوسائط الموقع، ومدة النقل لا تدخل في تقديرنا الفني. عند الوصول نبلغك بعدد الأقراص التي استلمناها وحالتها الظاهرة، ثم يبدأ الفحص والتشخيص المجاني، ولا تُنفّذ أي خطوة استعادة قبل أن تعتمدها. الملفات المستعادة تُسلّم على وسيط منفصل يُشحن إليك أو يُستلم من المختبر.",
+      coverageBody: "الخدمة متاحة لمنشآت الدمام والشرقية كاملةً؛ المختبر في الرياض ولا فرع لنا في الدمام، فتصل الوسائط شحنًا. في حالات المنشآت يتولى الترتيب غالبًا مسؤول تقنية المعلومات أو المشتريات، لذلك يبدأ المسار موثقًا: محادثة فنية عبر واتساب أو الهاتف نحدد فيها نوع النظام وعدد الأقراص ورسائل الخطأ وما جُرّب حتى الآن، ويمكن توقيع اتفاقية عدم إفصاح قبل أن تغادر الوسائط موقعك. عند التغليف يُرقّم كل قرص بموضعه داخل الهيكل، ويوضع في كيس مضاد للكهرباء الساكنة، ثم داخل صندوق صلب بحشوة تمنع الحركة. ثم تُشحن من طرفكم عبر الشركة التي تختارونها مع تتبع يبقى باسم المنشأة — الشحن وتكلفته على مسؤولية العميل، ومدة النقل تتبع شركة الشحن ولا تدخل في تقديرنا الفني. عند الوصول نبلغك بعدد الأقراص التي استلمناها وحالتها الظاهرة، ثم يبدأ الفحص والتشخيص المجاني، ولا تُنفّذ أي خطوة استعادة قبل أن تعتمدها. الملفات المستعادة تُسلّم على وسيط منفصل يُشحن إليك أو يُستلم من المختبر.",
       areas: [
         "الدمام — الفيصلية والشاطئ",
         "الدمام — عبدالله فؤاد والمزروعية",
@@ -246,7 +246,7 @@ module.exports = [
       faqs: [
         {
           q: "ليس لديكم فرع في الدمام. كيف أرسل السيرفر أو الأقراص؟",
-          a: "المختبر في الرياض فقط، والوسائط تصل شحنًا. نتفق أولًا على تفاصيل الحالة عن بُعد، ويمكن توقيع اتفاقية عدم إفصاح قبل إخراج الأقراص من غرفة السيرفر. ونتّفق على تفاصيل الشحن قبل إخراج الوسائط، ونبلغك عند الاستلام بما وصل وحالته الظاهرة."
+          a: "المختبر في الرياض فقط، والوسائط تصل شحنًا. نتفق أولًا على تفاصيل الحالة عن بُعد، ويمكن توقيع اتفاقية عدم إفصاح قبل إخراج الأقراص من غرفة السيرفر. ترتيب الشحن وتكلفته على المنشأة، ويُفضَّل حساب شحن باسمها لتبقى الشحنة تحت تتبعها حتى تصل. ونبلغك عند الاستلام بما وصل وحالته الظاهرة."
         },
         {
           q: "هل أرسل السيرفر كاملاً أم الأقراص فقط؟",
@@ -258,7 +258,7 @@ module.exports = [
         },
         {
           q: "هل الفحص مجاني إذا شحنت من خارج الرياض، وكم يستغرق؟",
-          a: "لا يوجد مقابل على الفحص أو التشخيص، ولا يترتب عليه التزام بالمتابعة، والحالات القادمة من الدمام والشرقية تُعامل كغيرها. أما المدة فلا تُقدَّر قبل رؤية الأقراص؛ بعد التشخيص نوضح نطاق العمل والمدة التقديرية، ثم تقرر البدء."
+          a: "لا يوجد مقابل على الفحص أو التشخيص، ولا يترتب عليه التزام بالمتابعة، والحالات القادمة من الدمام والشرقية تُعامل كغيرها. ترتيب الشحن وتكلفته يبقيان عليك مع الشركة التي تختارها. أما المدة فلا تُقدَّر قبل رؤية الأقراص؛ بعد التشخيص نوضح نطاق العمل والمدة التقديرية، ثم تقرر البدء."
         }
       ],
       ctaHook: "أوقف المصفوفة قبل أن ترتب الشحن.",
@@ -287,7 +287,7 @@ module.exports = [
         }
       ],
       coverageTitle: "Shipping the media from the Eastern Province to the Riyadh lab",
-      coverageBody: "The lab is in Riyadh, and we have no branch in Dammam. In company cases the arrangement usually sits with an IT or procurement lead, so the route is documented from the start: a technical conversation on WhatsApp or by phone covering the system type, the number of disks, the error messages and what has been tried so far, and a non-disclosure agreement can be signed before the media leave your site. For packing, each disk is labelled with its slot in the chassis, placed in an anti-static bag, then in a rigid box with padding that stops it moving. We agree the shipping details before the media leave the site, and transit time is not part of our technical estimate. On arrival we tell you how many disks reached us and their visible condition, then the free inspection and diagnosis begins, and no recovery step is carried out before you approve it. Recovered files are handed over on a separate medium, either shipped to you or collected from the lab.",
+      coverageBody: "The service is fully open to organisations in Dammam and the Eastern Province; the lab is in Riyadh with no Dammam branch, so the media arrive by courier. In company cases the arrangement usually sits with an IT or procurement lead, so the route is documented from the start: a technical conversation on WhatsApp or by phone covering the system type, the number of disks, the error messages and what has been tried so far, and a non-disclosure agreement can be signed before the media leave your site. For packing, each disk is labelled with its slot in the chassis, placed in an anti-static bag, then in a rigid box with padding that stops it moving. They are then shipped from your side with a carrier you choose, under tracking that stays in the company's name — shipping and its cost are the client's responsibility, and transit time follows the carrier rather than us. On arrival we tell you how many disks reached us and their visible condition, then the free inspection and diagnosis begins, and no recovery step is carried out before you approve it. Recovered files are handed over on a separate medium, either shipped to you or collected from the lab.",
       areas: [
         "Dammam — Al Faisaliyah & Ash Shati",
         "Dammam — Abdullah Fouad & Al Mazruiyah",
@@ -301,7 +301,7 @@ module.exports = [
       faqs: [
         {
           q: "You have no branch in Dammam. How do I send the server or the disks?",
-          a: "The lab is in Riyadh only, and the media reach us by courier. We agree the case details remotely first, and a non-disclosure agreement can be signed before the disks leave the server room. We agree the shipping details before the media leave, and we tell you on receipt what reached us and its visible condition."
+          a: "The lab is in Riyadh only, and the media reach us by courier. We agree the case details remotely first, and a non-disclosure agreement can be signed before the disks leave the server room. Arranging the shipment and its cost sit with the company, and a courier account in its own name is preferable so the shipment stays under its tracking until it arrives. We tell you on receipt what reached us and its visible condition."
         },
         {
           q: "Should I send the whole server or only the disks?",
