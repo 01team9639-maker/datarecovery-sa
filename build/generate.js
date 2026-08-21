@@ -403,6 +403,13 @@ function footer(lang, minimal) {
      و/articles/ هنا ولا مكان آخر: رابط الدرج استُبدل بالمدونة، فبقيت تلك
      الصفحات موصولة ببعضها وبخريطة الموقع وحدها — تُزحف ولا يصلها وزن رابط
      داخلي واحد. */
+  /* الخدمات الثماني بأسمائها القصيرة، بترتيب config.serviceOrder نفسه الذي
+     تعرضه الصفحة الرئيسية — فلا تتناقض قائمتان. وهذا يمنح كل صفحة خدمة
+     رابطًا داخليًّا من كل صفحة في الموقع، لا من الرئيسية وحدها. */
+  const serviceLinks = config.serviceOrder
+    .map((slug) => `<li><a class="footer-pill" href="${svcUrl(lang, slug)}">${esc(shortName(lang, { slug }))}</a></li>`)
+    .join("\n          ");
+
   const quickLinks = [
     [`${homeUrl(lang)}#hero`, t.nav.home],
     [`${homeUrl(lang)}#about`, t.nav.about],
@@ -475,6 +482,13 @@ function footer(lang, minimal) {
           <span class="footer-pill__ic">${icons.email}</span><span dir="ltr">${esc(config.email)}</span>
         </a>
       </div>
+
+      <nav class="footer__quick" aria-label="${esc(f.services)}">
+        <h3 class="footer__col-title">${esc(f.services)}</h3>
+        <ul>
+          ${serviceLinks}
+        </ul>
+      </nav>
 
       <nav class="footer__quick" aria-label="${esc(f.quick)}">
         <h3 class="footer__col-title">${esc(f.quick)}</h3>
