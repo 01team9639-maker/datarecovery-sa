@@ -2509,6 +2509,10 @@ function trustWall(lang) {
   const lanes = Array.from({ length: rows }, (_, i) => {
     const items = trustLogos.slice(i * perRow, (i + 1) * perRow);
     if (!items.length) return "";
+    /* ثلاث نسخ لا اثنتان. نسختان تكفيان فقط إذا كانت النسخة الواحدة أعرض
+       من الشاشة؛ عشرة شعارات تبلغ نحو 1800 بكسل وشاشة 1920 أوسع منها، فتصل
+       الحركة إلى ‎-50%‎ ويبقى فراغ في اليمين — وهو «نهاية السلسلة» التي
+       تُرى. بثلاث نسخ والحركة ‎-33.333%‎ يبقى خلف المرئي نسختان دائمًا. */
     return `
         <div class="tw__row tw__row--${i % 2 ? "rtl" : "ltr"}">
           <ul class="tw__track">
@@ -2517,11 +2521,14 @@ function trustWall(lang) {
           <ul class="tw__track" aria-hidden="true">
               ${cells(items, true)}
           </ul>
+          <ul class="tw__track" aria-hidden="true">
+              ${cells(items, true)}
+          </ul>
         </div>`;
   }).join("");
 
   return `
-    <section class="section section--dark trust-wall" aria-labelledby="trust-title">
+    <section class="section section--light trust-wall" aria-labelledby="trust-title">
       <div class="container">
         ${sectionHead(t.trustWall.eyebrow, "trust-title", t.trustWall.title, t.trustWall.note, "")}
       </div>
