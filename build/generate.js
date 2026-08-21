@@ -13,6 +13,7 @@ const crypto = require("crypto");
 const services = require("./services");
 const depth = require("./depth");
 const ransomwareCases = require("./ransomware-cases");
+const trustLogos = require("./trust-logos");
 // Display order lives in site.js next to the content, not in the data files, so
 // reordering a nav never means editing a content module. Anything not named in
 // the order list sorts to the end rather than silently jumping to the front.
@@ -733,6 +734,7 @@ function homePage(lang) {
       </div>
     </section>
 
+${trustWall(lang)}
     <section class="section section--light" id="faq" aria-labelledby="faq-title">
       <div class="container">
         ${sectionHead(h.faq.eyebrow, "faq-title", h.faq.title, h.faq.noteStrong, "")}
@@ -2476,6 +2478,59 @@ function serviceRows(lang, rows) {
 /* .service__body is a <div>, not a <span>: an <h3> may not be a child of a
    <span>, and the W3C validator reported it eight times — once per service
    card. The class carries display:flex either way, so nothing moves. */
+/* ---------- Trust wall: four rows drifting in alternating directions ----------
+   CSS only. A marquee driven by JavaScript costs a rAF loop for the whole time
+   the section is on screen; `transform: translate3d` on an infinite keyframe
+   runs on the compositor and costs the main thread nothing — which matters on a
+   page whose TBT the audit already flagged.
+
+   Each row prints its logos twice and the animation travels exactly -50%, so
+   the second copy lands where the first began and the seam never shows. The
+   duplicate carries aria-hidden: a screen reader should hear each name once.
+
+   Alternating direction row to row is the point of the effect — four rows all
+   sliding the same way reads as one sheet moving, not as a wall of logos.
+
+   Rows are cut from one ordered list rather than four hand-kept ones, so adding
+   a logo never means rebalancing four arrays by hand. */
+function trustWall(lang) {
+  const t = ui[lang];
+  const rows = 4;
+  const perRow = Math.ceil(trustLogos.length / rows);
+  const cells = (items, hidden) => items.map((logo) => `<li class="tw__item">
+                <picture>
+                  <source srcset="${asset(`assets/img/trust/${logo.slug}.avif`)}" type="image/avif">
+                  <img class="tw__logo" src="${asset(`assets/img/trust/${logo.slug}.webp`)}"
+                       width="300" height="150" loading="lazy" decoding="async"
+                       alt="${hidden ? "" : esc(logo[lang])}">
+                </picture>
+              </li>`).join("\n              ");
+
+  const lanes = Array.from({ length: rows }, (_, i) => {
+    const items = trustLogos.slice(i * perRow, (i + 1) * perRow);
+    if (!items.length) return "";
+    return `
+        <div class="tw__row tw__row--${i % 2 ? "rtl" : "ltr"}">
+          <ul class="tw__track">
+              ${cells(items, false)}
+          </ul>
+          <ul class="tw__track" aria-hidden="true">
+              ${cells(items, true)}
+          </ul>
+        </div>`;
+  }).join("");
+
+  return `
+    <section class="section section--dark trust-wall" aria-labelledby="trust-title">
+      <div class="container">
+        ${sectionHead(t.trustWall.eyebrow, "trust-title", t.trustWall.title, t.trustWall.note, "")}
+      </div>
+      <div class="tw" role="group" aria-label="${esc(t.trustWall.title)}">${lanes}
+      </div>
+    </section>
+`;
+}
+
 function serviceRow(lang, r, i) {
   const href = r.link ? svcUrl(lang, r.link) : "#contact";
   return `<li class="service">

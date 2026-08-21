@@ -1614,3 +1614,51 @@ body.drawer-open { overflow: hidden; }
      الأرضية الداكنة بدل أن تذوب فيها. */
   border: 1px solid var(--border-dark);
 }
+
+/* ---- Trust wall: four rows drifting in alternating directions ------------ */
+
+/* القسم يخرج عن الحاوية عرضًا: الصفوف تمتدّ من حافة إلى حافة، وحصرها داخل
+   الحاوية يجعل الشعارات تختفي وتظهر في منتصف الشاشة بدل حوافّها. */
+.tw { margin-top: clamp(28px, 3vw, 44px); display: grid; gap: clamp(10px, 1.2vw, 18px); }
+.tw__row {
+  display: flex; width: max-content;
+  /* التلاشي عند الحافّتين يوحي بامتداد لا نهاية له بدل قطع حادّ. */
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
+}
+.tw__track {
+  display: flex; align-items: center; gap: clamp(20px, 3vw, 48px);
+  list-style: none; margin: 0; padding: 0 clamp(10px, 1.5vw, 24px);
+  /* ‏-50% بالضبط: النسخة الثانية تحلّ محلّ الأولى فلا يظهر مكان الوصل. */
+  animation: tw-drift 60s linear infinite;
+  will-change: transform;
+}
+.tw__row--rtl .tw__track { animation-direction: reverse; }
+.tw__row:nth-child(2) .tw__track { animation-duration: 74s; }
+.tw__row:nth-child(3) .tw__track { animation-duration: 66s; }
+.tw__row:nth-child(4) .tw__track { animation-duration: 82s; }
+@keyframes tw-drift { to { transform: translate3d(-50%, 0, 0); } }
+
+.tw__item { flex: 0 0 auto; }
+.tw__logo {
+  width: clamp(94px, 11vw, 132px); height: auto; display: block;
+  /* الشعارات من مصادر متعدّدة بألوان متنافرة. التحييد يجعلها تُقرأ كصفّ
+     واحد لا كملصقات، ويمنعها من منافسة لون الموقع المميّز. */
+  filter: grayscale(1) brightness(1.9) contrast(0.85);
+  opacity: 0.62;
+  transition: opacity .3s var(--ease), filter .3s var(--ease);
+}
+.tw__item:hover .tw__logo { filter: grayscale(0); opacity: 1; }
+
+/* الإيقاف عند تمرير المؤشّر: قارئ يريد قراءة شعار لا يطارده. */
+.tw:hover .tw__track { animation-play-state: paused; }
+
+/* حركة لا تتوقّف عبر عرض الشاشة كله هي بالضبط ما يمنعه هذا التفضيل: تُصيب
+   بعض القرّاء بدوار، وتُشتّت من يعاني اضطراب انتباه. الصفّ يبقى مقروءًا
+   ساكنًا — لا يُخفى المحتوى، تُلغى الحركة وحدها. */
+@media (prefers-reduced-motion: reduce) {
+  .tw__track { animation: none; }
+  .tw__row { flex-wrap: wrap; width: auto; -webkit-mask-image: none; mask-image: none; }
+  .tw__track[aria-hidden="true"] { display: none; }
+  .tw__track { flex-wrap: wrap; justify-content: center; }
+}

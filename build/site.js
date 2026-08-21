@@ -144,6 +144,11 @@ const ui = {
     },
     caseLabel: "حالة نموذجية",
     caseDisclaimer: "حالة نموذجية مركّبة تشرح المسار — وليست قصة عميل بعينه.",
+    trustWall: {
+      eyebrow: "من وثقوا بنا",
+      title: "جهات سلّمتنا بياناتها.",
+      note: "قطاعات مختلفة، وحالات مختلفة، والمسار نفسه: فحص أولًا، ثم قرارك.",
+    },
     caseResultLabel: "النتيجة",
     notFound: {
       metaTitle: "الصفحة غير موجودة | من الصفر إلى الواحد",
@@ -217,6 +222,11 @@ const ui = {
     },
     caseLabel: "A typical case",
     caseDisclaimer: "A composite illustrative case explaining the route — not any one client's story.",
+    trustWall: {
+      eyebrow: "Who trusted us",
+      title: "Organisations that handed us their data.",
+      note: "Different sectors, different cases, the same route: inspection first, then your decision.",
+    },
     caseResultLabel: "Outcome",
     notFound: {
       metaTitle: "Page not found | Zero 2 One Data Recovery",
