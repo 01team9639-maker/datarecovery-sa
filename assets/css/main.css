@@ -1619,12 +1619,20 @@ body.drawer-open { overflow: hidden; }
 
 /* القسم يخرج عن الحاوية عرضًا: الصفوف تمتدّ من حافة إلى حافة، وحصرها داخل
    الحاوية يجعل الشعارات تختفي وتظهر في منتصف الشاشة بدل حوافّها. */
-.tw { margin-top: clamp(28px, 3vw, 44px); display: grid; gap: clamp(10px, 1.2vw, 18px); }
+.tw {
+  margin-top: clamp(28px, 3vw, 44px); display: grid; gap: clamp(10px, 1.2vw, 18px);
+  /* اتجاه لاتيني مفروض على الجدار وحده. الصفحة RTL، فيرسو الصفّ بحافّته
+     اليمنى على حافة الحاوية ويفيض يسارًا؛ ثم تسحبه الحركة يسارًا أيضًا
+     فيتراجع طرفه الأيمن ويظهر فراغ على اليمين. الشعارات صور لا نصّ، فلا
+     معنى لاتجاهها — وتثبيتها لاتينيًّا يجعل الفيض والحركة في جهة واحدة
+     ويملأ الصفّ من حافة إلى حافة في الاتجاهين معًا. */
+  direction: ltr;
+  overflow: hidden;
+}
 .tw__row {
   display: flex; width: max-content;
-  /* التلاشي عند الحافّتين يوحي بامتداد لا نهاية له بدل قطع حادّ. */
-  -webkit-mask-image: linear-gradient(to left, transparent, #000 7%, #000 93%, transparent);
-  mask-image: linear-gradient(to left, transparent, #000 7%, #000 93%, transparent);
+  /* بلا تلاشٍ على الطرفين. كان يُذيب آخر 7% من كل جهة فيقرأ طرفُ السلسلة
+     فراغًا؛ والقطع عند حافة الشاشة هو ما يوحي بالاستمرار خلفها. */
 }
 .tw__track {
   --tw-gap: clamp(20px, 3vw, 48px);
@@ -1664,7 +1672,7 @@ body.drawer-open { overflow: hidden; }
    بعض القرّاء بدوار، وتُشتّت من يعاني اضطراب انتباه. الصفّ يبقى مقروءًا
    ساكنًا — لا يُخفى المحتوى، تُلغى الحركة وحدها. */
 @media (prefers-reduced-motion: reduce) {
-  .tw__row { flex-wrap: wrap; width: auto; -webkit-mask-image: none; mask-image: none; }
+  .tw__row { flex-wrap: wrap; width: auto; }
   .tw__track {
     animation: none; flex-wrap: wrap; justify-content: center;
     padding-inline-end: 0;
