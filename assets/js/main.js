@@ -12,39 +12,42 @@
 
   /* ---- Preloader: cycle the service names, then fade out ---- */
   var pre = document.getElementById("preloader");
+  if (pre && document.documentElement.classList.contains("no-splash")) {
+    if (pre.parentNode) pre.parentNode.removeChild(pre);
+    pre = null;
+  }
   if (pre) {
-    var seqDone = false;
-    var loaded = document.readyState === "complete";
     var preHidden = false;
-    var safety;
     var hidePre = function () {
-      if (preHidden) return;            // idempotent: load / sequence / safety may all fire
+      if (preHidden) return;            // idempotent: sequence / safety may both fire
       preHidden = true;
-      if (safety) clearTimeout(safety);
       pre.classList.add("is-done");
       setTimeout(function () { if (pre.parentNode) pre.parentNode.removeChild(pre); }, 600);
     };
-    var maybeHide = function () { if (seqDone && loaded) hidePre(); };
-    // Safety cap: never let a slow/stalled resource keep the splash over the
-    // page. After 5s we reveal the content regardless of load/sequence state.
-    safety = setTimeout(hidePre, 5000);
-    window.addEventListener("load", function () { loaded = true; maybeHide(); });
+
+    // Never gate the splash on `window.load`. That event waits for every
+    // subresource — including GTM, gtag and the ad pixels — so a slow tag
+    // container used to hold the page black for as long as it took to load
+    // (measured: load at 2.9s, content visible at 3.1s). The splash is brand
+    // dressing, not a loading indicator: it runs on its own clock and lifts
+    // whether or not third-party script has finished.
+    var safety = setTimeout(hidePre, 2200);
+    var done = function () { clearTimeout(safety); hidePre(); };
 
     var items = pre.querySelectorAll(".preloader__svc-item");
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (!items.length || reduce) {
       if (items.length) items[0].classList.add("is-active");
-      seqDone = true;
-      maybeHide();
+      done();
     } else {
-      var i = 0, STEP = 240;
+      var i = 0, STEP = 150;
       var advance = function () {
         items[i].classList.add("is-active");
         if (i > 0) items[i - 1].classList.remove("is-active");
         i++;
         if (i < items.length) setTimeout(advance, STEP);
-        else setTimeout(function () { seqDone = true; maybeHide(); }, 360);
+        else setTimeout(done, 150);
       };
       advance();
     }

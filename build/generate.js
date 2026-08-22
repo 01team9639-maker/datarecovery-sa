@@ -40,6 +40,10 @@ const esc = (s) =>
    Appending a content hash makes every change a new URL, fetched immediately,
    while unchanged files keep their hash (and stay cached, and stay
    deterministic for the idempotence test). */
+// Build the minified stylesheets before anything hashes them, so an edit to
+// the authored CSS can never ship as a stale `.min.css`.
+require("./minify-css").buildMinifiedCss(ROOT);
+
 const _assetHashes = new Map();
 function asset(rel) {
   if (!_assetHashes.has(rel)) {
@@ -245,7 +249,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}
+  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
@@ -271,8 +275,8 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
   <meta name="twitter:image" content="${IMG}/assets/img/og.png">${config.cdn ? `\n  <link rel="preconnect" href="${config.cdn}" crossorigin>` : ""}
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${asset("assets/css/fonts.css")}">
-  <link rel="stylesheet" href="${asset("assets/css/main.css")}">
+  <link rel="stylesheet" href="${asset("assets/css/fonts.min.css")}">
+  <link rel="stylesheet" href="${asset("assets/css/main.min.css")}">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -1751,8 +1755,8 @@ function respond(bool $ok, string $message, int $status = 200): void {
         echo '<!DOCTYPE html><html lang="' . $e($LANG) . '" dir="' . $dir . '"><head>'
             . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
             . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
-            . '<link rel="stylesheet" href="${asset("assets/css/fonts.css")}">'
-            . '<link rel="stylesheet" href="${asset("assets/css/main.css")}"></head>'
+            . '<link rel="stylesheet" href="${asset("assets/css/fonts.min.css")}">'
+            . '<link rel="stylesheet" href="${asset("assets/css/main.min.css")}"></head>'
             . '<body class="section--dark form-fallback"><main class="container">'
             . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
             . '<p><a class="btn btn--accent" href="' . $e($home) . '">' . $e($back) . '</a></p>'

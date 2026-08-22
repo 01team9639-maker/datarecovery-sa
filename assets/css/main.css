@@ -1153,6 +1153,8 @@ body.drawer-open { overflow: hidden; }
      shows up as a janky/non-composited animation. main.js removes the node. */
   transition: opacity .5s var(--ease);
 }
+/* Second visit onward in the same session: no splash at all. */
+.no-splash .preloader { display: none; }
 .preloader.is-done { opacity: 0; pointer-events: none; }
 .preloader__inner { display: flex; flex-direction: column; align-items: center; }
 .preloader__wm { display: flex; flex-direction: column; align-items: center; gap: 0.4em; }

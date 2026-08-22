@@ -135,14 +135,20 @@ ErrorDocument 404 /404.html
   Require all denied
 </FilesMatch>
 
-# Cache lifetimes — mirrors netlify.toml. Font filenames are content-stable,
-# so they can be cached hard; app CSS/JS must revalidate after a day.
+# Cache lifetimes — mirrors netlify.toml. Every first-party CSS/JS URL carries a
+# content hash (`?v=`), so a changed file is a new URL and the old one can be
+# held for a year. Vendor bundles are exempt: they ship unversioned upstream, so
+# they keep revalidating daily.
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/assets/js/vendor/" Z2O_VENDOR=1
+</IfModule>
 <IfModule mod_headers.c>
   <FilesMatch "\.woff2$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "public, max-age=86400, must-revalidate"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Cache-Control "public, max-age=86400, must-revalidate" env=Z2O_VENDOR
   </FilesMatch>
   <FilesMatch "\.(png|svg|webp|ico)$">
     Header set Cache-Control "public, max-age=2592000"
@@ -154,7 +160,7 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_headers.c>
   Header always unset Server
-  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.g.doubleclick.net https://www.google.com; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net https://www.google.com https://www.google.com.sa https://www.google.ae https://www.google.com.kw https://www.google.com.qa https://www.google.com.bh https://www.google.com.om https://www.google.com.eg https://www.google.jo https://www.google.com.lb https://www.google.nl; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests"
   Header always set Strict-Transport-Security "max-age=31536000"
   Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), xr-spatial-tracking=()"
   Header always set X-Content-Type-Options "nosniff"
