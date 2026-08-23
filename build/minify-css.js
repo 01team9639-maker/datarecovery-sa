@@ -52,19 +52,28 @@ function minifyCss(css) {
   return out.trim();
 }
 
-/** Rewrite every `<name>.css` in assets/css as `<name>.min.css`. */
+/** Build the single stylesheet the pages link.
+ *
+ * fonts.css is folded in ahead of main.css instead of shipping as its own
+ * <link>. It was a second render-blocking request for 1.9 KB, and Lighthouse
+ * charged it ~150 ms; the @font-face rules only carry relative `../fonts/`
+ * URLs, which resolve identically from the same directory. Order matters —
+ * the faces must be declared before anything asks for the family. */
 function buildMinifiedCss(root) {
   const dir = path.join(root, "assets", "css");
-  for (const file of fs.readdirSync(dir).sort()) {
-    if (!file.endsWith(".css") || file.endsWith(".min.css")) continue;
-    const src = fs.readFileSync(path.join(dir, file), "utf8");
-    const target = path.join(dir, file.replace(/\.css$/, ".min.css"));
-    const next = minifyCss(src) + "\n";
-    // Only touch the file when it changes, so mtimes stay stable across runs.
-    let current = null;
-    try { current = fs.readFileSync(target, "utf8"); } catch (e) { /* first run */ }
-    if (current !== next) fs.writeFileSync(target, next);
-  }
+  const read = (name) => fs.readFileSync(path.join(dir, name), "utf8");
+  const bundle = minifyCss(read("fonts.css")) + "\n" + minifyCss(read("main.css")) + "\n";
+
+  const target = path.join(dir, "main.min.css");
+  let current = null;
+  try { current = fs.readFileSync(target, "utf8"); } catch (e) { /* first run */ }
+  // Only touch the file when it changes, so mtimes stay stable across runs.
+  if (current !== bundle) fs.writeFileSync(target, bundle);
+
+  // fonts.min.css was its own file before the bundle; leaving it behind would
+  // ship a stylesheet nothing links.
+  const stale = path.join(dir, "fonts.min.css");
+  if (fs.existsSync(stale)) fs.unlinkSync(stale);
 }
 
 module.exports = { minifyCss, buildMinifiedCss };

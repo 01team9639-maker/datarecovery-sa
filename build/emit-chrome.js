@@ -97,7 +97,6 @@ function build() {
   const css = [
     `<link rel="preload" href="${BASE}/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>`,
     `<link rel="preload" href="${BASE}/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>`,
-    `<link rel="stylesheet" href="${BASE}${asset("assets/css/fonts.min.css")}">`,
     `<link rel="stylesheet" href="${BASE}${asset("assets/css/main.min.css")}">`,
   ].join("\n");
   write("../site-css.html", css);

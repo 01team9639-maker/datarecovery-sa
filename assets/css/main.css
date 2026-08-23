@@ -1641,6 +1641,15 @@ body.drawer-open { overflow: hidden; }
 
 /* القسم يخرج عن الحاوية عرضًا: الصفوف تمتدّ من حافة إلى حافة، وحصرها داخل
    الحاوية يجعل الشعارات تختفي وتظهر في منتصف الشاشة بدل حوافّها. */
+/* The wall is 114 logo chips three viewports below the fold, each animating
+   forever. Rendering and decoding all of that during load cost ~640 ms of main
+   thread on an emulated phone while nobody could see it. `content-visibility`
+   defers the whole subtree — layout, paint, image decode and the marquee —
+   until it actually approaches the viewport. */
+.trust-wall {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 655px;
+}
 .tw {
   margin-top: clamp(28px, 3vw, 44px); display: grid; gap: clamp(10px, 1.2vw, 18px);
   /* اتجاه لاتيني مفروض على الجدار وحده. الصفحة RTL، فيرسو الصفّ بحافّته
@@ -1666,7 +1675,6 @@ body.drawer-open { overflow: hidden; }
   padding-inline-end: var(--tw-gap);
   /* ‏-33.333% = عرض نسخة واحدة من ثلاث. تحلّ الثانية محلّ الأولى بالضبط. */
   animation: tw-drift 60s linear infinite;
-  will-change: transform;
 }
 .tw__row--rtl .tw__track { animation-direction: reverse; }
 .tw__row:nth-child(2) .tw__track { animation-duration: 74s; }

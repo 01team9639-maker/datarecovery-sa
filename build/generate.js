@@ -275,7 +275,6 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
   <meta name="twitter:image" content="${IMG}/assets/img/og.png">${config.cdn ? `\n  <link rel="preconnect" href="${config.cdn}" crossorigin>` : ""}
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${asset("assets/css/fonts.min.css")}">
   <link rel="stylesheet" href="${asset("assets/css/main.min.css")}">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
@@ -1753,7 +1752,6 @@ function respond(bool $ok, string $message, int $status = 200): void {
         echo '<!DOCTYPE html><html lang="' . $e($LANG) . '" dir="' . $dir . '"><head>'
             . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
             . '<meta name="robots" content="noindex"><title>' . $e($head) . '</title>'
-            . '<link rel="stylesheet" href="${asset("assets/css/fonts.min.css")}">'
             . '<link rel="stylesheet" href="${asset("assets/css/main.min.css")}"></head>'
             . '<body class="section--dark form-fallback"><main class="container">'
             . '<h1 class="section-title">' . $e($head) . '</h1><p class="note">' . $e($message) . '</p>'
