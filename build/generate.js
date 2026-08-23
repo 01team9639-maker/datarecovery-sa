@@ -519,8 +519,6 @@ function footer(lang, minimal) {
 function docEnd() {
   return `
   <script src="${asset("assets/js/main.js")}" defer></script>
-  <script src="${asset("assets/js/vendor/gsap.min.js")}" defer></script>
-  <script src="${asset("assets/js/vendor/ScrollTrigger.min.js")}" defer></script>
   <script src="${asset("assets/js/anim.js")}" defer></script>
 </body>
 </html>`;

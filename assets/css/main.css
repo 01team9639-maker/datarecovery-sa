@@ -1115,8 +1115,9 @@ body.drawer-open { overflow: hidden; }
 
 /* ==========================================================================
    13. Motion — scroll-reveal initial states (JS on + motion allowed only)
-   GSAP animates these to visible; without JS or with reduced-motion they
-   stay fully visible (progressive enhancement, no layout shift).
+   anim.js adds `.is-in` when the element scrolls into view and the transition
+   below carries it home. Without JS or with reduced-motion they stay fully
+   visible (progressive enhancement, no layout shift).
    ========================================================================== */
 @media (prefers-reduced-motion: no-preference) {
   .js .section-head,
@@ -1139,7 +1140,26 @@ body.drawer-open { overflow: hidden; }
   .js .faq-row,
   .js .footer__cta,
   .js .footer__contacts,
-  .js .footer__bottom { opacity: 0; }
+  .js .footer__bottom {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s var(--ease), transform .6s var(--ease);
+  }
+  .js .is-in { opacity: 1 !important; transform: none !important; }
+}
+
+/* The rings drift as the section passes. A scroll-driven CSS animation runs on
+   the compositor; ScrollTrigger's `scrub` did the same thing by writing a
+   transform from the main thread on every scroll tick. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .data-core {
+      animation: core-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    @keyframes core-drift { to { transform: rotate(24deg); } }
+  }
 }
 
 /* ==========================================================================
