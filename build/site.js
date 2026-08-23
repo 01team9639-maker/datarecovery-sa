@@ -33,16 +33,25 @@ const config = {
   geo: { lat: "24.68148", lng: "46.6908087" }, // Riyadh — the lab
   // Social profiles. These URLs are the *live* accounts and double as the JSON-LD
   // `sameAs` list, so a dead URL here becomes a broken entity signal on every page.
-  // Verified reachable 2026-08-11. The X account (x.com/osoolrecovery) returned 404
-  // and was removed — re-add it here once a working handle exists.
-  // Only profiles whose URL does not carry the former name. Three accounts
-  // (Instagram, TikTok, LinkedIn) have `osooldatarecovery` in their handle, so
-  // linking them would reintroduce the name the site is retiring — in the link
-  // text, in the profile itself, and in sameAs. They return the day the handles
-  // are renamed or replaced.
+  //
+  // The owner supplied the 01datarecovery handles on 2026-08-23, which finally
+  // unblocks the accounts that were held back for carrying the former name.
+  // Checked the same day: X, YouTube, TikTok and Instagram all answer 200.
+  //
+  // The YouTube link that shipped until then pointed at channel
+  // UC36WAnDT1fOpNHQ69UeA-Ew, whose title reads "Osool Integrated Systems" — the
+  // identity this site is retiring, published in `sameAs` on every page for
+  // months. Replaced with the 01datarecovery channel (UCuCOo1av7DH3kyTKxI6xFmQ).
+  //
+  // Facebook is absent on purpose: the page that shipped before was never
+  // confirmed to belong to this brand, and the link beside it turned out to carry
+  // the old name. Facebook answers 400 to every automated request, so it cannot be
+  // checked from here — it returns once the owner confirms the URL.
   socials: [
-    { name: "Facebook", url: "https://www.facebook.com/share/1Gy9Ku7Gx8/", icon: "facebook" },
-    { name: "YouTube", url: "https://www.youtube.com/channel/UC36WAnDT1fOpNHQ69UeA-Ew", icon: "youtube" },
+    { name: "Instagram", url: "https://www.instagram.com/01datarecovery", icon: "instagram" },
+    { name: "X", url: "https://x.com/01Datarecovery", icon: "x" },
+    { name: "YouTube", url: "https://www.youtube.com/@01datarecovery", icon: "youtube" },
+    { name: "TikTok", url: "https://www.tiktok.com/@01datarecovery", icon: "tiktok" },
   ],
   // No alternateName. The rebrand was previously declared to search engines so
   // they would merge the old entity into this one; the owner decided on
@@ -142,6 +151,10 @@ const ui = {
       "phones": "يدان تمسكان هاتفًا وتكتبان على شاشته",
       "memory-cards": "أربع بطاقات ذاكرة من مقاسات مختلفة على لوحة مفاتيح حاسب محمول"
     },
+    homeImageAlt: {
+      hero: "مجلّدات بيانات تطفو مضيئة فوق يد تكتب على لوحة مفاتيح حاسب محمول",
+      urgency: "شاشة حاسب محمول تعرض مثلّث تحذير أحمر مكتوب فيه ERROR، ويد تمتدّ نحو اللوحة"
+    },
     caseLabel: "حالة نموذجية",
     caseDisclaimer: "حالة نموذجية مركّبة تشرح المسار — وليست قصة عميل بعينه.",
     trustWall: {
@@ -219,6 +232,10 @@ const ui = {
       "ransomware": "A lit digital padlock on a computer screen above a stream of data",
       "phones": "Two hands holding a phone and typing on its screen",
       "memory-cards": "Four memory cards of different sizes on a laptop keyboard"
+    },
+    homeImageAlt: {
+      hero: "Glowing data folders rising above a hand typing on a laptop keyboard",
+      urgency: "A laptop screen showing a red ERROR warning triangle, with a hand reaching toward the keyboard"
     },
     caseLabel: "A typical case",
     caseDisclaimer: "A composite illustrative case explaining the route — not any one client's story.",

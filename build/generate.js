@@ -650,7 +650,7 @@ function homePage(lang) {
           </div>
           <p class="reassure">${esc(t.reassure)}</p>
         </div>
-        <div class="hero__visual">${dataCore(false)}</div>
+        <div class="hero__visual">${homePhoto(lang, "hero", { eager: true })}</div>
       </div>
       <div class="container">
         <div class="trust">
@@ -762,7 +762,7 @@ ${trustSections(lang)}
           <a class="btn btn--dark" href="${wa()}" rel="noopener">${esc(t.whatsappBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
           <p class="reassure">${esc(t.reassure)}</p>
         </div>
-        <div class="contact__visual">${dataCore(true)}</div>
+        <div class="contact__visual">${homePhoto(lang, "urgency", { eager: false })}</div>
         ${confidentialityBlock(lang)}
       </div>
     </section>
@@ -1325,6 +1325,34 @@ function serviceHero(lang, slug) {
           <img src="${asset(`${base}-800.webp`)}" width="1200" height="1200"
                alt="${esc(alt)}" fetchpriority="high" decoding="async" class="svc-photo__img">
         </picture>`;
+}
+
+/* ---------- Home page photographs ----------
+   Two images replace the data-core circle on the home page: the hero, and the
+   contact band that follows the FAQ. Same contract as serviceHero — AVIF then
+   WebP, three widths with `sizes`, explicit dimensions so CLS stays at 0, and
+   the circle as the fallback when a file has not landed yet. The circle also
+   stays on every other page that uses it (cities, articles, 404).
+
+   The one real difference is priority, and it is not cosmetic. The hero is the
+   largest thing above the fold, so it becomes the LCP element the moment it
+   ships: it loads eagerly at high priority. The contact image sits three
+   screens down and must never compete with it, so it stays lazy. Getting this
+   backwards would trade away the metric this site just spent days fixing. */
+function homePhoto(lang, slug, { eager }) {
+  const alt = ui[lang].homeImageAlt && ui[lang].homeImageAlt[slug];
+  const base = `assets/img/home/${slug}`;
+  if (!alt || !fs.existsSync(path.join(ROOT, `${base}-800.webp`))) return dataCore(!eager);
+  const sizes = "(max-width: 900px) 92vw, 44vw";
+  const set = (ext) => [480, 800, 1200]
+    .map((w) => `${asset(`${base}-${w}.${ext}`)} ${w}w`).join(", ");
+  return `<picture class="svc-photo">
+            <source type="image/avif" srcset="${set("avif")}" sizes="${sizes}">
+            <source type="image/webp" srcset="${set("webp")}" sizes="${sizes}">
+            <img src="${asset(`${base}-800.webp`)}" width="1200" height="1200"
+                 alt="${esc(alt)}" class="svc-photo__img" decoding="async"
+                 ${eager ? 'fetchpriority="high"' : 'loading="lazy"'}>
+          </picture>`;
 }
 
 function servicePage(lang, s) {
