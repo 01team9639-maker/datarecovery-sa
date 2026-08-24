@@ -375,13 +375,18 @@ body.drawer-open { overflow: hidden; }
 .drawer__foot .lang-switch { align-self: flex-start; }
 
 /* ============================ 7.1 Hero ================================= */
-.hero { padding-top: clamp(40px, 6vw, 72px); padding-bottom: 0; }
+.hero {
+  padding-top: clamp(40px, 6vw, 72px); padding-bottom: 0;
+  /* One value for the hero row: the grid floor and the bleeding photo's height
+     both read it, so they cannot drift apart. */
+  --hero-h: clamp(420px, 46vw, 620px);
+}
 .hero__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gap);
   align-items: center;
-  min-height: clamp(420px, 46vw, 620px);
+  min-height: var(--hero-h);
 }
 .hero__copy { max-width: 640px; }
 .hero__title {
@@ -1629,6 +1634,40 @@ body.drawer-open { overflow: hidden; }
    و`aspect-ratio` مع width/height على الوسم يحجزان المساحة قبل التحميل —
    وهذا ما يُبقي CLS عند صفر، وهو ما قاسه التدقيق ويجب ألّا نخسره. */
 .svc-photo { display: block; width: min(100%, 520px); }
+
+/* Home hero only: the photograph fills its column and runs off the inline-end
+   edge of the screen instead of sitting as a 520px card inside it.
+
+   The negative margin has two parts because the container behaves differently
+   either side of its max-width: below 1440px it spans the viewport and only
+   `--pad-inline` separates content from the edge; above it, the container stops
+   growing and centres, leaving an extra (100vw − 1440px)/2 gutter. `max(0px, …)`
+   collapses that second term on narrow screens. `overflow-x: clip` on the
+   section absorbs the sliver a classic (non-overlay) scrollbar adds to 100vw —
+   `clip` rather than `hidden` so no scroll container is created and the sticky
+   header keeps working. */
+@media (min-width: 901px) {
+  .hero--bleed { overflow-x: clip; }
+  /* Stretch instead of centre, so the photo takes the row's height rather than
+     dictating it. Left square, a 766px-wide image is 766px tall and pushes the
+     hero past the fold on any wide-but-short laptop. */
+  .hero--bleed .hero__visual { align-self: stretch; place-items: stretch; }
+  .hero--bleed .svc-photo--bleed {
+    width: auto;
+    /* An explicit height, not 100%: the row is sized by its content, so a
+       percentage here resolves against nothing and the square image sets its
+       own 766px height on a wide screen — pushing the CTAs below the fold. */
+    height: var(--hero-h);
+    margin-inline-end: calc(-1 * (max(0px, (100vw - var(--container)) / 2) + var(--pad-inline)));
+  }
+  .hero--bleed .svc-photo--bleed .svc-photo__img {
+    height: 100%;
+    aspect-ratio: auto;      /* the row governs the height; `cover` crops the rest */
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-inline-end: 0;
+  }
+}
 .svc-photo__img {
   display: block; width: 100%; height: auto; aspect-ratio: 1;
   object-fit: cover; border-radius: var(--radius);

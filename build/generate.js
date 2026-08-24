@@ -638,7 +638,7 @@ function homePage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero section--dark" id="hero" aria-labelledby="hero-title">
+    <section class="hero hero--bleed section--dark" id="hero" aria-labelledby="hero-title">
       <div class="container hero__inner">
         <div class="hero__copy">
           <p class="eyebrow">${esc(h.hero.eyebrow)}</p>
@@ -650,7 +650,7 @@ function homePage(lang) {
           </div>
           <p class="reassure">${esc(t.reassure)}</p>
         </div>
-        <div class="hero__visual">${homePhoto(lang, "hero", { eager: true })}</div>
+        <div class="hero__visual">${homePhoto(lang, "hero", { eager: true, bleed: true })}</div>
       </div>
       <div class="container">
         <div class="trust">
@@ -1339,14 +1339,20 @@ function serviceHero(lang, slug) {
    ships: it loads eagerly at high priority. The contact image sits three
    screens down and must never compete with it, so it stays lazy. Getting this
    backwards would trade away the metric this site just spent days fixing. */
-function homePhoto(lang, slug, { eager }) {
+function homePhoto(lang, slug, { eager, bleed = false }) {
   const alt = ui[lang].homeImageAlt && ui[lang].homeImageAlt[slug];
   const base = `assets/img/home/${slug}`;
   if (!alt || !fs.existsSync(path.join(ROOT, `${base}-800.webp`))) return dataCore(!eager);
-  const sizes = "(max-width: 900px) 92vw, 44vw";
+  /* `sizes` has to describe the rendered box, not the column. The bleeding hero
+     covers half the grid plus the gutter it spills into — about 52vw — so a
+     narrower hint would hand phones a file too small for the space and let the
+     browser upscale it. */
+  const sizes = bleed
+    ? "(max-width: 900px) 260px, 52vw"
+    : "(max-width: 900px) 92vw, 44vw";
   const set = (ext) => [480, 800, 1200]
     .map((w) => `${asset(`${base}-${w}.${ext}`)} ${w}w`).join(", ");
-  return `<picture class="svc-photo">
+  return `<picture class="svc-photo${bleed ? " svc-photo--bleed" : ""}">
             <source type="image/avif" srcset="${set("avif")}" sizes="${sizes}">
             <source type="image/webp" srcset="${set("webp")}" sizes="${sizes}">
             <img src="${asset(`${base}-800.webp`)}" width="1200" height="1200"
