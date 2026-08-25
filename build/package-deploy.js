@@ -21,6 +21,7 @@ const commonAllowlist = [
   // Arabic is the root-level site; English is nested under /en/.
   "index.html",
   "contact.html",
+  "about.html",
   "privacy.html",
   // Served by ErrorDocument (.htaccess) and Netlify's default 404 handler. It is
   // the safety net for inbound links from the previous site, so it must ship.

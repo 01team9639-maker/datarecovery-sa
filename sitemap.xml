@@ -29,6 +29,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/contact.html"/>
   </url>
   <url>
+    <loc>https://datarecovery-sa.com/about.html</loc>
+    <lastmod>2026-08-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/about.html"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/about.html</loc>
+    <lastmod>2026-08-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/about.html"/>
+  </url>
+  <url>
     <loc>https://datarecovery-sa.com/privacy.html</loc>
     <lastmod>2026-08-11</lastmod>
     <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/privacy.html"/>

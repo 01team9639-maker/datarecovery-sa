@@ -12,6 +12,7 @@ const path = require("path");
 const crypto = require("crypto");
 const services = require("./services");
 const depth = require("./depth");
+const about = require("./about");
 const ransomwareCases = require("./ransomware-cases");
 const trustLogos = require("./trust-logos");
 // Display order lives in site.js next to the content, not in the data files, so
@@ -104,10 +105,12 @@ const homeUrl = (lang) => `${langPrefix(lang)}/`;
 const svcUrl = (lang, slug) => `${langPrefix(lang)}/services/${slug}.html`;
 const contactUrl = (lang) => `${langPrefix(lang)}/contact.html`;
 const privacyUrl = (lang) => `${langPrefix(lang)}/privacy.html`;
+const aboutUrl = (lang) => `${langPrefix(lang)}/about.html`;
 const absHome = (lang) => BASE + homeUrl(lang);
 const absSvc = (lang, slug) => BASE + svcUrl(lang, slug);
 const absContact = (lang) => BASE + contactUrl(lang);
 const absPrivacy = (lang) => BASE + privacyUrl(lang);
+const absAbout = (lang) => BASE + aboutUrl(lang);
 const cityUrl = (lang, slug) => `${langPrefix(lang)}/cities/${slug}.html`;
 const articlesUrl = (lang) => `${langPrefix(lang)}/articles/`;
 /* The Hugo blog owns /blog/ and nests English at /blog/en/ — not /en/blog/,
@@ -326,7 +329,7 @@ function header(lang) {
   // data-home-link lets main.js scroll straight to the hero when we are already
   // on the homepage, instead of triggering a full reload.
   const homeItem = item(`${homeUrl(lang)}#hero`, t.nav.home, " data-home-link");
-  const aboutItem = item(`${homeUrl(lang)}#about`, t.nav.about);
+  const aboutItem = item(aboutUrl(lang), t.nav.about);
   const servicesItem = item(`${homeUrl(lang)}#services`, t.nav.services);
   const processItem = item(`${homeUrl(lang)}#process`, t.nav.process);
   const faqItem = item(`${homeUrl(lang)}#faq`, t.nav.faq);
@@ -420,7 +423,7 @@ function footer(lang, minimal) {
 
   const quickLinks = [
     [`${homeUrl(lang)}#hero`, t.nav.home],
-    [`${homeUrl(lang)}#about`, t.nav.about],
+    [aboutUrl(lang), t.nav.about],
     [`${homeUrl(lang)}#services`, t.nav.services],
     [blogUrl(lang), t.blogLabel],
     [`${homeUrl(lang)}#faq`, t.nav.faq],
@@ -714,14 +717,15 @@ function homePage(lang) {
     <section class="section section--dark" id="about" aria-labelledby="about-title">
       <div class="container experience__inner">
         <div class="experience__copy">
-          <p class="eyebrow eyebrow--accent">${esc(h.experience.eyebrow)}</p>
-          <h2 class="section-title" id="about-title">${esc(h.experience.title)}</h2>
-          <p class="experience__lead">${esc(h.experience.lead)}</p>
-          <p class="experience__tags">${esc(h.experience.tags)}</p>
+          <p class="eyebrow eyebrow--accent">${esc(about[lang].home.eyebrow)}</p>
+          <h2 class="section-title" id="about-title">${esc(about[lang].home.title)}</h2>
+          <p class="experience__lead">${esc(about[lang].home.paras[0])}</p>
+          <p class="experience__tags">${esc(about[lang].home.trust)}</p>
           <div class="brand-story">
             <h3 class="brand-story__title">${esc(h.experience.storyTitle)}</h3>
-            <p class="brand-story__body">${esc(h.experience.storyBody)}</p>
+            <p class="brand-story__body">${esc(about[lang].home.paras[1])}</p>
           </div>
+          <p class="section-foot"><a class="btn btn--ghost" href="${aboutUrl(lang)}">${esc(about[lang].home.cta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>
         </div>
         <div class="metrics-grid">
           <div class="metrics-grid__cell metrics-grid__feature">
@@ -2591,6 +2595,221 @@ function serviceRow(lang, r, i) {
           </li>`;
 }
 
+
+/* ==========================================================================
+   About page — /about.html
+
+   Built from the same vocabulary every other page uses (`section-head`,
+   `cases`, `how`, `devices`, `checklist`, `faq__rows`, `service`), so it
+   inherits the responsive rules, the dark-band contrast fixes and the reveal
+   behaviour without a single bespoke component. Bands alternate light/dark
+   from the helper below rather than by hand, which is what keeps a fourteen
+   section page from drifting into two dark bands in a row.
+   ========================================================================== */
+function aboutSection(tone, id, head, body) {
+  return `
+      <section class="section section--${tone}" aria-labelledby="${id}">
+        <div class="container">
+          ${head}
+          ${body}
+        </div>
+      </section>`;
+}
+
+/** Numbered cards — the `.cases` grid, same as the service expansion blocks. */
+function aboutCards(items) {
+  return `<ul class="cases">
+            ${items.map((x, n) => `<li class="case-card"><span class="case-card__num" dir="ltr">${pad(n + 1)}</span><h3 class="case-card__title">${esc(x.t)}</h3><p class="case-card__text">${esc(x.b)}</p></li>`).join("\n            ")}
+          </ul>`;
+}
+
+/** Un-numbered cards — used where a count would imply an order that is not real. */
+function aboutNotes(items) {
+  return `<ul class="devices">
+            ${items.map((x) => `<li class="device"><h3 class="device__t">${esc(x.t)}</h3><p class="device__b">${esc(x.b)}</p></li>`).join("\n            ")}
+          </ul>`;
+}
+
+function aboutProse(paras, quote) {
+  const q = quote ? `\n          <p class="pullquote">${esc(quote)}</p>` : "";
+  return `<div class="prose-block">${paras.map((x) => `<p class="prose-block__p">${esc(x)}</p>`).join("\n            ")}</div>${q}`;
+}
+
+function aboutPage(lang) {
+  const t = ui[lang];
+  const a = about[lang];
+
+  /* The service list is keyed by slug and validated both ways: a slug here with
+     no service, or a service with no entry, fails the build. Two hand-kept
+     lists of the same eight services drift, and the drift ships as a card
+     describing one service and linking to another. */
+  const slugs = Object.keys(a.fields.rows);
+  for (const slug of slugs) {
+    if (!services.some((s) => s.slug === slug)) {
+      throw new Error(`about.js fields.rows has "${slug}", which is not a service`);
+    }
+  }
+  for (const s of services) {
+    if (!a.fields.rows[s.slug]) {
+      throw new Error(`about.js fields.rows is missing service "${s.slug}" (${lang})`);
+    }
+  }
+
+  const schemas = [
+    localBusiness(lang),
+    {
+      "@type": "AboutPage",
+      "@id": absAbout(lang),
+      url: absAbout(lang),
+      name: a.metaTitle,
+      description: a.metaDesc,
+      inLanguage: lang,
+      isPartOf: { "@id": BASE + "/#website" },
+      about: { "@id": BASE + "/#business" },
+      publisher: { "@id": BASE + "/#business" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+        { "@type": "ListItem", position: 2, name: a.breadcrumb, item: absAbout(lang) }
+      ]
+    },
+    faqPage(a.faq.items)
+  ];
+
+  let html = docStart({
+    lang, title: a.metaTitle, desc: a.metaDesc,
+    canonical: absAbout(lang), altAr: absAbout("ar"), altEn: absAbout("en"), schemas
+  });
+  html += header(lang);
+
+  html += `
+    <main id="main">
+      <section class="hero svc-hero section--dark" aria-labelledby="about-hero-title">
+        <div class="container">
+          <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+            <span>${esc(a.breadcrumb)}</span>
+          </nav>
+          <div class="hero__copy">
+            <p class="eyebrow eyebrow--accent">${esc(a.hero.eyebrow)}</p>
+            <h1 class="hero__title" id="about-hero-title">${esc(a.hero.title)}</h1>
+            ${a.hero.paras.map((x) => `<p class="hero__lead">${esc(x)}</p>`).join("\n            ")}
+            <p class="reassure">${esc(a.hero.trust)}</p>
+            <div class="hero__cta">
+              <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(a.hero.ctaPrimary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+              <a class="btn btn--ghost" href="${homeUrl(lang)}#process">${esc(a.hero.ctaSecondary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+            </div>
+            <p class="hero__note">${esc(a.hero.note)}</p>
+          </div>
+        </div>
+      </section>
+`;
+
+  html += aboutSection("light", "ab-story",
+    sectionHead(a.story.eyebrow, "ab-story", a.story.title, "", ""),
+    aboutProse(a.story.paras, a.story.quote));
+
+  html += aboutSection("dark", "ab-who",
+    sectionHead(a.who.eyebrow, "ab-who", a.who.title, "", ""),
+    aboutProse(a.who.paras));
+
+  html += aboutSection("light", "ab-mission",
+    sectionHead(a.mission.eyebrow, "ab-mission", a.mission.title, "", ""),
+    aboutProse(a.mission.paras));
+
+  html += aboutSection("dark", "ab-method",
+    sectionHead(a.method.eyebrow, "ab-method", a.method.title, "", ""),
+    aboutCards(a.method.items));
+
+  /* Reuses `serviceRow`, so these rows look and behave exactly like the list on
+     the home page and inherit its link affordance. */
+  html += aboutSection("light", "ab-fields",
+    sectionHead(a.fields.eyebrow, "ab-fields", a.fields.title, a.fields.lead, ""),
+    `<ul class="services">
+            ${config.serviceOrder.map((slug, i) => {
+              const s = services.find((x) => x.slug === slug);
+              return serviceRow(lang, { t: s[lang].title, d: a.fields.rows[slug], tags: s.tags || "", link: slug }, i);
+            }).join("\n            ")}
+          </ul>`);
+
+  html += aboutSection("dark", "ab-process",
+    sectionHead(a.process.eyebrow, "ab-process", a.process.title, "", ""),
+    `<ol class="how">
+            ${a.process.items.map((x, n) => `<li class="how__step"><span class="how__n" dir="ltr">${pad(n + 1)}</span><div><h3 class="how__t">${esc(x.t)}</h3><p class="how__b">${esc(x.b)}</p></div></li>`).join("\n            ")}
+          </ol>
+          <p class="section-foot"><a class="btn btn--ghost" href="${homeUrl(lang)}#process">${esc(a.process.cta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>`);
+
+  html += aboutSection("light", "ab-privacy",
+    sectionHead(a.privacy.eyebrow, "ab-privacy", a.privacy.title, "", ""),
+    `${aboutProse(a.privacy.paras)}
+          <ul class="checklist">
+            ${a.privacy.points.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
+          </ul>
+          <p class="section-foot"><a class="btn btn--ghost" href="${privacyUrl(lang)}">${esc(a.privacy.cta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>`);
+
+  html += aboutSection("dark", "ab-audience",
+    sectionHead(a.audience.eyebrow, "ab-audience", a.audience.title, "", ""),
+    `${aboutNotes(a.audience.items)}
+          <p class="section-foot">${esc(a.audience.closing)}</p>`);
+
+  html += aboutSection("light", "ab-expect",
+    sectionHead(a.expect.eyebrow, "ab-expect", a.expect.title, "", ""),
+    `<h3 class="case-out__h">${esc(a.expect.canLabel)}</h3>
+          <ul class="checklist">
+            ${a.expect.can.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
+          </ul>
+          <h3 class="case-out__h">${esc(a.expect.cannotLabel)}</h3>
+          <ul class="checklist checklist--avoid">
+            ${a.expect.cannot.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
+          </ul>
+          <p class="pullquote">${esc(a.expect.quote)}</p>`);
+
+  html += aboutSection("dark", "ab-experience",
+    sectionHead(a.experience.eyebrow, "ab-experience", a.experience.title, "", ""),
+    aboutProse(a.experience.paras));
+
+  html += trustWall(lang);
+
+  html += aboutSection("dark", "ab-team",
+    sectionHead(a.team.eyebrow, "ab-team", a.team.title, "", ""),
+    `${aboutProse(a.team.paras)}
+          ${aboutNotes(a.team.items)}`);
+
+  html += aboutSection("light", "ab-values",
+    sectionHead(a.values.eyebrow, "ab-values", a.values.title, "", ""),
+    aboutNotes(a.values.items));
+
+  html += aboutSection("dark", "ab-faq",
+    sectionHead(a.faq.eyebrow, "ab-faq", a.faq.title, "", ""),
+    `<div class="faq__rows">
+            ${a.faq.items.map((f, i) => faqRow(f, i, "abfaq")).join("\n            ")}
+          </div>`);
+
+  html += `
+      <section class="section section--accent" aria-labelledby="ab-cta">
+        <div class="container">
+          ${sectionHead(a.cta.eyebrow, "ab-cta", a.cta.title, "", "")}
+          <div class="prose-block"><p class="prose-block__p">${esc(a.cta.body)}</p></div>
+          <div class="hero__cta">
+            <a class="btn btn--dark" href="${contactUrl(lang)}">${esc(a.cta.primary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+            <a class="btn btn--ghost" href="${wa()}" target="_blank" rel="noopener">${esc(a.cta.secondary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+          </div>
+          <aside class="warn-box">
+            <p class="warn-box__label">${esc(t.dangerLabel)}</p>
+            <p class="warn-box__body">${esc(a.cta.warn)}</p>
+          </aside>
+          <p class="reassure">${esc(a.cta.trust)}</p>
+        </div>
+      </section>
+    </main>`;
+
+  html += footer(lang);
+  html += docEnd();
+  return html;
+}
+
 /* ---------- language-switch target injection ---------- */
 function injectLangSwitch(html, targetUrl) {
   return html.split("__LANGSWITCH__").join(targetUrl);
@@ -2973,6 +3192,8 @@ function build() {
     write(outPath(lang, "index.html"), injectLangSwitch(homePage(lang), homeUrl(other)));
     // contact
     write(outPath(lang, "contact.html"), injectLangSwitch(contactPage(lang), contactUrl(other)));
+    // about
+    write(outPath(lang, "about.html"), injectLangSwitch(aboutPage(lang), aboutUrl(other)));
     // privacy / cookie policy
     write(outPath(lang, "privacy.html"), injectLangSwitch(privacyPage(lang), privacyUrl(other)));
     // services
@@ -3084,6 +3305,7 @@ function sitemap() {
   };
   add((l) => absHome(l));
   add((l) => absContact(l));
+  add((l) => absAbout(l));
   add((l) => absPrivacy(l));
   for (const s of services) add((l) => absSvc(l, s.slug));
   for (const c of ransomwareCases) add((l) => absCase(l, c.slug));

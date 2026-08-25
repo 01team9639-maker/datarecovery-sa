@@ -1411,7 +1411,7 @@ body.drawer-open { overflow: hidden; }
   width: 40px; height: 40px; display: grid; place-items: center;
 }
 .how__t { font-size: 1.05rem; font-weight: 650; line-height: 1.4; }
-.how__b { margin-top: 0.5rem; color: var(--muted-dark); font-size: 0.9rem; line-height: 1.7; }
+.how__b { margin-top: 0.5rem; color: var(--muted-light); font-size: 0.9rem; line-height: 1.7; }
 
 /* ---- Illustrative case ------------------------------------------------- */
 .mini-case {
@@ -1594,6 +1594,34 @@ body.drawer-open { overflow: hidden; }
   color: var(--accent); margin: 0 0 10px;
 }
 .case-card__link { text-decoration: none; }
+
+/* ---- Band-aware body copy ------------------------------------------------
+   `notes`, `steps` and section footers all appear on both bands because the
+   expansion blocks alternate tone. Each carried a single colour, so one of the
+   two bands always failed: .device__b measured 3.11:1 on dark, .how__b 2.06:1
+   on light, and .section-foot used --ink, which is 1.06:1 on dark — invisible.
+   Each now states the light value and swaps on the dark band. */
+.section--dark .device__b,
+.section--dark .how__b { color: var(--muted-dark); }
+.section--dark .section-foot { color: var(--white); }
+
+
+/* ---- Pull quote (about page) --------------------------------------------
+   One line lifted out of the prose. Colour is stated for both bands rather
+   than inherited: the same component appears on --bg-light and --bg-dark on
+   the same page, and inheriting would leave one of the two unreadable. */
+.pullquote {
+  margin: clamp(24px, 3vw, 36px) 0 0;
+  padding-inline-start: clamp(16px, 2vw, 24px);
+  border-inline-start: 3px solid var(--accent);
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.6;
+  max-width: 62ch;
+  color: var(--ink);
+}
+.section--dark .pullquote { color: var(--white); }
+
 
 /* ---- Cards and accordion rows on a dark band ----------------------------
    .case-card and .faq-row were drawn for a light section: their body copy is
