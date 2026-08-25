@@ -7,6 +7,9 @@ const BASE_URL = "https://datarecovery-sa.com";
 // Image CDN base — images are referenced through this so they can be moved to
 // a CDN without touching markup. Empty string => serve locally from /assets/img.
 const CDN = ""; // e.g. "https://cdn.mnalsfr.example"
+// The one place the WhatsApp number is written: the floating button, the
+// contact rows and the footer social link all read it from here.
+const WHATSAPP = "966531010903";
 
 const config = {
   baseUrl: BASE_URL,
@@ -22,7 +25,7 @@ const config = {
   contentPublished: "2026-07-20",
   contentUpdated: "2026-08-11",
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
-  whatsapp: "966531010903",          // wa.me/<this>
+  whatsapp: WHATSAPP,                // wa.me/<this>
   phoneDisplay: "+966 53 101 0903",
   phoneHref: "+966531010903",
   email: "info@datarecovery-sa.com",
@@ -34,24 +37,29 @@ const config = {
   // Social profiles. These URLs are the *live* accounts and double as the JSON-LD
   // `sameAs` list, so a dead URL here becomes a broken entity signal on every page.
   //
-  // The owner supplied the 01datarecovery handles on 2026-08-23, which finally
-  // unblocks the accounts that were held back for carrying the former name.
-  // Checked the same day: X, YouTube, TikTok and Instagram all answer 200.
+  // Checked 2026-08-23: X, YouTube and Instagram all answer 200. TikTok was
+  // dropped on 2026-08-25 — the owner reports the account is not working.
   //
-  // The YouTube link that shipped until then pointed at channel
+  // The YouTube link that shipped until 2026-08-23 pointed at channel
   // UC36WAnDT1fOpNHQ69UeA-Ew, whose title reads "Osool Integrated Systems" — the
   // identity this site is retiring, published in `sameAs` on every page for
   // months. Replaced with the 01datarecovery channel (UCuCOo1av7DH3kyTKxI6xFmQ).
   //
-  // Facebook is absent on purpose: the page that shipped before was never
-  // confirmed to belong to this brand, and the link beside it turned out to carry
-  // the old name. Facebook answers 400 to every automated request, so it cannot be
-  // checked from here — it returns once the owner confirms the URL.
+  // ⚠️ Facebook is restored on the owner's instruction but is NOT verified: this
+  // is the URL that shipped before the rebrand audit, Facebook answers 400 to
+  // every automated request so it cannot be checked from here, and the YouTube
+  // link that sat beside it turned out to carry the old name. Confirm the page
+  // belongs to this brand, or replace the URL.
+  //
+  // WhatsApp is the same number as the floating button — one place to change it.
   socials: [
     { name: "Instagram", url: "https://www.instagram.com/01datarecovery", icon: "instagram" },
     { name: "X", url: "https://x.com/01Datarecovery", icon: "x" },
     { name: "YouTube", url: "https://www.youtube.com/@01datarecovery", icon: "youtube" },
-    { name: "TikTok", url: "https://www.tiktok.com/@01datarecovery", icon: "tiktok" },
+    { name: "Facebook", url: "https://www.facebook.com/share/1Gy9Ku7Gx8/", icon: "facebook" },
+    // `profile: false` keeps this out of JSON-LD `sameAs`, which is a list of pages
+    // that identify the business. wa.me is a chat deep-link, not a profile page.
+    { name: "WhatsApp", url: `https://wa.me/${WHATSAPP}`, icon: "whatsapp", profile: false },
   ],
   // No alternateName. The rebrand was previously declared to search engines so
   // they would merge the old entity into this one; the owner decided on

@@ -1594,6 +1594,32 @@ body.drawer-open { overflow: hidden; }
   color: var(--accent); margin: 0 0 10px;
 }
 .case-card__link { text-decoration: none; }
+
+/* ---- Cards and accordion rows on a dark band ----------------------------
+   .case-card and .faq-row were drawn for a light section: their body copy is
+   --muted-light (#5c6b69) and the accordion's plus sign is --ink (#061719).
+   Expansion blocks place both on --bg-dark, where those two all but vanish —
+   the card text measured 1.5:1 against the band. The palette already carries
+   the dark-side twin of every role, so this maps onto them rather than
+   inventing colours; the light sections are untouched. */
+.section--dark .case-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-dark);
+}
+.section--dark .case-card:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3); }
+.section--dark .case-card__num,
+.section--dark .faq-row__num { color: var(--accent); }
+.section--dark .case-card__text,
+.section--dark .faq-row__a p { color: var(--muted-dark); }
+
+/* The rules and the plus keyline carry the whole affordance of an accordion:
+   on a dark band they need light strokes, not the ink ones. */
+.section--dark .faq__rows,
+.section--dark .faq-row { border-color: rgba(255, 255, 255, 0.16); }
+.section--dark .faq-row__icon::before,
+.section--dark .faq-row__icon::after { background: var(--white); }
+
+
 /* الرابط يغطّي البطاقة كلها: هدف لمس أكبر بكثير من سطر العنوان وحده،
    والاسم يبقى على <a> فيُقرأ صحيحًا في قائمة روابط قارئ الشاشة. */
 .case-card__link::after { content: ""; position: absolute; inset: 0; }
@@ -1647,25 +1673,39 @@ body.drawer-open { overflow: hidden; }
    `clip` rather than `hidden` so no scroll container is created and the sticky
    header keeps working. */
 @media (min-width: 901px) {
-  .hero--bleed { overflow-x: clip; }
-  /* Stretch instead of centre, so the photo takes the row's height rather than
-     dictating it. Left square, a 766px-wide image is 766px tall and pushes the
-     hero past the fold on any wide-but-short laptop. */
-  .hero--bleed .hero__visual { align-self: stretch; place-items: stretch; }
-  .hero--bleed .svc-photo--bleed {
-    width: auto;
-    /* An explicit height, not 100%: the row is sized by its content, so a
-       percentage here resolves against nothing and the square image sets its
-       own 766px height on a wide screen — pushing the CTAs below the fold. */
-    height: var(--hero-h);
-    margin-inline-end: calc(-1 * (max(0px, (100vw - var(--container)) / 2) + var(--pad-inline)));
+  /* Split hero: the photograph owns the whole inline-end half of the screen for
+     the height of the copy row — flush to three edges, no card framing.
+
+     It is positioned against `.hero__inner`, not the section. The section also
+     carries the metrics strip and the ticker below the copy; anchoring to it
+     stretched the image over both and buried two of the three metrics behind
+     the photograph. Anchoring to the copy row stops it exactly where the
+     divider starts.
+
+     Width is a flat 50vw so the split lands on the screen's midpoint rather
+     than the container's; the negative inset walks the image out past the
+     container padding — and, above 1440px, past the centring gutter too — so
+     it starts at the viewport edge. The grid keeps both tracks, so the copy
+     still occupies the first one and never runs under the image. */
+  .hero--bleed { overflow-x: clip; padding-top: 0; }
+  .hero--bleed .hero__inner { position: relative; }
+  .hero--bleed .hero__visual {
+    position: absolute;
+    inset-block: 0;
+    /* `.container` and `.hero__inner` are the same element, so these insets are
+       measured from its padding box — which already reaches the viewport edge
+       below 1440px. Adding --pad-inline here pushed 58px of the photograph off
+       screen. Above 1440px only the centring gutter remains to walk out. */
+    inset-inline-end: calc(-1 * max(0px, (100vw - var(--container)) / 2));
+    width: 50vw;
+    display: block;
   }
+  .hero--bleed .svc-photo--bleed { width: 100%; height: 100%; margin: 0; }
   .hero--bleed .svc-photo--bleed .svc-photo__img {
     height: 100%;
-    aspect-ratio: auto;      /* the row governs the height; `cover` crops the rest */
-    border-start-end-radius: 0;
-    border-end-end-radius: 0;
-    border-inline-end: 0;
+    aspect-ratio: auto;        /* the row governs the height; `cover` crops the rest */
+    border: 0;
+    border-radius: 0;
   }
 }
 .svc-photo__img {

@@ -79,6 +79,10 @@ const icons = {
   whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.16l-.3-.18-2.9.9.93-2.82-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.6-6.14c-.25-.13-1.48-.73-1.71-.82-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.4-1.73-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.17 1.78 2.72 4.3 3.81.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29z"/></svg>`,
   email: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>`,
   social: {
+    // Same mark as the contact rows above — the footer reads `icons.social`,
+    // a separate map, so a social entry whose icon lives only in `icons`
+    // renders the string "undefined" beside its name.
+    whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.16l-.3-.18-2.9.9.93-2.82-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.6-6.14c-.25-.13-1.48-.73-1.71-.82-.23-.08-.4-.12-.56.13-.17.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.66-1.25-1.48-1.4-1.73-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.17 1.78 2.72 4.3 3.81.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29z"/></svg>`,
     instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>`,
     x: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2H21.5l-7.5 8.57L23 22h-6.75l-5.29-6.92L4.9 22H1.64l8.02-9.17L1 2h6.92l4.78 6.32L18.244 2zm-1.18 18h1.83L7.03 3.9H5.06L17.064 20z"/></svg>`,
     tiktok: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2.1 1.5 3.5 3.5 3.72v2.55c-1.2.06-2.4-.22-3.5-.83v5.72c0 3.5-2.6 5.84-5.85 5.84A5.6 5.6 0 0 1 5 14.35c0-3.23 2.94-5.63 6.3-5v2.72c-.4-.12-.8-.18-1.2-.18-1.5 0-2.72 1.2-2.72 2.66 0 1.5 1.2 2.7 2.7 2.7 1.6 0 2.82-1.24 2.82-2.98V3h1.6z"/></svg>`,
@@ -148,7 +152,7 @@ function localBusiness(lang) {
       opens: "10:00", closes: "22:00"
     },
     // sameAs ties the business entity to its social profiles (GEO / knowledge graph).
-    sameAs: config.socials.map((s) => s.url),
+    sameAs: config.socials.filter((s) => s.profile !== false).map((s) => s.url),
     inLanguage: lang
   };
 }
@@ -1290,7 +1294,7 @@ function ransomwareCasePage(lang, c) {
         </div>
       </div>
     </section>
-  </main>` + footer(lang, true) + docEnd();
+  </main>` + footer(lang) + docEnd();
 }
 
 /* ---------- Service hero image ----------

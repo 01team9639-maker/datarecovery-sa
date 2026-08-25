@@ -135,3 +135,18 @@ test("the retired trading name appears nowhere in identity data", () => {
   assert.deepStrictEqual(named, [],
     "a social profile whose URL carries the retired name is still in sameAs");
 });
+
+test("every social entry resolves an icon", () => {
+  // `icons.social` is a different map from `icons`; an entry whose glyph lives
+  // only in the latter renders the literal string "undefined" next to its name.
+  // That shipped once — WhatsApp, on every page of the site.
+  const { config } = require("../build/site.js");
+  const source = fs.readFileSync(path.join(__dirname, "..", "build", "generate.js"), "utf8");
+  const map = source.slice(source.indexOf("  social: {"));
+  for (const s of config.socials) {
+    assert.ok(
+      new RegExp(`^\\s{4}${s.icon}:`, "m").test(map),
+      `icons.social has no glyph for "${s.icon}" (${s.name})`
+    );
+  }
+});
