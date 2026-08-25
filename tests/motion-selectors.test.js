@@ -64,3 +64,17 @@ test("no page still loads a motion library", () => {
     );
   }
 });
+
+test("only one script binds the FAQ accordion", () => {
+  // main.js binds a disclosure handler to every .faq-row__q site-wide. A second
+  // handler on the same button toggles each click twice, so the answer opens and
+  // shuts in the same frame — which is exactly what faq.js shipped with once.
+  const dir = path.join(ROOT, "assets", "js");
+  const owners = fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".js"))
+    .filter((f) => /\.faq-row__q[^]{0,400}addEventListener\(\s*["']click/.test(
+      fs.readFileSync(path.join(dir, f), "utf8")
+    ));
+  assert.deepEqual(owners, ["main.js"], `FAQ accordion is bound by: ${owners.join(", ")}`);
+});

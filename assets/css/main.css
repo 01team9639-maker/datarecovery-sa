@@ -1595,6 +1595,58 @@ body.drawer-open { overflow: hidden; }
 }
 .case-card__link { text-decoration: none; }
 
+/* ---- FAQ page: search, chips, alert -------------------------------------
+   The accordion, rows and icons are the shared `.faq-row` component, so this
+   only adds what the page itself introduces. Colours are stated for both
+   bands because the groups alternate light and dark down the page. */
+.faq-alert { margin-top: clamp(28px, 3vw, 40px); }
+.faq-alert .btn { margin-top: 14px; }
+
+.faq-search { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.faq-search__input {
+  flex: 1 1 320px;
+  min-width: 0;
+  padding: 0.95em 1.1em;
+  font: inherit;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+.faq-search__input:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.faq-search__clear {
+  padding: 0.8em 1.1em; font: inherit; font-weight: 600; cursor: pointer;
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+}
+.faq-search__status { margin-top: 12px; font-weight: 600; color: var(--accent-ink); min-height: 1.5em; }
+
+/* Horizontally scrollable on a phone rather than wrapping to five rows. */
+.faq-chips {
+  display: flex; gap: 10px; margin-top: 18px;
+  overflow-x: auto; padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.faq-chip {
+  flex: 0 0 auto;
+  padding: 0.6em 1.1em;
+  font-size: 0.9rem; font-weight: 600; text-decoration: none;
+  color: var(--ink); background: var(--white);
+  border: 1px solid var(--border-light); border-radius: 999px;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.faq-chip:hover { border-color: var(--accent); }
+.faq-chip.is-on { background: var(--ink); border-color: var(--ink); color: var(--white); }
+
+.faq-empty { margin-top: clamp(24px, 3vw, 36px); }
+.faq-empty p { max-width: 60ch; }
+
+/* An answer's inline links are the point of the page — they must read as
+   links inside a paragraph, not blend into it. */
+.faq-row__a a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+.section--dark .faq-row__a a { color: var(--accent); }
+
+
 /* ---- Band-aware body copy ------------------------------------------------
    `notes`, `steps` and section footers all appear on both bands because the
    expansion blocks alternate tone. Each carried a single colour, so one of the

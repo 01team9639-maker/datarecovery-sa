@@ -22,6 +22,7 @@ const commonAllowlist = [
   "index.html",
   "contact.html",
   "about.html",
+  "faq.html",
   "privacy.html",
   // Served by ErrorDocument (.htaccess) and Netlify's default 404 handler. It is
   // the safety net for inbound links from the previous site, so it must ship.

@@ -13,6 +13,7 @@ const crypto = require("crypto");
 const services = require("./services");
 const depth = require("./depth");
 const about = require("./about");
+const faqContent = require("./faq-page");
 const ransomwareCases = require("./ransomware-cases");
 const trustLogos = require("./trust-logos");
 // Display order lives in site.js next to the content, not in the data files, so
@@ -106,11 +107,13 @@ const svcUrl = (lang, slug) => `${langPrefix(lang)}/services/${slug}.html`;
 const contactUrl = (lang) => `${langPrefix(lang)}/contact.html`;
 const privacyUrl = (lang) => `${langPrefix(lang)}/privacy.html`;
 const aboutUrl = (lang) => `${langPrefix(lang)}/about.html`;
+const faqUrl = (lang) => `${langPrefix(lang)}/faq.html`;
 const absHome = (lang) => BASE + homeUrl(lang);
 const absSvc = (lang, slug) => BASE + svcUrl(lang, slug);
 const absContact = (lang) => BASE + contactUrl(lang);
 const absPrivacy = (lang) => BASE + privacyUrl(lang);
 const absAbout = (lang) => BASE + aboutUrl(lang);
+const absFaq = (lang) => BASE + faqUrl(lang);
 const cityUrl = (lang, slug) => `${langPrefix(lang)}/cities/${slug}.html`;
 const articlesUrl = (lang) => `${langPrefix(lang)}/articles/`;
 /* The Hugo blog owns /blog/ and nests English at /blog/en/ — not /en/blog/,
@@ -332,7 +335,7 @@ function header(lang) {
   const aboutItem = item(aboutUrl(lang), t.nav.about);
   const servicesItem = item(`${homeUrl(lang)}#services`, t.nav.services);
   const processItem = item(`${homeUrl(lang)}#process`, t.nav.process);
-  const faqItem = item(`${homeUrl(lang)}#faq`, t.nav.faq);
+  const faqItem = item(faqUrl(lang), t.nav.faq);
   const contactItem = item(contactUrl(lang), t.nav.contact);
   // Not conditional on posts.length like the old articles link: /blog/ is built
   // by a separate pipeline this generator cannot see, so gating on local state
@@ -426,7 +429,7 @@ function footer(lang, minimal) {
     [aboutUrl(lang), t.nav.about],
     [`${homeUrl(lang)}#services`, t.nav.services],
     [blogUrl(lang), t.blogLabel],
-    [`${homeUrl(lang)}#faq`, t.nav.faq],
+    [faqUrl(lang), t.nav.faq],
     [contactUrl(lang), t.nav.contact],
     [`${homeUrl(lang)}#process`, t.nav.process],
     [articlesUrl(lang), t.articlesLabel],
@@ -522,10 +525,13 @@ function footer(lang, minimal) {
   </footer>`;
 }
 
-function docEnd() {
+function docEnd(extraScripts = []) {
+  const extra = extraScripts
+    .map((rel) => `\n  <script src="${asset(rel)}" defer></script>`)
+    .join("");
   return `
   <script src="${asset("assets/js/main.js")}" defer></script>
-  <script src="${asset("assets/js/anim.js")}" defer></script>
+  <script src="${asset("assets/js/anim.js")}" defer></script>${extra}
 </body>
 </html>`;
 }
@@ -1453,6 +1459,7 @@ function servicePage(lang, s) {
         <div class="faq__rows">
           ${allFaqs.map((f, i) => faqRow(f, i)).join("\n            ")}
         </div>
+        <p class="section-foot"><a class="btn btn--ghost" href="${faqUrl(lang)}">${esc(faqContent[lang].seeAll)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>
       </div>
     </section>
 
@@ -2810,6 +2817,187 @@ function aboutPage(lang) {
   return html;
 }
 
+
+/* ==========================================================================
+   FAQ page — /faq.html
+
+   99 answers carry inline link tokens ([[svc:hdd|…]]). `faqLink` resolves them
+   against the real service, city, article and page lists and throws on an
+   unknown target, so renaming a service or deleting an article fails the build
+   instead of shipping a dead link inside an answer. Everything outside a token
+   is escaped normally — the tokens are the only markup an answer may produce.
+   ========================================================================== */
+const FAQ_TOKEN = /\[\[(svc|city|art|page|faq):([a-z0-9-]+)\|([^\]]+)\]\]/g;
+
+function faqResolve(lang, kind, target) {
+  if (kind === "svc") {
+    if (!services.some((s) => s.slug === target)) throw new Error(`faq link → unknown service "${target}"`);
+    return svcUrl(lang, target);
+  }
+  if (kind === "city") {
+    if (!cities.some((c) => c.slug === target)) throw new Error(`faq link → unknown city "${target}"`);
+    return cityUrl(lang, target);
+  }
+  if (kind === "art") {
+    if (!posts.some((x) => x.slug === target)) throw new Error(`faq link → unknown article "${target}"`);
+    return postUrl(lang, target);
+  }
+  if (kind === "page") {
+    const pages = { contact: contactUrl, privacy: privacyUrl, about: aboutUrl, home: homeUrl };
+    if (!pages[target]) throw new Error(`faq link → unknown page "${target}"`);
+    return pages[target](lang);
+  }
+  // Same page, another group.
+  if (!faqContent[lang].groups.some((g) => g.id === target)) throw new Error(`faq link → unknown group "${target}"`);
+  return `${faqUrl(lang)}#${target}`;
+}
+
+/** Answer → HTML, with the tokens turned into anchors. */
+function faqAnswer(lang, text) {
+  let out = "";
+  let last = 0;
+  FAQ_TOKEN.lastIndex = 0;
+  let m;
+  while ((m = FAQ_TOKEN.exec(text)) !== null) {
+    out += esc(text.slice(last, m.index));
+    out += `<a href="${faqResolve(lang, m[1], m[2])}">${esc(m[3])}</a>`;
+    last = m.index + m[0].length;
+  }
+  return out + esc(text.slice(last));
+}
+
+/** Answer → plain text, for JSON-LD and for the search index. */
+function faqPlain(text) {
+  return text.replace(FAQ_TOKEN, "$3");
+}
+
+function faqRowHtml(lang, item, groupId) {
+  const rid = `faq-${item.id}`;
+  return `<div class="faq-row" data-faq-item data-q="${esc((item.q + " " + faqPlain(item.a)).toLowerCase())}">
+              <h3 class="faq-row__h">
+                <button class="faq-row__q" type="button" aria-expanded="false" aria-controls="${rid}" id="${rid}-b">
+                  <span class="faq-row__text">${esc(item.q)}</span>
+                  <span class="faq-row__icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-row__a" id="${rid}" role="region" aria-labelledby="${rid}-b">
+                <p>${faqAnswer(lang, item.a)}</p>
+              </div>
+            </div>`;
+}
+
+function faqRenderPage(lang) {
+  const t = ui[lang];
+  const f = faqContent[lang];
+  const all = f.groups.flatMap((g) => g.items);
+  const top = all.filter((x) => x.top);
+
+  const schemas = [
+    localBusiness(lang),
+    webPage(lang, absFaq(lang), f.metaTitle, f.metaDesc),
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
+        { "@type": "ListItem", position: 2, name: f.breadcrumb, item: absFaq(lang) }
+      ]
+    },
+    faqPage(all.map((x) => ({ q: x.q, a: faqPlain(x.a) })))
+  ];
+
+  let html = docStart({
+    lang, title: f.metaTitle, desc: f.metaDesc,
+    canonical: absFaq(lang), altAr: absFaq("ar"), altEn: absFaq("en"), schemas
+  });
+  html += header(lang);
+
+  html += `
+    <main id="main">
+      <section class="hero svc-hero section--dark" aria-labelledby="faq-hero-title">
+        <div class="container">
+          <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+            <span>${esc(f.breadcrumb)}</span>
+          </nav>
+          <div class="hero__copy">
+            <p class="eyebrow eyebrow--accent">${esc(f.hero.eyebrow)}</p>
+            <h1 class="hero__title" id="faq-hero-title">${esc(f.hero.title)}</h1>
+            ${f.hero.paras.map((x) => `<p class="hero__lead">${esc(x)}</p>`).join("\n            ")}
+          </div>
+          <aside class="warn-box faq-alert">
+            <p class="warn-box__label">${esc(t.dangerLabel)}</p>
+            <p class="warn-box__body">${esc(f.alert.text)}</p>
+            <p><a class="btn btn--accent" href="${contactUrl(lang)}">${esc(f.alert.cta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section--light faq-tools" aria-labelledby="faq-tools-t">
+        <div class="container">
+          <h2 class="sr-only" id="faq-tools-t">${esc(f.search.label)}</h2>
+          <div class="faq-search">
+            <label class="sr-only" for="faq-q">${esc(f.search.label)}</label>
+            <input class="faq-search__input" id="faq-q" type="search" autocomplete="off"
+                   placeholder="${esc(f.search.placeholder)}"
+                   data-count="${esc(f.search.count)}" data-count-one="${esc(f.search.countOne)}">
+            <button class="faq-search__clear" type="button" hidden>${esc(f.search.clear)}</button>
+          </div>
+          <p class="faq-search__status" role="status" aria-live="polite"></p>
+          <nav class="faq-chips" aria-label="${esc(f.search.label)}">
+            <a class="faq-chip is-on" href="#faq-groups" data-faq-chip="all">${esc(f.search.allLabel)}</a>
+            ${f.groups.map((g) => `<a class="faq-chip" href="#${g.id}" data-faq-chip="${g.id}">${esc(g.nav)}</a>`).join("\n            ")}
+          </nav>
+          <div class="faq-empty" hidden>
+            <p>${esc(f.search.empty)}</p>
+            <p><a class="btn btn--accent" href="${contactUrl(lang)}">${esc(f.search.emptyCta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--dark" id="faq-top" aria-labelledby="faq-top-t" data-faq-top>
+        <div class="container">
+          ${sectionHead(f.topLabel, "faq-top-t", f.topLabel, f.topNote, "")}
+          <div class="faq__rows">
+            ${top.map((x) => faqRowHtml(lang, { ...x, id: x.id + "-top" }, "top")).join("\n            ")}
+          </div>
+        </div>
+      </section>
+
+      <div id="faq-groups">
+${f.groups.map((g, i) => `
+      <section class="section section--${i % 2 === 0 ? "light" : "dark"}" id="${g.id}" aria-labelledby="${g.id}-t" data-faq-group="${g.id}">
+        <div class="container">
+          ${sectionHead("", `${g.id}-t`, g.title, "", "")}
+          <div class="faq__rows">
+            ${g.items.map((x) => faqRowHtml(lang, x, g.id)).join("\n            ")}
+          </div>
+          <p class="section-foot"><a class="btn btn--ghost" href="${contactUrl(lang)}">${esc(f.groupCta)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a></p>
+        </div>
+      </section>`).join("")}
+      </div>
+
+      <section class="section section--accent" aria-labelledby="faq-cta-t">
+        <div class="container">
+          ${sectionHead(f.cta.eyebrow, "faq-cta-t", f.cta.title, "", "")}
+          <div class="prose-block"><p class="prose-block__p">${esc(f.cta.body)}</p></div>
+          <div class="hero__cta">
+            <a class="btn btn--dark" href="${contactUrl(lang)}">${esc(f.cta.primary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+            <a class="btn btn--ghost" href="${wa()}" target="_blank" rel="noopener">${esc(f.cta.secondary)}<span class="btn__ic" aria-hidden="true">${fwd(lang)}</span></a>
+          </div>
+          <aside class="warn-box">
+            <p class="warn-box__label">${esc(t.dangerLabel)}</p>
+            <p class="warn-box__body">${esc(f.cta.warn)}</p>
+          </aside>
+          <p class="reassure">${esc(f.cta.trust)}</p>
+        </div>
+      </section>
+    </main>`;
+
+  html += footer(lang);
+  html += docEnd(["assets/js/faq.js"]);
+  return html;
+}
+
 /* ---------- language-switch target injection ---------- */
 function injectLangSwitch(html, targetUrl) {
   return html.split("__LANGSWITCH__").join(targetUrl);
@@ -3194,6 +3382,8 @@ function build() {
     write(outPath(lang, "contact.html"), injectLangSwitch(contactPage(lang), contactUrl(other)));
     // about
     write(outPath(lang, "about.html"), injectLangSwitch(aboutPage(lang), aboutUrl(other)));
+    // faq
+    write(outPath(lang, "faq.html"), injectLangSwitch(faqRenderPage(lang), faqUrl(other)));
     // privacy / cookie policy
     write(outPath(lang, "privacy.html"), injectLangSwitch(privacyPage(lang), privacyUrl(other)));
     // services
@@ -3306,6 +3496,7 @@ function sitemap() {
   add((l) => absHome(l));
   add((l) => absContact(l));
   add((l) => absAbout(l));
+  add((l) => absFaq(l));
   add((l) => absPrivacy(l));
   for (const s of services) add((l) => absSvc(l, s.slug));
   for (const c of ransomwareCases) add((l) => absCase(l, c.slug));
