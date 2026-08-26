@@ -29,6 +29,10 @@ const config = {
   // Articles retired 2026-08-25 in favour of /blog/. Set back to true to
   // restore the section; build/articles.js still holds the five pieces.
   articles: false,
+  // Microsoft Clarity project id. The vendor ships an inline snippet; this site
+  // forbids inline script, so build/generate.js writes the same loader to
+  // assets/js/clarity.js instead. Empty string turns Clarity off everywhere.
+  clarity: "y8m0knaknt",
   phoneDisplay: "+966 53 101 0903",
   phoneHref: "+966531010903",
   email: "info@datarecovery-sa.com",

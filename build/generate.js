@@ -254,6 +254,22 @@ function analyticsJs() {
 `;
 }
 
+function clarityJs() {
+  return `"use strict";
+// Microsoft Clarity loader — generated from config.clarity (${config.clarity}).
+// Microsoft ships this as an inline <script>. The site's CSP has no
+// 'unsafe-inline', so pasted inline it would be blocked outright and record
+// nothing — which is exactly how the blog ran without analytics for weeks.
+// Same code, hoisted to a first-party file: createElement + insertBefore only,
+// no dynamic markup and no code sinks.
+(function (c, l, a, r, i, t, y) {
+  c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+  t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+  y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+})(window, document, "clarity", "script", ${JSON.stringify(config.clarity)});
+`;
+}
+
 /* ---------- <head> + document shell ---------- */
 function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex }) {
   const t = ui[lang];
@@ -267,7 +283,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}
+  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}${config.clarity ? `\n  <script src="${asset("assets/js/clarity.js")}" async></script>` : ""}
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
@@ -3382,6 +3398,7 @@ function build() {
   console.log("Generating pages…");
   // written first so asset() can hash it while the pages are rendered
   if (config.gtm) write("assets/js/analytics.js", analyticsJs());
+  if (config.clarity) write("assets/js/clarity.js", clarityJs());
   for (const lang of LANGS) {
     const other = ui[lang].otherLang;
     // homepage

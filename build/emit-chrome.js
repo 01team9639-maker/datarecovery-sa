@@ -128,6 +128,10 @@ function build() {
   const scripts = [
     `<script src="${BASE}${asset("assets/js/main.js")}" defer></script>`,
     config.gtm ? `<script src="${BASE}${asset("assets/js/analytics.js")}" async></script>` : "",
+    // Clarity ships to the blog too. Session recordings that cover only half the
+    // site produce a map with a hole in it — and the blog is where a reader
+    // arrives from search before crossing into the service pages.
+    config.clarity ? `<script src="${BASE}${asset("assets/js/clarity.js")}" async></script>` : "",
   ].filter(Boolean).join("\n");
   write("../site-scripts.html", scripts);
 
