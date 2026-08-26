@@ -24,7 +24,15 @@ const orderBy = (list, order) => {
   return [...list].sort((a, b) => rank(a.slug) - rank(b.slug));
 };
 const cities = orderBy(require("./cities"), config0().cityOrder);
-const posts = orderBy(require("./articles"), config0().articlesOrder);
+/* The articles section is switched off at the source rather than deleted: the
+   owner retired it on 2026-08-25 now that /blog/ exists. Everything downstream
+   is already gated on `posts.length` — the index and article pages, the sitemap
+   entries, the llms.txt listing and the footer link all disappear with it, and
+   `build/articles.js` keeps the five pieces intact for migration to the blog.
+   Note the blog is not a copy of them: it carries two different posts. */
+const posts = config0().articles === false
+  ? []
+  : orderBy(require("./articles"), config0().articlesOrder);
 function config0() { return require("./site").config; }
 const { config, claims, ui, home, contact, privacy, socialProof } = require("./site");
 
@@ -432,7 +440,7 @@ function footer(lang, minimal) {
     [faqUrl(lang), t.nav.faq],
     [contactUrl(lang), t.nav.contact],
     [`${homeUrl(lang)}#process`, t.nav.process],
-    [articlesUrl(lang), t.articlesLabel],
+    ...(posts.length ? [[articlesUrl(lang), t.articlesLabel]] : []),
     ...cities.map((c) => [cityUrl(lang, c.slug), c[lang].city]),
   ]
     .map(([href, label]) => `<li><a class="footer-pill" href="${href}">${esc(label)}</a></li>`)

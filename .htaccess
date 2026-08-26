@@ -47,6 +47,12 @@ ErrorDocument 404 /404.html
   RewriteRule ^services/?$ /#services [R=301,L]
   RewriteRule ^contacts/?$ /contact.html [R=301,L]
 
+# Articles retired 2026-08-25 in favour of /blog/. The five pieces were indexed,
+# so the old URLs redirect instead of 404ing; /blog/ carries different posts, so
+# they land on the blog index rather than pretending to be the same article.
+RewriteRule ^en/articles(/.*)?$ /blog/en/ [R=301,L]
+RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
+
   # ORDER MATTERS. The Arabic-slug pages from the old Osool site must be matched
   # BEFORE the generic /ar/ prefix strip below, because that strip is [L]: it
   # would rewrite /ar/raid-… to /raid-…, stop, and hand the visitor a second 404.

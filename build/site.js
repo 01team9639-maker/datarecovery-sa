@@ -26,6 +26,9 @@ const config = {
   contentUpdated: "2026-08-11",
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
   whatsapp: WHATSAPP,                // wa.me/<this>
+  // Articles retired 2026-08-25 in favour of /blog/. Set back to true to
+  // restore the section; build/articles.js still holds the five pieces.
+  articles: false,
   phoneDisplay: "+966 53 101 0903",
   phoneHref: "+966531010903",
   email: "info@datarecovery-sa.com",

@@ -29,7 +29,6 @@ const commonAllowlist = [
   "404.html",
   "services",
   "cities",
-  "articles",
   "en",
   "assets",
   "robots.txt",
@@ -155,9 +154,15 @@ fs.mkdirSync(output, { recursive: true, mode: 0o755 });
 
 assertNothingSilentlyDropped();
 
-for (const relative of targetAllowlist) {
+// `articles/` is optional: the section is switched off in build/site.js and the
+// generator emits nothing for it, but the tree ships again the moment it is
+// turned back on. Every other entry stays mandatory — a missing one means the
+// build silently produced less than it should have.
+const optionalTrees = new Set(["articles", "en/articles"]);
+for (const relative of [...targetAllowlist, ...optionalTrees]) {
   const source = path.join(root, relative);
   if (!fs.existsSync(source)) {
+    if (optionalTrees.has(relative)) continue;
     throw new Error(`Missing required deployment input: ${relative}`);
   }
   copyAllowlisted(source, path.join(output, relative));

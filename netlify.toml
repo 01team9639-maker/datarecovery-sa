@@ -57,6 +57,18 @@
 
 # Arabic moved from /ar/ to the site root.
 [[redirects]]
+  from = "/en/articles/*"
+  to = "/blog/en/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/articles/*"
+  to = "/blog/"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/ar/*"
   to = "/:splat"
   status = 301

@@ -10,7 +10,7 @@
    the one a reader actually follows:
 
      [[svc:hdd|نص]]      → service page          [[city:riyadh|نص]]  → city page
-     [[art:freezer-myth|نص]] → article           [[page:contact|نص]] → contact
+     [[page:contact|نص]] → صفحة ثابتة
      [[faq:raid|نص]]     → another group on this page
 
    generate.js resolves them and throws on an unknown target, so a renamed
@@ -85,7 +85,7 @@ module.exports = {
             a: "لا. رسالة التهيئة قد تعني أن نظام الملفات أو جدول الأقسام لا يُقرأ، ولا تعني بالضرورة أن البيانات اختفت. التهيئة تغيّر بنية الوسيط وقد تقلل فرصة استعادة الأسماء والمجلدات. اطّلع على [[faq:format|أسئلة الحذف والفورمات]]." },
           { id: "q6",
             q: "الجهاز تعرّض للماء أو الحريق أو صدمة، ماذا أفعل؟",
-            a: "افصل الطاقة ولا تشغّل الجهاز ولا تحاول تجفيفه بالحرارة. لا تفتح [[svc:hdd|الهارد الميكانيكي]]، واحتفظ بجميع القطع والكابلات والغلاف الخارجي. أخبرنا بنوع الضرر وما إذا كان الجهاز يعمل لحظة الحادثة. وإن كان قرصًا سقط، فاقرأ [[art:dropped-hard-drive|ماذا تفعل عند سقوط الهارد]]." },
+            a: "افصل الطاقة ولا تشغّل الجهاز ولا تحاول تجفيفه بالحرارة. لا تفتح [[svc:hdd|الهارد الميكانيكي]]، واحتفظ بجميع القطع والكابلات والغلاف الخارجي. أخبرنا بنوع الضرر وما إذا كان الجهاز يعمل لحظة الحادثة. وإن كان قرصًا سقط، فانظر [[svc:hdd|استعادة الأقراص الصلبة]]." },
           { id: "q7",
             q: "سبق أن جرّبت محل صيانة أو برنامج استعادة، هل انتهت الفرصة؟",
             a: "ليس بالضرورة، لكن يجب ذكر كل ما تم بالتفصيل: عدد مرات التشغيل، البرامج المستخدمة، هل تم فورمات أو Rebuild أو إصلاح لنظام الملفات، وهل تم فتح الجهاز. هذه المعلومات قد تغيّر مسار الفحص وتمنع تكرار خطوة سببت ضررًا سابقًا." },
@@ -138,7 +138,7 @@ module.exports = {
         items: [
           { id: "q19",
             q: "هل يمكن استرجاع بيانات هارد يصدر صوت طقطقة؟",
-            a: "قد تكون الاستعادة ممكنة، لكن الطقطقة علامة محتملة على عطل فيزيائي في الرؤوس أو آلية القراءة. افصل الطاقة فورًا ولا تشغّل القرص مجددًا؛ كل دورة إضافية قد تضر سطح التخزين. اقرأ [[art:hard-drive-failure-signs|علامات تلف الهارد]] و[[svc:hdd|صفحة استعادة الأقراص الصلبة]]." },
+            a: "قد تكون الاستعادة ممكنة، لكن الطقطقة علامة محتملة على عطل فيزيائي في الرؤوس أو آلية القراءة. افصل الطاقة فورًا ولا تشغّل القرص مجددًا؛ كل دورة إضافية قد تضر سطح التخزين. انظر [[svc:hdd|صفحة استعادة الأقراص الصلبة]]." },
           { id: "q20",
             q: "هل يمكن استعادة بيانات هارد خارجي لا يظهر؟",
             a: "نعم، يمكن فحص الكابل والغلاف ودائرة USB واللوحة الإلكترونية والقرص نفسه. احتفظ بالغلاف والكابل الأصليين، لأن بعض الأقراص الخارجية تعتمد عليهما في الاتصال أو التشفير." },
@@ -153,10 +153,10 @@ module.exports = {
             a: "قد يكون ذلك ممكنًا بحسب حالة اللوحة والأسطح الداخلية. لا تشغّل القرص ولا تجففه بالحرارة ولا تنظفه بنفسك. اتركه في حالته الحالية وسلّمه للفحص مع وصف ما تعرض له." },
           { id: "q24",
             q: "سقط الهارد على الأرض لكنه لا يصدر صوتًا، هل أجرّبه؟",
-            a: "لا. قد يحدث ضرر في الرؤوس أو المحرك لا يظهر إلا عند التشغيل الأول بعد السقوط. إذا كانت البيانات مهمة، فالقرص الذي سقط يُفحص ولا يُختبر، سواء كان يعمل لحظة السقوط أم كان مطفأً. التفاصيل في [[art:dropped-hard-drive|دليل سقوط الهارد]]." },
+            a: "لا. قد يحدث ضرر في الرؤوس أو المحرك لا يظهر إلا عند التشغيل الأول بعد السقوط. إذا كانت البيانات مهمة، فالقرص الذي سقط يُفحص ولا يُختبر، سواء كان يعمل لحظة السقوط أم كان مطفأً. التفاصيل في [[svc:hdd|صفحة استعادة الأقراص الصلبة]]." },
           { id: "q25",
             q: "هل وضع الهارد في الثلاجة أو الفريزر يصلحه؟",
-            a: "لا يُنصح بذلك. التبريد لا يعالج الأعطال الشائعة في الأقراص الحديثة، وقد يسبب تكثّف الرطوبة داخل القرص وتآكلًا أو خدوشًا إضافية. اتركه في حرارة الغرفة ولا تعد تشغيله. الشرح الكامل في [[art:freezer-myth|خرافة الفريزر]]." },
+            a: "لا يُنصح بذلك. التبريد لا يعالج الأعطال الشائعة في الأقراص الحديثة، وقد يسبب تكثّف الرطوبة داخل القرص وتآكلًا أو خدوشًا إضافية. اتركه في حرارة الغرفة ولا تعد تشغيله. الشرح الكامل في [[svc:hdd|صفحة استعادة الأقراص الصلبة]]." },
           { id: "q26",
             q: "الهارد بطيء أو يجمّد الجهاز ويعرض تحذير SMART، ماذا أفعل؟",
             a: "أوقف الكتابة عليه وانسخ الأهم فقط إذا كان ما يزال يقرأ بثبات ولا يصدر صوتًا. لا تشغّل أدوات إصلاح القطاعات أو CHKDSK قبل أخذ نسخة، لأن البطء والتجمّد قد يعنيان مناطق قراءة متدهورة." },
@@ -246,7 +246,7 @@ module.exports = {
             a: "أوقف النظام ولا تبدأ Rebuild آخر، ولا تعِد إدخال أقراص قديمة أو تبدّل الترتيب. صوّر رسائل الخطأ وسجل المتحكم، ثم احفظ جميع الأقراص كما هي." },
           { id: "q48",
             q: "ما مستويات RAID التي يمكن التعامل معها؟",
-            a: "يمكن تقييم المستويات الشائعة مثل RAID 0 و1 و5 و6 و10، إضافة إلى أنظمة NAS وSAN وRAID البرمجي. المسار يتحدد حسب عدد الأقراص، وطريقة توزيع البيانات، والمتحكم ونظام الملفات. للمبتدئين: [[art:what-is-raid|ما هو RAID؟]]" },
+            a: "يمكن تقييم المستويات الشائعة مثل RAID 0 و1 و5 و6 و10، إضافة إلى أنظمة NAS وSAN وRAID البرمجي. المسار يتحدد حسب عدد الأقراص، وطريقة توزيع البيانات، والمتحكم ونظام الملفات. التفاصيل في [[svc:raid-servers|صفحة RAID والخوادم]]." },
           { id: "q49",
             q: "هل أرسل كل أقراص المصفوفة أم القرص المتعطل فقط؟",
             a: "أرسل جميع أقراص المصفوفة ما لم يطلب المختص غير ذلك، مع ترقيم كل قرص حسب موضعه الأصلي. إعادة بناء RAID تحتاج قراءة الأقراص مجتمعة وتحديد أي قرص خرج أولًا." },
@@ -283,7 +283,7 @@ module.exports = {
             a: "لا. توجد عائلات لها أدوات موثوقة في حالات محددة، وأخرى لا يتوفر لها فك عام. كما قد تكون بعض الملفات مشفرة جزئيًا أو متضررة. يجب تحديد العائلة والإصدار ونمط التشفير قبل اختيار المسار." },
           { id: "q58",
             q: "كيف أحمي بياناتي من الفدية مستقبلًا؟",
-            a: "استخدم نسخًا احتياطية متعددة، مع نسخة غير قابلة للتعديل أو مفصولة عن الشبكة، واختبر الاستعادة دوريًا. أغلق الوصول البعيد المكشوف، وفعّل المصادقة متعددة العوامل، وحدّث الأنظمة، وقلّل صلاحيات الحسابات، وافصل شبكة النسخ الاحتياطي عن شبكة الإنتاج. الدليل الكامل: [[art:protect-server-from-ransomware|حماية الخادم من هجمات الفدية]]." },
+            a: "استخدم نسخًا احتياطية متعددة، مع نسخة غير قابلة للتعديل أو مفصولة عن الشبكة، واختبر الاستعادة دوريًا. أغلق الوصول البعيد المكشوف، وفعّل المصادقة متعددة العوامل، وحدّث الأنظمة، وقلّل صلاحيات الحسابات، وافصل شبكة النسخ الاحتياطي عن شبكة الإنتاج. التفاصيل في [[svc:ransomware|صفحة هجمات الفدية]]." },
           { id: "q59",
             q: "ما أول خطوة عند اكتشاف تشفير على جهاز أو سيرفر؟",
             a: "اعزل الجهاز شبكيًا بفصل الكابل أو إيقاف منفذ الشبكة، وافصل وحدات النسخ الاحتياطي قبل أن يصل إليها التشفير. لا تحذف الملفات ولا تعمل فورمات أو Rebuild، ووثّق الوقت والأنظمة المتأثرة ونسّق مع مسؤول الأمن أو تقنية المعلومات." },
@@ -511,7 +511,7 @@ module.exports = {
             a: "No. A format prompt can mean the file system or partition table cannot be read; it does not necessarily mean the data is gone. Formatting changes the structure of the medium and can reduce the chance of recovering names and folders. See the [[faq:format|deletion and formatting questions]]." },
           { id: "q6",
             q: "The device was exposed to water, fire or impact — what do I do?",
-            a: "Disconnect the power, do not switch it on, and do not try to dry it with heat. Do not open a [[svc:hdd|mechanical hard drive]], and keep every part, cable and enclosure. Tell us the type of damage and whether the device was running at the moment it happened. If a drive was dropped, read [[art:dropped-hard-drive|what to do when a hard drive falls]]." },
+            a: "Disconnect the power, do not switch it on, and do not try to dry it with heat. Do not open a [[svc:hdd|mechanical hard drive]], and keep every part, cable and enclosure. Tell us the type of damage and whether the device was running at the moment it happened. If a drive was dropped, see [[svc:hdd|hard drive recovery]]." },
           { id: "q7",
             q: "A repair shop or software has already been tried — is the chance gone?",
             a: "Not necessarily, but everything that was done must be described in detail: how many times it was powered on, which tools were used, whether a format, a rebuild or a file-system repair was run, and whether the device was opened. That history can change the inspection path and stop a damaging step from being repeated." },
@@ -564,7 +564,7 @@ module.exports = {
         items: [
           { id: "q19",
             q: "Can data be recovered from a hard drive that is clicking?",
-            a: "Recovery may be possible, but clicking is a likely sign of physical failure in the heads or the read mechanism. Cut the power at once and do not power it on again; every extra spin-up can damage the platter surface. Read [[art:hard-drive-failure-signs|the signs of a failing hard drive]] and the [[svc:hdd|hard drive recovery page]]." },
+            a: "Recovery may be possible, but clicking is a likely sign of physical failure in the heads or the read mechanism. Cut the power at once and do not power it on again; every extra spin-up can damage the platter surface. See the [[svc:hdd|hard drive recovery page]]." },
           { id: "q20",
             q: "Can data be recovered from an external drive that does not appear?",
             a: "Yes — the cable, the enclosure, the USB bridge, the circuit board and the drive itself can all be inspected. Keep the original enclosure and cable, because some external drives depend on them for the connection or for encryption." },
@@ -579,10 +579,10 @@ module.exports = {
             a: "It may be possible depending on the state of the board and the internal surfaces. Do not power the drive on, do not dry it with heat, and do not clean it yourself. Leave it as it is and send it for inspection with a description of what it went through." },
           { id: "q24",
             q: "The drive was dropped but makes no noise — can I test it?",
-            a: "No. Damage to the heads or motor may only show on the first power-on after the fall. If the data matters, a dropped drive is inspected, not tested — whether it was running or switched off when it fell. Details in [[art:dropped-hard-drive|the dropped-drive guide]]." },
+            a: "No. Damage to the heads or motor may only show on the first power-on after the fall. If the data matters, a dropped drive is inspected, not tested — whether it was running or switched off when it fell. Details on the [[svc:hdd|hard drive recovery page]]." },
           { id: "q25",
             q: "Does putting a hard drive in the freezer fix it?",
-            a: "No. Cooling does not address the common failures in modern drives, and it can cause moisture to condense inside, adding corrosion or scratches. Leave it at room temperature and do not power it on again. The full explanation: [[art:freezer-myth|the freezer myth]]." },
+            a: "No. Cooling does not address the common failures in modern drives, and it can cause moisture to condense inside, adding corrosion or scratches. Leave it at room temperature and do not power it on again. The full explanation is on the [[svc:hdd|hard drive recovery page]]." },
           { id: "q26",
             q: "The drive is slow, freezes the computer and shows a SMART warning — what now?",
             a: "Stop writing to it and copy only what matters most, if it is still reading steadily and making no noise. Do not run sector-repair tools or CHKDSK before taking an image, because slowness and freezing can mean deteriorating read areas." },
@@ -672,7 +672,7 @@ module.exports = {
             a: "Stop the system, do not start another rebuild, and do not reinsert old disks or change their order. Photograph the error messages and the controller log, then preserve every disk exactly as it is." },
           { id: "q48",
             q: "Which RAID levels can you work with?",
-            a: "Common levels such as RAID 0, 1, 5, 6 and 10 can be assessed, as well as NAS, SAN and software RAID. The path follows the number of disks, how the data is distributed, and the controller and file system. New to this? [[art:what-is-raid|What is RAID?]]" },
+            a: "Common levels such as RAID 0, 1, 5, 6 and 10 can be assessed, as well as NAS, SAN and software RAID. The path follows the number of disks, how the data is distributed, and the controller and file system. Details on the [[svc:raid-servers|RAID and servers page]]." },
           { id: "q49",
             q: "Do I send every disk in the array, or only the failed one?",
             a: "Send every disk in the array unless told otherwise, each numbered by its original position. Rebuilding a RAID needs the disks read together and needs to establish which one dropped out first." },
@@ -709,7 +709,7 @@ module.exports = {
             a: "No. Some families have reliable tools in specific circumstances; others have no general decryptor. Files can also be partially encrypted or damaged. The family, the version and the encryption pattern must be identified before choosing a path." },
           { id: "q58",
             q: "How do I protect my data from ransomware in future?",
-            a: "Keep multiple backups, with one immutable or disconnected from the network, and test restores regularly. Close exposed remote access, enable multi-factor authentication, patch systems, reduce account privileges, and separate the backup network from production. The full guide: [[art:protect-server-from-ransomware|protecting a server from ransomware]]." },
+            a: "Keep multiple backups, with one immutable or disconnected from the network, and test restores regularly. Close exposed remote access, enable multi-factor authentication, patch systems, reduce account privileges, and separate the backup network from production. Details on the [[svc:ransomware|ransomware page]]." },
           { id: "q59",
             q: "What is the first step when encryption is discovered on a machine or server?",
             a: "Isolate it from the network by pulling the cable or disabling the port, and disconnect backup units before the encryption reaches them. Do not delete files, do not format and do not rebuild. Record the time and the affected systems and coordinate with whoever owns security or IT." },

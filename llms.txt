@@ -31,14 +31,6 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 - [Data Recovery in Jeddah — Secure Courier to Our Riyadh Lab](https://datarecovery-sa.com/en/cities/jeddah.html): Data recovery for Jeddah: cases are received by secure courier and inspected in our Riyadh lab. Free, no-obligation inspection before any recovery attempt.
 - [Data Recovery in Dammam and the Eastern Province](https://datarecovery-sa.com/en/cities/dammam.html): Data recovery for Dammam, Khobar, Dhahran and Jubail: servers, RAID, engineering workstations and disks. Secure shipping to our Riyadh lab. Free inspection.
 
-## Guides (English)
-
-- [Hard Drive Failure Signs: What Each One Means and What to Do Right Away](https://datarecovery-sa.com/en/articles/hard-drive-failure-signs.html): Hard drives rarely stop all at once. They usually warn you first: an unfamiliar noise, files that vanish, reads that stall, a SMART alert. Here is what each sign means and what to do about it.
-- [Dropped Hard Drive: What to Do Before You Power It On](https://datarecovery-sa.com/en/articles/dropped-hard-drive.html): A read head flies over the platter at a height far smaller than a speck of dust. A drop can close that gap. Here is what happens inside the drive, and what to do in the first minutes.
-- [Does Putting a Hard Drive in the Freezer Fix It?](https://datarecovery-sa.com/en/articles/freezer-myth.html): A calm, technical look at the freezer trick: its real origin in an older generation of drives, why it cannot work today, and the damage it leaves behind.
-- [What RAID Is, How It Works, and Why It Is Not a Backup](https://datarecovery-sa.com/en/articles/what-is-raid.html): RAID protects uptime, not data. A practical guide to the common levels, and why rebuilding a degraded array can be more dangerous than the failure itself.
-- [How to Protect a Server From Ransomware](https://datarecovery-sa.com/en/articles/protect-server-from-ransomware.html): Most ransomware enters through a known door: exposed RDP, an unpatched flaw, or an over-privileged account. These are the controls that lower the odds, and what to do in the first hour if it lands.
-
 ## العربية (Arabic)
 
 - [الرئيسية](https://datarecovery-sa.com/): نظرة عامة، الخدمات، آلية العمل، الأسئلة الشائعة.
@@ -61,14 +53,6 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 - [استعادة بيانات الرياض — من يدك إلى المختبر مباشرة](https://datarecovery-sa.com/cities/riyadh.html): استعادة بيانات في الرياض: المختبر داخل المدينة، ويمكنك تسليم الجهاز بنفسك. فحص وتشخيص مجاني بلا التزام لهاردسك وSSD وRAID وكاميرات المراقبة.
 - [استعادة البيانات لعملاء جدة — شحن آمن إلى مختبر الرياض](https://datarecovery-sa.com/cities/jeddah.html): استعادة البيانات لعملاء جدة: تصل الحالة عبر شحن آمن ويجري الفحص في مختبرنا بالرياض. فحص وتشخيص مجاني بلا التزام قبل أي محاولة استعادة.
 - [استرجاع بيانات الدمام والمنطقة الشرقية](https://datarecovery-sa.com/cities/dammam.html): استرجاع بيانات الدمام والخبر والظهران والجبيل: سيرفرات، RAID، محطات عمل هندسية وأقراص. شحن آمن إلى مختبرنا في الرياض، وفحص وتشخيص مجاني بلا التزام.
-
-## أدلة ومقالات (Arabic)
-
-- [علامات تلف الهارد ديسك: ما تعنيه كل علامة وما يجب فعله فورًا](https://datarecovery-sa.com/articles/hard-drive-failure-signs.html): الأقراص الصلبة نادرًا ما تتوقف فجأة. غالبًا تسبقها علامات: صوت غير معتاد، ملفات تختفي، قراءة تتجمد، أو تحذير SMART. هنا ما تعنيه كل علامة وما يجب فعله فور ظهورها.
-- [هاردسك سقط على الأرض: كيف تتعامل معه قبل أن تفقد البيانات](https://datarecovery-sa.com/articles/dropped-hard-drive.html): رؤوس القراءة تطير فوق الأقراص على ارتفاع أصغر بكثير من ذرة غبار. السقوط قد يلغي هذه المسافة. هذا ما يحدث داخل الهارد بعد السقوط، وما يجب فعله في أول دقائق قبل أي محاولة تشغيل.
-- [هل وضع الهاردسك في الفريزر يصلحه؟](https://datarecovery-sa.com/articles/freezer-myth.html): نظرة تقنية هادئة على حيلة الفريزر: أصلها الحقيقي في جيل أقدم من الأقراص، لماذا لا تنفع اليوم، وما تتركه خلفها من تكثّف ماء وتآكل وخدوش دائمة.
-- [ما هو نظام RAID وكيف يعمل — ولماذا هو ليس نسخة احتياطية](https://datarecovery-sa.com/articles/what-is-raid.html): RAID يحمي استمرار العمل، لا البيانات. شرح عملي لأنواعه، ولماذا قد تكون إعادة بناء مصفوفة متدهورة أخطر من العطل نفسه.
-- [طرق حماية السيرفر من فيروس الفدية](https://datarecovery-sa.com/articles/protect-server-from-ransomware.html): معظم هجمات الفدية تدخل من باب معروف: منفذ RDP مكشوف، ثغرة لم تُرقّع، أو حساب بصلاحيات أوسع من اللازم. هذه هي الضوابط التي تقلل الاحتمال، وما يجب فعله في أول ساعة إذا وقع الهجوم فعلاً.
 
 ## Notes
 
