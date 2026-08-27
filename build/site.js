@@ -33,6 +33,10 @@ const config = {
   // forbids inline script, so build/generate.js writes the same loader to
   // assets/js/clarity.js instead. Empty string turns Clarity off everywhere.
   clarity: "y8m0knaknt",
+  // Bing Webmaster Tools ownership token. Not a secret — it only works because
+  // it is served publicly from the domain root, which is how Bing proves the
+  // site belongs to whoever holds the account. Empty string removes the file.
+  bingVerification: "6686259FFDA33B90920A3C53011FA4E8",
   phoneDisplay: "+966 53 101 0903",
   phoneHref: "+966531010903",
   email: "info@datarecovery-sa.com",

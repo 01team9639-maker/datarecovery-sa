@@ -31,6 +31,9 @@ const commonAllowlist = [
   "cities",
   "en",
   "assets",
+  // Bing reads this from the root to confirm ownership; withholding it silently
+  // would un-verify the property on the next deploy.
+  "BingSiteAuth.xml",
   "robots.txt",
   "sitemap.xml",
   "site.webmanifest",

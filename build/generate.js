@@ -3439,6 +3439,14 @@ function build() {
   // sitemap + robots
   write("send.php", sendPhp());
   write("sitemap.xml", sitemap());
+  /* Bing verifies ownership by fetching this exact file from the domain root.
+     It is generated rather than committed by hand so the token sits in
+     build/site.js next to the other vendor ids, and so removing the token
+     removes the file instead of leaving an orphan nobody remembers. */
+  if (config.bingVerification) {
+    write("BingSiteAuth.xml",
+      `<?xml version="1.0"?>\n<users>\n\t<user>${config.bingVerification}</user>\n</users>\n`);
+  }
   /* Two sitemaps, both listed here at the domain root.
      robots.txt is only ever read from the root of a domain — a copy inside
      /blog/ has no effect whatsoever, which is why Hugo's own robots generation
