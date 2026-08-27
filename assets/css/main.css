@@ -57,7 +57,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   font-family: "Alexandria", "Segoe UI", system-ui, -apple-system, sans-serif;
   font-size: var(--fs-body);
-  line-height: 1.8;
+  line-height: 1.75;
   color: var(--white);
   background: var(--bg-dark);
   -webkit-font-smoothing: antialiased;
@@ -119,10 +119,16 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
    Component-level colours below also use --accent-ink for the same reason. */
 .section--light .eyebrow--accent { color: var(--accent-ink); }
 
+/* Arabic needs more leading than Latin at display sizes: the ascenders (ا ل ك),
+   the descenders (ج ح ع ي م) and the tashkeel above them all reach past the
+   x-height, so 1.16 let a wrapped heading's second line collide with the first
+   — visible on any phone-width H1. 1.35 clears it. Single-line elements
+   (buttons, metric numbers, the wordmark) keep their tight values: they cannot
+   wrap, so leading there is pure vertical waste. */
 .section-title {
   font-size: var(--fs-h2);
   font-weight: 680;
-  line-height: 1.16;
+  line-height: 1.35;
   letter-spacing: -0.025em;
 }
 
@@ -392,13 +398,13 @@ body.drawer-open { overflow: hidden; }
 .hero__title {
   font-size: var(--fs-h1);
   font-weight: 650;
-  line-height: 1.16;
+  line-height: 1.35;
   letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
 }
 .hero__lead {
   font-size: var(--fs-lead);
-  line-height: 1.85;
+  line-height: 1.75;
   color: var(--muted-dark);
   max-width: 34em;
   margin-bottom: 2.25rem;
@@ -642,7 +648,7 @@ body.drawer-open { overflow: hidden; }
   align-items: center;
 }
 .experience__copy { max-width: 40em; }
-.experience__lead { color: var(--muted-dark); font-size: var(--fs-lead); line-height: 1.8; margin-top: 1.5rem; }
+.experience__lead { color: var(--muted-dark); font-size: var(--fs-lead); line-height: 1.75; margin-top: 1.5rem; }
 .experience__tags { color: var(--accent); font-weight: 600; letter-spacing: 0.02em; margin-top: 1.5rem; }
 
 .metrics-grid {
@@ -746,7 +752,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--muted-light);
   padding: 0 4px clamp(20px, 2vw, 26px);
   max-width: 60ch;
-  line-height: 1.8;
+  line-height: 1.75;
 }
 
 /* ============================ 7.7 Contact ============================ */
@@ -759,12 +765,12 @@ body.drawer-open { overflow: hidden; }
 .contact__title {
   font-size: var(--fs-h2);
   font-weight: 680;
-  line-height: 1.16;
+  line-height: 1.35;
   letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
 }
 .contact .eyebrow { color: rgba(6, 23, 25, 0.75); }
-.contact__lead { font-size: var(--fs-lead); line-height: 1.8; margin-bottom: 2rem; max-width: 30em; color: rgba(6, 23, 25, 0.85); }
+.contact__lead { font-size: var(--fs-lead); line-height: 1.75; margin-bottom: 2rem; max-width: 30em; color: rgba(6, 23, 25, 0.85); }
 .contact__visual { display: grid; place-items: center; }
 
 /* ============================ 7.8 Footer ============================= */
@@ -799,7 +805,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--accent);
   margin-bottom: 1rem;
 }
-.footer__col-body { color: var(--muted-dark); line-height: 1.9; }
+.footer__col-body { color: var(--muted-dark); line-height: 1.75; }
 .footer__links { display: flex; flex-direction: column; }
 .footer__links a { transition: color .2s var(--ease); }
 .footer__links a:hover { color: var(--white); }
@@ -971,8 +977,8 @@ body.drawer-open { overflow: hidden; }
   gap: var(--gap);
   align-items: start;
 }
-.diag__title { font-size: var(--fs-h2); font-weight: 650; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-.diag__body { color: var(--muted-dark); font-size: var(--fs-lead); line-height: 1.85; max-width: 46ch; }
+.diag__title { font-size: var(--fs-h2); font-weight: 650; line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+.diag__body { color: var(--muted-dark); font-size: var(--fs-lead); line-height: 1.75; max-width: 46ch; }
 .section--light .diag__body { color: var(--muted-light); }
 .diag__steps { display: flex; flex-wrap: wrap; gap: 16px; margin-top: clamp(28px, 3vw, 40px); }
 .step-chip {
@@ -1009,7 +1015,7 @@ body.drawer-open { overflow: hidden; }
   border-bottom: 1px solid var(--border-light);
 }
 .qa__q { font-size: var(--fs-h3); font-weight: 650; line-height: 1.35; letter-spacing: -0.01em; }
-.qa__a { color: var(--muted-light); line-height: 1.85; align-self: center; }
+.qa__a { color: var(--muted-light); line-height: 1.75; align-self: center; }
 
 /* Service CTA band (accent) */
 .svc-cta { background: var(--accent); color: var(--ink); }
@@ -1019,7 +1025,7 @@ body.drawer-open { overflow: hidden; }
   gap: var(--gap);
   align-items: center;
 }
-.svc-cta__title { font-size: var(--fs-h1); font-weight: 650; line-height: 1.15; letter-spacing: -0.03em; }
+.svc-cta__title { font-size: var(--fs-h1); font-weight: 650; line-height: 1.35; letter-spacing: -0.03em; }
 .svc-cta__body { color: rgba(6, 23, 25, 0.85); font-size: var(--fs-lead); line-height: 1.75; margin-top: 1.25rem; max-width: 52ch; }
 .svc-cta__label { font-size: var(--fs-label); font-weight: 650; letter-spacing: 0.1em; margin-bottom: 1rem; }
 
@@ -1066,7 +1072,7 @@ body.drawer-open { overflow: hidden; }
 }
 .footer__cta-title {
   font-size: var(--fs-h1); font-weight: 650; letter-spacing: -0.02em;
-  line-height: 1.1; margin-bottom: 1.75rem;
+  line-height: 1.35; margin-bottom: 1.75rem;
 }
 
 .footer__contacts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 3vw, 40px); }
@@ -1319,7 +1325,7 @@ body.drawer-open { overflow: hidden; }
 .cinfo__title { font-size: var(--fs-h3); font-weight: 650; margin-bottom: 1.3rem; }
 .cinfo__pills { display: flex; flex-direction: column; gap: 10px; }
 .cinfo__pills .footer-pill { justify-content: flex-start; }
-.cinfo__hours { margin-top: 1.6rem; color: var(--muted-dark); font-size: 0.9rem; line-height: 1.8; }
+.cinfo__hours { margin-top: 1.6rem; color: var(--muted-dark); font-size: 0.9rem; line-height: 1.75; }
 .cinfo__hours strong { color: var(--white); }
 .cinfo__note { margin-top: 0.8rem; color: var(--muted-dark); font-size: 0.85rem; line-height: 1.7; }
 .cinfo__socials { margin-top: 1.8rem; }
@@ -1356,6 +1362,62 @@ body.drawer-open { overflow: hidden; }
 }
 .section--light .reassure { color: var(--muted-light); }
 .section--accent .reassure { color: var(--ink); opacity: 0.75; }
+
+/* ---- Hero on the accent band --------------------------------------------
+   The heroes moved from --bg-dark to --accent. Every colour that worked on the
+   dark band fails on cyan, and not marginally: white text measures 2.06:1 and
+   --muted-dark 1.13:1 against #12c7d7. Each value below was measured, not
+   guessed — 4.5:1 is the floor.
+
+   --hero-muted is ink at 70% over the accent (#0a4c52, 4.69:1): the lightest
+   secondary tone that still passes, so the hierarchy between the headline and
+   the supporting line survives the move. */
+.hero.section--accent {
+  --hero-muted: rgba(6, 23, 25, 0.7);
+}
+.hero.section--accent .hero__lead,
+.hero.section--accent .breadcrumb,
+.hero.section--accent .breadcrumb a,
+.hero.section--accent .trust__intro,
+.hero.section--accent .metric__label,
+.hero.section--accent .hero__note { color: var(--hero-muted); }
+.hero.section--accent .breadcrumb a:hover { color: var(--ink); }
+/* Found by sweeping every class that appears inside a hero against the band,
+   not by eye: the WhatsApp link and the trust-strip figures were still carrying
+   dark-band colours and measured 1.13:1 and 1.00:1 on cyan. */
+.hero.section--accent .link-arrow { color: var(--hero-muted); }
+.hero.section--accent .link-arrow:hover { color: var(--ink); }
+.hero.section--accent .trust-strip .metric__value { color: var(--bg-dark); }
+
+/* The eyebrow and the service hook were --accent, i.e. the band's own colour. */
+.hero.section--accent .eyebrow,
+.hero.section--accent .eyebrow--accent,
+.hero.section--accent .svc-hook { color: var(--bg-dark); }
+
+/* A cyan button on a cyan band is a rectangle of nothing — 1.00:1 against its
+   own background. The dark treatment reads at 8.41:1 against the band and
+   17.35:1 for its own label. */
+.hero.section--accent .btn--accent { background: var(--bg-dark); color: var(--white); }
+.hero.section--accent .btn--accent:hover { box-shadow: 0 8px 24px rgba(1, 30, 34, 0.35); }
+.hero.section--accent .btn--ghost { color: var(--ink); border-color: rgba(6, 23, 25, 0.35); }
+.hero.section--accent .btn--ghost:hover { border-color: var(--ink); }
+
+/* The rings were drawn in --accent on the dark band; on the band itself they
+   would be invisible. */
+.hero.section--accent .data-core__ring { border-color: rgba(6, 23, 25, 0.35); }
+.hero.section--accent .data-core__dot { background: var(--bg-dark); }
+
+/* The ticker sits inside the hero and was also --accent, so it merged into the
+   band the moment the hero changed colour. Inverting it keeps the boundary and
+   gives the alert the weight it had. */
+.hero.section--accent .ticker { background: var(--bg-dark); color: var(--white); }
+
+/* The 404's oversized code and the FAQ alert both inherited dark-band colours. */
+.hero.section--accent .nf__code { color: var(--bg-dark); }
+.hero.section--accent .warn-box { border-color: rgba(6, 23, 25, 0.25); background: rgba(255, 255, 255, 0.35); }
+.hero.section--accent .warn-box__label,
+.hero.section--accent .warn-box__title,
+.hero.section--accent .warn-box__body { color: var(--ink); }
 .reassure--center { text-align: center; margin-top: clamp(28px, 3vw, 40px); }
 
 /* ---- Brand story ("why Zero 2 One") ----------------------------------- */
@@ -1461,7 +1523,7 @@ body.drawer-open { overflow: hidden; }
   margin-top: clamp(36px, 4vw, 56px);
 }
 .prose__h:first-child { margin-top: 0; }
-.prose__p { margin-top: 1rem; color: var(--muted-light); line-height: 1.9; }
+.prose__p { margin-top: 1rem; color: var(--muted-light); line-height: 1.75; }
 .prose__list { margin-top: 1rem; padding-inline-start: 1.3em; display: flex; flex-direction: column; gap: 0.6rem; color: var(--muted-light); }
 .prose__list li::marker { color: var(--accent-ink); }
 .takeaways {
@@ -1483,7 +1545,7 @@ body.drawer-open { overflow: hidden; }
   background: rgba(255, 255, 255, 0.3); padding: clamp(24px, 2.5vw, 32px);
   display: flex; flex-direction: column; gap: 1rem;
 }
-.tst__quote { font-size: 1.02rem; line-height: 1.8; color: var(--ink); }
+.tst__quote { font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
 .tst__who { margin-top: auto; display: flex; flex-direction: column; }
 .tst__name { font-weight: 650; }
 .tst__role { color: var(--muted-light); font-size: 0.85rem; }

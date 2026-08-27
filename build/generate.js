@@ -675,7 +675,7 @@ function homePage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero hero--bleed section--dark" id="hero" aria-labelledby="hero-title">
+    <section class="hero hero--bleed section--accent" id="hero" aria-labelledby="hero-title">
       <div class="container hero__inner">
         <div class="hero__copy">
           <p class="eyebrow">${esc(h.hero.eyebrow)}</p>
@@ -1252,7 +1252,7 @@ function ransomwareCasePage(lang, c) {
     altAr: absCase("ar", c.slug), altEn: absCase("en", c.slug), schemas: [page, crumbs],
   }) + header(lang) + `
   <main class="main inner-page" id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="case-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="case-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -1417,7 +1417,7 @@ function servicePage(lang, s) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="svc-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="svc-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -1538,7 +1538,7 @@ function contactPage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="contact-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="contact-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -1691,7 +1691,7 @@ function privacyPage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="privacy-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="privacy-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -2717,7 +2717,7 @@ function aboutPage(lang) {
 
   html += `
     <main id="main">
-      <section class="hero svc-hero section--dark" aria-labelledby="about-hero-title">
+      <section class="hero svc-hero section--accent" aria-labelledby="about-hero-title">
         <div class="container">
           <nav class="breadcrumb" aria-label="breadcrumb">
             <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -2937,7 +2937,7 @@ function faqRenderPage(lang) {
 
   html += `
     <main id="main">
-      <section class="hero svc-hero section--dark" aria-labelledby="faq-hero-title">
+      <section class="hero svc-hero section--accent" aria-labelledby="faq-hero-title">
         <div class="container">
           <nav class="breadcrumb" aria-label="breadcrumb">
             <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -3047,7 +3047,7 @@ function notFoundPage(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero section--dark nf" aria-labelledby="nf-title">
+    <section class="hero section--accent nf" aria-labelledby="nf-title">
       <div class="container nf__inner">
         <p class="nf__code" dir="ltr">${esc(c.code)}</p>
         <h1 class="hero__title" id="nf-title">${esc(c.title)}</h1>
@@ -3125,7 +3125,7 @@ function cityPage(lang, c) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="city-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="city-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -3271,7 +3271,7 @@ function articlesIndex(lang) {
   html += header(lang);
   html += `
   <main id="main">
-    <section class="hero svc-hero section--dark" aria-labelledby="articles-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="articles-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
@@ -3335,7 +3335,7 @@ function articlePage(lang, p) {
   html += `
   <main id="main">
     <article>
-    <section class="hero svc-hero section--dark" aria-labelledby="post-title">
+    <section class="hero svc-hero section--accent" aria-labelledby="post-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
