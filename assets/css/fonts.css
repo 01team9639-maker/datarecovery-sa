@@ -1,5 +1,25 @@
 /* ==========================================================================
    Alexandria — self-hosted variable font (weight 100–900)
+
+   `optional` لا `swap`. القياس (2026-09-08، Pixel 7 مُحاكى، شبكة بطيئة
+   وتقييد معالج ×4): مع `swap` كان CLS = 0.1402–0.1603 في ثلاث جولات؛ مع
+   `optional` صار 0.0000 في ثلاث جولات.
+
+   السبب المقيس: Alexandria أعرض من خط النظام الاحتياطي بـ22.94% لنصّ الهيرو
+   العربي نفسه (4894.5px مقابل 3981.4px عند 100px). فعند وصول الخط تنتقل
+   `p.hero__lead` من سطرين إلى ثلاثة (ارتفاع 57→86)، وتدفع الأزرار وشريط
+   الأرقام 74px لأسفل.
+
+   وجُرّب البديل ومُقيس ورُفض: احتياطي مطابق المقاييس عبر @font-face بـ
+   size-adjust/ascent-override لم يُغيّر شيئًا (0.1376–0.1603). المقاس أن
+   الاحتياطي المعدَّل يُصيّر بعرض Noto Sans Arabic الخام حرفًا بحرف — أي أن
+   size-adjust لا يصل إلى المحارف العربية التي تأتي من تراجع النظام لا من
+   الخط المسمّى. القيمة تختلف بين أندرويد وiOS وويندوز أصلًا، فلا قيمة واحدة
+   تصحّ للجميع.
+
+   المقابل: زائر أول على شبكة بطيئة يرى خط النظام لتلك الزيارة ولا يتبدّل.
+   الخط مُحمّل مسبقًا و30 ك.ب، فيصل داخل مهلة الحجب في الأحوال العادية،
+   ويأتي من الذاكرة في كل تنقّل تالٍ.
    Split into Arabic + Latin subsets so the browser only fetches what a
    given glyph needs. Latin subset also serves the digits (English numerals).
    ========================================================================== */
@@ -9,7 +29,7 @@
   font-family: "Alexandria";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
+  font-display: optional;
   src: url("../fonts/alexandria-arabic.woff2") format("woff2");
   unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
     U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
@@ -22,7 +42,7 @@
   font-family: "Alexandria";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
+  font-display: optional;
   src: url("../fonts/alexandria-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
     U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
