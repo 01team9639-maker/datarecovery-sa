@@ -375,8 +375,8 @@ const home = {
     }
   },
   en: {
-    metaTitle: "Specialised Data Recovery in Riyadh | Zero 2 One",
-    metaDesc: "Specialised data recovery from hard drives, SSDs, phones, RAID and servers — clear diagnosis and full confidentiality. 25+ years in Riyadh, Saudi Arabia.",
+    metaTitle: "Professional Data Recovery Services | Zero 2 One",
+    metaDesc: "Specialist data recovery lab providing enterprise server data recovery, hard drive, SSD, and ransomware victim data recovery with free initial diagnosis.",
     hero: {
       eyebrow: "Specialised data recovery for over 25 years",
       title: "We recover what you thought was lost.",
@@ -392,11 +392,11 @@ const home = {
       note: "Pick the closest description, and we'll start from the right information instead of guessing.",
       foot: "You don't need to know the technical fault name. Describing what happened is enough.",
       cases: [
-        { t: "Hit by a ransomware attack", b: "Isolate the device from the network and keep a sample of the ransom note before any change." },
+        { t: "Hit by a ransomware attack", b: "Isolate the device from the network and keep a sample of the ransom note before initiating ransomware victim data recovery." },
         { t: "The device doesn't appear", b: "The fault may be logical, electrical or mechanical. Don't keep powering it on before diagnosis." },
         { t: "Files disappeared or were deleted", b: "Stop using the device so new data isn't written over the old files." },
         { t: "Water or shock damage", b: "Disconnect power and don't try to dry or run it. Physical damage needs a specialist inspection." },
-        { t: "A server or RAID stopped", b: "Keep the disk order and don't rebuild before assessing the array structure." },
+        { t: "A server or RAID stopped", b: "Keep the disk order and avoid rebuilding before assessing the array for enterprise server data recovery." },
         { t: "Recordings were deleted", b: "DVR and NVR disks can be inspected and footage recovered based on overwrite state." }
       ]
     },
@@ -408,10 +408,10 @@ const home = {
       footTag: "Diagnosis first",
       footText: "We know what we'll do, and what to expect, before committing to recovery.",
       rows: {
-        ransomware: { t: "Ransomware & databases", d: "Isolating the case, analysing damage, and assessing safe recovery options.", tags: "SQL · Ransomware" },
+        ransomware: { t: "Ransomware & databases", d: "Isolating the case, analysing damage, and providing secure ransomware victim data recovery options.", tags: "SQL · Ransomware" },
         hdd: { t: "Hard drives", d: "Recovery from mechanical, electronic and logical faults.", tags: "HDD" },
         "ssd-nvme": { t: "SSD & NVMe drives", d: "Specialised handling of firmware and controller issues.", tags: "SSD · NVMe · M.2" },
-        "raid-servers": { t: "RAID & servers", d: "Analysing the array and its structure before any rebuild or write.", tags: "RAID · NAS · SAN" },
+        "raid-servers": { t: "RAID & servers", d: "Analysing the array and structure to ensure safe enterprise server data recovery before any rebuild or write.", tags: "RAID · NAS · SAN" },
         cctv: { t: "Surveillance systems", d: "Recovering deleted or damaged DVR and NVR footage.", tags: "DVR · NVR" },
         "after-format": { t: "After formatting & deletion", d: "Retrieving deleted files before the data is overwritten.", tags: "Format · Delete" },
         phones: { t: "Phones & smart devices", d: "Recovery based on memory type, system and damage nature.", tags: "iOS · Android" },
@@ -442,7 +442,7 @@ const home = {
       storyBody: "Zero is the moment nothing shows up: a silent disk, an empty folder, a screen asking you to format. One is the first file that comes back intact — because the distance between nothing and one thing is the whole distance. Everything else recovers from there.",
       rankEyebrow: "When ransomware locks everything",
       rankValue: "#1",
-      rankText: "The first name in post-ransomware data recovery."
+      rankText: "The trusted choice for ransomware victim data recovery."
     },
     faq: {
       eyebrow: "FAQ",
@@ -502,8 +502,8 @@ const contact = {
     infoNote: "الرد خلال ساعات العمل. للحالات الطارئة استخدم واتساب."
   },
   en: {
-    metaTitle: "Contact us — Send your case details | Zero 2 One Data Recovery",
-    metaDesc: "Send your case details: device type and what happened, and we'll give you the right first step before you act. Specialised data recovery in Riyadh, Saudi Arabia.",
+    metaTitle: "Contact Us | Request a Data Recovery Assessment",
+    metaDesc: "Submit your case details for expert evaluation. Contact us for emergency ransomware data recovery and confidential server retrieval services.",
     eyebrow: "Start here",
     title: "Send your case details.",
     lead: "The more detail you give, the more accurate the diagnosis. Fill in the form and we'll come back with the right first step — no obligation.",

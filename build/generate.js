@@ -832,7 +832,7 @@ const svcExtraFaqs = {
       { q: "Do file and folder names come back?", a: "The structure may return intact if the file-system metadata survived. If it was damaged, files may be recovered by type without their original names or folder order." },
       { q: "Can an encrypted drive be recovered?", a: "It can be assessed, but opening the data needs the correct password or recovery key. Fixing a physical fault does not remove the encryption." },
       { q: "Should I recover the files back to the same drive?", a: "Writing to a damaged source is not advisable. Data is delivered on a separate medium after a documented sample is verified." },
-      { q: "How long does hard drive recovery take?", a: "It depends on the fault type and disk size; logical cases can finish within a day or two, while mechanical faults take longer. We give a clear estimate after diagnosis." },
+      { q: "How long does hard drive recovery take, and what determines the external hdd recovery cost?", a: "It depends on the fault type and disk size; logical cases can finish within a day or two, while mechanical faults take longer. Our diagnostic assessment determines both the timeframe and the external hdd recovery cost estimate before any work begins." },
       { q: "Can data be recovered from a water- or fire-damaged drive?", a: "In many cases yes—provided you don't power it on or try to dry it yourself. Leave it as is and bring it in for inspection quickly." },
       { q: "Do you keep the recovered files confidential?", a: "Yes. Every case is handled with full confidentiality and delivered on a separate medium, with an NDA available on request." }
     ]
@@ -888,7 +888,7 @@ const svcExtraFaqs = {
       { q: "Can the assessment start remotely?", a: "Photographs, logs and information can be gathered remotely, but examining the disks and imaging them may require receiving the media or structured access to the environment." },
       { q: "How long does the work take?", a: "It depends on the number of disks, their capacity and condition, read speed, and the structure of the services. We give an estimate after examining the set, not from the RAID level alone." },
       { q: "Does recovering the RAID return the database intact?", a: "Not necessarily. Rebuilding the storage is one step; database consistency is another that needs the data files and logs, or an application copy, to be examined." },
-      { q: "Which RAID levels do you handle?", a: "RAID 0, 1, 5, 6 and 10, plus NAS and SAN systems — rebuilt logically without writing to the original disks." },
+      { q: "Which RAID levels do you handle?", a: "RAID 0, 1, 5, 6 and raid 10 data recovery, plus NAS, SAN and database server recovery systems — rebuilt logically without writing to the original disks." },
       { q: "Should I send all disks or just one?", a: "Send every disk in the array, labelled in its original order; RAID recovery needs the disks read together to understand how data is distributed." },
       { q: "Can you recover while the server is still running?", a: "Stop the server immediately — continuing to run it or letting it auto-rebuild can multiply the damage. We work on images of the disks, never the originals." }
     ]

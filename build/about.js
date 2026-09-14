@@ -251,9 +251,9 @@ module.exports = {
   },
 
   en: {
-    metaTitle: "About us | Zero 2 One Data Recovery",
+    metaTitle: "About Zero 2 One | Expert Data Recovery Laboratory",
     metaDesc:
-      "Zero 2 One is a specialist data recovery lab for drives, phones, RAID and servers — clear diagnosis and full confidentiality before any step.",
+      "Learn about Zero 2 One, a specialized lab delivering business database data recovery and HDD repair with a strict diagnosis-first protocol.",
     breadcrumb: "About us",
 
     hero: {
