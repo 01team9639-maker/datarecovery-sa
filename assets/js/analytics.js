@@ -1,5 +1,5 @@
 "use strict";
-// Google Tag Manager loader — generated from config.gtm (GTM-NVKDG74Z).
+// Google Tag Manager loader — generated from config.gtm (GTM-NDWR4XQK).
 // Injects the container via createElement + insertBefore only, with no dynamic
 // markup or code sinks, so it stays CSP- and audit-clean. GA4 is configured as
 // a tag inside the GTM container.
@@ -12,4 +12,4 @@
   j.async = true;
   j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
   f.parentNode.insertBefore(j, f);
-})(window, document, "script", "dataLayer", "GTM-NVKDG74Z");
+})(window, document, "script", "dataLayer", "GTM-NDWR4XQK");

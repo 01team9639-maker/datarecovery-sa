@@ -234,7 +234,7 @@ const jsonLd = (obj) =>
 /* ---------- Analytics loader (first-party external file, CSP-safe) ----------
    The Google Tag Manager bootstrap can't be inlined (strict no-inline-script
    CSP + tests), so it ships as a same-origin file that injects gtm.js.
-   GA4 (G-M2GX0NVW5E) is added as a tag *inside* the GTM container. */
+   GA4 (G-N9DWW17NX7) is added as a tag *inside* the GTM container. */
 function analyticsJs() {
   return `"use strict";
 // Google Tag Manager loader — generated from config.gtm (${config.gtm}).

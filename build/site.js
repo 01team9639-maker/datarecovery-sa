@@ -14,11 +14,11 @@ const WHATSAPP = "966531010903";
 const config = {
   baseUrl: BASE_URL,
   cdn: CDN,
-  // Google Tag Manager container. GA4 (G-M2GX0NVW5E) is configured *inside* GTM
+  // Google Tag Manager container. GA4 (G-N9DWW17NX7) is configured *inside* GTM
   // as a tag, so it is never hard-coded here — this avoids double-counting.
   // Loaded through a first-party external file (assets/js/analytics.js) so the
   // strict "no inline script" CSP/tests keep holding. Empty string disables it.
-  gtm: "GTM-NVKDG74Z",
+  gtm: "GTM-NDWR4XQK",
   // Freshness signal for search/answer engines (JSON-LD dateModified + sitemap
   // lastmod). Bump this whenever the page copy actually changes — keeping it a
   // constant makes the build deterministic and the date honest.
