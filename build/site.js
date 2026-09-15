@@ -20,10 +20,13 @@ const config = {
   // strict "no inline script" CSP/tests keep holding. Empty string disables it.
   gtm: "GTM-NDWR4XQK",
   // Freshness signal for search/answer engines (JSON-LD dateModified + sitemap
-  // lastmod). Bump this whenever the page copy actually changes — keeping it a
-  // constant makes the build deterministic and the date honest.
+  // lastmod). The date must reflect a real copy change or Google stops trusting
+  // lastmod altogether, so it is neither hand-bumped nor stamped on every build:
+  // build/generate.js fingerprints the rendered copy after each run and writes
+  // today's date into content-stamp.json only when that fingerprint moves.
+  // Rebuilding without editing anything leaves it exactly where it was.
   contentPublished: "2026-07-20",
-  contentUpdated: "2026-08-11",
+  contentUpdated: require("./content-stamp.json").date,
   // Contact details — real values pulled from the brand's marketing repo (zero2one-web).
   whatsapp: WHATSAPP,                // wa.me/<this>
   // Articles retired 2026-08-25 in favour of /blog/. Set back to true to

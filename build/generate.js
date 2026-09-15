@@ -3387,11 +3387,53 @@ function articlePage(lang, p) {
 }
 
 /* ---------- writers ---------- */
+const WRITTEN_PAGES = [];
+
 function write(rel, content) {
   const full = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(full), { recursive: true });
   fs.writeFileSync(full, content);
+  if (rel.endsWith(".html")) WRITTEN_PAGES.push([rel, content]);
   console.log("  ✓", rel, `(${(content.length / 1024).toFixed(1)}kb)`);
+}
+
+/* lastmod و dateModified يجب أن يعنيا «تغيّر النصّ»، لا «أُعيد البناء». جوجل
+   يتجاهل lastmod كلّه إن وجده يتحرّك بلا سبب، فيضيع الإشارة بدل أن يقوّيها.
+
+   فالتاريخ يُشتقّ من بصمة النصّ المُصيَّر لا من ساعة البناء: تُطبَّع الصفحات
+   ثم تُهشّم، وتُقارن البصمة بالمخزّنة في content-stamp.json. تحرّكت ⇒ النصّ
+   تغيّر فعلًا فيُكتب تاريخ اليوم؛ لم تتحرّك ⇒ يبقى التاريخ القديم مهما تكرّر
+   البناء.
+
+   والتطبيع يُسقط ثلاثة أشياء تتغيّر بلا أن يتغيّر النصّ: وسم تجزئة الذاكرة
+   (‏?v=…) لأنه يتبع محتوى الأصل لا الصفحة، وكل تاريخ بصيغة ISO لأن التاريخ
+   نفسه مطبوع داخل الصفحة فيصير مدخلًا لبصمته — دائرة مغلقة — و«lastBuilt» إن
+   وُجد. وثمنُ إسقاط التواريخ أن تعديلًا لا يغيّر إلا تاريخًا مكتوبًا في المتن
+   لن يُحرّك الطابع؛ حالة نادرة، والبديل دائرة لا تُحلّ. */
+const STAMP_PATH = path.join(__dirname, "content-stamp.json");
+
+function normalizeForStamp(html) {
+  return html
+    .replace(/\?v=[0-9a-f]+/g, "")
+    .replace(/\d{4}-\d{2}-\d{2}(?:T[0-9:+.Z-]+)?/g, "");
+}
+
+function refreshContentStamp() {
+  const stamp = JSON.parse(fs.readFileSync(STAMP_PATH, "utf8"));
+  const digest = crypto.createHash("sha256");
+  for (const [rel, content] of WRITTEN_PAGES.sort((a, b) => a[0] < b[0] ? -1 : 1)) {
+    digest.update(rel).update("\0").update(normalizeForStamp(content)).update("\0");
+  }
+  const hash = digest.digest("hex");
+  if (hash === stamp.hash) {
+    console.log(`  · نصّ الصفحات لم يتغيّر — يبقى lastmod على ${stamp.date}`);
+    return null;
+  }
+  const date = new Date().toISOString().slice(0, 10);
+  fs.writeFileSync(STAMP_PATH,
+    JSON.stringify({ ...stamp, date, hash }, null, 2) + "\n");
+  console.log(`  ✏️  نصّ الصفحات تغيّر — lastmod صار ${date}`);
+  return { from: stamp.date, to: date };
 }
 
 function build() {
@@ -3457,6 +3499,23 @@ function build() {
     `User-agent: *\nAllow: /\n\n` +
     `Sitemap: ${BASE}/sitemap.xml\n` +
     `Sitemap: ${BASE}/blog/sitemap.xml\n`);
+
+  /* الطابع يُحسب بعد كتابة كل شيء، فيرى النصّ المُصيَّر كاملًا. وإن تحرّك
+     فالصفحات المكتوبة للتوّ تحمل التاريخ القديم — لأنه قُرئ قبل البناء —
+     فتُستبدل العبارة في مكانها بدل إعادة بناء كامل. والاستبدال محصور بالتاريخ
+     المخزّن نصًّا، فلا يمسّ تاريخًا آخر في المتن. */
+  const moved = refreshContentStamp();
+  if (moved) {
+    let patched = 0;
+    for (const rel of WRITTEN_PAGES.map((p) => p[0]).concat(["sitemap.xml", "llms.txt"])) {
+      const full = path.join(ROOT, rel);
+      if (!fs.existsSync(full)) continue;
+      const before = fs.readFileSync(full, "utf8");
+      const after = before.split(moved.from).join(moved.to);
+      if (after !== before) { fs.writeFileSync(full, after); patched++; }
+    }
+    console.log(`  ✏️  حُدِّث التاريخ في ${patched} ملفًا`);
+  }
   console.log("Done.");
 }
 
