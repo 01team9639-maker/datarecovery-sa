@@ -121,6 +121,12 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   # ransomware is where SQL/MDF recovery is actually described.
   RewriteRule ^sql-data-base-repair/?$ /services/ransomware.html [R=301,L,NC]
 
+  # المتصفّحات تطلب /favicon.ico من الجذر تلقائيًّا ولو أعلنت الصفحة أيقوناتها
+  # صراحةً — وهو طلب لا يُلغى. بلا هذه القاعدة يظهر 404 في طرفية كل زائر
+  # ويخصم من «أفضليات» Lighthouse. تحويل إلى الأيقونة الموجودة أنظف من نسخة
+  # ثانية من الملف في الجذر.
+  RewriteRule ^favicon\.ico$ /assets/favicon-48.png [R=301,L,NC]
+
   # ---- Legacy Osool URLs ----------------------------------------------------
   # No Search Console export was available, so these were recovered from Google's
   # live index on 2026-08-12. Two distinct structures survive from the old site:
