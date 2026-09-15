@@ -103,11 +103,23 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   RewriteRule ^contact\.php$ /contact.html [R=301,L,NC]
   RewriteRule ^en/contact\.php$ /en/contact.html [R=301,L,NC]
 
-  # Extensionless requests (/services/hdd) resolve to the .html file when one
-  # exists. Old sites commonly published these; costs nothing to keep working.
+  # Extensionless requests (/services/hdd) and trailing-slash ones (/about/)
+  # resolve to the .html file when one exists. Old sites commonly published
+  # these; costs nothing to keep working.
+  #
+  # 301, not an internal rewrite: the rewrite served the same page under two
+  # live addresses — /about/ answered 200 under its own URL while declaring
+  # canonical /about.html. A canonical is a hint; a 301 is an instruction, and
+  # it consolidates whatever links the old site left pointing at these forms.
+  # Internal navigation and the sitemap use .html everywhere, so nothing on the
+  # site takes the extra hop — only a visitor arriving on a legacy address does.
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}\.html -f
-  RewriteRule ^(.+?)/?$ /$1.html [L]
+  RewriteRule ^(.+?)/?$ /$1.html [R=301,L]
+
+  # Old database-repair page: no equivalent service page exists on this site, and
+  # ransomware is where SQL/MDF recovery is actually described.
+  RewriteRule ^sql-data-base-repair/?$ /services/ransomware.html [R=301,L,NC]
 
   # ---- Legacy Osool URLs ----------------------------------------------------
   # No Search Console export was available, so these were recovered from Google's
