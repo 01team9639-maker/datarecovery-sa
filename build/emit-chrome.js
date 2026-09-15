@@ -125,13 +125,22 @@ function build() {
   // all from launch. A same-origin file passes the policy, and sharing the
   // site's copy means one GTM container, one loading strategy, and no chance
   // of the two halves counting differently.
+  // consent.js أولًا ومتزامنًا. المدونة كانت تشحن أدوات القياس بلا ملف
+  // الموافقة، فيعمل القياس فيها بلا إذن بينما يحترمه الموقع — زائر واحد
+  // ونصفُ سياسة. وClarity تحديدًا كان يحاول التحميل ثم تحجبه سياسة الأمان
+  // فيملأ الطرفية بأخطاء، وهي التي رصدها Lighthouse على صفحة المقال.
   const scripts = [
+    config.gtm || config.clarity
+      ? `<script src="${BASE}${asset("assets/js/consent.js")}"></script>` : "",
     `<script src="${BASE}${asset("assets/js/main.js")}" defer></script>`,
     config.gtm ? `<script src="${BASE}${asset("assets/js/analytics.js")}" async></script>` : "",
+    config.gtm ? `<script src="${BASE}${asset("assets/js/events.js")}" defer></script>` : "",
     // Clarity ships to the blog too. Session recordings that cover only half the
     // site produce a map with a hole in it — and the blog is where a reader
     // arrives from search before crossing into the service pages.
     config.clarity ? `<script src="${BASE}${asset("assets/js/clarity.js")}" async></script>` : "",
+    config.gtm || config.clarity
+      ? `<script src="${BASE}${asset("assets/js/consent-banner.js")}" defer></script>` : "",
   ].filter(Boolean).join("\n");
   write("../site-scripts.html", scripts);
 

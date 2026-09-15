@@ -1964,7 +1964,9 @@ body.drawer-open { overflow: hidden; }
   border: 1px solid transparent;
   transition: background-color .18s ease, border-color .18s ease;
 }
-.consent__btn--solid { background: var(--accent); color: var(--accent-ink); }
+/* لا --accent-ink هنا: #0a6c74 على #12c7d7 يعطي 2.98:1 وهو دون حدّ 4.5.
+   اللون الداكن نفسه المستعمل في خلفية الشريط يعطي 8.41:1. */
+.consent__btn--solid { background: var(--accent); color: var(--bg-dark); }
 .consent__btn--solid:hover { filter: brightness(1.08); }
 .consent__btn--ghost {
   background: transparent; color: var(--white);
