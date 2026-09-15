@@ -290,7 +290,11 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        if (window.z2oTrack) window.z2oTrack("form_error", form, { error_kind: "validation" });
+        return;
+      }
       setBusy(true);
       if (statusEl) statusEl.hidden = true;
 
@@ -306,14 +310,20 @@
         .then(function (r) {
           if (r.ok && r.data && r.data.success) {
             showStatus(true, attr("data-ok-title"), (r.data && r.data.message) || attr("data-ok-body"));
+            // generate_lead بعد نجاح الخادم لا عند الضغط: الضغطة نيّة، والردّ
+            // الناجح طلبٌ وصل فعلًا. وقياسه عند الضغط يضخّم الرقم بكل محاولة
+            // فاشلة ويجعل الحدث الرئيسي في GA4 يكذب.
+            if (window.z2oTrack) window.z2oTrack("generate_lead", form);
             form.reset();
           } else {
             showStatus(false, attr("data-err-title"), (r.data && r.data.message) || attr("data-err-body"));
+            if (window.z2oTrack) window.z2oTrack("form_error", form, { error_kind: "server" });
           }
         })
         .catch(function () {
           // network/host unreachable — the WhatsApp button on this page is the fallback
           showStatus(false, attr("data-err-title"), attr("data-err-body"));
+          if (window.z2oTrack) window.z2oTrack("form_error", form, { error_kind: "network" });
         })
         .then(function () { setBusy(false); });
     });

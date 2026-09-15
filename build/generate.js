@@ -687,8 +687,10 @@ function docEnd(extraScripts = []) {
   const extra = extraScripts
     .map((rel) => `\n  <script src="${asset(rel)}" defer></script>`)
     .join("");
+  /* events.js قبل main.js: يُعرّف window.z2oTrack الذي يستدعيه معالج النموذج
+     في main.js عند نجاح الإرسال. وكلاهما defer فيُنفَّذان بترتيب ورودهما. */
   return `
-  <script src="${asset("assets/js/main.js")}" defer></script>
+  ${config.gtm ? `<script src="${asset("assets/js/events.js")}" defer></script>\n  ` : ""}<script src="${asset("assets/js/main.js")}" defer></script>
   <script src="${asset("assets/js/anim.js")}" defer></script>${extra}
 </body>
 </html>`;
