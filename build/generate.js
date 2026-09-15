@@ -235,6 +235,128 @@ const jsonLd = (obj) =>
    The Google Tag Manager bootstrap can't be inlined (strict no-inline-script
    CSP + tests), so it ships as a same-origin file that injects gtm.js.
    GA4 (G-N9DWW17NX7) is added as a tag *inside* the GTM container. */
+/* ---------- الموافقة (Consent Mode v2) ----------
+   يُحمَّل متزامنًا وقبل أي أداة قياس. الترتيب ليس تفضيلًا: Google Consent Mode
+   يشترط وصول الحالة الافتراضية إلى dataLayer قبل إقلاع الحاوية، وإلا احتُسبت
+   الزيارة على الوضع الممنوح ضمنًا وضاع معنى الرفض.
+
+   الافتراضي رفضٌ لكل شيء عدا security_storage — وهو ما يحتاجه رمز CSRF وحدّ
+   المعدّل في النموذج، ولا علاقة له بالتتبّع. وهذا ما تفرضه اللائحة السعودية
+   لحماية البيانات الشخصية كما تفرضه GDPR: الصمت ليس موافقة.
+
+   وبلا سكربت مضمّن: سياسة الأمان هنا بلا unsafe-inline، فالنسخة المضمّنة التي
+   توزّعها جوجل تُحجب صامتة. */
+function consentJs() {
+  return `"use strict";
+(function (w) {
+  var KEY = "z2o:consent";
+  w.dataLayer = w.dataLayer || [];
+  function gtag() { w.dataLayer.push(arguments); }
+  w.gtag = w.gtag || gtag;
+
+  var DENIED = {
+    ad_storage: "denied",
+    analytics_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    functionality_storage: "denied",
+    personalization_storage: "denied",
+    security_storage: "granted"
+  };
+
+  function granted() {
+    var o = {};
+    for (var k in DENIED) o[k] = "granted";
+    return o;
+  }
+
+  var saved = null;
+  try { saved = w.localStorage.getItem(KEY); } catch (e) { /* وضع خاص */ }
+
+  // الحالة الافتراضية تُرسَل دائمًا أولًا، ثم يرفعها التحديث إن سبقت الموافقة.
+  gtag("consent", "default", DENIED);
+  if (saved === "granted") gtag("consent", "update", granted());
+
+  w.z2oConsent = {
+    key: KEY,
+    state: saved,
+    grant: function () {
+      try { w.localStorage.setItem(KEY, "granted"); } catch (e) {}
+      gtag("consent", "update", granted());
+      w.dataLayer.push({ event: "consent_granted" });
+      w.dispatchEvent(new Event("z2o:consent-granted"));
+    },
+    deny: function () {
+      try { w.localStorage.setItem(KEY, "denied"); } catch (e) {}
+      gtag("consent", "update", DENIED);
+      w.dataLayer.push({ event: "consent_denied" });
+    }
+  };
+})(window);
+`;
+}
+
+/* ---------- شريط الموافقة ----------
+   يُحمَّل مؤجَّلًا: لا علاقة له بإقلاع القياس — ذاك يتولاه consent.js متزامنًا —
+   وإنما بعرض الخيار للزائر. فتأجيله لا يؤخّر شيئًا ولا يزاحم LCP.
+
+   ولا يدفع المحتوى: position:fixed خارج تدفّق الصفحة، فلا يضيف بكسلًا واحدًا
+   إلى CLS الذي أصلحناه للتوّ. */
+function consentBannerJs() {
+  return `"use strict";
+(function (w, d) {
+  var c = w.z2oConsent;
+  if (!c || c.state) return;                 // اختار الزائر سابقًا
+
+  var ar = d.documentElement.lang !== "en";
+  var T = ar ? {
+    body: "نستعمل ملفات تعريف الارتباط لقياس أداء الموقع وتحسينه. لا نجمع اسمك ولا رقمك ولا تفاصيل حالتك لأغراض القياس.",
+    accept: "أوافق", reject: "أرفض", more: "سياسة الخصوصية",
+    href: "/privacy.html", label: "إشعار ملفات تعريف الارتباط"
+  } : {
+    body: "We use cookies to measure and improve site performance. We never collect your name, phone or case details for measurement.",
+    accept: "Accept", reject: "Reject", more: "Privacy policy",
+    href: "/en/privacy.html", label: "Cookie notice"
+  };
+
+  var box = d.createElement("div");
+  box.className = "consent";
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-live", "polite");
+  box.setAttribute("aria-label", T.label);
+
+  var p = d.createElement("p");
+  p.className = "consent__text";
+  p.appendChild(d.createTextNode(T.body + " "));
+  var a = d.createElement("a");
+  a.href = T.href; a.textContent = T.more;
+  p.appendChild(a);
+
+  var row = d.createElement("div");
+  row.className = "consent__actions";
+
+  function button(text, cls, fn) {
+    var b = d.createElement("button");
+    b.type = "button";
+    b.className = "consent__btn " + cls;
+    b.textContent = text;
+    b.addEventListener("click", function () {
+      fn();
+      box.remove();
+    });
+    return b;
+  }
+
+  row.appendChild(button(T.reject, "consent__btn--ghost", function () { c.deny(); }));
+  row.appendChild(button(T.accept, "consent__btn--solid", function () { c.grant(); }));
+
+  box.appendChild(p);
+  box.appendChild(row);
+  d.body.appendChild(box);
+})(window, document);
+`;
+}
+
 function analyticsJs() {
   return `"use strict";
 // Google Tag Manager loader — generated from config.gtm (${config.gtm}).
@@ -262,11 +384,23 @@ function clarityJs() {
 // nothing — which is exactly how the blog ran without analytics for weeks.
 // Same code, hoisted to a first-party file: createElement + insertBefore only,
 // no dynamic markup and no code sinks.
-(function (c, l, a, r, i, t, y) {
+// Clarity يسجّل جلسة الزائر وحركة مؤشّره، فلا يُحمَّل قبل موافقته. وإن وافق
+// لاحقًا في الجلسة نفسها يُحمَّل عند الحدث بلا إعادة تحميل الصفحة.
+function load(c, l, a, r, i, t, y) {
+  if (l.getElementById("clarity-tag")) return;
   c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
-  t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+  t = l.createElement(r); t.async = 1; t.id = "clarity-tag";
+  t.src = "https://www.clarity.ms/tag/" + i;
   y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-})(window, document, "clarity", "script", ${JSON.stringify(config.clarity)});
+}
+var ID = ${JSON.stringify(config.clarity)};
+if (window.z2oConsent && window.z2oConsent.state === "granted") {
+  load(window, document, "clarity", "script", ID);
+} else {
+  window.addEventListener("z2o:consent-granted", function () {
+    load(window, document, "clarity", "script", ID);
+  });
+}
 `;
 }
 
@@ -283,7 +417,7 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm ? `\n  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}${config.clarity ? `\n  <script src="${asset("assets/js/clarity.js")}" async></script>` : ""}
+  <script src="${asset("assets/js/bootstrap.js")}"></script>${config.gtm || config.clarity ? `\n  <script src="${asset("assets/js/consent.js")}"></script>` : ""}${config.gtm ? `\n  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>\n  <script src="${asset("assets/js/analytics.js")}" async></script>` : ""}${config.clarity ? `\n  <script src="${asset("assets/js/clarity.js")}" async></script>` : ""}${config.gtm || config.clarity ? `\n  <script src="${asset("assets/js/consent-banner.js")}" defer></script>` : ""}
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="#011e22">
@@ -3439,6 +3573,10 @@ function refreshContentStamp() {
 function build() {
   console.log("Generating pages…");
   // written first so asset() can hash it while the pages are rendered
+  if (config.gtm || config.clarity) {
+    write("assets/js/consent.js", consentJs());
+    write("assets/js/consent-banner.js", consentBannerJs());
+  }
   if (config.gtm) write("assets/js/analytics.js", analyticsJs());
   if (config.clarity) write("assets/js/clarity.js", clarityJs());
   for (const lang of LANGS) {

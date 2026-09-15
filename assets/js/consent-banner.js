@@ -1,0 +1,51 @@
+"use strict";
+(function (w, d) {
+  var c = w.z2oConsent;
+  if (!c || c.state) return;                 // اختار الزائر سابقًا
+
+  var ar = d.documentElement.lang !== "en";
+  var T = ar ? {
+    body: "نستعمل ملفات تعريف الارتباط لقياس أداء الموقع وتحسينه. لا نجمع اسمك ولا رقمك ولا تفاصيل حالتك لأغراض القياس.",
+    accept: "أوافق", reject: "أرفض", more: "سياسة الخصوصية",
+    href: "/privacy.html", label: "إشعار ملفات تعريف الارتباط"
+  } : {
+    body: "We use cookies to measure and improve site performance. We never collect your name, phone or case details for measurement.",
+    accept: "Accept", reject: "Reject", more: "Privacy policy",
+    href: "/en/privacy.html", label: "Cookie notice"
+  };
+
+  var box = d.createElement("div");
+  box.className = "consent";
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-live", "polite");
+  box.setAttribute("aria-label", T.label);
+
+  var p = d.createElement("p");
+  p.className = "consent__text";
+  p.appendChild(d.createTextNode(T.body + " "));
+  var a = d.createElement("a");
+  a.href = T.href; a.textContent = T.more;
+  p.appendChild(a);
+
+  var row = d.createElement("div");
+  row.className = "consent__actions";
+
+  function button(text, cls, fn) {
+    var b = d.createElement("button");
+    b.type = "button";
+    b.className = "consent__btn " + cls;
+    b.textContent = text;
+    b.addEventListener("click", function () {
+      fn();
+      box.remove();
+    });
+    return b;
+  }
+
+  row.appendChild(button(T.reject, "consent__btn--ghost", function () { c.deny(); }));
+  row.appendChild(button(T.accept, "consent__btn--solid", function () { c.grant(); }));
+
+  box.appendChild(p);
+  box.appendChild(row);
+  d.body.appendChild(box);
+})(window, document);

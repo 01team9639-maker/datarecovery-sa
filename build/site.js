@@ -547,7 +547,7 @@ const privacy = {
     title: "سياسة الخصوصية وملفات تعريف الارتباط.",
     lead: "توضّح هذه الصفحة باختصار كيف نستخدم ملفات تعريف الارتباط والبيانات البسيطة عند زيارتك للموقع.",
     updatedLabel: "آخر تحديث",
-    updated: "22 يوليو 2026",
+    updated: "15 سبتمبر 2026",
     sections: [
       {
         h: "نطاق هذه السياسة",
@@ -563,6 +563,20 @@ const privacy = {
           "ملفات ضرورية لتشغيل الموقع وعرضه بالشكل الصحيح.",
           "ملفات لقياس الأداء وفهم كيفية استخدام الزوّار للموقع، بشكل مُجمّع لا يُعرّف هويتك."
         ]
+      },
+      {
+        h: "الأدوات التي نستخدمها بالتحديد",
+        p: ["نسمّيها بأسمائها لتعرف ما يعمل على الموقع فعلًا:"],
+        list: [
+          "Google Tag Manager — حاوية تُدير بقية أدوات القياس. لا تجمع بيانات بنفسها.",
+          "Google Analytics 4 — يقيس الزيارات والصفحات المطلوبة ونوع الجهاز والمصدر الذي أتيت منه، بشكل مُجمّع. مدة الاحتفاظ لدينا أربعة عشر شهرًا.",
+          "Microsoft Clarity — يسجّل حركة المؤشّر والتمرير والضغطات لفهم مواضع الالتباس في الصفحة. مدة الاحتفاظ ثلاثون يومًا.",
+          "لا يعمل أيٌّ من هذه الثلاثة قبل موافقتك من شريط ملفات تعريف الارتباط. الرفض هو الوضع الافتراضي."
+        ]
+      },
+      {
+        h: "ما لا نرسله إلى هذه الأدوات",
+        p: ["اسمك ورقم هاتفك وبريدك وتفاصيل حالتك التي تكتبها في نموذج التواصل تصل إلى بريدنا وحده. لا تُرسَل إلى Google ولا إلى Microsoft ولا تُستعمل في القياس إطلاقًا."]
       },
       {
         h: "خدمات Google",
@@ -598,7 +612,7 @@ const privacy = {
     title: "Privacy & Cookie Policy.",
     lead: "This page briefly explains how we use cookies and basic data when you visit the site.",
     updatedLabel: "Last updated",
-    updated: "22 July 2026",
+    updated: "15 September 2026",
     sections: [
       {
         h: "Scope of this policy",
@@ -614,6 +628,20 @@ const privacy = {
           "Essential cookies needed to run the site and display it correctly.",
           "Analytics cookies to understand how visitors use the site, in an aggregated way that does not identify you."
         ]
+      },
+      {
+        h: "The tools we actually use",
+        p: ["Named plainly, so you know what runs on this site:"],
+        list: [
+          "Google Tag Manager — a container that manages the other measurement tools. It collects nothing by itself.",
+          "Google Analytics 4 — measures visits, pages requested, device type and where you arrived from, in aggregate. We retain it for fourteen months.",
+          "Microsoft Clarity — records cursor movement, scrolling and clicks to show where a page confuses people. Retained for thirty days.",
+          "None of the three runs before you accept from the cookie notice. Rejection is the default state."
+        ]
+      },
+      {
+        h: "What we never send to these tools",
+        p: ["Your name, phone number, email and the case details you type into the contact form reach our inbox only. They are never sent to Google or Microsoft, and are never used for measurement."]
       },
       {
         h: "Google services",
