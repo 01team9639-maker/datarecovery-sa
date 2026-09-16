@@ -248,7 +248,7 @@ const jsonLd = (obj) =>
    توزّعها جوجل تُحجب صامتة. */
 function consentJs() {
   return `"use strict";
-(function (w) {
+(function (w, d) {
   var KEY = "z2o:consent";
   w.dataLayer = w.dataLayer || [];
   function gtag() { w.dataLayer.push(arguments); }
@@ -264,10 +264,20 @@ function consentJs() {
     security_storage: "granted"
   };
 
+  /* القبول يرفع أذونات القياس وحدها. أذونات الإعلانات — ad_storage و
+     ad_user_data و ad_personalization — تبقى مرفوضة: الزائر وافق على أن
+     نقيس أداء الموقع، لا على أن نبني منه جمهورًا إعلانيًّا. رفعُها بموافقة
+     واحدة يوسّع الإذن إلى ما لم يُطلَب، وهو بالضبط ما تمنعه اللائحة. */
   function granted() {
-    var o = {};
-    for (var k in DENIED) o[k] = "granted";
-    return o;
+    return {
+      analytics_storage: "granted",
+      functionality_storage: "granted",
+      personalization_storage: "granted",
+      security_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied"
+    };
   }
 
   var saved = null;
@@ -282,17 +292,44 @@ function consentJs() {
     state: saved,
     grant: function () {
       try { w.localStorage.setItem(KEY, "granted"); } catch (e) {}
+      this.state = "granted";
       gtag("consent", "update", granted());
       w.dataLayer.push({ event: "consent_granted" });
       w.dispatchEvent(new Event("z2o:consent-granted"));
     },
     deny: function () {
       try { w.localStorage.setItem(KEY, "denied"); } catch (e) {}
+      this.state = "denied";
       gtag("consent", "update", DENIED);
       w.dataLayer.push({ event: "consent_denied" });
+    },
+    /* سحب الموافقة بعد منحها: الحالة تُخفَّض في الذاكرة والتخزين معًا، لكن
+       الحاوية تكون قد أقلعت وكوكيز الطرف الأول كُتبت. فالسحب يمسح ما نملك
+       مسحه ثم يُعيد التحميل — وهي الطريقة الوحيدة الموثوقة لإيقاف ما يعمل
+       أصلًا، والوعد بالإيقاف بلا تنفيذه أسوأ من عدم عرضه. */
+    withdraw: function () {
+      try { w.localStorage.setItem(KEY, "denied"); } catch (e) {}
+      this.state = "denied";
+      gtag("consent", "update", DENIED);
+      var names = d.cookie.split(";");
+      for (var n = 0; n < names.length; n++) {
+        var name = names[n].split("=")[0].trim();
+        if (!/^_ga|^_gid|^_gcl|^_clck|^_clsk|^MUID/.test(name)) continue;
+        var host = w.location.hostname;
+        d.cookie = name + "=; Max-Age=0; path=/";
+        d.cookie = name + "=; Max-Age=0; path=/; domain=" + host;
+        d.cookie = name + "=; Max-Age=0; path=/; domain=." + host;
+      }
+      w.location.reload();
+    },
+    /* يُستدعى من رابط «إعدادات الخصوصية» في الفوتر. */
+    reopen: function () {
+      try { w.localStorage.removeItem(KEY); } catch (e) {}
+      this.state = null;
+      w.dispatchEvent(new Event("z2o:consent-reopen"));
     }
   };
-})(window);
+})(window, document);
 `;
 }
 
@@ -306,17 +343,19 @@ function consentBannerJs() {
   return `"use strict";
 (function (w, d) {
   var c = w.z2oConsent;
-  if (!c || c.state) return;                 // اختار الزائر سابقًا
+  if (!c) return;
 
   var ar = d.documentElement.lang !== "en";
   var T = ar ? {
     body: "نستعمل ملفات تعريف الارتباط لقياس أداء الموقع وتحسينه. لا نجمع اسمك ولا رقمك ولا تفاصيل حالتك لأغراض القياس.",
     accept: "أوافق", reject: "أرفض", more: "سياسة الخصوصية",
-    href: "/privacy.html", label: "إشعار ملفات تعريف الارتباط"
+    href: "/privacy.html", label: "إشعار ملفات تعريف الارتباط",
+    settings: "إعدادات الخصوصية", withdraw: "سحب الموافقة على القياس"
   } : {
     body: "We use cookies to measure and improve site performance. We never collect your name, phone or case details for measurement.",
     accept: "Accept", reject: "Reject", more: "Privacy policy",
-    href: "/en/privacy.html", label: "Cookie notice"
+    href: "/en/privacy.html", label: "Cookie notice",
+    settings: "Privacy settings", withdraw: "Withdraw measurement consent"
   };
 
   var box = d.createElement("div");
@@ -343,6 +382,8 @@ function consentBannerJs() {
     b.addEventListener("click", function () {
       fn();
       box.remove();
+      var l = d.querySelector("[data-consent-settings]");
+      if (l) l.textContent = c.state === "granted" ? T.withdraw : T.settings;
     });
     return b;
   }
@@ -352,7 +393,33 @@ function consentBannerJs() {
 
   box.appendChild(p);
   box.appendChild(row);
-  d.body.appendChild(box);
+
+  function show() {
+    if (d.querySelector(".consent")) return;
+    d.body.appendChild(box);
+  }
+  function hide() { if (box.parentNode) box.remove(); }
+
+  // يُفتح عند أول زيارة، ويُعاد فتحه من رابط «إعدادات الخصوصية» في الفوتر.
+  if (!c.state) show();
+  w.addEventListener("z2o:consent-reopen", show);
+
+  // رابط الفوتر: يُعرَض دائمًا، ونصّه يتبع الحالة — من وافق يرى «سحب
+  // الموافقة»، ومن رفض أو لم يختر يرى «إعدادات الخصوصية».
+  var link = d.querySelector("[data-consent-settings]");
+  if (link) {
+    var label = function () {
+      link.textContent = c.state === "granted" ? T.withdraw : T.settings;
+    };
+    label();
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (c.state === "granted") { c.withdraw(); return; }
+      c.reopen();
+    });
+  }
+
+  box.__hide = hide;
 })(window, document);
 `;
 }
@@ -363,16 +430,30 @@ function analyticsJs() {
 // Injects the container via createElement + insertBefore only, with no dynamic
 // markup or code sinks, so it stays CSP- and audit-clean. GA4 is configured as
 // a tag inside the GTM container.
-(function (w, d, s, l, i) {
+// الحاوية لا تُحمَّل قبل الموافقة. Consent Mode وحده يمنع التخزين لكنه يُبقي
+// الطلبات ذاهبة إلى جوجل، وسياسة الخصوصية هنا تعد بأن أدوات القياس «لا يعمل
+// أيٌّ منها قبل موافقتك» — فالوعد يُنفَّذ بالحجب لا بالتخفيف. وإن وافق الزائر
+// أثناء الجلسة تُحمَّل عند الحدث بلا إعادة تحميل الصفحة.
+function boot(w, d, s, l, i) {
+  if (d.getElementById("gtm-tag")) return;
   w[l] = w[l] || [];
   w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
   var f = d.getElementsByTagName(s)[0];
   var j = d.createElement(s);
   var dl = l !== "dataLayer" ? "&l=" + l : "";
   j.async = true;
+  j.id = "gtm-tag";
   j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
   f.parentNode.insertBefore(j, f);
-})(window, document, "script", "dataLayer", ${JSON.stringify(config.gtm)});
+}
+var GTM_ID = ${JSON.stringify(config.gtm)};
+if (window.z2oConsent && window.z2oConsent.state === "granted") {
+  boot(window, document, "script", "dataLayer", GTM_ID);
+} else {
+  window.addEventListener("z2o:consent-granted", function () {
+    boot(window, document, "script", "dataLayer", GTM_ID);
+  });
+}
 `;
 }
 
@@ -612,7 +693,12 @@ function footer(lang, minimal) {
   const legal = `
       <div class="footer__legal">
         <span>© <span dir="ltr">2026</span> ${esc(t.brand)} · ${esc(f.rights)}</span>
-        <a href="${privacyUrl(lang)}" class="footer__legal-link">${esc(f.privacy)}</a>
+        <a href="${privacyUrl(lang)}" class="footer__legal-link">${esc(f.privacy)}</a>${config.gtm || config.clarity ? `
+        <!-- رابط دائم لتغيير الاختيار أو سحبه. href إلى سياسة الخصوصية لا "#":
+             من يفتحه بلا JavaScript يصل إلى صفحة تشرح الأدوات، ومن يفتحه
+             والسكربت يعمل يُعترض الضغط ويُفتح الشريط. ونصّه يكتبه
+             consent-banner.js بحسب الحالة، فلا يَعِد بسحب موافقة لم تُمنَح. -->
+        <a href="${privacyUrl(lang)}" class="footer__legal-link" data-consent-settings>${lang === "en" ? "Privacy settings" : "إعدادات الخصوصية"}</a>` : ""}
       </div>`;
 
   if (minimal) {

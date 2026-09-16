@@ -5,14 +5,23 @@
    ولا تفاصيل حالة. ما يُرسَل هنا وصفٌ للفعل لا لصاحبه: أي زرّ ضُغط، في أي
    موضع من الصفحة، وبأي لغة، وأي خدمة تخصّه.
 
-   وكل حدث مرّة واحدة لكل صفحة: الزائر يضغط زرّ واتساب مرتين لأن التطبيق تأخّر
-   في الفتح، فيصير ضغطتين في التقرير وهما نيّة واحدة. المفاتيح تُحفظ في
-   مجموعة تعيش مع الصفحة، فتُصفَّر عند أي تنقّل حقيقي.
+   منع الازدواج بنافذة زمنية قصيرة لكل عنصر، لا بحظر نوع الحدث لبقية الصفحة.
+   الفرق جوهري: الضغطتان المتلاحقتان على الزرّ نفسه نيّة واحدة — التطبيق تأخّر
+   في الفتح فضغط الزائر ثانية — أما من يضغط واتساب، ثم يقرأ صفحة الخدمة، ثم
+   يعود فيضغط مرة أخرى بعد دقيقة، فتلك نيّة ثانية حقيقية تخصّ خطة القياس.
+   الحظر الأبدي كان يبتلعها ويُظهر الصفحة أقلّ تفاعلًا مما هي.
+
+   والمفتاح يشمل العنصر وموضعه لا نوع الحدث وحده، فزرّ واتساب في الترويسة
+   وزرّه العائم حدثان مستقلّان بموضعين مختلفين — وهذا ما يجعل cta_location
+   ذا معنى أصلًا.
 
    generate_lead خارج هذا الملف عمدًا — يُطلَق من main.js بعد أن يردّ
    send.php بالنجاح، لا عند الضغط على زرّ الإرسال. الضغط نيّة، والنجاح طلب. */
 (function (w, d) {
-  var fired = {};
+  /* نافذة الكبت: أقصر من أن تبتلع نيّة ثانية، وأطول من أن تمرّ ضغطة مزدوجة
+     أو مستمعان مركّبان على العنصر نفسه. */
+  var DEDUPE_MS = 1500;
+  var lastFired = {};
 
   function lang() {
     return d.documentElement.lang === "en" ? "en" : "ar";
@@ -42,14 +51,18 @@
   }
 
   function push(event, el, extra) {
-    if (fired[event]) return;
-    fired[event] = true;
+    var where = el ? ctaLocation(el) : "none";
+    var key = event + "|" + where;
+    var now = Date.now();
+    if (lastFired[key] && now - lastFired[key] < DEDUPE_MS) return;
+    lastFired[key] = now;
+
     var payload = {
       event: event,
       page_language: lang(),
       service_name: serviceName()
     };
-    if (el) payload.cta_location = ctaLocation(el);
+    if (el) payload.cta_location = where;
     if (extra) for (var k in extra) payload[k] = extra[k];
     (w.dataLayer = w.dataLayer || []).push(payload);
   }
@@ -76,6 +89,8 @@
      بلوحة المفاتيح وبالضغط العابر، فيضخّم الرقم بلا نيّة خلفه. */
   var form = d.querySelector("form[data-contact-form], form#contactForm, .contact form, form");
   if (form) {
+    // form_start وحده يبقى { once: true }: بدء التعبئة حدث واحد في الصفحة
+    // بطبيعته، وتكراره مع كل حرف يُفرغه من معناه.
     form.addEventListener("input", function () {
       push("form_start", form);
     }, { once: true });
