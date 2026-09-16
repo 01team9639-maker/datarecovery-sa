@@ -11,17 +11,24 @@
    يعود فيضغط مرة أخرى بعد دقيقة، فتلك نيّة ثانية حقيقية تخصّ خطة القياس.
    الحظر الأبدي كان يبتلعها ويُظهر الصفحة أقلّ تفاعلًا مما هي.
 
-   والمفتاح يشمل العنصر وموضعه لا نوع الحدث وحده، فزرّ واتساب في الترويسة
-   وزرّه العائم حدثان مستقلّان بموضعين مختلفين — وهذا ما يجعل cta_location
-   ذا معنى أصلًا.
+   والمفتاح هو العنصر نفسه لا نوعُ الحدث ولا موضعُه: زرّان مختلفان في الموضع
+   نفسه — زرّ اتصال وزرّ واتساب في الفوتر — كان المفتاح القديم
+   (event + موضع) يحجب أحدهما بالآخر لو تشاركا النوع. الكبت يُعلَّق على
+   العنصر عبر WeakMap، فيموت معه ولا يُسرّب ذاكرة.
+
+   والمستمع يُركَّب مرة واحدة ولو أُعيد تشغيل الملف: علامة على window تمنع
+   التركيب الثاني، وإلا صار كل حدث حدثين.
 
    generate_lead خارج هذا الملف عمدًا — يُطلَق من main.js بعد أن يردّ
    send.php بالنجاح، لا عند الضغط على زرّ الإرسال. الضغط نيّة، والنجاح طلب. */
 (function (w, d) {
-  /* نافذة الكبت: أقصر من أن تبتلع نيّة ثانية، وأطول من أن تمرّ ضغطة مزدوجة
-     أو مستمعان مركّبان على العنصر نفسه. */
+  if (w.__z2oEventsReady) return;      // لا تركيب ثانٍ للمستمع
+  w.__z2oEventsReady = true;
+
+  /* نافذة الكبت: أقصر من أن تبتلع نيّة ثانية، وأطول من أن تمرّ ضغطة مزدوجة. */
   var DEDUPE_MS = 1500;
-  var lastFired = {};
+  var lastByElement = new WeakMap();   // العنصر → { اسم الحدث: آخر وقت }
+  var lastByName = {};                 // للأحداث بلا عنصر
 
   function lang() {
     return d.documentElement.lang === "en" ? "en" : "ar";
@@ -52,10 +59,17 @@
 
   function push(event, el, extra) {
     var where = el ? ctaLocation(el) : "none";
-    var key = event + "|" + where;
     var now = Date.now();
-    if (lastFired[key] && now - lastFired[key] < DEDUPE_MS) return;
-    lastFired[key] = now;
+
+    if (el) {
+      var seen = lastByElement.get(el);
+      if (!seen) { seen = {}; lastByElement.set(el, seen); }
+      if (seen[event] && now - seen[event] < DEDUPE_MS) return;
+      seen[event] = now;
+    } else {
+      if (lastByName[event] && now - lastByName[event] < DEDUPE_MS) return;
+      lastByName[event] = now;
+    }
 
     var payload = {
       event: event,

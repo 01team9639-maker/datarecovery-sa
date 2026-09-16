@@ -15,20 +15,23 @@
     security_storage: "granted"
   };
 
-  /* القبول يرفع أذونات القياس وحدها. أذونات الإعلانات — ad_storage و
-     ad_user_data و ad_personalization — تبقى مرفوضة: الزائر وافق على أن
-     نقيس أداء الموقع، لا على أن نبني منه جمهورًا إعلانيًّا. رفعُها بموافقة
-     واحدة يوسّع الإذن إلى ما لم يُطلَب، وهو بالضبط ما تمنعه اللائحة. */
+  /* القبول يرفع analytics_storage وحده — لأن الشريط يطلب القياس وحده.
+
+     الأذونات الأخرى تبقى على حالها لا مجاملةً بل مطابقةً للاستخدام الفعلي:
+     ad_storage و ad_user_data و ad_personalization مرفوضة لأن الزائر وافق
+     على قياس أداء الموقع لا على بناء جمهور إعلاني منه؛ و
+     functionality_storage و personalization_storage مرفوضة لأن الموقع لا
+     يستعملهما أصلًا — تخزينه الوحيدان هما اختيار الموافقة نفسه وعلامة
+     الشاشة الافتتاحية، وكلاهما ضروري لا تخصيصي، ويغطّيهما
+     security_storage الممنوح ابتداءً.
+
+     رفعُ إذن لا نستعمله يوسّع الموافقة إلى ما لم يُطلَب ويجعل وصف «قياس
+     فقط» كاذبًا. */
   function granted() {
-    return {
-      analytics_storage: "granted",
-      functionality_storage: "granted",
-      personalization_storage: "granted",
-      security_storage: "granted",
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied"
-    };
+    var o = {};
+    for (var k in DENIED) o[k] = DENIED[k];
+    o.analytics_storage = "granted";
+    return o;
   }
 
   var saved = null;

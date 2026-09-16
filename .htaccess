@@ -97,6 +97,13 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   # تدقيق 2026-09-16 على /ar/حلول-النسخ-الاحتياطي-للبيانات/.
   RewriteRule ^ar/.*(احتياطي|احتياطية|باك.?اب) /blog/backup-3-2-1-rule/ [R=301,L]
 
+  # الأشرطة المغناطيسية ومحركات الأقراص: كانتا تسقطان إلى تجريد /ar/ العام
+  # ثم تلتقطهما قاعدة شاملة في الأسفل فتصلان في قفزتين إلى وجهة واحدة —
+  # والأشرطة ليست قرصًا صلبًا. التقاطهما هنا يجعلها قفزة واحدة إلى الوجهة
+  # الصحيحة لكلٍّ. رصدهما تدقيق 2026-09-16.
+  RewriteRule ^ar/.*(شريط|أشرطة|الأشرطة|مغناطيسي) /#services [R=301,L,NE]
+  RewriteRule ^ar/.*(محرك|محركات|الأقراص|اسطوانة) /services/hdd.html [R=301,L]
+
   # Any other /ar/ path: strip the prefix, since Arabic now lives at the root.
   # If the target does not exist either, the keyword map further down catches it.
   RewriteRule ^ar/(.*)$ /$1 [R=301,L]
@@ -172,8 +179,21 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   RewriteRule (format|deleted|erase|disposal) /services/after-format.html [R=301,L,NC]
   RewriteRule (flash|memory[-_]?card|usb|sd[-_]?card|micro-?sd) /services/memory-cards.html [R=301,L,NC]
   RewriteRule (mobile|phone|android|iphone|smartphone) /services/phones.html [R=301,L,NC]
+  # الأشرطة المغناطيسية قبل قاعدة القرص: كلمة «شريط» موضوع مستقلّ، وسقوطها
+  # إلى HDD يُرضي فحص 200 ويُخيّب القارئ. لا صفحة خدمة للأشرطة، ووجهتها صفحة
+  # الخدمات حيث يختار بنفسه — لا تخمينًا باسم قرص لا يملكه.
+  RewriteRule (tape|lto|شريط|أشرطة|الأشرطة|مغناطيسي) /#services [R=301,L,NC,NE]
+
   RewriteRule (hard[-_]?drive|hard[-_]?disk|hdd|disk|drive) /services/hdd.html [R=301,L,NC]
-  RewriteRule (backup|recovery|restore|استعادة|استرجاع) /services/hdd.html [R=301,L,NC]
+
+  # «استعادة» و«recovery» اسم النشاط كلّه لا اسم خدمة بعينها، فكل رابط عربي
+  # فيه الكلمة كان يسقط إلى HDD مهما كان موضوعه — وهو ما رصده تدقيق 09-16 على
+  # روابط الأشرطة المغناطيسية. حُذفت من خريطة الخدمات: ما لم تلتقطه القواعد
+  # الموضوعية أعلاه يصل إلى 404 الذي يسرد الخدمات كلها، فيختار القارئ.
+  #
+  # وبقيت backup وحدها موجَّهةً إلى مقال النسخ الاحتياطي لا إلى HDD: لها
+  # موضوع محدَّد في الموقع، والمقال يعالجه.
+  RewriteRule (backup|back[-_]?up) /blog/backup-3-2-1-rule/ [R=301,L,NC]
 
   # Anything still unmatched falls through to ErrorDocument 404, which serves a
   # page listing every service — deliberately NOT a blanket redirect to the
