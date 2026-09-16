@@ -195,7 +195,7 @@ module.exports = {
           "items": [
             {
               "t": "Logical fault",
-              "b": "The drive appears normally but the partition has vanished, or shows as RAW, or the system asks to format it, or files and folders were deleted. The priority is preventing any new write, then working from an image."
+              "b": "The drive appears normally but the partition has vanished, or shows as RAW, or the system asks to format it, or files and folders were deleted. For an unreadable hard drive recovery process, the priority is preventing any new write, then working from an image."
             },
             {
               "t": "Unstable reading",
@@ -203,11 +203,11 @@ module.exports = {
             },
             {
               "t": "Electronic fault",
-              "b": "It may stop after a power cut, an unsuitable adapter, or damage to the protection circuit. Swapping the board at random does not bring the data back: some calibration data belongs to that specific drive."
+              "b": "It may stop after a power cut, an unsuitable adapter, or damage to the protection circuit. Performing damaged hard drive data recovery isn't as simple as swapping the board at random: some calibration data belongs strictly to that specific drive."
             },
             {
               "t": "Mechanical fault",
-              "b": "Repeated clicking, a grinding sound, no spin, or a stop after a fall. These call for powering down — not for running recovery software."
+              "b": "Repeated clicking, a grinding sound, no spin, or a stop after a fall. Cases requiring clicking hard drive recovery call for powering down immediately — not for running commercial recovery software."
             },
             {
               "t": "Water, fire or impact",
@@ -308,11 +308,11 @@ module.exports = {
         },
         {
           t: "Toshiba and HGST",
-          b: "Toshiba 2.5-inch drives are common in laptops and external cases; HGST turns up more often as a 3.5-inch server disk. When replacement parts are needed, they are matched by family and firmware revision, not by the model number printed on the label."
+          b: "Toshiba 2.5-inch drives are common in laptops and external cases; HGST turns up more often as a 3.5-inch server disk. When handling specialized laptop hard drive data recovery, replacement parts are matched by family and firmware revision, not by the model number printed on the label."
         },
         {
           t: "2.5-inch and 3.5-inch",
-          b: "2.5-inch drives are the ones most often dropped while running. 3.5-inch drives carry more platters and more heads and run off a 12 V rail, so damage spreads across more surfaces and a power cut usually hits the board first."
+          b: "2.5-inch drives are the ones most often dropped while running. 3.5-inch drives carry more platters and more heads and run off a 12 V rail, so damage spreads across more surfaces. If you need to restore files from corrupted hard drive media, powering down immediately helps prevent further damage to the platter surfaces."
         },
         {
           t: "SMR drives",
@@ -343,7 +343,7 @@ module.exports = {
         }
       ],
       caseTitle: "A typical case: an external drive dropped while running",
-      caseBody: "A typical case: a 2.5-inch external drive knocked off a desk mid-copy, then reconnected several times, making the same sound each time. It reached the lab powered off. Inspection showed damage to the head assembly, and the platter surfaces were checked before any read attempt. The work was done in a clean-air environment with parts matched from the same family, then the drive was imaged head by head, with the damaged zones left for a later pass.",
+      caseBody: "A typical case: a 2.5-inch external drive knocked off a desk mid-copy, then reconnected several times, making the same sound each time. When you need to recover data from external hard drive units in this state, reconnecting them repeatedly adds risk. The drive reached the lab powered off. Inspection showed damage to the head assembly, and the platter surfaces were checked before any read attempt. The work was done in a clean-air environment with parts matched from the same family, then the drive was imaged head by head, with the damaged zones left for a later pass.",
       caseResult: "Outcome: in cases like this a large part of the data often comes back readable, but no verdict is possible before the surfaces are inspected. Here the documents and photos returned intact, while part of the video files stayed incomplete in the zone the heads had touched."
     }
   },
@@ -527,7 +527,7 @@ module.exports = {
             },
             {
               "t": "Files deleted or the drive formatted",
-              "b": "The outcome differs sharply from an HDD because of TRIM and free-space management. Stopping use immediately matters, but it does not justify promising that every deletion is reversible."
+              "b": "The outcome when attempting to retrieve data from formatted ssd drives differs sharply from an HDD because of TRIM and free-space management. Stopping use immediately matters, but it does not justify promising that every deletion is reversible."
             },
             {
               "t": "Heat or a sudden shutdown",
@@ -650,7 +650,7 @@ module.exports = {
         },
         {
           t: "Controller and memory level work",
-          b: "If the controller does not respond, the work moves to chip level inside the lab: reading the memory and rebuilding the translation layer from block order, error correction and interleaving. On an encrypted drive with no key available, what comes back stays unreadable."
+          b: "If the controller does not respond or requires ssd firmware failure recovery, the work moves to chip level inside the lab: reading the memory and rebuilding the translation layer from block order, error correction and interleaving. On an encrypted drive with no key available, what comes back stays unreadable."
         },
         {
           t: "Rebuilding the files from the image",
@@ -1382,7 +1382,7 @@ module.exports = {
             },
             {
               "t": "Recording continued for days after deletion",
-              "b": "The likelihood of overwriting rises, especially with a small disk, many cameras and high resolution. The outcome cannot be inferred from the number of days alone."
+              "b": "As a specialized deleted security footage recovery service, we evaluate whether it is still possible to restore overwritten cctv footage: the likelihood of overwriting rises with a small disk, many cameras and high resolution, and the outcome cannot be inferred from the number of days alone."
             },
             {
               "t": "The disk reads but the device says 'no recordings'",
@@ -1500,7 +1500,7 @@ module.exports = {
         },
         {
           t: "Read the recorder's format, or work around it",
-          b: "If the index is intact we read it directly. If it is damaged or the device was formatted, we scan the image for video segment signatures and rebuild the channel and timestamp from the segment headers themselves."
+          b: "To recover deleted cctv video, our security dvr data retrieval workflow reads intact indices directly. If the index is damaged or the device was formatted, we scan the image for video segment signatures and rebuild the channel and timestamp from the segment headers themselves."
         },
         {
           t: "Assemble the clips and hand them over",
@@ -1735,7 +1735,7 @@ module.exports = {
             },
             {
               "t": "Ordinary deletion or emptying the bin",
-              "b": "It does not necessarily mean the file's contents vanished at once, but continuing to use the machine can write over them. Stop applications, syncing and downloads, and do not install recovery software onto the same disk."
+              "b": "Relying on a professional deleted file recovery service helps, as deletion does not necessarily mean the file's contents vanished at once, though continuing to use the machine can write over them. Stop applications, syncing and downloads, and do not install recovery software onto the same disk."
             }
           ]
         },
@@ -1789,7 +1789,7 @@ module.exports = {
             },
             {
               "t": "The disk asks to be formatted without the user formatting it",
-              "b": "This is not necessarily an 'after format' case: the file system may be corrupt or the disk unstable. Do not agree to the prompt; the case is assessed as a logical or physical fault."
+              "b": "This is not necessarily an 'after format' case; it often requires corrupted partition file recovery because the file system may be corrupt or the disk unstable. Do not agree to the prompt; the case is assessed as a logical or physical fault."
             }
           ]
         },
@@ -1855,7 +1855,7 @@ module.exports = {
       devices: [
         {
           t: "Windows disks on NTFS",
-          b: "A quick format writes a small new file table over the start of the partition only, and records from the old file table ($MFT) often survive where they sat. A full format is a different case entirely, because it passes over the whole partition."
+          b: "A quick format writes a small new file table over the start of the partition only. For an effective formatted disk data retrieval, records from the old file table ($MFT) often survive where they sat. A full format is a different case entirely, because it passes over the whole partition."
         },
         {
           t: "Flash drives and cards on exFAT or FAT32",
@@ -1871,7 +1871,7 @@ module.exports = {
         },
         {
           t: "Deleted partitions, GPT and MBR",
-          b: "Deleting a partition, or running clean, changes a handful of sectors at the front of the disk, while the file system itself stays where it was further in. The first move is to locate the old partition boundaries, not to recreate them."
+          b: "For lost partition data recovery, deleting a partition or running clean changes a handful of sectors at the front of the disk, while the file system itself stays where it was further in. The first move in deleted partition file recovery is to locate the old partition boundaries, not to recreate them."
         },
         {
           t: "SSD and NVMe after a format",
@@ -1890,7 +1890,7 @@ module.exports = {
         },
         {
           t: "Signature analysis for what no longer has an index",
-          b: "Space no longer covered by any index is read by format signatures: RAW and JPEG images, documents, video. The contents return without names or folders, sorted by type and by internal date where one exists."
+          b: "Space no longer covered by any index is processed via raw drive data recovery using format signatures: RAW and JPEG images, documents, and video. The contents return without names or folders, sorted by type and by internal date where one exists."
         },
         {
           t: "Verify, then hand over on a separate medium",
@@ -2201,7 +2201,7 @@ module.exports = {
             lead: "Ransomware incidents are not alike. Pick the closest one, and the assessment starts from the available evidence without altering the original files.",
             items: [
               { t: "One machine's files will not open", b: "New extensions or a ransom note appeared on a desktop or laptop, and the rest of the machines are working." },
-              { t: "A company server or network stopped", b: "Network shares, user accounts, or more than one machine were affected at the same time." },
+              { t: "A company server or network stopped", b: "Network shares, user accounts, critical application servers, or business database data recovery requirements were affected at the same time." },
               { t: "NAS, RAID or shared storage", b: "Files were encrypted on network-attached storage, a disk array, or central storage." },
               { t: "Backups encrypted or deleted", b: "The backups exist but will not open, or restore points and snapshots were deleted." },
               { t: "Virtual environment or VM files", b: "A VMware or Hyper-V environment, virtual disk files, or hosted systems were affected." },
@@ -2259,7 +2259,7 @@ module.exports = {
             title: "Types of ransomware attack",
             lead: "The route differs with the type. These eight cover most of what reaches us.",
             items: [
-              { t: "File-encrypting ransomware — Crypto", b: "Encrypts files or parts of them while the system sometimes keeps working. It may target documents, images, databases, backups, and virtual machine files." },
+              { t: "File-encrypting ransomware — Crypto", b: "Encrypts files or parts of them while the system sometimes keeps working. Ransomware attack file restore work covers documents, images, databases, backups, and virtual machine files." },
               { t: "Device-locking ransomware — Locker", b: "Blocks sign-in or use of the machine behind a lock screen, without that necessarily meaning every file is encrypted. The assessment has to separate a locked interface from data that is genuinely encrypted." },
               { t: "Double extortion", b: "The attacker claims to have stolen data before encrypting it, then threatens publication as well as blocking access. That is two separate jobs: restoring operations, and establishing the scope of the leak alongside the regulatory and legal response." },
               { t: "Multi or triple extortion", b: "The attacker may add further pressure such as contacting customers or partners, disrupting services, or threatening a denial-of-service attack. Decryption alone does not end the incident." },
@@ -2420,7 +2420,7 @@ module.exports = {
       devices: [
         {
           t: "SQL Server databases",
-          b: "MDF and LDF files are held open by the service at the moment of infection, and only part of them may be encrypted. BAK copies sitting on the same volume are usually hit along with them. The database should not be started before its page consistency is inspected."
+          b: "For sql database recovery after ransomware, MDF and LDF files are held open by the service at the moment of infection, and only part of them may be encrypted. Encrypted database recovery starts by inspecting BAK copies and transaction logs on the same volume, which are usually hit along with them. The database should not be started before its page consistency is inspected."
         },
         {
           t: "MySQL and MariaDB databases",
@@ -2455,7 +2455,7 @@ module.exports = {
         },
         {
           t: "Extract what the encryption never touched",
-          b: "Many programs write a new encrypted file and then delete the original, leaving those originals in unallocated space. We look for them, for system snapshots, temporary copies, transaction logs and older versions, and for the untouched regions inside database files and virtual disk images."
+          b: "To restore encrypted files after ransomware, note that many programs write a new encrypted file and then delete the original, leaving those originals in unallocated space. We look for them, for system snapshots, temporary copies, transaction logs and older versions, and for the untouched regions inside database files and virtual disk images."
         },
         {
           t: "Rebuild, then hand over in isolation",
@@ -2970,7 +2970,7 @@ module.exports = {
       devices: [
         {
           t: "SanDisk",
-          b: "SanDisk SD, microSD and USB media run on their own controllers and translation tables. Many of their microSD cards are moulded as a single piece, so there is no chip to remove and the work is done on the body of the card itself."
+          b: "SanDisk SD, microSD and USB media run on their own controllers and translation tables. We specialize in usb flash drive data recovery and microSD extraction, even when cards are moulded as a single piece where there is no chip to remove and the work is done on the body of the card itself."
         },
         {
           t: "Lexar",
@@ -3009,7 +3009,7 @@ module.exports = {
         },
         {
           t: "Rebuild the order, then the files",
-          b: "A raw chip read is not files: ECC errors are corrected, the data scrambling is reversed, the pages are put back in sequence, then the file system is rebuilt and camera clips are carved from their own internal structure. We verify by opening the photos and playing the clips before handover."
+          b: "A raw chip read is not files: ECC errors are corrected, the data scrambling is reversed, and the pages are put back in sequence. Through specialized flash drive raw file recovery and file carving, the file system is rebuilt and camera clips are carved from their own internal structure. We verify by opening the photos and playing the clips before handover."
         }
       ],
       caseTitle: "An SD card that asked to be formatted after a shoot",

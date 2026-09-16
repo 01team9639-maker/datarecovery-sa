@@ -35,8 +35,8 @@ module.exports = [
     },
     en: {
       title: "Recovering Files From a Failed or Dead Hard Drive",
-      metaTitle: "Failed & Dead Hard Drive Recovery | Zero 2 One",
-      metaDesc: "Recover data from failed or non-working hard drives—mechanical, electronic and logical faults. Diagnosis first, before any attempt. Riyadh, Saudi Arabia.",
+      metaTitle: "Hard Drive Data Recovery | External HDD & Laptop Cost",
+      metaDesc: "Hard drive data recovery for clicking hard drive recovery and unreadable hard drive. Recover data from an external hard drive and laptop hard drive.",
       heroHook: "Drive not showing up? Don't power it on again.",
       heroIntro: "If the drive doesn't appear, makes a clicking sound, or stopped after a drop or power cut, the most important thing is to not keep trying. Every extra power-on can increase the damage.",
       symHook: "That strange noise is not a small detail.",
@@ -55,7 +55,7 @@ module.exports = [
       faqs: [
         { q: "Can data be recovered from a clicking hard drive?", a: "The noise may indicate a physical fault, so the drive should be stopped and not powered on before inspection." },
         { q: "Can data be recovered from an external drive that won't show up?", a: "Yes, the cable, enclosure, electronic board and the disk itself can be inspected to find the cause." },
-        { q: "Does recovery software work on a damaged drive?", a: "It may help with simple deletions, but it can be dangerous with a physical fault or unstable reads." }
+        { q: "Does recovery software work on a damaged drive?", a: "It may help with simple deletions, but relying on consumer software for specialized hard drive data recovery can be dangerous with a physical fault or unstable reads." }
       ],
       ctaHook: "Every extra power-on can change the outcome.",
       ctaBody: "Stop the device and send your case details. We start by inspecting it and explain your recovery odds and the best next step before starting."
@@ -93,10 +93,10 @@ module.exports = [
     },
     en: {
       title: "SSD & NVMe Data Recovery for Failed Disks or Missing Files",
-      metaTitle: "SSD & NVMe Data Recovery | Zero 2 One Data Recovery",
-      metaDesc: "Recover data from SSD, NVMe and M.2 disks when the drive fails or files disappear. Specialised handling of firmware and controller issues. Riyadh, Saudi Arabia.",
+      metaTitle: "Solid State Drive Recovery | Repair Formatted SSD Drive",
+      metaDesc: "Solid-state drive recovery and internal SSD data recovery. Expert SSD firmware failure recovery, retrieve data from formatted SSD, repair and recover SSD drive.",
       heroHook: "SSD gone? Don't treat it like a normal hard drive.",
-      heroIntro: "SSD and NVMe disks rely on a controller and different management technologies. Random attempts can lower recovery odds, especially with a firmware problem or continued use of the disk.",
+      heroIntro: "SSD and NVMe disks rely on a controller and different management technologies. Random attempts can lower recovery odds for internal ssd data recovery, especially with a firmware problem or continued use of the disk.",
       symHook: "Silence doesn't mean the data is gone.",
       symTitle: "When do you need SSD data recovery?",
       symptoms: [
@@ -108,7 +108,7 @@ module.exports = [
       diagTitle: "NVMe and M.2 data recovery",
       diagBody: "NVMe and M.2 disks are common in laptops and workstations. The fault may relate to how the disk is read or how it manages data; so the type, visibility state and error nature are inspected before deciding on recovery feasibility.",
       warnTitle: "Why avoid recovery software?",
-      warnBody: "If the SSD is unstable or doesn't appear normally, recovery software may wear the disk further or write new data to a sensitive area. Stopping use may be the best decision.",
+      warnBody: "If the SSD is unstable or doesn't appear normally, using consumer software to repair and recover ssd drive hardware may wear the disk further or write new data to a sensitive area. Stopping use may be the best decision.",
       faqHook: "A faster disk, a more precise diagnosis.",
       faqs: [
         { q: "Can data be recovered from an SSD that won't show up?", a: "It's possible in some cases; the result depends on the cause of non-appearance and the state of the internal components." },
@@ -151,26 +151,26 @@ module.exports = [
     },
     en: {
       title: "RAID & Server Data Recovery for Businesses",
-      metaTitle: "RAID & Server Data Recovery | Zero 2 One Data Recovery",
-      metaDesc: "Business data recovery for RAID arrays, servers, NAS and SAN systems. The array is analysed before any rebuild. Riyadh, Saudi Arabia.",
+      metaTitle: "RAID Data Recovery Service | NAS & Server Recovery",
+      metaDesc: "RAID data recovery service & server data recovery services. We offer NAS server data recovery, SAN storage data recovery & enterprise server data recovery.",
       heroHook: "One failed disk doesn't mean everything is lost.",
-      heroIntro: "When a RAID fails or the server stops reading data, repeated restarts or starting a new rebuild without inspection can multiply the problem.",
+      heroIntro: "If you require a professional raid data recovery service when a RAID fails or the server stops reading data, repeated restarts or starting a new rebuild without inspection can multiply the problem. Our server data recovery services work from images, without writing to the original disks.",
       symHook: "Don't start a rebuild before understanding the array.",
       symTitle: "When does a business need a RAID inspection?",
       symptoms: [
-        { t: "One or more failed disks", b: "A Failed or Degraded disk appears inside the RAID array." },
+        { t: "One or more failed disks", b: "A Failed or Degraded disk appears inside the array during an enterprise server data recovery event." },
         { t: "File access stopped", b: "Shared folders or server services are no longer available." },
         { t: "Rebuild or NAS failure", b: "A rebuild failed, or the NAS and SAN stopped reading data." }
       ],
       diagHook: "Every disk carries part of the story.",
       diagTitle: "RAID data recovery",
-      diagBody: "The data is spread across more than one disk. We start by understanding the storage structure, the number of disks, the RAID type and error messages, then choose the right path while preserving disk order and settings.",
+      diagBody: "When executing a multi drive raid recovery, the data is spread across more than one disk. We start by understanding the storage structure, the number of disks, the RAID type and error messages. Through precise raid drive reconstruction, we choose the right path while preserving disk order and settings.",
       warnTitle: "Don't start a new rebuild",
       warnBody: "Don't change the disk order. Don't replace more than one disk. And don't start an extra rebuild before inspection. One sequence mistake can affect the whole array.",
       faqHook: "Order, type and state decide the path.",
       faqs: [
         { q: "Can RAID be recovered after more than one disk fails?", a: "It depends on the RAID type, the number of affected disks and the state of the data on each disk." },
-        { q: "Can NAS data be recovered?", a: "Yes, a NAS can be inspected when its disks fail or its file system is damaged." },
+        { q: "Can NAS data be recovered?", a: "Yes, we provide network attached storage recovery when its disks fail or its file system is damaged." },
         { q: "What should I do if a rebuild fails?", a: "Stop the attempt, don't change the disk order, and request a specialist inspection." }
       ],
       ctaHook: "Stop the system before the fault doubles.",
@@ -209,10 +209,10 @@ module.exports = [
     },
     en: {
       title: "Recovering Deleted or Lost CCTV Footage",
-      metaTitle: "CCTV DVR & NVR Footage Recovery | Zero 2 One Data Recovery",
-      metaDesc: "Recover deleted or lost CCTV footage from DVR, NVR and recording drives. Inspection of Hikvision and Dahua systems. Riyadh, Saudi Arabia.",
+      metaTitle: "CCTV Data Recovery | Restore Deleted Security Footage",
+      metaDesc: "CCTV data recovery & deleted security footage recovery service. Recover deleted CCTV video, surveillance camera video recovery & security DVR data retrieval.",
       heroHook: "Footage gone? Time is now part of the problem.",
-      heroIntro: "Deleted or lost footage from DVRs, NVRs and recording drives can be inspected. Recovery feasibility is affected by how long recording continued after the loss, the disk state and the storage method.",
+      heroIntro: "Through our professional cctv data recovery service, deleted or lost footage from DVRs, NVRs, and recording drives can be inspected. Recovery feasibility is affected by how long recording continued after the loss, the disk state, and the storage method.",
       symHook: "Every new recording can overwrite the evidence.",
       symTitle: "When can camera footage be recovered?",
       symptoms: [
@@ -220,7 +220,7 @@ module.exports = [
         { t: "DVR not working", b: "The recorder stopped or the clips are no longer viewable." },
         { t: "Damaged recording drive", b: "The disk suffered a fault or was formatted by mistake." }
       ],
-      diagHook: "DVRs and NVRs don't store video as a normal file.",
+      diagHook: "When performing dvr security camera footage recovery, standard tools are insufficient because DVRs and NVRs don't store video as normal files.",
       diagTitle: "DVR and NVR footage recovery",
       diagBody: "Recorders run continuously and may overwrite old clips automatically. Hikvision and Dahua systems can be inspected by device type, disk state and storage system before judging recovery feasibility.",
       warnTitle: "Stop recording immediately",
@@ -266,9 +266,9 @@ module.exports = [
       ctaBody: "أرسل نوع الجهاز وطريقة الفورمات وما حدث بعده. هذه التفاصيل تساعدنا على تقييم الفرصة بدقة."
     },
     en: {
-      title: "Data Recovery After Formatting & Deleted File Recovery",
-      metaTitle: "Data Recovery After Formatting | Zero 2 One",
-      metaDesc: "Recover data after a format and retrieve deleted files from disks, flash and memory cards. Stop using the device before it's overwritten. Riyadh, SA.",
+      title: "Data Recovery After Formatting & Deleted File Recovery Service",
+      metaTitle: "Recover Data After Format | Deleted File Recovery Service",
+      metaDesc: "Deleted file recovery service to recover data after format. We perform lost partition data recovery, RAW drive data recovery & restore deleted files.",
       heroHook: "Formatted it? Don't copy any new file.",
       heroIntro: "A format doesn't always mean the files are gone for good, but using the device afterwards can lower the recovery chance. Stop using it and don't copy any new data.",
       symHook: "Empty space may not actually be empty.",
@@ -276,7 +276,7 @@ module.exports = [
       symptoms: [
         { t: "Hard drive or SSD", b: "The disk was formatted or a partition was deleted by mistake." },
         { t: "Flash or SD card", b: "Photos or files disappeared after a format." },
-        { t: "Deleted files", b: "Important photos, documents or videos were deleted." }
+        { t: "Deleted files", b: "Important photos, videos, or a need to restore deleted document files." }
       ],
       diagHook: "What happens after the format matters more than the format itself.",
       diagTitle: "Recovering photos and documents after a format",
@@ -325,10 +325,10 @@ module.exports = [
     },
     en: {
       title: "Recovering Files Encrypted by Ransomware",
-      metaTitle: "Ransomware Encrypted File Recovery | Zero 2 One",
-      metaDesc: "Recover files encrypted by ransomware — technical assessment of the infection and backups before any step. Don't pay before assessment. Riyadh, SA.",
+      metaTitle: "Ransomware Data Recovery & Decryption | File Restore",
+      metaDesc: "Ransomware victim data recovery & enterprise ransomware recovery. We recover files from ransomware, decrypt infected files & offer ransomware decryption.",
       heroHook: "Files encrypted? Don't delete anything.",
-      heroIntro: "When ransomware encrypts files, deleting, formatting or using untrusted tools can increase the damage. Fast, organised handling preserves your assessment options.",
+      heroIntro: "When looking to recover files from ransomware, deleting, formatting or using untrusted tools can increase the damage. Our ransomware data recovery process keeps handling fast and organised so your assessment options are preserved.",
       symHook: "Speed matters, but randomness is more dangerous.",
       symTitle: "What to do when your files are encrypted?",
       symptoms: [
@@ -338,7 +338,7 @@ module.exports = [
       ],
       diagHook: "Recovery starts by understanding the infection type.",
       diagTitle: "Business data recovery after a ransomware attack",
-      diagBody: "The infection type, the encrypted files and the available backups are inspected. In a business environment we review servers, storage media and backups to determine recovery chances and reduce downtime impact.",
+      diagBody: "The infection type, the encrypted files and the available backups are inspected during enterprise ransomware recovery. For any ransomware victim, data recovery starts by reviewing servers, storage media and backups to determine recovery chances and reduce downtime impact.",
       warnTitle: "Don't pay before assessment",
       warnBody: "Paying doesn't guarantee file recovery. Don't make the decision before understanding the encryption type, backup state and technical recovery feasibility.",
       faqHook: "Don't pay and don't format before assessment.",
@@ -388,20 +388,20 @@ module.exports = [
     },
     en: {
       title: "Recovering Photos and Files From a Damaged or Dead Phone",
-      metaTitle: "Phone & Smart Device Data Recovery | Zero 2 One",
-      metaDesc: "Data recovery for phones damaged by water or a drop, broken screens, dead boards and deleted photos on iOS and Android. Riyadh, Saudi Arabia.",
+      metaTitle: "Mobile Data Recovery Expert | Dead Phone & Photos",
+      metaDesc: "Mobile data recovery expert for phone memory & smartphone file recovery. Handles dead phone data recovery & recovers deleted photos from phones.",
       heroHook: "Phone went in the water? Don't charge it and don't switch it on.",
       heroIntro: "If the phone is dead and unresponsive, took in water, or has a shattered screen, the first step is to stop. Every attempt to power it on or charge it can turn temporary damage into permanent damage.",
       symHook: "A silent phone is not necessarily an empty one.",
       symTitle: "When do you need a phone inspection?",
       symptoms: [
-        { t: "The phone won't turn on", b: "The device died after a drop, water or charging, and responds to neither the button nor the charger." },
-        { t: "Broken screen, working device", b: "The phone runs but the display or touch is unresponsive, so the lock code can't be entered." },
-        { t: "Photos gone or a factory reset", b: "Photos were deleted from a broken phone, or an Android device was reset to factory settings." }
+        { t: "The phone won't turn on", b: "The device died after a drop, water or charging issue. We provide dead phone data recovery and a phone memory recovery service directly from the hardware." },
+        { t: "Broken screen, working device", b: "The phone runs but the display or touch is unresponsive. We offer broken screen phone data retrieval when lock codes cannot be entered via touch." },
+        { t: "Photos gone or a factory reset", b: "Whether you need to recover deleted photos from phone storage or evaluate options for phone factory reset data recovery, the device's encryption status is assessed first." }
       ],
       diagHook: "Encryption is part of the equation, not a side detail.",
       diagTitle: "Can photos be recovered from a broken phone?",
-      diagBody: "Recovery may be possible in many cases, but modern phones are encrypted from the factory and that puts real limits on what can be reached. On iOS, the data is tied to keys held inside the chip itself; on Android the outcome varies with the system version, the lock method and the encryption generation. When the board is damaged, the work needs a lab environment and precise soldering tools, and is not a home attempt. We start by inspecting the board, the memory and the lock state, then explain what is genuinely possible before any attempt.",
+      diagBody: "Recovery may be possible in many cases, but modern phones are encrypted from the factory and that puts real limits on complete smartphone file recovery. On iOS, the data is tied to keys held inside the chip itself; on Android the outcome varies with the system version, the lock method and the encryption generation. When the board is damaged, the work needs a lab environment and precise soldering tools, and is not a home attempt. We start by inspecting the board, the memory and the lock state, then explain what is genuinely possible before any attempt.",
       warnTitle: "Don't charge a wet phone",
       warnBody: "Don't power the device on after water and don't put it in rice or in front of a hairdryer; heat and current can carry the corrosion further across the board. Don't factory reset, don't sign in with a new account, and don't install recovery apps on the phone itself, as they may overwrite what you're looking for.",
       faqHook: "Before you try charging it again.",
@@ -457,8 +457,8 @@ module.exports = [
     },
     en: {
       title: "Recovering Files From Damaged Memory Cards, USB Flash Drives and Camera Media",
-      metaTitle: "Memory Card & USB Flash Drive Recovery | Zero 2 One",
-      metaDesc: "Recover data from unreadable memory cards, USB flash drives and camera media — format prompts, snapped sticks, controller failure. Riyadh, Saudi Arabia.",
+      metaTitle: "SD Card Data Recovery | USB Flash Drive Data Recovery",
+      metaDesc: "SD card data recovery & USB flash drive data recovery. Micro SD card recovery service to recover corrupted SD cards & perform damaged memory card recovery.",
       heroHook: "Card asking to be formatted? Don't click OK.",
       heroIntro: "If the system asks to format the card, or the camera stops reading it after a shoot, the data may still be intact and only the path to it is broken. Every quick fix attempt can change what's left.",
       symHook: "Small media, damage that adds up fast.",
@@ -470,7 +470,7 @@ module.exports = [
       ],
       diagHook: "A chip is not a disk.",
       diagTitle: "Camera card recovery for Sony, Canon and GoPro media",
-      diagBody: "SD cards, camera media and USB sticks store data in NAND chips managed by a controller. When the controller fails or a joint breaks, the medium doesn't appear at all, and reading the chip itself may be required. In monolithic media the chip and controller sit in one moulded piece, so work starts by identifying the media type and connection state before any read attempt. Deleted video from Sony, Canon or GoPro cards may be recoverable depending on what was written afterwards.",
+      diagBody: "Our micro sd card recovery service handles both logical and physical damage. SD cards, camera media and USB sticks store data in NAND chips managed by a controller. When the controller fails or a joint breaks, the medium doesn't appear at all, and reading the chip itself may be required. In monolithic media the chip and controller sit in one moulded piece, so work starts by identifying the media type and connection state before any read attempt. Whether you require camera sd card file recovery for Sony, Canon or GoPro media, deleted video may be recoverable depending on what was written afterwards.",
       warnTitle: "Why cheap recovery software makes it worse",
       warnBody: "Don't accept the format prompt. Don't keep re-inserting a snapped drive, and don't solder or glue it yourself. Cheap recovery software assumes the medium is healthy; it can rewrite file tables or keep pushing a damaged controller until it stops responding for good. And don't shoot anything new on the same card.",
       faqHook: "Before you accept the format prompt.",
