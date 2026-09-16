@@ -91,6 +91,11 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   RewriteRule ^ar/.*(كاميرا|مراقبة) /services/cctv.html [R=301,L]
   RewriteRule ^ar/.*(فورمات|تهيئة) /services/after-format.html [R=301,L]
   RewriteRule ^ar/.*(فلاش|ذاكرة|بطاقة) /services/memory-cards.html [R=301,L]
+  # النسخ الاحتياطي: لا صفحة خدمة له — الموقع يعالجه وقايةً لا استعادةً —
+  # ووجهته الصحيحة مقال المدونة الذي يشرح قاعدة 3-2-1 وكيفية اختبارها.
+  # بلا هذه القاعدة يسقط الرابط إلى تجريد /ar/ العام فينتهي 404، وهو ما رصده
+  # تدقيق 2026-09-16 على /ar/حلول-النسخ-الاحتياطي-للبيانات/.
+  RewriteRule ^ar/.*(احتياطي|احتياطية|باك.?اب) /blog/backup-3-2-1-rule/ [R=301,L]
 
   # Any other /ar/ path: strip the prefix, since Arabic now lives at the root.
   # If the target does not exist either, the keyword map further down catches it.
