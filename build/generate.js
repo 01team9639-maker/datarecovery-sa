@@ -604,7 +604,7 @@ function logo(lang) {
     : "Zero 2 One Data Recovery logo — data recovery in Riyadh";
   return `<span class="logo" aria-hidden="true">
       <img class="logo__mark" src="/assets/img/logo-mark.png" alt="${esc(alt)}" width="92" height="120" decoding="async">
-      <span class="logo__wm"><b>Zero&nbsp;2&nbsp;One</b><i>DATA&nbsp;RECOVERY</i></span>
+      <span class="logo__wm"><b>Zero&nbsp;2&nbsp;One</b> <i>DATA&nbsp;RECOVERY</i></span>
     </span>`;
 }
 
@@ -613,7 +613,10 @@ function header(lang) {
   const o = t.otherLang;
   const menuLabel = lang === "ar" ? "القائمة" : "Menu";
   const closeLabel = lang === "ar" ? "إغلاق القائمة" : "Close menu";
-  const brandLabel = lang === "ar" ? "من الصفر إلى الواحد — Zero 2 One Data Recovery" : "Zero 2 One Data Recovery";
+  /* الاسم المتاح يبدأ بالنصّ المرئي حرفيًّا — شرط WCAG 2.5.3 «التسمية في
+     الاسم». من يتحكّم بالصوت يقول «اضغط Zero 2 One» فيجب أن يجدها أول
+     الاسم. وكان الترتيب معكوسًا فرصده تدقيق الإتاحة. */
+  const brandLabel = lang === "ar" ? "Zero 2 One DATA RECOVERY — من الصفر إلى الواحد" : "Zero 2 One DATA RECOVERY";
   const item = (href, label, attrs = "") => `
           <li><a href="${href}"${attrs}>${esc(label)}</a></li>`;
   // data-home-link lets main.js scroll straight to the hero when we are already
