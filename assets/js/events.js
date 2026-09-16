@@ -37,7 +37,9 @@
   /* اسم الخدمة يُشتقّ من المسار لا من نصّ الصفحة: الأول ثابت بين اللغتين
      فتجتمع الأرقام في تقرير واحد، والثاني يتفرّق بينهما. */
   function serviceName() {
-    var m = d.location.pathname.match(/\/services\/([a-z0-9-]+)\.html$/);
+    // يلتقط /services/hdd.html و /services/ransomware/cases/*.html معًا:
+    // صفحات الحالات تخصّ الفدية، وكانت تُرسَل "none" فتضيع نسبتها إليها.
+    var m = d.location.pathname.match(/\/services\/([a-z0-9-]+)(?:\.html$|\/)/);
     if (m) return m[1];
     var c = d.location.pathname.match(/\/cities\/([a-z0-9-]+)\.html$/);
     if (c) return "city:" + c[1];
