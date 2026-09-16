@@ -104,8 +104,22 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   RewriteRule ^ar/.*(شريط|أشرطة|الأشرطة|مغناطيسي) /#services [R=301,L,NE]
   RewriteRule ^ar/.*(محرك|محركات|الأقراص|اسطوانة) /services/hdd.html [R=301,L]
 
-  # Any other /ar/ path: strip the prefix, since Arabic now lives at the root.
-  # If the target does not exist either, the keyword map further down catches it.
+  # المدن بعد الخدمات لا قبلها: «استعادة هارد في الرياض» مشكلتُها القرص لا
+  # المدينة، فصفحة الخدمة أدقّ. وما لا يذكر خدمةً بعينها تكفيه صفحة مدينته.
+  RewriteRule ^ar/.*(الرياض) /cities/riyadh.html [R=301,L]
+  RewriteRule ^ar/.*(جدة|جده) /cities/jeddah.html [R=301,L]
+  RewriteRule ^ar/.*(الدمام|دمام) /cities/dammam.html [R=301,L]
+
+  # «استعادة البيانات» وحدها بلا وسيط: اسم النشاط كلّه. وجهتها الرئيسية —
+  # الصفحة التي تتحدّث عن ذلك فعلًا — لا صفحة قرص صلب لا يملكه الزائر، ولا
+  # 404. هذه آخر قاعدة موضوعية: ما بلغها لم تلتقطه خدمة ولا مدينة.
+  RewriteRule ^ar/.*(استعادة|استرجاع|بيانات|data.recovery) / [R=301,L,NE]
+
+  # ما بقي: أسقِط البادئة. وإن كان له ملف .html فاذهب إليه مباشرةً — بلا هذا
+  # الشرط يمرّ /ar/about بقفزتين: /about ثم /about.html.
+  RewriteRule ^ar/index\.(?:html?|php)$ / [R=301,L,NC]
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^ar/(.+?)/?$ /$1.html [R=301,L]
   RewriteRule ^ar/(.*)$ /$1 [R=301,L]
   RewriteRule ^ar$ / [R=301,L]
 
@@ -194,6 +208,17 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   # وبقيت backup وحدها موجَّهةً إلى مقال النسخ الاحتياطي لا إلى HDD: لها
   # موضوع محدَّد في الموقع، والمقال يعالجه.
   RewriteRule (backup|back[-_]?up) /blog/backup-3-2-1-rule/ [R=301,L,NC]
+
+  # المدن بعد الخدمات: الخدمة تصف المشكلة، والمدينة تصف مكانها فقط.
+  RewriteRule (riyadh|الرياض) /cities/riyadh.html [R=301,L,NC]
+  RewriteRule (jeddah|جدة|جده) /cities/jeddah.html [R=301,L,NC]
+  RewriteRule (dammam|الدمام|دمام) /cities/dammam.html [R=301,L,NC]
+
+  # وأخيرًا الاسم العامّ للنشاط. حذفُه بالكامل — كما فعلتُ أولًا — أصلح
+  # الأشرطة وأسقط أعمّ الروابط القديمة إلى 404: /data-recovery/ نفسه.
+  # مكانه الصحيح آخر القائمة لا وسطها: لا يلتقط إلا ما لم تُطالب به خدمة
+  # ولا مدينة، ووجهته الرئيسية.
+  RewriteRule (data[-_]?recovery|recovery|restore|استعادة|استرجاع) / [R=301,L,NC,NE]
 
   # Anything still unmatched falls through to ErrorDocument 404, which serves a
   # page listing every service — deliberately NOT a blanket redirect to the
