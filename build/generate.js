@@ -534,7 +534,12 @@ function docStart({ lang, title, desc, canonical, altAr, altEn, schemas, noindex
   <link rel="manifest" href="/site.webmanifest">
   ${graph}
 </head>
-<body>${config.gtm ? `\n  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${config.gtm}" class="gtm-noscript" title="Google Tag Manager"></iframe></noscript>` : ""}
+<body>${/* إطار <noscript> لـGTM محذوف عمدًا. بوّابة الموافقة كلها JavaScript،
+     فمن يزور بلا JavaScript لا يرى الشريط ولا يملك وسيلة للقبول — ومع ذلك
+     كان الإطار يُرسل طلبًا إلى googletagmanager.com يحمل عنوانه ومَرجِعه.
+     أُثبت بمتصفّح حقيقي وJavaScript مطفأ في 2026-09-16.
+     ونصّ الخصوصية يقول: «لا يعمل أيٌّ من هذه الثلاثة قبل موافقتك». الإطار
+     كان يكذّبه. وفائدته صفر: حاوية بلا JavaScript لا تُشغّل وسمًا. */""}
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader__inner">
       <span class="preloader__wm">

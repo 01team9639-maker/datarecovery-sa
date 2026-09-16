@@ -98,7 +98,6 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 
 /* Google Tag Manager <noscript> fallback — hidden without an inline style
    attribute (kept out of markup so the strict no-inline-style CSP holds). */
-.gtm-noscript { display: none; width: 0; height: 0; border: 0; }
 
 /* No-JS contact-form result page (served by send.php) */
 .form-fallback { min-height: 100vh; display: grid; place-content: center; text-align: center; gap: 1.2rem; }
