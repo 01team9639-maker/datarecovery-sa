@@ -59,7 +59,18 @@
     return "body";
   }
 
+  /* لا يُسجَّل تفاعل قبل أن يختار الزائر. الملف لا يرسل شيئًا بنفسه — يدفع
+     إلى dataLayer وحده — لكن GTM يعيد قراءة المصفوفة كاملةً عند إقلاعه،
+     فدفعةٌ سبقت القبول تصير حدثًا مُرسَلًا بأثر رجعي ما إن يُربَط بها وسم في
+     الحاوية. اليوم لا وسم لها فلا شيء يُرسَل — وهذا حظٌّ لا تصميم، يزول مع
+     أول إعداد في الحاوية.
+
+     ونصّ الخصوصية يقول: «لا يعمل أيٌّ من هذه الثلاثة قبل موافقتك». فالقاعدة
+     هنا تطابقه بلا اعتماد على إعداد خارج المستودع: ما وقع قبل الاختيار لا
+     يُقاس، وما وقع بعد القبول يُقاس. */
   function push(event, el, extra) {
+    if (!w.z2oConsent || w.z2oConsent.state !== "granted") return;
+
     var where = el ? ctaLocation(el) : "none";
     var now = Date.now();
 
@@ -81,6 +92,7 @@
     if (el) payload.cta_location = where;
     if (extra) for (var k in extra) payload[k] = extra[k];
     (w.dataLayer = w.dataLayer || []).push(payload);
+    return true;
   }
 
   w.z2oTrack = push;
@@ -105,10 +117,13 @@
      بلوحة المفاتيح وبالضغط العابر، فيضخّم الرقم بلا نيّة خلفه. */
   var form = d.querySelector("form[data-contact-form], form#contactForm, .contact form, form");
   if (form) {
-    // form_start وحده يبقى { once: true }: بدء التعبئة حدث واحد في الصفحة
-    // بطبيعته، وتكراره مع كل حرف يُفرغه من معناه.
-    form.addEventListener("input", function () {
-      push("form_start", form);
-    }, { once: true });
+    /* form_start حدث واحد في الصفحة بطبيعته، وتكراره مع كل حرف يُفرغه من
+       معناه — لكن { once: true } كان يستهلك المستمع ولو رُدَّت الدفعة لغياب
+       الموافقة. من يكتب ثم يقبل كان يفقد الحدث إلى الأبد. المستمع يُزيل نفسه
+       عند أول دفعة ناجحة لا عند أول ضغطة مفتاح. */
+    var onFirstInput = function () {
+      if (push("form_start", form)) form.removeEventListener("input", onFirstInput);
+    };
+    form.addEventListener("input", onFirstInput);
   }
 })(window, document);
