@@ -39,7 +39,7 @@
     b.textContent = text;
     b.addEventListener("click", function () {
       fn();
-      box.remove();
+      hide();
       var l = d.querySelector("[data-consent-settings]");
       if (l) l.textContent = c.state === "granted" ? T.withdraw : T.settings;
     });
@@ -52,11 +52,51 @@
   box.appendChild(p);
   box.appendChild(row);
 
+  /* الشريط آخر عنصر في الصفحة، فمن يتنقّل بلوحة المفاتيح كان يحتاج أربعًا
+     وخمسين ضغطة Tab ليبلغ نافذةً تطلب منه قرارًا — قِستُها على الإنتاج في
+     2026-09-16. و role="dialog" بلا نقل تركيز لا يُعلَن نافذةً أصلًا: قارئ
+     الشاشة يمرّ عليه كما يمرّ على أي div.
+
+     فالتركيز ينتقل إليه عند ظهوره، ويدور بين عناصره ما دام مفتوحًا، ويعود
+     إلى حيث كان عند إغلاقه. والحصر لا يحبس أحدًا: رابط سياسة الخصوصية داخل
+     النافذة، فمن أراد القراءة قبل الاختيار يبلغه. */
+  var lastFocus = null;
+
+  function focusables() {
+    return [].slice.call(box.querySelectorAll("a[href], button")).filter(function (e) {
+      return e.offsetParent !== null;
+    });
+  }
+
+  function onKey(e) {
+    if (e.key !== "Tab") return;
+    var f = focusables();
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && d.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && d.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
   function show() {
     if (d.querySelector(".consent")) return;
+    lastFocus = d.activeElement;
     d.body.appendChild(box);
+    box.setAttribute("tabindex", "-1");
+    box.addEventListener("keydown", onKey);
+    // التركيز على «أوافق»: آخر الأزرار وأقربها إلى ما يريده أكثر الزوّار،
+    // وSHIFT+Tab منه يبلغ «أرفض» ثم الرابط بضغطة أو ضغطتين.
+    var f = focusables();
+    (f.length ? f[f.length - 1] : box).focus();
   }
-  function hide() { if (box.parentNode) box.remove(); }
+
+  function hide() {
+    if (!box.parentNode) return;
+    box.removeEventListener("keydown", onKey);
+    box.remove();
+    // من فتحه من رابط الفوتر يعود إلى الرابط نفسه لا إلى أول الصفحة.
+    if (lastFocus && d.contains(lastFocus) && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
 
   // يُفتح عند أول زيارة، ويُعاد فتحه من رابط «إعدادات الخصوصية» في الفوتر.
   if (!c.state) show();
