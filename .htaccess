@@ -21,6 +21,14 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # GTM Preview — يضبط Z2O_GTM_PREVIEW لترويسات المعاينة المحدودة (انظر كتلة
+  # «GTM Preview» فوق الترويسات). أول قاعدة عمدًا: بلا [L]، فلا تُوقف ما بعدها،
+  # ولا تسبقها قاعدة [L] تمنع ضبط المتغيّر. ومكرَّرة في ‎/blog/.htaccess‎
+  # و‎/blog/en/.htaccess‎ لأن RewriteEngine On هناك يُصفّر ما هنا.
+  RewriteCond %{QUERY_STRING} (^|&)gtm_debug= [OR]
+  RewriteCond %{HTTP_COOKIE} (^|;)\s*_{1,2}TAG_ASSISTANT=
+  RewriteRule ^ - [E=Z2O_GTM_PREVIEW:1]
+
   # ---- Canonical host -------------------------------------------------------
   # www served the entire site with 200 — every page, and every CSS and image
   # file, existed at two live addresses. Measured 2026-09-05 across nine paths:
@@ -273,13 +281,11 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
 #   ‎?gtm_debug=‎ في الرابط — تضعه Tag Assistant في أول صفحة تفتحها؛
 #   كوكي ‎_TAG_ASSISTANT / __TAG_ASSISTANT‎ — تكتبه GTM على النطاق لتبقى
 #   المعاينة متّصلة حين تتنقّل بين الصفحات.
-# أي زائر بلا هاتين الإشارتين يأخذ الترويسات الصارمة كما هي. وSetEnvIfExpr
-# يُورَّث إلى ‎/blog/‎، بخلاف قاعدة إعادة كتابة يُصفّرها RewriteEngine هناك.
-<IfModule mod_setenvif.c>
-  SetEnvIfExpr "%{QUERY_STRING} =~ /(^|&)gtm_debug=/" Z2O_GTM_PREVIEW=1
-  SetEnvIfExpr "%{HTTP_COOKIE} =~ /(^|; ?)_{1,2}TAG_ASSISTANT=/" Z2O_GTM_PREVIEW=1
-</IfModule>
-
+# أي زائر بلا هاتين الإشارتين يأخذ الترويسات الصارمة كما هي.
+#
+# المتغيّر يُضبط بـRewriteCond/[E=] في أول كتلة إعادة الكتابة، لا بـSetEnvIfExpr:
+# جُرّب أولًا (2c32153) فعمل على Apache 2.4.66 محلّيًّا وتجاهله خادم Hostinger
+# (LiteSpeed) بصمت — بقيت الترويسات صارمة مع ‎?gtm_debug=‎. و[E=] مدعوم في الاثنين.
 <IfModule mod_headers.c>
   Header always unset Server
   # الترويسة العادية لكل زائر، والنسخة الموسَّعة لجلسات معاينة GTM وحدها.
