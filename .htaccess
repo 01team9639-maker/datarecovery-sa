@@ -254,15 +254,46 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   </FilesMatch>
 </IfModule>
 
+# ---- GTM Preview (Tag Assistant): استثناء محدود -----------------------------
+# Tag Assistant يفتح الموقع في نافذة من tagassistant.google.com ويتّصل بها عبر
+# window.opener. و COOP: same-origin يقطع هذا المرجع لأي فاتحٍ من أصل آخر —
+# فترى نافذة Tag Assistant الموقع «مغلقًا» فورًا: «The window was closed before
+# a connection could be established». same-origin-allow-popups لا يحلّها: يحمي
+# من فتحه الموقع لا من فتح الموقع. unsafe-none وحدها تُبقي المرجع (MDN، جدول
+# Opening with Window.open). ثبت على الإنتاج 2026-09-17: popup.closed=true
+# و window.opener=null.
+#
+# ووضع المعاينة يحمّل من Google ملفات لا تحتاجها الصفحة العادية (قائمة وثائق
+# Google «Use a Content Security Policy»: tagmanager.google.com وbadge.css
+# وخطوط fonts.googleapis/gstatic وصور gstatic)، ويكتب أنماطًا مضمّنة لشارة
+# المعاينة — رُصدت كلها محجوبة في Console. 'unsafe-inline' هنا للأنماط وحدها،
+# لا للسكربتات، ولا يُضاف unsafe-eval ولا *.
+#
+# الاستثناء لا يُفعَّل إلا بإشارتَي Google نفسيهما:
+#   ‎?gtm_debug=‎ في الرابط — تضعه Tag Assistant في أول صفحة تفتحها؛
+#   كوكي ‎_TAG_ASSISTANT / __TAG_ASSISTANT‎ — تكتبه GTM على النطاق لتبقى
+#   المعاينة متّصلة حين تتنقّل بين الصفحات.
+# أي زائر بلا هاتين الإشارتين يأخذ الترويسات الصارمة كما هي. وSetEnvIfExpr
+# يُورَّث إلى ‎/blog/‎، بخلاف قاعدة إعادة كتابة يُصفّرها RewriteEngine هناك.
+<IfModule mod_setenvif.c>
+  SetEnvIfExpr "%{QUERY_STRING} =~ /(^|&)gtm_debug=/" Z2O_GTM_PREVIEW=1
+  SetEnvIfExpr "%{HTTP_COOKIE} =~ /(^|; ?)_{1,2}TAG_ASSISTANT=/" Z2O_GTM_PREVIEW=1
+</IfModule>
+
 <IfModule mod_headers.c>
   Header always unset Server
-  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.clarity.ms https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net https://www.google.com https://www.google.com.sa https://www.google.ae https://www.google.com.kw https://www.google.com.qa https://www.google.com.bh https://www.google.com.om https://www.google.com.eg https://www.google.jo https://www.google.com.lb https://www.google.nl; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.clarity.ms https://www.googleadservices.com https://googleads.g.doubleclick.net; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests"
+  # الترويسة العادية لكل زائر، والنسخة الموسَّعة لجلسات معاينة GTM وحدها.
+  # الشرط Z2O_GTM_PREVIEW يُضبط أدناه من إشارتَي Google نفسيهما — انظر كتلة
+  # «GTM Preview» تحت الترويسات.
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.clarity.ms https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net https://www.google.com https://www.google.com.sa https://www.google.ae https://www.google.com.kw https://www.google.com.qa https://www.google.com.bh https://www.google.com.om https://www.google.com.eg https://www.google.jo https://www.google.com.lb https://www.google.nl; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.clarity.ms https://www.googleadservices.com https://googleads.g.doubleclick.net; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; worker-src 'none'; upgrade-insecure-requests" env=!Z2O_GTM_PREVIEW
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; connect-src 'self' https://www.clarity.ms https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.doubleclick.net https://www.google.com https://www.googleadservices.com; font-src 'self' https://fonts.gstatic.com data:; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net https://www.google.com https://www.google.com.sa https://www.google.ae https://www.google.com.kw https://www.google.com.qa https://www.google.com.bh https://www.google.com.om https://www.google.com.eg https://www.google.jo https://www.google.com.lb https://www.google.nl https://ssl.gstatic.com https://www.gstatic.com; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.clarity.ms https://www.googleadservices.com https://googleads.g.doubleclick.net https://tagmanager.google.com; script-src-attr 'none'; style-src 'self' https://www.googletagmanager.com https://tagmanager.google.com https://fonts.googleapis.com 'unsafe-inline'; style-src-attr 'unsafe-inline'; worker-src 'none'; upgrade-insecure-requests" env=Z2O_GTM_PREVIEW
   Header always set Strict-Transport-Security "max-age=31536000"
   Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), xr-spatial-tracking=()"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "no-referrer"
   Header always set X-Frame-Options "DENY"
-  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Opener-Policy "same-origin" env=!Z2O_GTM_PREVIEW
+  Header always set Cross-Origin-Opener-Policy "unsafe-none" env=Z2O_GTM_PREVIEW
   Header always set Cross-Origin-Resource-Policy "same-origin"
   Header always set Origin-Agent-Cluster "?1"
   Header always set X-Permitted-Cross-Domain-Policies "none"
