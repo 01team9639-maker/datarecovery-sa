@@ -52,11 +52,11 @@
         <span class="preloader__svc-item">فيروس الفدية</span>
         <span class="preloader__svc-item">الأقراص الصلبة</span>
         <span class="preloader__svc-item">SSD وNVMe</span>
-        <span class="preloader__svc-item">RAID والسيرفرات</span>
+        <span class="preloader__svc-item">RAID والخوادم</span>
         <span class="preloader__svc-item">كاميرات المراقبة</span>
-        <span class="preloader__svc-item">بعد الفورمات</span>
+        <span class="preloader__svc-item">بعد التهيئة</span>
         <span class="preloader__svc-item">الهواتف الذكية</span>
-        <span class="preloader__svc-item">بطاقات الذاكرة والفلاش</span>
+        <span class="preloader__svc-item">بطاقات الذاكرة ووحدات USB</span>
       </span>
     </div>
   </div>
@@ -167,7 +167,7 @@
         <div class="diag">
           <div class="diag__main">
             <h2 class="diag__title" id="diag-title">استعادة بيانات NVMe وM.2</h2>
-            <p class="diag__body">أقراص NVMe وM.2 شائعة في اللابتوبات ومحطات العمل. قد يكون العطل مرتبطاً بطريقة قراءة القرص أو إدارة البيانات داخله؛ لذلك يتم فحص النوع، حالة الظهور وطبيعة الخطأ قبل تحديد إمكانية الاستعادة.</p>
+            <p class="diag__body">أقراص NVMe وM.2 شائعة في الحواسيب المحمولة ومحطات العمل. قد يكون العطل مرتبطاً بطريقة قراءة القرص أو إدارة البيانات داخله؛ لذلك يتم فحص النوع، حالة الظهور وطبيعة الخطأ قبل تحديد إمكانية الاستعادة.</p>
             <div class="diag__steps">
               <div class="step-chip"><span class="step-chip__n" dir="ltr">01</span><p class="step-chip__t">فحص الحالة</p></div>
               <div class="step-chip"><span class="step-chip__n" dir="ltr">02</span><p class="step-chip__t">تحديد المسار</p></div>
@@ -196,10 +196,10 @@
         <ul class="devices">
           <li class="device"><h3 class="device__t">Samsung</h3><p class="device__b">تستخدم Samsung وحدات تحكم وFirmware من تطويرها في أقراص NVMe مثل 970 و980 و990، وأقراص SATA مثل 860 و870. عند الخلل قد يدخل القرص وضع قراءة فقط أو وضع حماية داخلي، وهذه اللحظة هي الأنسب لنسخه قبل أن يتوقف عن الظهور نهائياً.</p></li>
           <li class="device"><h3 class="device__t">Kingston وCrucial</h3><p class="device__b">تعتمد أقراص Kingston وCrucial في الغالب على عائلات وحدات تحكم معروفة مثل Phison وSilicon Motion. يبدأ التعامل بتحديد عائلة وحدة التحكم وإصدار الـFirmware، لأن قرصين بالاسم التجاري نفسه قد يحملان وحدتي تحكم مختلفتين.</p></li>
-          <li class="device"><h3 class="device__t">WD وSanDisk</h3><p class="device__b">أقراص WD وSanDisk شائعة في اللابتوبات وفي الأقراص الخارجية بمنفذ USB. في النسخ الخارجية تكون الذاكرة أحياناً ملحومة مع وحدة التحكم على لوحة واحدة، فلا يوجد قرص يمكن إخراجه، ويتحدد المسار بحالة تلك اللوحة.</p></li>
+          <li class="device"><h3 class="device__t">WD وSanDisk</h3><p class="device__b">أقراص WD وSanDisk شائعة في الحواسيب المحمولة وفي الأقراص الخارجية بمنفذ USB. في النسخ الخارجية تكون الذاكرة أحياناً ملحومة مع وحدة التحكم على لوحة واحدة، فلا يوجد قرص يمكن إخراجه، ويتحدد المسار بحالة تلك اللوحة.</p></li>
           <li class="device"><h3 class="device__t">M.2 NVMe مقابل SSD بمنفذ SATA</h3><p class="device__b">شكل M.2 لا يعني NVMe بالضرورة؛ هناك أقراص M.2 تعمل ببروتوكول SATA وأخرى ببروتوكول NVMe عبر مسارات PCIe. يُحدد البروتوكول وطريقة التوصيل قبل أول تشغيل، لأن الوصلة الخاطئة لا تُظهر القرص وتدفع صاحبه إلى تكرار المحاولة.</p></li>
           <li class="device"><h3 class="device__t">الأقراص المشفّرة</h3><p class="device__b">التشفير في SSD قد يكون داخل وحدة التحكم نفسها (OPAL) أو على مستوى النظام مثل BitLocker. الوصول إلى الذاكرة لا يعني قراءة الملفات: بدون مفتاح الاسترداد أو بيانات الدخول تبقى البيانات غير مقروءة، ونوضح ذلك قبل البدء لا بعده.</p></li>
-          <li class="device"><h3 class="device__t">سلوك TRIM</h3><p class="device__b">بعد الحذف أو الفورمات يرسل النظام أمر TRIM، وقد تستمر وحدة التحكم في مسح تلك المساحات في الخلفية حتى والقرص غير مستخدم. التوقف المبكر عن التشغيل يغيّر الفرص أكثر من أي أداة تُستخدم لاحقاً.</p></li>
+          <li class="device"><h3 class="device__t">سلوك TRIM</h3><p class="device__b">بعد الحذف أو التهيئة يرسل النظام أمر TRIM، وقد تستمر وحدة التحكم في مسح تلك المساحات في الخلفية حتى والقرص غير مستخدم. التوقف المبكر عن التشغيل يغيّر الفرص أكثر من أي أداة تُستخدم لاحقاً.</p></li>
         </ul>
       </div>
     </section>
@@ -209,14 +209,14 @@
         <h2 class="section-title" id="how-title">كيف نتعامل مع SSD وNVMe داخل المختبر</h2>
         <ol class="how">
           <li class="how__step"><span class="how__n" dir="ltr">01</span><div><h3 class="how__t">تحديد نوع القرص قبل توصيله</h3><p class="how__b">M.2 بروتوكول NVMe، أو M.2 بروتوكول SATA، أو SSD مقاس 2.5 بمنفذ SATA، أو ذاكرة ملحومة على لوحة؛ لكل نوع وصلة مختلفة. تُفحص اللوحة بصرياً بحثاً عن أثر حرارة أو عنصر محترق قبل وصول أي طاقة.</p></div></li>
-          <li class="how__step"><span class="how__n" dir="ltr">02</span><div><h3 class="how__t">توصيل بمانع كتابة وTRIM معطّل</h3><p class="how__b">يُوصل القرص عبر مسار يمنع الكتابة مع تعطيل التهيئة التلقائية وأمر TRIM، ثم تُقرأ هوية وحدة التحكم: هل يعلن الموديل والسعة الصحيحة، أم يظهر بسعة صفر أو في وضع اضطراري. إذا ظهر مستقراً يُنسخ في الجلسة نفسها بمرور واحد وبعمق طلبات منخفض، لأن أقراص SSD غالباً تتوقف دفعة واحدة لا تدريجياً.</p></div></li>
+          <li class="how__step"><span class="how__n" dir="ltr">02</span><div><h3 class="how__t">توصيل بمانع كتابة وTRIM معطّل</h3><p class="how__b">يُوصل القرص عبر مسار يمنع الكتابة مع تعطيل التهيئة التلقائية وأمر TRIM، ثم تُقرأ هوية وحدة التحكم: هل يعلن الطراز والسعة الصحيحة، أم يظهر بسعة صفر أو في وضع اضطراري. إذا ظهر مستقراً يُنسخ في الجلسة نفسها بمرور واحد وبعمق طلبات منخفض، لأن أقراص SSD غالباً تتوقف دفعة واحدة لا تدريجياً.</p></div></li>
           <li class="how__step"><span class="how__n" dir="ltr">03</span><div><h3 class="how__t">العمل على مستوى وحدة التحكم والذاكرة</h3><p class="how__b">عند عدم استجابة وحدة التحكم ينتقل العمل داخل المختبر إلى مستوى الشرائح: قراءة الذاكرة وإعادة بناء طبقة الترجمة من ترتيب الكتل وتصحيح الأخطاء وفك التداخل. وإذا كان القرص مشفّراً ولا يتوفر مفتاحه تبقى القراءة غير مفهومة.</p></div></li>
           <li class="how__step"><span class="how__n" dir="ltr">04</span><div><h3 class="how__t">إعادة بناء الملفات من النسخة</h3><p class="how__b">يُعاد بناء نظام الملفات من النسخة لا من القرص الأصلي، وتُفتح عينات للتأكد من سلامتها، ثم تُسلّم البيانات على وسيط منفصل.</p></div></li>
         </ol>
         <aside class="mini-case">
           <p class="mini-case__label">حالة نموذجية</p>
-          <h3 class="mini-case__title">حالة نموذجية: لابتوب توقف عن الإقلاع وقرص M.2 يظهر بسعة خاطئة</h3>
-          <p class="mini-case__body">حالة نموذجية: لابتوب توقف عن الإقلاع فجأة. يظهر قرص M.2 من نوع NVMe في إعدادات BIOS لكن بسعة غير صحيحة، وكان صاحبه قد أعاد التشغيل عدة مرات وجرّب علبة خارجية. وصل الجهاز إلى المختبر دون محاولة تحديث Firmware. وُصل القرص عبر مانع كتابة مع تعطيل TRIM، فاتضح أن وحدة التحكم دخلت وضع حماية يسمح بالقراءة فقط. نُسخ القرص بمرور واحد في تلك الجلسة، ثم أُعيد بناء نظام الملفات من النسخة.</p>
+          <h3 class="mini-case__title">حالة نموذجية: حاسوب محمول توقف عن الإقلاع وقرص M.2 يظهر بسعة خاطئة</h3>
+          <p class="mini-case__body">حالة نموذجية: حاسوب محمول توقف عن الإقلاع فجأة. يظهر قرص M.2 من نوع NVMe في إعدادات BIOS لكن بسعة غير صحيحة، وكان صاحبه قد أعاد التشغيل عدة مرات وجرّب علبة خارجية. وصل الجهاز إلى المختبر دون محاولة تحديث Firmware. وُصل القرص عبر مانع كتابة مع تعطيل TRIM، فاتضح أن وحدة التحكم دخلت وضع حماية يسمح بالقراءة فقط. نُسخ القرص بمرور واحد في تلك الجلسة، ثم أُعيد بناء نظام الملفات من النسخة.</p>
           <p class="mini-case__result"><span class="mini-case__result-k">النتيجة</span> النتيجة: قرص في هذه الحالة قد يتوقف عن الظهور في أي لحظة، والفرصة الحقيقية هي أول جلسة يظهر فيها. هنا قُرئ الجزء الأكبر من المساحة المستخدمة وفُتحت عينات للتأكد. ولو كان القرص مشفّراً بـBitLocker لكان مفتاح الاسترداد شرطاً لقراءة الملفات، ولا يمكن تجاوز ذلك.</p>
         </aside>
       </div>
@@ -229,13 +229,13 @@
             <p class="eyebrow eyebrow--accent">ابدأ من العرَض</p>
             <h2 class="section-title" id="xb-1">أي حالة تصف قرصك؟</h2>
           </div>
-          <div class="section-head__note"><p class="note-strong">أقراص SSD وNVMe لا تتصرّف مثل الهارد الميكانيكي، ونتيجة الحذف عليها تختلف جذريًّا.</p></div>
+          <div class="section-head__note"><p class="note-strong">أقراص SSD وNVMe لا تتصرّف مثل القرص الصلب الميكانيكي، ونتيجة الحذف عليها تختلف جذريًّا.</p></div>
         </div>
           <ul class="cases">
             <li class="case-card"><span class="case-card__num" dir="ltr">01</span><h3 class="case-card__title">لا يظهر في BIOS أو النظام</h3><p class="case-card__text">قد يكون السبب في الطاقة أو المنفذ أو وحدة التحكّم أو الـFirmware. عدم الظهور لا يثبت أن شرائح الذاكرة فارغة، لكنه يعني أن برامج الاسترجاع العادية لن تصل إليه.</p></li>
             <li class="case-card"><span class="case-card__num" dir="ltr">02</span><h3 class="case-card__title">يظهر ثم يختفي أو يجمّد الجهاز</h3><p class="case-card__text">القرص غير مستقرّ أثناء القراءة، وقد تتدهور حالته مع الاختبارات الطويلة أو النسخ المتكرّر. أوقف الفحص التلقائي ولا تشغّل اختبارات سرعة أو تحديث Firmware.</p></li>
-            <li class="case-card"><span class="case-card__num" dir="ltr">03</span><h3 class="case-card__title">يظهر بوضع القراءة فقط</h3><p class="case-card__text">قد تدخل بعض الأقراص وضع حماية عند اكتشاف مشكلة داخلية. لا تحاول إجبار الكتابة أو التهيئة — قد يكون هذا آخر فرصة لنسخ المحتوى.</p></li>
-            <li class="case-card"><span class="case-card__num" dir="ltr">04</span><h3 class="case-card__title">حُذفت الملفات أو تمّ الفورمات</h3><p class="case-card__text">تختلف النتيجة بشدّة عن HDD بسبب أوامر TRIM وإدارة المساحات غير المستخدمة. التوقّف عن الاستخدام فورًا مهمّ، لكنه لا يجيز وعدًا بأن كل حذف قابل للعكس.</p></li>
+            <li class="case-card"><span class="case-card__num" dir="ltr">03</span><h3 class="case-card__title">يظهر بوضع القراءة فقط</h3><p class="case-card__text">قد تدخل بعض الأقراص وضع حماية عند اكتشاف مشكلة داخلية. لا تحاول إجبار الكتابة أو التهيئة — قد تكون هذه آخر فرصة لنسخ المحتوى.</p></li>
+            <li class="case-card"><span class="case-card__num" dir="ltr">04</span><h3 class="case-card__title">حُذفت الملفات أو أُجريت تهيئة</h3><p class="case-card__text">تختلف النتيجة بشدّة عن HDD بسبب أوامر TRIM وإدارة المساحات غير المستخدمة. التوقّف عن الاستخدام فورًا مهمّ، لكنه لا يجيز وعدًا بأن كل حذف قابل للعكس.</p></li>
             <li class="case-card"><span class="case-card__num" dir="ltr">05</span><h3 class="case-card__title">حرارة أو انطفاء مفاجئ</h3><p class="case-card__text">تظهر بعض مشكلات NVMe مع الحرارة أو انقطاع الطاقة أو تلف المكوّنات. سجّل ما حدث ولا تكرّر التشغيل في أكثر من جهاز إذا كان القرص يسخن بسرعة.</p></li>
           </ul>
         </div>
@@ -465,10 +465,10 @@
     </section>
   </main>
 
-  <a class="svc-next" href="/services/raid-servers.html" aria-label="الخدمة التالية: RAID والسيرفرات">
+  <a class="svc-next" href="/services/raid-servers.html" aria-label="الخدمة التالية: RAID والخوادم">
     <span class="container svc-next__inner">
       <span class="svc-next__label">الخدمة التالية</span>
-      <span class="svc-next__name">RAID والسيرفرات</span>
+      <span class="svc-next__name">RAID والخوادم</span>
       <span class="svc-next__arrow" aria-hidden="true">←</span>
     </span>
   </a>
@@ -505,11 +505,11 @@
           <li><a class="footer-pill" href="/services/ransomware.html">فيروس الفدية</a></li>
           <li><a class="footer-pill" href="/services/hdd.html">الأقراص الصلبة</a></li>
           <li><a class="footer-pill" href="/services/ssd-nvme.html">SSD وNVMe</a></li>
-          <li><a class="footer-pill" href="/services/raid-servers.html">RAID والسيرفرات</a></li>
+          <li><a class="footer-pill" href="/services/raid-servers.html">RAID والخوادم</a></li>
           <li><a class="footer-pill" href="/services/cctv.html">كاميرات المراقبة</a></li>
-          <li><a class="footer-pill" href="/services/after-format.html">بعد الفورمات</a></li>
+          <li><a class="footer-pill" href="/services/after-format.html">بعد التهيئة</a></li>
           <li><a class="footer-pill" href="/services/phones.html">الهواتف الذكية</a></li>
-          <li><a class="footer-pill" href="/services/memory-cards.html">بطاقات الذاكرة والفلاش</a></li>
+          <li><a class="footer-pill" href="/services/memory-cards.html">بطاقات الذاكرة ووحدات USB</a></li>
         </ul>
       </nav>
 
