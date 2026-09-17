@@ -883,6 +883,18 @@ body.drawer-open { overflow: hidden; }
 
   .hero__inner { grid-template-columns: 1fr; text-align: start; min-height: auto; }
   .hero__visual { order: -1; max-width: 260px; margin-inline: auto; }
+  /* width: 100% يحجز مكان الصورة قبل وصولها. بدونه يحمل margin-inline:auto
+     العنصرَ على حجم محتواه، وحجم صورة لم تُحمَّل صفر — والإطار وحده 2px.
+     فحين تصل تتّسع إلى 260px وتدفع نصّ الهيرو 258px إلى الأسفل: CLS 0.252
+     على الرئيسية في PageSpeed (2026-09-17)، وأُعيد إنتاجه محلّيًّا بتأخير
+     الصورة وحدها (0.2524، المصدر hero__visual h2→260). يصيب الرئيسية وصفحات
+     الخدمات الـ16 على الجوال واللوحي.
+
+     مقصور على الصورة (--photo يضعه المولّد) لا على .hero__visual كلّها:
+     الحلقات (data-core) في صفحات المدن والمدونة على الشاشة الضيقة صندوقها
+     صفر أصلًا، وتوسيعه يُظهرها 260px ويدفع المحتوى — تغيير تصميم لم يُطلَب،
+     كشفته مقارنة المواضع قبل النشر. */
+  .hero__visual--photo { width: 100%; }
   .hero__copy { max-width: none; }
 
   .trust { grid-template-columns: 1fr; gap: 32px; }

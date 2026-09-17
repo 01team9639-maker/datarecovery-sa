@@ -977,7 +977,7 @@ function homePage(lang) {
           </div>
           <p class="reassure">${esc(t.reassure)}</p>
         </div>
-        <div class="hero__visual">${homePhoto(lang, "hero", { eager: true, bleed: true })}</div>
+        <div class="hero__visual hero__visual--photo">${homePhoto(lang, "hero", { eager: true, bleed: true })}</div>
       </div>
       <div class="container">
         <div class="trust">
@@ -1724,7 +1724,7 @@ function servicePage(lang, s) {
             <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
           </div>
         </div>
-        <div class="hero__visual">${serviceHero(lang, s.slug)}</div>
+        ${((h) => `<div class="hero__visual${h.startsWith("<picture") ? " hero__visual--photo" : ""}">${h}</div>`)(serviceHero(lang, s.slug))}
       </div>
       <div class="container">
         <dl class="trust-strip">
