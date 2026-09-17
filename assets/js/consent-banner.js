@@ -16,10 +16,18 @@
     settings: "Privacy settings", withdraw: "Withdraw measurement consent"
   };
 
-  var box = d.createElement("div");
+  /* شريط غير حاجز، لا نافذة حوار. جرّبتُ النافذة (2026-09-16) فظهر عيبها
+     على الإنتاج في 2026-09-17: من يفتح سياسة الخصوصية من الشريط يصل إلى
+     صفحة يظهر فيها الشريط نفسه ويحبس التركيز من جديد — اثنتا عشرة ضغطة Tab
+     تدور بين الأزرار الثلاثة ولا تبلغ سطرًا من السياسة. أي لا يمكن قراءة ما
+     يُطلَب القبول به قبل القبول.
+
+     فالشريط منطقة (region) مسمّاة: لا يسرق التركيز ولا يحبسه. وموضعه أول
+     الصفحة في ترتيب المستند وإن ظهر أسفل الشاشة، فيبلغه مستعمل لوحة المفاتيح
+     وقارئ الشاشة قبل أي شيء آخر — بثلاث ضغطات يتجاوزه — وهو ترتيب شريط
+     الموافقة في نظام تصميم GOV.UK. */
+  var box = d.createElement("section");
   box.className = "consent";
-  box.setAttribute("role", "dialog");
-  box.setAttribute("aria-live", "polite");
   box.setAttribute("aria-label", T.label);
 
   var p = d.createElement("p");
@@ -52,55 +60,63 @@
   box.appendChild(p);
   box.appendChild(row);
 
-  /* الشريط آخر عنصر في الصفحة، فمن يتنقّل بلوحة المفاتيح كان يحتاج أربعًا
-     وخمسين ضغطة Tab ليبلغ نافذةً تطلب منه قرارًا — قِستُها على الإنتاج في
-     2026-09-16. و role="dialog" بلا نقل تركيز لا يُعلَن نافذةً أصلًا: قارئ
-     الشاشة يمرّ عليه كما يمرّ على أي div.
+  /* التركيز:
+     - الظهور التلقائي لا ينقل التركيز: الزائر لم يطلب شيئًا بعد.
+     - الفتح من رابط الفوتر ينقله إلى الشريط نفسه — طلبٌ صريح، ومن طلبه
+       يُنتظَر أن يجد ما فتحه. الشريط كلّه لا زرّ بعينه، فلا يُدفَع إلى قبول
+       أو رفض بمجرد Enter.
+     - Escape والتركيز داخل الشريط يُغلقه بلا اختيار: الحالة لا تتغيّر، فالقياس
+       يبقى محجوبًا ما لم يُقبَل، ورابط الفوتر يعيد فتحه، ويظهر في الصفحة
+       التالية ما دام لا اختيار محفوظ. Escape خارج الشريط لا يخصّه (الدرج
+       في main.js يستعمله).
+     - عند الإغلاق يعود التركيز إلى من فتحه. وإن ظهر تلقائيًّا وأُغلق بلوحة
+       المفاتيح ينتقل إلى أول عنصر بعده في الصفحة — حيث كان سيصل Tab التالي.
+       وبالفأرة لا يُنقَل التركيز: نقله يُظهر رابط «تخطَّ إلى المحتوى» لمن لم
+       يستعمل لوحة المفاتيح أصلًا. */
+  var opener = null;
+  var viaKeyboard = false;
+  d.addEventListener("keydown", function () { viaKeyboard = true; }, true);
+  d.addEventListener("pointerdown", function () { viaKeyboard = false; }, true);
 
-     فالتركيز ينتقل إليه عند ظهوره، ويدور بين عناصره ما دام مفتوحًا، ويعود
-     إلى حيث كان عند إغلاقه. والحصر لا يحبس أحدًا: رابط سياسة الخصوصية داخل
-     النافذة، فمن أراد القراءة قبل الاختيار يبلغه. */
-  var lastFocus = null;
+  box.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") { e.preventDefault(); hide(); }
+  });
 
-  function focusables() {
-    return [].slice.call(box.querySelectorAll("a[href], button")).filter(function (e) {
-      return e.offsetParent !== null;
-    });
+  function show(fromUser) {
+    if (box.parentNode) return;
+    d.body.insertBefore(box, d.body.firstChild);
+    if (fromUser) {
+      opener = d.activeElement && d.activeElement !== d.body ? d.activeElement : null;
+      box.setAttribute("tabindex", "-1");
+      box.focus();
+    }
   }
 
-  function onKey(e) {
-    if (e.key !== "Tab") return;
-    var f = focusables();
-    if (!f.length) return;
-    var first = f[0], last = f[f.length - 1];
-    if (e.shiftKey && d.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && d.activeElement === last) { e.preventDefault(); first.focus(); }
-  }
-
-  function show() {
-    if (d.querySelector(".consent")) return;
-    lastFocus = d.activeElement;
-    d.body.appendChild(box);
-    box.setAttribute("tabindex", "-1");
-    box.addEventListener("keydown", onKey);
-    // التركيز على «أوافق»: آخر الأزرار وأقربها إلى ما يريده أكثر الزوّار،
-    // وSHIFT+Tab منه يبلغ «أرفض» ثم الرابط بضغطة أو ضغطتين.
-    var f = focusables();
-    (f.length ? f[f.length - 1] : box).focus();
+  function nextFocusable() {
+    var all = d.querySelectorAll("a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex='-1'])");
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (box.contains(el) || el.offsetParent === null) continue;
+      return el;
+    }
+    return null;
   }
 
   function hide() {
     if (!box.parentNode) return;
-    box.removeEventListener("keydown", onKey);
+    var hadFocus = box.contains(d.activeElement);
     box.remove();
-    // من فتحه من رابط الفوتر يعود إلى الرابط نفسه لا إلى أول الصفحة.
-    if (lastFocus && d.contains(lastFocus) && lastFocus.focus) lastFocus.focus();
-    lastFocus = null;
+    box.removeAttribute("tabindex");
+    if (hadFocus) {
+      var target = opener && d.contains(opener) ? opener : (viaKeyboard ? nextFocusable() : null);
+      if (target && target.focus) target.focus();
+    }
+    opener = null;
   }
 
   // يُفتح عند أول زيارة، ويُعاد فتحه من رابط «إعدادات الخصوصية» في الفوتر.
-  if (!c.state) show();
-  w.addEventListener("z2o:consent-reopen", show);
+  if (!c.state) show(false);
+  w.addEventListener("z2o:consent-reopen", function () { show(true); });
 
   // رابط الفوتر: يُعرَض دائمًا، ونصّه يتبع الحالة — من وافق يرى «سحب
   // الموافقة»، ومن رفض أو لم يختر يرى «إعدادات الخصوصية».
