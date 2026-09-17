@@ -39,6 +39,11 @@ const config = {
   // true:  تُبنى الصفحات، وتتحوّل كل الروابط الداخلية إلى البوابة، ويُكتب
   //        التحويل الدائم في .htaccess بين علامتَي z2o:ransomware-redirect.
   ransomwareSection: true,
+  // أسماء المنصّات في قسم الفدية (SQL Server وMySQL/MariaDB وOracle في P05،
+  // وVMware وHyper-V في عنوان P06 وقائمتها). false حتى يؤكد الفريق أنه يعمل
+  // عليها فعلًا (التكليف §9.2): تظهر الصيغة المحايدة «البيئات الافتراضية»
+  // ولا تظهر قائمة القواعد. true بعد التأكيد المكتوب فقط.
+  ransomwarePlatformsConfirmed: false,
   // Microsoft Clarity project id. The vendor ships an inline snippet; this site
   // forbids inline script, so build/generate.js writes the same loader to
   // assets/js/clarity.js instead. Empty string turns Clarity off everywhere.

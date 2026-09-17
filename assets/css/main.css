@@ -2103,3 +2103,150 @@ body.drawer-open { overflow: hidden; }
 body:has(.consent) .wa-fab { bottom: calc(clamp(12px, 3vw, 24px) + 11.5rem); }
 
 @media (prefers-reduced-motion: reduce) { .consent__btn { transition: none; } }
+
+/* ==========================================================================
+   قسم هجمات الفدية — /ransomware/ (التكليف الموحّد §9، الملحق B-10)
+   مفردات الموقع نفسها؛ ما هنا إضافات لا بديل لها: بطاقة اختيار برابطها،
+   شبكة الحقائق الأربع في قالب الخدمات، شريط الجوال، وحقول التحقق الشرطي.
+   ========================================================================== */
+.rw-intro { margin-top: 1rem; max-width: 68ch; font-size: var(--fs-lead); line-height: 1.8; color: var(--muted-light); }
+.section--dark .rw-intro { color: var(--muted-dark); }
+.rw-small { margin-top: 1.1rem; font-size: 0.9rem; line-height: 1.7; opacity: .85; max-width: 56ch; }
+.rw-note { margin-top: clamp(22px, 2.4vw, 32px); max-width: 72ch; padding-inline-start: 14px; border-inline-start: 3px solid var(--warning); line-height: 1.8; }
+
+/* بطاقة برابط يغطّيها: النصّ الظاهر للرابط هو «الزر» في الملحق، فيطابق
+   الاسم المتاح ما يراه الزائر (WCAG 2.5.3). */
+.rw-card { min-height: 0; gap: 0; }
+.rw-card .case-card__title { margin-top: 0; }
+.rw-card .case-card__text { flex: 1 1 auto; }
+.rw-card__go {
+  margin-top: 1.2rem; align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 0.45em; min-height: 44px;
+  font-weight: 600; color: var(--accent-ink);
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+.section--dark .rw-card__go { color: var(--accent); }
+.rw-card__go:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+.rw-tag {
+  align-self: flex-start; margin-bottom: 0.9rem;
+  font-size: var(--fs-label); font-weight: 650; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid currentColor; opacity: .9;
+}
+.rw-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* البطاقة الشفافة الفاتحة فوق القسم الداكن تُعطي نصًّا ثانويًّا بتباين 3.3:1
+   (axe على /en/ransomware/). التوأم الداكن نفسه المعتمد لـ.case-card. */
+.rw-page .section--dark .device { background: rgba(255, 255, 255, 0.04); border-color: var(--border-dark); }
+/* الصفحة الحالية في مسار التنقل نصّ لا فاصل: قاعدة .breadcrumb span (شفافية 0.5)
+   كُتبت للفواصل، فكانت تُبهت اسم الصفحة إلى 2:1 فوق خلفية المقدمة. */
+.breadcrumb [aria-current="page"] { opacity: 1; margin-inline: 0; }
+
+.rw-band { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: clamp(20px, 3vw, 48px); }
+.rw-band__copy { flex: 1 1 32rem; }
+
+.rw-more { margin-top: clamp(28px, 3vw, 44px); }
+.rw-more__title { font-size: 1.05rem; font-weight: 650; }
+.rw-more__list { list-style: none; padding: 0; margin: 0.9rem 0 0; display: grid; gap: 10px; }
+.rw-more__list a { color: var(--accent); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.rw-more__tag { font-size: 0.8rem; color: var(--muted-dark); }
+
+.rw-guide { display: grid; gap: clamp(28px, 3vw, 44px); max-width: 64rem; }
+.rw-guide__title { font-size: var(--fs-h3); font-weight: 650; line-height: 1.35; }
+.rw-guide__body { margin-top: 0.8rem; font-size: 1.0625rem; line-height: 1.9; max-width: 70ch; }
+
+/* قالب الخدمات: أربع حقائق — لمن، ما نفحصه، ما نحتاجه، كيف نتحقق. */
+.rw-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 56px) clamp(24px, 4vw, 72px); }
+.rw-fact { border-top: 1px solid var(--border-light); padding-top: clamp(18px, 2vw, 26px); }
+.rw-fact__title { font-size: var(--fs-h3); font-weight: 650; line-height: 1.35; }
+.rw-fact__body { margin-top: 0.8rem; font-size: 1.0625rem; line-height: 1.9; }
+.rw-platforms { margin-top: clamp(24px, 2.6vw, 36px); }
+
+.rw-related { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.rw-related__link {
+  display: inline-flex; align-items: center; gap: 0.6em; min-height: 48px;
+  padding: 12px 22px; border: 1px solid var(--border-light); border-radius: 999px;
+  color: var(--ink); font-weight: 600;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.rw-related__link:hover { border-color: var(--accent-ink); background: rgba(10, 108, 116, 0.06); }
+.rw-related__note { margin-top: 1.2rem; line-height: 1.8; }
+.rw-related__note a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+.rw-next { padding-block: clamp(40px, 5vw, 72px); }
+.rw-next__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px clamp(20px, 3vw, 40px); }
+.rw-next__inner .svc-cta__label { margin: 0; }
+
+/* شريط الجوال: عنصر عائم واحد أسفل الشاشة. يُخفي زرّ واتساب العائم في
+   المقاس نفسه، ويختفي ما دام شريط الموافقة ظاهرًا أو حقل مُركَّزًا. */
+.rw-bar { display: none; }
+@media (max-width: 720px) {
+  .rw-bar {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 56;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg-dark); border-top: 1px solid var(--border-dark);
+  }
+  .rw-bar__btn {
+    display: flex; align-items: center; justify-content: center; min-height: 48px;
+    border-radius: 999px; font-weight: 650; font-size: 0.95rem;
+  }
+  .rw-bar__btn--assess { background: var(--accent); color: var(--bg-dark); }
+  .rw-bar__btn--call { border: 1px solid rgba(255, 255, 255, 0.34); color: var(--white); }
+  .rw-bar__btn:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+  body:has(.rw-bar) .wa-fab { display: none; }
+  body:has(.rw-bar) { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  body:has(.consent) .rw-bar,
+  body:has(:is(input, textarea, select):focus) .rw-bar { display: none; }
+}
+
+/* P08 — نموذج التقييم. بلا JavaScript لا يُعرض: الإرسال يحتاج رمزًا من الخادم،
+   وnoscript يعرض وسائل التواصل المباشرة مكانه. */
+.rw-form { display: none; }
+.js .rw-form { display: block; }
+.js .rw-form[hidden] { display: none; }
+.rw-unavail { padding: clamp(22px, 2.6vw, 32px); border: 1px solid var(--border-light); border-radius: var(--radius); }
+.rw-unavail p { line-height: 1.8; }
+.rw-direct { list-style: none; padding: 0; margin: 1.2rem 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.rw-direct .footer-pill { color: var(--ink); border-color: var(--border-light); }
+.rw-direct .footer-pill:hover { color: var(--ink); border-color: var(--accent-ink); }
+.rw-direct .footer-pill__ic { color: var(--accent-ink); }
+
+.field--choices, .field--phone { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+.field--choices legend, .field--phone legend { margin-bottom: 0.7rem; padding: 0; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.choices--grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+.choice {
+  display: inline-flex; align-items: center; gap: 0.6em; min-height: 44px;
+  padding: 8px 14px; border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+  background: #fff; font-size: 0.92rem; cursor: pointer;
+}
+.choice input { width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--accent-ink); }
+.choice:has(input:checked) { border-color: var(--accent-ink); background: rgba(10, 108, 116, 0.07); }
+.choice:has(input:focus-visible) { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.choice--consent { align-items: flex-start; padding: 12px 14px; line-height: 1.7; }
+.choice--consent input { margin-top: 0.25em; }
+.choice--consent a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+.rw-phone { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 10px; }
+.field__help { font-size: 0.82rem; color: var(--muted-light); line-height: 1.6; margin: 0; }
+.field__meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.field__count { font-size: 0.82rem; color: var(--muted-light); margin: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.field__count.is-over { color: #c2381f; font-weight: 600; }
+.field__err { margin: 0; font-size: 0.85rem; font-weight: 600; color: #c2381f; }
+.field__err[hidden] { display: none; }
+[aria-invalid="true"], .field--choices[aria-invalid="true"] .choice { border-color: var(--warning); }
+.rw-cond { font-weight: 500; color: var(--muted-light); }
+.rw-details { margin: 4px 0 20px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 0 16px; }
+.rw-details summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+.rw-details[open] summary { margin-bottom: 8px; }
+.rw-success { margin-top: 0; }
+.rw-success[hidden] { display: none; }
+.rw-ref { font-weight: 650; color: var(--ink); letter-spacing: 0.04em; }
+
+@media (max-width: 900px) {
+  .rw-facts, .rw-grid-2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  .rw-phone { grid-template-columns: 5.5rem minmax(0, 1fr); }
+  .field__meta { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { .rw-related__link { transition: none; } }

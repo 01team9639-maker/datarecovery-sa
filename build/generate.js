@@ -15,6 +15,8 @@ const depth = require("./depth");
 const about = require("./about");
 const faqContent = require("./faq-page");
 const ransomwareCases = require("./ransomware-cases");
+const rwText = require("./ransomware-section");
+const ransomwareAssessmentPhp = require("./ransomware-assessment-php");
 const trustLogos = require("./trust-logos");
 // Display order lives in site.js next to the content, not in the data files, so
 // reordering a nav never means editing a content module. Anything not named in
@@ -675,7 +677,7 @@ function servicesMenuPanel(lang, where) {
 
 function rwMenuPanel(lang, where) {
   const m = ui[lang].rwMenu;
-  const link = (p) => `<li><a class="${where === "nav" ? "nav-menu__link" : ""}" href="${rwUrl(lang, p.slug)}"${p.service ? ` data-rw-service="${p.id}"` : ""}>${where === "nav" ? `<span class="nav-menu__name">${esc(m.items[p.key])}</span>` : esc(m.items[p.key])}</a></li>`;
+  const link = (p) => `<li><a class="${where === "nav" ? "nav-menu__link" : ""}" href="${rwUrl(lang, p.slug)}"${p.service ? ` data-rw-service="${p.id}"` : ""}>${where === "nav" ? `<span class="nav-menu__name">${esc(rwLabel(lang, p.key))}</span>` : esc(rwLabel(lang, p.key))}</a></li>`;
   const start = RW_PAGES.filter((p) => ["P01", "P02", "P08"].includes(p.id));
   const data = RW_PAGES.filter((p) => p.service);
   const g1 = `${where}-rw-start`, g2 = `${where}-rw-data`;
@@ -747,7 +749,7 @@ function header(lang, ctx = {}) {
     <span class="menu-fab__lines"><span></span><span></span><span></span></span>
   </button>
   <div class="drawer-scrim" data-drawer-close></div>
-  <aside class="drawer" id="site-drawer" aria-label="${esc(menuLabel)}" aria-hidden="true">
+  <aside class="drawer" id="site-drawer" aria-label="${esc(menuLabel)}" aria-hidden="true" data-cta-location="drawer">
     <div class="drawer__head">
       <span class="drawer__brand">${esc(t.brand)}</span>
       <button class="drawer__close" type="button" aria-label="${esc(closeLabel)}" data-drawer-close>
@@ -784,13 +786,14 @@ function footer(lang, minimal) {
      تعرضه الصفحة الرئيسية — فلا تتناقض قائمتان. وهذا يمنح كل صفحة خدمة
      رابطًا داخليًّا من كل صفحة في الموقع، لا من الرئيسية وحدها. */
   const serviceLinks = config.serviceOrder
-    .map((slug) => `<li><a class="footer-pill" href="${svcUrl(lang, slug)}">${esc(shortName(lang, { slug }))}</a></li>`)
+    .map((slug) => `<li><a class="footer-pill" href="${serviceHref(lang, slug)}">${esc(shortName(lang, { slug }))}</a></li>`)
     .join("\n          ");
 
   const quickLinks = [
     [`${homeUrl(lang)}#hero`, t.nav.home],
     [aboutUrl(lang), t.nav.about],
     [`${homeUrl(lang)}#services`, t.nav.services],
+    ...(rwOn() ? [[rwUrl(lang), t.nav.ransomware]] : []),
     [blogUrl(lang), t.blogLabel],
     [faqUrl(lang), t.nav.faq],
     [contactUrl(lang), t.nav.contact],
@@ -1573,7 +1576,9 @@ function ransomwareCasePage(lang, c) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: t.breadcrumbHome, item: absHome(lang) },
-      { "@type": "ListItem", position: 2, name: svc[lang].title, item: absSvc(lang, "ransomware") },
+      rwOn()
+        ? { "@type": "ListItem", position: 2, name: rwText[lang].common.section, item: absRw(lang) }
+        : { "@type": "ListItem", position: 2, name: svc[lang].title, item: absSvc(lang, "ransomware") },
       { "@type": "ListItem", position: 3, name: d.title, item: absCase(lang, c.slug) },
     ],
   };
@@ -1586,10 +1591,17 @@ function ransomwareCasePage(lang, c) {
     name: d.title,
     description: d.metaDesc,
     inLanguage: lang,
-    isPartOf: { "@id": absSvc(lang, "ransomware") },
-    about: { "@type": "Service", name: svc[lang].title, url: absSvc(lang, "ransomware") },
+    isPartOf: { "@id": rwOn() ? absRw(lang) + "#webpage" : absSvc(lang, "ransomware") },
+    about: rwOn()
+      ? { "@type": "Service", name: rwText[lang].portal.title, url: absRw(lang) }
+      : { "@type": "Service", name: svc[lang].title, url: absSvc(lang, "ransomware") },
     publisher: { "@id": `${BASE}/#business` },
   };
+  /* داخل قسم الفدية: الوسم «مثال تعليمي مركّب» ظاهر أعلى الصفحة، والدعوة إلى
+     نموذج تقييم الفدية لا إلى «التقييم المجاني» — لا «مجاني» في القسم. */
+  const rw = rwOn();
+  const ctaHref = rw ? rwAssessHref(lang) : contactUrl(lang);
+  const ctaLabel = rw ? rwText[lang].portal.primary : t.startFreeBtn;
   const list = (items, cls) => `<ul class="checklist${cls}">
             ${items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n            ")}
           </ul>`;
@@ -1597,23 +1609,23 @@ function ransomwareCasePage(lang, c) {
   return docStart({
     lang, title: d.metaTitle, desc: d.metaDesc, canonical: absCase(lang, c.slug),
     altAr: absCase("ar", c.slug), altEn: absCase("en", c.slug), schemas: [page, crumbs],
-  }) + header(lang) + `
+  }) + header(lang, rw ? { section: "ransomware" } : {}) + `
   <main class="main inner-page" id="main">
     <section class="hero svc-hero section--accent" aria-labelledby="case-title">
       <div class="container">
         <nav class="breadcrumb" aria-label="breadcrumb">
           <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
-          <a href="${svcUrl(lang, "ransomware")}">${esc(shortName(lang, svc))}</a>
+          ${rwOn() ? `<a href="${rwUrl(lang)}">${esc(rwText[lang].common.section)}</a>` : `<a href="${svcUrl(lang, "ransomware")}">${esc(shortName(lang, svc))}</a>`}
         </nav>
       </div>
       <div class="container hero__inner">
         <div class="hero__copy">
-          <p class="svc-hook">${esc(d.hook)}</p>
+          <p class="svc-hook">${esc(rw ? rwText[lang].common.composite : d.hook)}</p>
           <h1 class="hero__title" id="case-title">${esc(d.title)}</h1>
           <p class="case-note">${esc(t.caseDisclaimer)}</p>
           <p class="hero__lead">${esc(d.lead)}</p>
           <div class="hero__actions">
-            <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+            <a class="btn btn--accent" href="${ctaHref}">${esc(ctaLabel)} <span aria-hidden="true">${fwd(lang)}</span></a>
           </div>
         </div>
       </div>
@@ -1667,11 +1679,11 @@ function ransomwareCasePage(lang, c) {
       <div class="container svc-cta__inner">
         <div class="svc-cta__action">
           <p class="svc-cta__label">${esc(t.dangerLabel === "Do not do this" ? "Next step" : "الخطوة التالية")}</p>
-          <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.startFreeBtn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          <a class="btn btn--accent" href="${ctaHref}">${esc(ctaLabel)} <span aria-hidden="true">${fwd(lang)}</span></a>
         </div>
         <div>
-          <h2 class="svc-cta__title" id="casecta-title">${esc(svc[lang].ctaHook)}</h2>
-          <p class="svc-cta__body">${esc(svc[lang].ctaBody)}</p>
+          <h2 class="svc-cta__title" id="casecta-title">${esc(rw ? rwText[lang].portal.final.title : svc[lang].ctaHook)}</h2>
+          <p class="svc-cta__body">${esc(rw ? rwText[lang].portal.final.body : svc[lang].ctaBody)}</p>
         </div>
       </div>
     </section>
@@ -1848,7 +1860,7 @@ function servicePage(lang, s) {
     </section>
   </main>
 
-  <a class="svc-next" href="${svcUrl(lang, nextSlug)}" aria-label="${esc(nextLabel)}: ${esc(shortName(lang, { slug: nextSlug }))}">
+  <a class="svc-next" href="${serviceHref(lang, nextSlug)}" aria-label="${esc(nextLabel)}: ${esc(shortName(lang, { slug: nextSlug }))}">
     <span class="container svc-next__inner">
       <span class="svc-next__label">${esc(nextLabel)}</span>
       <span class="svc-next__name">${esc(shortName(lang, { slug: nextSlug }))}</span>
@@ -1858,6 +1870,642 @@ function servicePage(lang, s) {
   html += footer(lang);
   html += docEnd();
   return html;
+}
+
+/* ==========================================================================
+   قسم هجمات الفدية — الصفحات الثماني P01–P08 (الملحق B، الأقسام 6–11).
+
+   النصوص كلها في build/ransomware-section.js؛ هنا الترتيب والمكوّنات فقط،
+   وكلها من مفردات الموقع القائمة (.cases و.devices و.how و.faq__rows و.svc-alert
+   و.svc-cta و.cform) لا مكوّنات جديدة إلا حيث لا مقابل: شريط الجوال، وحقول
+   التحقق الشرطي في النموذج.
+
+   ثلاث قواعد تحكم ما يُنشر:
+   - لا «مجاني» ولا 99% ولا 24/7 في أي صفحة من القسم. لذلك لا يُعرض شريط
+     الأرقام العامّ (t.trust) هنا، وأزرار الحالات تذهب إلى P08 لا إلى «ابدأ
+     التقييم المجاني».
+   - أسماء المنصّات لا تظهر قبل config.ransomwarePlatformsConfirmed.
+   - كل بطاقة مثال تحمل «مثال تعليمي مركّب» ظاهرًا، لا في المخطّط وحده.
+   ========================================================================== */
+const rwPlatformsOk = () => config0().ransomwarePlatformsConfirmed === true;
+const rwPage = (key) => RW_PAGES.find((p) => p.key === key);
+const rwKeyUrl = (lang, key) => rwUrl(lang, rwPage(key).slug);
+
+/* تسمية الوجهة في القائمة وفي مسار التنقّل. P06 وحدها تتبدّل بتأكيد المنصّات. */
+function rwLabel(lang, key) {
+  if (key === "virtual-machines" && !rwPlatformsOk()) return rwText[lang].services["virtual-machines"].crumbNeutral;
+  return ui[lang].rwMenu.items[key];
+}
+
+/* رابط إلى P08 مع تحديد مسبق غير حسّاس: مفتاح خدمة أو صفة الطلب، لا بيانات. */
+function rwAssessHref(lang, params) {
+  const q = new URLSearchParams(params || {}).toString();
+  return rwUrl(lang, "assessment") + (q ? `?${q}` : "");
+}
+
+/* رابط يختار خدمة P03–P07: data-rw-service يحمل الرمز فيُطلق القياس
+   ransomware_service_select بدل service_cta_click. */
+const rwServiceAttr = (key) => {
+  const p = rwPage(key);
+  return p && p.service ? ` data-rw-service="${p.id}"` : "";
+};
+
+function rwSchemas(lang, key, { name, desc, trail, service }) {
+  const url = absRw(lang, rwPage(key).slug);
+  /* عقدة المنشأة بلا وصفها العامّ: ذاك يذكر «خبرة أكثر من 25 سنة»، وهو ليس
+     دليلًا خاصًّا بالفدية ولا نصًّا ظاهرًا في صفحات القسم (التكليف §9.3). */
+  const org = { ...localBusiness(lang) };
+  delete org.description;
+  const list = [
+    org,
+    webPage(lang, url, name, desc),
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: trail.map(([n, u], i) => ({ "@type": "ListItem", position: i + 1, name: n, item: u }))
+    }
+  ];
+  if (service) {
+    list.push({
+      "@type": "Service",
+      name: service,
+      serviceType: service,
+      description: desc,
+      provider: { "@id": BASE + "/#business" },
+      areaServed: { "@type": "Country", name: "SA" },
+      url,
+      inLanguage: lang
+    });
+  }
+  return list;
+}
+
+function rwTrail(lang, key, label) {
+  const t = ui[lang];
+  const trail = [[t.breadcrumbHome, absHome(lang)], [rwText[lang].common.section, absRw(lang)]];
+  if (key !== "portal") trail.push([label, absRw(lang, rwPage(key).slug)]);
+  return trail;
+}
+
+function rwCrumbsHtml(lang, key, label) {
+  const t = ui[lang];
+  const section = rwText[lang].common.section;
+  const tail = key === "portal"
+    ? `<span aria-current="page">${esc(section)}</span>`
+    : `<a href="${rwUrl(lang)}">${esc(section)}</a><span aria-hidden="true">/</span>
+          <span aria-current="page">${esc(label)}</span>`;
+  return `<nav class="breadcrumb" aria-label="breadcrumb">
+          <a href="${homeUrl(lang)}">${esc(t.breadcrumbHome)}</a><span aria-hidden="true">/</span>
+          ${tail}
+        </nav>`;
+}
+
+/* عنوان قسم بلا eyebrow: sectionHead يطبع eyebrow دائمًا، وعنوان فوقه كلمة
+   لا تحمل معلومة زخرفةٌ لا بنية. */
+function rwHead(id, title, intro) {
+  return `<div class="section-head">
+          <div class="section-head__main">
+            <h2 class="section-title" id="${id}">${esc(title)}</h2>${intro ? `
+            <p class="rw-intro">${esc(intro)}</p>` : ""}
+          </div>
+        </div>`;
+}
+
+function rwDoc(lang, key, { title, desc, schemas, label }) {
+  const slug = rwPage(key).slug;
+  return docStart({
+    lang, title, desc,
+    canonical: absRw(lang, slug), altAr: absRw("ar", slug), altEn: absRw("en", slug), schemas
+  }) + header(lang, { section: "ransomware" });
+}
+
+/* شريط الجوال (الملحق B-10): «تقييم الحالة» و«اتصال» فقط، شريط عائم واحد.
+   يُخفي زرّ واتساب العائم على الجوال كي لا يجتمع عنصران أسفل الشاشة، ويختفي
+   ما دام شريط الموافقة ظاهرًا أو حقل مُركَّزًا (لوحة المفاتيح مفتوحة) — CSS.
+   لا يُطبع في P08: الصفحة نفسها هي النموذج، والشريط سيغطي حقوله. */
+function rwBar(lang) {
+  const c = rwText[lang].common;
+  return `
+  <nav class="rw-bar" aria-label="${esc(c.bar.label)}" data-cta-location="floating">
+    <a class="rw-bar__btn rw-bar__btn--assess" href="${rwUrl(lang, "assessment")}">${esc(c.bar.assess)}</a>
+    <a class="rw-bar__btn rw-bar__btn--call" href="tel:${config.phoneHref}">${esc(c.bar.call)}</a>
+  </nav>`;
+}
+
+function rwFinish(lang, main, { bar = true, scripts = [] } = {}) {
+  return main + (bar ? rwBar(lang) : "") + footer(lang) + docEnd(scripts);
+}
+
+function rwFaq(items, ns) {
+  return `<div class="faq__rows">
+            ${items.map((f, i) => faqRow(f, i, ns)).join("\n            ")}
+          </div>`;
+}
+
+/* ---------- P01: البوابة — الوحدات العشر بالترتيب ---------- */
+function rwPortalPage(lang) {
+  const t = ui[lang];
+  const c = rwText[lang];
+  const d = c.portal;
+  const schemas = rwSchemas(lang, "portal", {
+    name: d.metaTitle, desc: d.metaDesc, trail: rwTrail(lang, "portal"), service: d.title
+  });
+  const visual = serviceHero(lang, "ransomware");
+
+  const chooseCards = d.choose.cards.map((card) => {
+    const href = card.to === "assessment" ? rwAssessHref(lang) : rwKeyUrl(lang, card.to);
+    return `<li class="case-card rw-card">
+              <h3 class="case-card__title">${esc(card.t)}</h3>
+              <p class="case-card__text">${esc(card.b)}</p>
+              <a class="case-card__link rw-card__go" href="${href}"${rwServiceAttr(card.to)}>${esc(card.btn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+            </li>`;
+  }).join("\n            ");
+
+  const featured = d.cases.featured.map((f) => {
+    const cs = ransomwareCases.find((x) => x.slug === f.slug);
+    if (!cs) throw new Error(`Ransomware portal: unknown case slug "${f.slug}"`);
+    const cd = cs[lang];
+    return `<li class="case-card rw-card">
+              <p class="rw-tag">${esc(c.common.composite)}</p>
+              <p class="case-card__sector">${esc(cd.sector)}</p>
+              <h3 class="case-card__title">${esc(f.t || cd.cardTitle)}</h3>
+              <p class="case-card__text">${esc(f.b || cd.cardBody)}</p>
+              <a class="case-card__link rw-card__go" href="${caseUrl(lang, cs.slug)}">${esc(c.common.readExample)} <span aria-hidden="true">${fwd(lang)}</span></a>
+            </li>`;
+  }).join("\n            ");
+  // جديد: الحالات الثلاث الأخرى كانت موصولة من صفحة الخدمة القديمة؛ بلا هذه
+  // القائمة تبقى في خريطة الموقع وحدها بعد التحويل.
+  const others = ransomwareCases.filter((cs) => !d.cases.featured.some((f) => f.slug === cs.slug));
+  const otherList = others.length ? `
+        <div class="rw-more">
+          <h3 class="rw-more__title">${esc(c.common.moreExamples)}</h3>
+          <ul class="rw-more__list">
+            ${others.map((cs) => `<li><a href="${caseUrl(lang, cs.slug)}">${esc(cs[lang].cardTitle)}</a> <span class="rw-more__tag">${esc(c.common.composite)}</span></li>`).join("\n            ")}
+          </ul>
+        </div>` : "";
+
+  const main = `
+  <main id="main" class="rw-page">
+    <section class="hero svc-hero section--accent" aria-labelledby="rw-title">
+      <div class="container">
+        ${rwCrumbsHtml(lang, "portal")}
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="svc-hook">${esc(d.eyebrow)}</p>
+          <h1 class="hero__title" id="rw-title">${esc(d.title)}</h1>
+          <p class="hero__lead">${esc(d.lead)}</p>
+          <div class="hero__actions">
+            <a class="btn btn--accent" href="${rwAssessHref(lang)}">${esc(d.primary)} <span aria-hidden="true">${fwd(lang)}</span></a>
+            <a class="btn btn--ghost" href="${rwUrl(lang, "first-steps")}">${esc(d.secondary)}</a>
+          </div>
+          <p class="rw-small">${esc(d.small)}</p>
+        </div>
+        <div class="hero__visual${visual.startsWith("<picture") ? " hero__visual--photo" : ""}">${visual}</div>
+      </div>
+    </section>
+
+    <section class="svc-alert" aria-labelledby="rw-alert">
+      <div class="container svc-alert__inner">
+        <div class="svc-alert__copy">
+          <h2 class="svc-alert__title" id="rw-alert">${esc(d.alert.title)}</h2>
+          <p class="svc-alert__body">${esc(d.alert.body)}</p>
+        </div>
+        <a class="btn btn--dark svc-alert__btn" href="${rwUrl(lang, "first-steps")}">${esc(d.alert.link)} <span aria-hidden="true">${fwd(lang)}</span></a>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-choose">
+      <div class="container">
+        ${rwHead("rw-choose", d.choose.title, d.choose.intro)}
+        <ul class="cases cases--linked rw-cards">
+            ${chooseCards}
+        </ul>
+        <p class="rw-note">${esc(d.choose.leak)}</p>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="rw-value">
+      <div class="container">
+        ${rwHead("rw-value", d.value.title, d.value.intro)}
+        <ul class="devices rw-grid-2">
+          ${d.value.points.map((x) => `<li class="device"><h3 class="device__t">${esc(x.t)}</h3><p class="device__b">${esc(x.b)}</p></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-terms">
+      <div class="container">
+        ${rwHead("rw-terms", d.terms.title, d.terms.body)}
+        <ul class="devices">
+          ${d.terms.cards.map((x) => `<li class="device"><h3 class="device__t">${esc(x.t)}</h3><p class="device__b">${esc(x.b)}</p></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="rw-steps">
+      <div class="container">
+        ${rwHead("rw-steps", d.steps.title, "")}
+        <ol class="how">
+          ${d.steps.items.map((x, n) => `<li class="how__step"><span class="how__n" dir="ltr">${pad(n + 1)}</span><div><h3 class="how__t">${esc(x.t)}</h3><p class="how__b">${esc(x.b)}</p></div></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-business">
+      <div class="container rw-band">
+        <div class="rw-band__copy">
+          <h2 class="section-title" id="rw-business">${esc(d.business.title)}</h2>
+          <p class="rw-intro">${esc(d.business.body)}</p>
+        </div>
+        <a class="btn btn--dark" href="${rwAssessHref(lang, { customer_type: "business" })}">${esc(d.business.btn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="rw-cases">
+      <div class="container">
+        ${rwHead("rw-cases", d.cases.title, d.cases.body)}
+        <ul class="cases cases--linked rw-cards">
+            ${featured}
+        </ul>${otherList}
+      </div>
+    </section>
+
+    <section class="section section--light" id="faq" aria-labelledby="rw-faq">
+      <div class="container">
+        ${rwHead("rw-faq", d.faq.title, "")}
+        ${rwFaq(d.faq.items, "rwfaq")}
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="rw-final">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <a class="btn btn--dark" href="${rwAssessHref(lang)}">${esc(d.final.btn)} <span aria-hidden="true">${fwd(lang)}</span></a>
+          <p class="rw-small">${esc(d.final.note)}</p>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="rw-final">${esc(d.final.title)}</h2>
+          <p class="svc-cta__body">${esc(d.final.body)}</p>
+        </div>
+      </div>
+    </section>
+  </main>`;
+  return rwDoc(lang, "portal", { title: d.metaTitle, desc: d.metaDesc, schemas }) + rwFinish(lang, main);
+}
+
+/* ---------- P02: الخطوات الأولية ---------- */
+function rwFirstStepsPage(lang) {
+  const t = ui[lang];
+  const c = rwText[lang];
+  const d = c.firstSteps;
+  const label = rwLabel(lang, "first-steps");
+  const schemas = rwSchemas(lang, "first-steps", { name: d.metaTitle, desc: d.metaDesc, trail: rwTrail(lang, "first-steps", label) });
+  const main = `
+  <main id="main" class="rw-page">
+    <section class="hero svc-hero section--accent" aria-labelledby="rw-title">
+      <div class="container">
+        ${rwCrumbsHtml(lang, "first-steps", label)}
+      </div>
+      <div class="container">
+        <h1 class="hero__title" id="rw-title">${esc(d.title)}</h1>
+        <p class="hero__lead">${esc(d.lead)}</p>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-b1">
+      <div class="container rw-guide">
+        ${d.blocks.map((b, i) => `<div class="rw-guide__block">
+          <h2 class="rw-guide__title" id="rw-b${i + 1}">${esc(b.t)}</h2>
+          <p class="rw-guide__body">${esc(b.b)}</p>
+        </div>`).join("\n        ")}
+        <aside class="warn-box rw-guide__box">
+          <p class="warn-box__label">${esc(d.guideLabel)}</p>
+          <p class="warn-box__body">${esc(d.guide)}</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="rw-prepare">
+      <div class="container">
+        ${rwHead("rw-prepare", d.prepare.title, "")}
+        <ul class="checklist">
+          ${d.prepare.items.map((x) => `<li class="checklist__item">${esc(x)}</li>`).join("\n          ")}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-faq">
+      <div class="container">
+        ${rwHead("rw-faq", t.faqSection, "")}
+        ${rwFaq(d.faq, "rwfaq")}
+      </div>
+    </section>
+
+    <section class="section svc-cta" id="contact" aria-labelledby="rw-final">
+      <div class="container svc-cta__inner">
+        <div class="svc-cta__action">
+          <a class="btn btn--dark" href="tel:${config.phoneHref}">${esc(d.final.primary)}</a>
+          <p class="rw-small"><span>${esc(c.common.hoursLabel)}:</span> ${esc(t.footer.hoursValue)} · <span dir="ltr">${esc(config.phoneDisplay)}</span></p>
+          <a class="btn btn--ghost" href="${rwAssessHref(lang)}">${esc(d.final.secondary)}</a>
+        </div>
+        <div>
+          <h2 class="svc-cta__title" id="rw-final">${esc(d.final.title)}</h2>
+        </div>
+      </div>
+    </section>
+  </main>`;
+  return rwDoc(lang, "first-steps", { title: d.metaTitle, desc: d.metaDesc, schemas }) + rwFinish(lang, main);
+}
+
+/* ---------- P03–P07: قالب الخدمات ----------
+   الترتيب الموحّد (الملحق B-8): عنوان ومقدمة، لمن، ما نفحصه، ما نحتاج معرفته،
+   كيف تُقيَّم النتيجة، سؤالان متخصصان، رابطا خدمة مرتبطة، ثم زر التقييم. */
+function rwServicePage(lang, key) {
+  const t = ui[lang];
+  const c = rwText[lang];
+  const d = c.services[key];
+  const p = rwPage(key);
+  const neutral = key === "virtual-machines" && !rwPlatformsOk();
+  const title = neutral ? d.titleNeutral : d.title;
+  const metaTitle = neutral ? d.metaTitleNeutral : d.metaTitle;
+  const needs = neutral ? d.needsNeutral : d.needs;
+  const label = rwLabel(lang, key);
+  const schemas = rwSchemas(lang, key, { name: metaTitle, desc: d.metaDesc, trail: rwTrail(lang, key, label), service: title });
+  const tp = c.common.template;
+  const fact = (id, h, body) => `<div class="rw-fact">
+          <h2 class="rw-fact__title" id="${id}">${esc(h)}</h2>
+          <p class="rw-fact__body">${esc(body)}</p>
+        </div>`;
+  const platforms = d.platforms && rwPlatformsOk() ? `
+        <p class="rw-platforms"><strong>${esc(tp.platforms)}:</strong> <bdi>${esc(d.platforms)}</bdi></p>` : "";
+  const related = d.related.map((rk) => `<li><a class="rw-related__link" href="${rwKeyUrl(lang, rk)}"${rwServiceAttr(rk)}>${esc(rwLabel(lang, rk))} <span aria-hidden="true">${fwd(lang)}</span></a></li>`).join("\n            ");
+  const svcLink = d.serviceLink ? `
+          <p class="rw-related__note">${esc(d.serviceLink.text)} <a href="${svcUrl(lang, d.serviceLink.slug)}">${esc(t.servicesMenu.labels[d.serviceLink.slug])}</a></p>` : "";
+
+  const main = `
+  <main id="main" class="rw-page">
+    <section class="hero svc-hero section--accent" aria-labelledby="rw-title">
+      <div class="container">
+        ${rwCrumbsHtml(lang, key, label)}
+      </div>
+      <div class="container">
+        <h1 class="hero__title" id="rw-title">${esc(title)}</h1>
+        <p class="hero__lead">${esc(d.lead)}</p>
+        <div class="hero__actions">
+          <a class="btn btn--accent" href="${rwAssessHref(lang, { service: p.service })}">${esc(d.cta)} <span aria-hidden="true">${fwd(lang)}</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light" aria-label="${esc(title)}">
+      <div class="container">
+        <div class="rw-facts">
+        ${fact("rw-who", tp.forWhom, d.forWhom)}
+        ${fact("rw-scope", tp.scope, d.scope)}
+        ${fact("rw-needs", tp.needs, needs)}
+        ${fact("rw-verify", tp.verify, d.verify)}
+        </div>${platforms}
+      </div>
+    </section>
+
+    <section class="section section--dark" aria-labelledby="rw-faq">
+      <div class="container">
+        ${rwHead("rw-faq", tp.faq, "")}
+        ${rwFaq(d.faq, "rwfaq")}
+      </div>
+    </section>
+
+    <section class="section section--light" aria-labelledby="rw-related">
+      <div class="container">
+        ${rwHead("rw-related", c.common.related, "")}
+        <ul class="rw-related">
+            ${related}
+        </ul>${svcLink}
+      </div>
+    </section>
+
+    <div class="section svc-cta rw-next" id="contact">
+      <div class="container rw-next__inner">
+        <p class="svc-cta__label">${esc(c.common.assessNext)}</p>
+        <a class="btn btn--dark" href="${rwAssessHref(lang, { service: p.service })}">${esc(d.cta)} <span aria-hidden="true">${fwd(lang)}</span></a>
+      </div>
+    </div>
+  </main>`;
+  return rwDoc(lang, key, { title: metaTitle, desc: d.metaDesc, schemas }) + rwFinish(lang, main);
+}
+
+/* ---------- P08: نموذج التقييم ----------
+   عقد مستقل عن نموذج التواصل العام (التكليف §10). ثلاث حالات للصفحة:
+   - بلا JavaScript: noscript يعرض وسائل التواصل المباشرة. النموذج يحتاج رمزًا
+     يصدره الخادم، فلا يُعرض نموذج لا يستطيع الإرسال.
+   - JavaScript والخادم غير مهيّأ (لا ملف إعداد خاص خارج جذر الموقع): يُستبدل
+     النموذج بكتلة «غير مفعّل حاليًا» مع التواصل المباشر — لا نموذج يوهم باستقبال.
+   - الخادم مهيّأ: يُرسل، ولا نجاح إلا بردّ الخادم بعد الحفظ ومعه رقم مرجعي. */
+function rwAssessmentPage(lang) {
+  const t = ui[lang];
+  const c = rwText[lang];
+  const d = c.assessment;
+  const f = d.fields;
+  const label = rwLabel(lang, "assessment");
+  const schemas = rwSchemas(lang, "assessment", { name: d.metaTitle, desc: d.metaDesc, trail: rwTrail(lang, "assessment", label) });
+  schemas[1] = { ...schemas[1], "@type": "ContactPage" };
+  const req = `<span class="req" aria-hidden="true">*</span>`;
+  const opt = `<span class="opt">(${esc(d.optional)})</span>`;
+  const err = (id) => `<p class="field__err" id="${id}-err" hidden></p>`;
+  const help = (id, text) => `<p class="field__help" id="${id}-help">${esc(text)}</p>`;
+  const choice = (type, name, id, opts, required) => Object.entries(opts).map(([v, l]) =>
+    `<label class="choice"><input type="${type}" name="${name}" value="${v}"${required ? ` data-required="1"` : ""}> <span>${esc(l)}</span></label>`).join("\n              ");
+  const direct = `
+            <ul class="rw-direct">
+              <li><a class="footer-pill" href="tel:${config.phoneHref}"><span class="footer-pill__ic">${icons.phone}</span><span dir="ltr">${esc(config.phoneDisplay)}</span></a></li>
+              <li><a class="footer-pill" href="${wa()}" target="_blank" rel="noopener"><span class="footer-pill__ic">${icons.whatsapp}</span><span>${esc(t.footer.whatsapp)}</span></a></li>
+              <li><a class="footer-pill" href="mailto:${config.email}"><span class="footer-pill__ic">${icons.email}</span><span dir="ltr">${esc(config.email)}</span></a></li>
+              <li><a class="footer-pill" href="${contactUrl(lang)}"><span>${esc(d.contactPage)}</span></a></li>
+            </ul>`;
+  const unavailable = (attrs) => `<div class="rw-unavail"${attrs}>
+            <h2 class="cform__title">${esc(d.unavailableTitle)}</h2>
+            <p>${esc(d.unavailableBody)}</p>${direct}
+          </div>`;
+
+  const main = `
+  <main id="main" class="rw-page">
+    <section class="hero svc-hero section--accent" aria-labelledby="rw-title">
+      <div class="container">
+        ${rwCrumbsHtml(lang, "assessment", label)}
+      </div>
+      <div class="container">
+        <h1 class="hero__title" id="rw-title">${esc(d.title)}</h1>
+        <p class="hero__lead">${esc(d.lead)}</p>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container contact-grid">
+        <div class="rw-form-col">
+          <noscript>${unavailable("")}</noscript>
+          ${unavailable(` id="rwUnavailable" hidden tabindex="-1"`)}
+          <form class="cform rw-form" id="rwAssessForm" action="/ransomware-assessment.php" method="post" novalidate
+                data-form-id="ransomware_assessment" data-lang="${lang}"
+                data-sending="${esc(d.sending)}" data-error="${esc(d.error)}"
+                data-err-required="${esc(d.errRequired)}" data-err-phone="${esc(d.errPhone)}"
+                data-err-email="${esc(d.errEmail)}" data-err-length="${esc(d.errLength)}"
+                data-errors-summary="${esc(d.errorsSummary)}"
+                data-word-required="${esc(d.required)}" data-word-optional="${esc(d.optional)}"
+                aria-labelledby="rw-form-title">
+            <h2 class="cform__title" id="rw-form-title">${esc(d.formTitle)}</h2>
+            <p class="cform__warn">${esc(d.warn)}</p>
+
+            <div class="field">
+              <label for="rw-name">${esc(f.name.label)} ${req}</label>
+              <input id="rw-name" name="name" type="text" maxlength="100" autocomplete="name" data-required="1" aria-describedby="rw-name-help">
+              ${help("rw-name", f.name.help)}
+              ${err("rw-name")}
+            </div>
+
+            <fieldset class="field field--choices" id="rw-customer" aria-describedby="rw-customer-err">
+              <legend>${esc(f.customerType.label)} ${req}</legend>
+              <div class="choices">
+              ${choice("radio", "customer_type", "rw-customer", f.customerType.opts, true)}
+              </div>
+              ${err("rw-customer")}
+            </fieldset>
+
+            <div class="field" id="rw-company-field" hidden>
+              <label for="rw-company">${esc(f.company.label)} ${opt}</label>
+              <input id="rw-company" name="company" type="text" maxlength="150" autocomplete="organization">
+            </div>
+
+            <fieldset class="field field--choices" id="rw-method" aria-describedby="rw-method-err">
+              <legend>${esc(f.contactMethod.label)} ${req}</legend>
+              <div class="choices">
+              ${choice("radio", "contact_method", "rw-method", f.contactMethod.opts, true)}
+              </div>
+              ${err("rw-method")}
+            </fieldset>
+
+            <fieldset class="field field--phone" id="rw-phone-field">
+              <legend id="rw-phone-label">${esc(f.phone.label)} <span class="rw-cond" data-cond="phone"></span></legend>
+              <div class="rw-phone" dir="ltr">
+                <input id="rw-cc" name="phone_cc" type="text" inputmode="tel" maxlength="5" value="+966" autocomplete="tel-country-code"
+                       aria-label="${esc(f.phone.country)}" aria-describedby="rw-phone-help">
+                <input id="rw-phone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel-national"
+                       aria-labelledby="rw-phone-label" aria-describedby="rw-phone-help rw-phone-err">
+              </div>
+              ${help("rw-phone", f.phone.help)}
+              ${err("rw-phone")}
+            </fieldset>
+
+            <div class="field" id="rw-email-field">
+              <label for="rw-email">${esc(f.email.label)} <span class="rw-cond" data-cond="email"></span></label>
+              <input id="rw-email" name="email" type="email" maxlength="254" autocomplete="email" dir="ltr" aria-describedby="rw-email-help rw-email-err">
+              ${help("rw-email", f.email.help)}
+              ${err("rw-email")}
+            </div>
+
+            <fieldset class="field field--choices" id="rw-affected" aria-describedby="rw-affected-err">
+              <legend>${esc(f.affected.label)} ${req}</legend>
+              <div class="choices choices--grid">
+              ${choice("checkbox", "affected[]", "rw-affected", f.affected.opts, true)}
+              </div>
+              ${err("rw-affected")}
+            </fieldset>
+
+            <fieldset class="field field--choices" id="rw-impact" aria-describedby="rw-impact-err">
+              <legend>${esc(f.impact.label)} ${req}</legend>
+              <div class="choices">
+              ${choice("radio", "impact", "rw-impact", f.impact.opts, true)}
+              </div>
+              ${err("rw-impact")}
+            </fieldset>
+
+            <div class="field">
+              <label for="rw-desc">${esc(f.description.label)} ${req}</label>
+              <textarea id="rw-desc" name="description" rows="5" data-required="1" data-max="1000" aria-describedby="rw-desc-help rw-desc-count rw-desc-err"></textarea>
+              <div class="field__meta">
+                ${help("rw-desc", f.description.help)}
+                <p class="field__count" id="rw-desc-count" dir="ltr"><span data-count>0</span> / 1000</p>
+              </div>
+              ${err("rw-desc")}
+            </div>
+
+            <details class="rw-details">
+              <summary>${esc(f.details.label)} ${opt}</summary>
+              <div class="cform__row">
+                <div class="field">
+                  <label for="rw-discovered">${esc(f.details.discovered)}</label>
+                  <input id="rw-discovered" name="discovered" type="text" maxlength="100">
+                </div>
+                <div class="field">
+                  <label for="rw-devices">${esc(f.details.devices)}</label>
+                  <input id="rw-devices" name="devices" type="text" inputmode="numeric" maxlength="10" dir="ltr">
+                </div>
+              </div>
+              <div class="cform__row">
+                <div class="field">
+                  <label for="rw-backups">${esc(f.details.backups)}</label>
+                  <input id="rw-backups" name="backups" type="text" maxlength="200">
+                </div>
+                <div class="field">
+                  <label for="rw-ext">${esc(f.details.extension)}</label>
+                  <input id="rw-ext" name="extension" type="text" maxlength="40" dir="ltr" autocomplete="off">
+                </div>
+              </div>
+            </details>
+
+            <div class="field field--consent">
+              <label class="choice choice--consent"><input id="rw-consent" name="privacy_ack" type="checkbox" value="1" data-required="1" aria-describedby="rw-consent-err"> <span>${esc(f.consent.label)} <a href="${privacyUrl(lang)}">${esc(f.consent.link)}</a></span></label>
+              ${err("rw-consent")}
+            </div>
+
+            <input type="hidden" name="lang" value="${lang}">
+            <input type="hidden" name="request_key" value="">
+            <input type="hidden" name="token" value="">
+            <div class="hp" aria-hidden="true">
+              <label for="rw-website">Website</label>
+              <input id="rw-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button class="btn btn--accent cform__submit" type="submit"><span class="cform__submit-label">${esc(d.submit)}</span> <span aria-hidden="true">${fwd(lang)}</span></button>
+
+            <div class="cform__status" id="rwStatus" hidden role="status" aria-live="polite" tabindex="-1">
+              <strong class="cform__status-title"></strong>
+              <span class="cform__status-body"></span>
+            </div>
+          </form>
+
+          <div class="cform__status rw-success" id="rwSuccess" hidden tabindex="-1">
+            <strong class="cform__status-title">${esc(d.success)}</strong>
+            <span class="cform__status-body">${esc(d.refLabel)}: <bdi class="rw-ref" dir="ltr"></bdi></span>
+          </div>
+        </div>
+
+        <aside class="cinfo">
+          <h2 class="cinfo__title">${esc(d.direct)}</h2>
+          <div class="cinfo__pills">
+            <a class="footer-pill" href="${wa()}" target="_blank" rel="noopener">
+              <span class="footer-pill__ic">${icons.whatsapp}</span><span>${esc(t.footer.whatsapp)}</span>
+            </a>
+            <a class="footer-pill" href="tel:${config.phoneHref}">
+              <span class="footer-pill__ic">${icons.phone}</span><span dir="ltr">${esc(config.phoneDisplay)}</span>
+            </a>
+            <a class="footer-pill" href="mailto:${config.email}">
+              <span class="footer-pill__ic">${icons.email}</span><span dir="ltr">${esc(config.email)}</span>
+            </a>
+          </div>
+          <p class="cinfo__hours"><strong>${esc(t.footer.hours)}</strong><br>${esc(t.footer.hoursValue)}</p>
+        </aside>
+      </div>
+    </section>
+  </main>`;
+  return rwDoc(lang, "assessment", { title: d.metaTitle, desc: d.metaDesc, schemas })
+    + rwFinish(lang, main, { bar: false, scripts: ["assets/js/rw-assessment.js"] });
+}
+
+function rwSectionPage(lang, key) {
+  if (key === "portal") return rwPortalPage(lang);
+  if (key === "first-steps") return rwFirstStepsPage(lang);
+  if (key === "assessment") return rwAssessmentPage(lang);
+  return rwServicePage(lang, key);
 }
 
 /* ---------- Contact page (front-end only; backend hooks into main.js) ---------- */
@@ -1903,7 +2551,7 @@ function contactPage(lang) {
 
     <section class="section section--light">
       <div class="container contact-grid">
-        <form class="cform" id="caseForm" action="/send.php" method="post"
+        <form class="cform" id="caseForm" action="/send.php" method="post" data-form-id="contact"
               data-wa="${config.whatsapp}"
               data-sending="${esc(c.sending)}"
               data-ok-title="${esc(c.successTitle)}"
@@ -2961,7 +3609,7 @@ function trustWall(lang) {
 }
 
 function serviceRow(lang, r, i) {
-  const href = r.link ? svcUrl(lang, r.link) : "#contact";
+  const href = r.link ? serviceHref(lang, r.link) : "#contact";
   return `<li class="service">
             <a class="service__link" href="${href}" aria-label="${esc(r.t)}">
               <span class="service__index" dir="ltr">${pad(i + 1)}</span>
@@ -3205,7 +3853,7 @@ const FAQ_TOKEN = /\[\[(svc|city|art|page|faq):([a-z0-9-]+)\|([^\]]+)\]\]/g;
 function faqResolve(lang, kind, target) {
   if (kind === "svc") {
     if (!services.some((s) => s.slug === target)) throw new Error(`faq link → unknown service "${target}"`);
-    return svcUrl(lang, target);
+    return serviceHref(lang, target);
   }
   if (kind === "city") {
     if (!cities.some((c) => c.slug === target)) throw new Error(`faq link → unknown city "${target}"`);
@@ -3414,7 +4062,7 @@ function notFoundPage(lang) {
         ${sectionHead(t.nav.services, "nf-svc", c.servicesLabel, "", "")}
         <ul class="services">
           ${config.serviceOrder.map((slug, i) => `<li class="service">
-            <a class="service__link" href="${svcUrl(lang, slug)}">
+            <a class="service__link" href="${serviceHref(lang, slug)}">
               <span class="service__index" dir="ltr">${pad(i + 1)}</span>
               <span class="service__body"><h3 class="service__title">${esc(t.serviceNames[slug])}</h3></span>
               <span class="service__arrow" aria-hidden="true">${fwd(lang)}</span>
@@ -3720,7 +4368,7 @@ function articlePage(lang, p) {
       <div class="container svc-cta__inner">
         <div class="svc-cta__action">
           <p class="svc-cta__label">${esc(t.relatedService)}</p>
-          <a class="btn btn--dark" href="${svcUrl(lang, svc)}">${esc(t.serviceNames[svc])} <span aria-hidden="true">${fwd(lang)}</span></a>
+          <a class="btn btn--dark" href="${serviceHref(lang, svc)}">${esc(t.serviceNames[svc])} <span aria-hidden="true">${fwd(lang)}</span></a>
         </div>
         <div>
           <h2 class="svc-cta__title" id="postcta-title">${esc(d.ctaHook)}</h2>
@@ -3785,6 +4433,45 @@ function refreshContentStamp() {
   return { from: stamp.date, to: date };
 }
 
+/* انتقال صفحة الفدية القديمة إلى /ransomware/ (التكليف §11.2).
+   العلَم ransomwareSection يحكم الطرفين معًا فلا يتناقضان: الصفحة القديمة تُحذف
+   من المستودع وتُكتب قواعد التحويل بين علامتَي z2o:ransomware-redirect في
+   .htaccess، أو العكس — تُترك الكتلة فارغة. تحويل بلا بديل منشور، أو بديل
+   منشور بجانب القديم نسخةً مكرّرة، كلاهما ممنوع في التكليف. */
+function syncRansomwareMove() {
+  const on = rwOn();
+  for (const lang of LANGS) {
+    const old = path.join(ROOT, outPath(lang, "services/ransomware.html"));
+    if (on && fs.existsSync(old)) { fs.rmSync(old); console.log("  ✗", path.relative(ROOT, old), "(→ 301)"); }
+  }
+  const file = path.join(ROOT, ".htaccess");
+  const src = fs.readFileSync(file, "utf8");
+  const begin = "  # z2o:ransomware-redirect BEGIN";
+  const end = "  # z2o:ransomware-redirect END";
+  const a = src.indexOf(begin), b = src.indexOf(end);
+  if (a < 0 || b < a) throw new Error(".htaccess: z2o:ransomware-redirect markers missing");
+  const rules = on ? `
+  # يولّده build/generate.js من ransomwareSection — لا تحرّره يدويًّا.
+  # قفزة واحدة إلى البوابة بلا سلسلة: بامتداد وبلاه وبشرطة مائلة. والمسار
+  # /services/ransomware/ نفسه مجلد الحالات بلا فهرس (403)، فيُحوَّل كذلك.
+  # أما /services/ransomware/cases/… فخارج النمط عمدًا: الحالات تبقى في عناوينها.
+  RewriteRule ^services/ransomware(?:\\.html?|/)?$ /ransomware/ [R=301,L,NC]
+  RewriteRule ^en/services/ransomware(?:\\.html?|/)?$ /en/ransomware/ [R=301,L,NC]
+  # صفحات القسم مجلدات بفهرس: /ransomware/index.html نسخة ثانية للعنوان نفسه.
+  RewriteRule ^((?:en/)?ransomware/(?:[a-z-]+/)?)index\\.html?$ /$1 [R=301,L,NC]
+  # عنوان غير موجود داخل القسم الجديد يبقى 404 صريحًا: لا روابط قديمة تحته،
+  # وخريطة الكلمات في الأسفل كانت ستحوّل كل خطأ كتابة إلى البوابة (soft 404).
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?:en/)?ransomware/. - [R=404,L]
+` : "\n";
+  const swap = (text) => on
+    ? text.split(" /services/ransomware.html [").join(" /ransomware/ [")
+    : text.split(" /ransomware/ [").join(" /services/ransomware.html [");
+  const next = swap(src.slice(0, a)) + begin + rules + src.slice(b, b + end.length) + swap(src.slice(b + end.length));
+  if (next !== src) { fs.writeFileSync(file, next); console.log("  ✓ .htaccess (ransomware redirect block)"); }
+}
+
 function build() {
   console.log("Generating pages…");
   // written first so asset() can hash it while the pages are rendered
@@ -3808,7 +4495,16 @@ function build() {
     write(outPath(lang, "privacy.html"), injectLangSwitch(privacyPage(lang), privacyUrl(other)));
     // services
     for (const s of services) {
+      // متى فُعّل قسم الفدية صارت /ransomware/ صفحتها، والقديمة تحويل 301 لا نسخة ثانية.
+      if (s.slug === "ransomware" && rwOn()) continue;
       write(outPath(lang, `services/${s.slug}.html`), injectLangSwitch(servicePage(lang, s), svcUrl(other, s.slug)));
+    }
+    // قسم هجمات الفدية P01–P08
+    if (rwOn()) {
+      for (const p of RW_PAGES) {
+        write(outPath(lang, `ransomware/${p.slug ? p.slug + "/" : ""}index.html`),
+          injectLangSwitch(rwSectionPage(lang, p.key), rwUrl(other, p.slug)));
+      }
     }
     // illustrative ransomware cases
     for (const c of ransomwareCases) {
@@ -3829,10 +4525,15 @@ function build() {
     // 404 — served by ErrorDocument (.htaccess) and Netlify's default handler
     write(outPath(lang, "404.html"), injectLangSwitch(notFoundPage(lang), BASE + (other === "ar" ? "/404.html" : "/en/404.html")));
   }
+  syncRansomwareMove();
   // llms.txt — AEO: lets AI answer engines read the site's structure directly
   write("llms.txt", llmsTxt());
   // sitemap + robots
   write("send.php", sendPhp());
+  // نقطة استقبال نموذج P08. لا تستقبل شيئًا قبل ملف الإعداد الخاص (انظر رأس الملف).
+  const rwPhp = path.join(ROOT, "ransomware-assessment.php");
+  if (rwOn()) write("ransomware-assessment.php", ransomwareAssessmentPhp({ text: rwText, origins: [BASE, BASE.replace("://", "://www.")] }));
+  else if (fs.existsSync(rwPhp)) fs.rmSync(rwPhp);
   write("sitemap.xml", sitemap());
   /* Bing verifies ownership by fetching this exact file from the domain root.
      It is generated rather than committed by hand so the token sits in
@@ -3876,8 +4577,17 @@ function build() {
    A plain-Markdown map of the site for AI answer engines. Spec: llmstxt.org */
 function llmsTxt() {
   const svc = (lang) => services
-    .map((s) => `- [${ui[lang].serviceNames[s.slug]}](${absSvc(lang, s.slug)}): ${s[lang].metaDesc}`)
+    .map((s) => s.slug === "ransomware" && rwOn()
+      ? `- [${rwText[lang].portal.title}](${absRw(lang)}): ${rwText[lang].portal.metaDesc}`
+      : `- [${ui[lang].serviceNames[s.slug]}](${absSvc(lang, s.slug)}): ${s[lang].metaDesc}`)
     .join("\n");
+  // صفحات القسم الفرعية P02–P08 تحت البوابة مباشرة، بعناوينها الفعلية.
+  const rw = (lang) => !rwOn() ? "" : RW_PAGES.filter((p) => p.key !== "portal").map((p) => {
+    const d = p.key === "first-steps" ? rwText[lang].firstSteps
+      : p.key === "assessment" ? rwText[lang].assessment : rwText[lang].services[p.key];
+    const neutral = p.key === "virtual-machines" && !rwPlatformsOk();
+    return `- [${neutral ? d.titleNeutral : d.title}](${absRw(lang, p.slug)}): ${d.metaDesc}`;
+  }).join("\n");
   const cty = (lang) => cities
     .map((c) => `- [${c[lang].title}](${absCity(lang, c.slug)}): ${c[lang].metaDesc}`)
     .join("\n");
@@ -3904,7 +4614,7 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 ## Services (English)
 
 ${svc("en")}
-${section("Areas served (English)", cty("en"))}${section("Guides (English)", art("en"))}
+${section("Ransomware attacks (English)", rw("en"))}${section("Areas served (English)", cty("en"))}${section("Guides (English)", art("en"))}
 ## العربية (Arabic)
 
 - [الرئيسية](${absHome("ar")}): نظرة عامة، الخدمات، آلية العمل، الأسئلة الشائعة.
@@ -3914,7 +4624,7 @@ ${section("Areas served (English)", cty("en"))}${section("Guides (English)", art
 ## الخدمات (Arabic)
 
 ${svc("ar")}
-${section("المناطق التي نخدمها (Arabic)", cty("ar"))}${section("أدلة ومقالات (Arabic)", art("ar"))}
+${section("هجمات الفدية (Arabic)", rw("ar"))}${section("المناطق التي نخدمها (Arabic)", cty("ar"))}${section("أدلة ومقالات (Arabic)", art("ar"))}
 ## Notes
 
 - Stop using the affected device immediately; every write reduces recovery odds.
@@ -3943,7 +4653,11 @@ function sitemap() {
   add((l) => absAbout(l));
   add((l) => absFaq(l));
   add((l) => absPrivacy(l));
-  for (const s of services) add((l) => absSvc(l, s.slug));
+  for (const s of services) {
+    if (s.slug === "ransomware" && rwOn()) continue;   // صار تحويلًا — لا يُدرج عنوان محوَّل
+    add((l) => absSvc(l, s.slug));
+  }
+  if (rwOn()) for (const p of RW_PAGES) add((l) => absRw(l, p.slug));
   for (const c of ransomwareCases) add((l) => absCase(l, c.slug));
   for (const c of cities) add((l) => absCity(l, c.slug));
   // The 404 page is deliberately absent: it is noindex, and listing a noindex
