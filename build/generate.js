@@ -625,7 +625,67 @@ function logo(lang) {
     </span>`;
 }
 
-function header(lang) {
+/* ---- قسم هجمات الفدية: الروابط والمعرّفات ------------------------------
+   الرموز P01–P08 من خطة القسم (الملحق B-4) وهي نفسها content_id في القياس. */
+const RW_PAGES = [
+  { slug: "", id: "P01", key: "portal" },
+  { slug: "first-steps", id: "P02", key: "first-steps" },
+  { slug: "encrypted-files", id: "P03", key: "encrypted-files", service: "files" },
+  { slug: "servers-nas", id: "P04", key: "servers-nas", service: "servers_nas" },
+  { slug: "databases", id: "P05", key: "databases", service: "database" },
+  { slug: "virtual-machines", id: "P06", key: "virtual-machines", service: "virtual_machine" },
+  { slug: "backups", id: "P07", key: "backups", service: "backup" },
+  { slug: "assessment", id: "P08", key: "assessment" }
+];
+const rwOn = () => config0().ransomwareSection === true;
+const rwUrl = (lang, slug = "") => `${langPrefix(lang)}/ransomware/${slug ? slug + "/" : ""}`;
+const absRw = (lang, slug = "") => BASE + rwUrl(lang, slug);
+// رابط أي خدمة: الفدية تذهب إلى البوابة متى فُعّل القسم، وإلا إلى صفحتها القديمة.
+const serviceHref = (lang, slug) => (slug === "ransomware" && rwOn() ? rwUrl(lang) : svcUrl(lang, slug));
+
+const navChevron = `<svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* قائمة منسدلة بنمط disclosure (W3C APG): اسم القسم رابط حقيقي، وبجانبه زرّ
+   مستقل يفتح اللوحة. اللوحة hidden فلا تدخل روابطها ترتيب Tab ولا شجرة الوصول
+   وهي مغلقة. لا role=menu: هذه روابط موقع لا قائمة أوامر تطبيق.
+   الزرّ بلا صنف .btn عمدًا: مستمع القياس يلتقط .btn بوصفه service_cta_click،
+   وفتح قائمة ليس طلب خدمة. */
+function disclosureItem(where, kind, href, label, toggleLabel, panel) {
+  const id = `${where}-menu-${kind}`;
+  const li = where === "nav" ? "nav__item nav__item--menu" : "drawer__item drawer__item--menu";
+  const box = where === "nav" ? `nav-menu nav-menu--${kind}` : `drawer-sub drawer-sub--${kind}`;
+  return `
+          <li class="${li}" data-disclosure="${kind}">
+            <div class="${where}__row"><a href="${href}">${esc(label)}</a><button class="${where}__toggle" type="button" aria-expanded="false" aria-controls="${id}" aria-label="${esc(toggleLabel)}">${navChevron}</button></div>
+            <div class="${box}" id="${id}" hidden>${panel}</div>
+          </li>`;
+}
+
+function servicesMenuPanel(lang, where) {
+  const t = ui[lang], m = t.servicesMenu;
+  const items = config.serviceOrder.map((slug) => {
+    const s = services.find((x) => x.slug === slug) || {};
+    const meta = where === "nav" && s.tags ? `<span class="nav-menu__meta" dir="ltr">${esc(s.tags)}</span>` : "";
+    const inner = where === "nav" ? `<span class="nav-menu__name">${esc(m.labels[slug])}</span>${meta}` : esc(m.labels[slug]);
+    return `<li><a class="${where === "nav" ? "nav-menu__link" : ""}" href="${serviceHref(lang, slug)}">${inner}</a></li>`;
+  }).join("");
+  const all = `<a class="${where === "nav" ? "nav-menu__all" : "drawer-sub__all"}" href="${homeUrl(lang)}#services">${esc(m.all)} <span aria-hidden="true">${fwd(lang)}</span></a>`;
+  return `<ul class="${where === "nav" ? "nav-menu__grid" : "drawer-sub__list"}">${items}</ul>${all}`;
+}
+
+function rwMenuPanel(lang, where) {
+  const m = ui[lang].rwMenu;
+  const link = (p) => `<li><a class="${where === "nav" ? "nav-menu__link" : ""}" href="${rwUrl(lang, p.slug)}"${p.service ? ` data-rw-service="${p.id}"` : ""}>${where === "nav" ? `<span class="nav-menu__name">${esc(m.items[p.key])}</span>` : esc(m.items[p.key])}</a></li>`;
+  const start = RW_PAGES.filter((p) => ["P01", "P02", "P08"].includes(p.id));
+  const data = RW_PAGES.filter((p) => p.service);
+  const g1 = `${where}-rw-start`, g2 = `${where}-rw-data`;
+  const grp = where === "nav" ? "nav-menu__group" : "drawer-sub__group";
+  const col = (gid, title, list) => `<div class="${where === "nav" ? "nav-menu__col" : "drawer-sub__col"}"><p class="${grp}" id="${gid}">${esc(title)}</p><ul class="${where === "nav" ? "nav-menu__list" : "drawer-sub__list"}" aria-labelledby="${gid}">${list.map(link).join("")}</ul></div>`;
+  const alert = `<div class="${where === "nav" ? "nav-menu__alert" : "drawer-sub__alert"}"><p class="${where === "nav" ? "nav-menu__alert-title" : "drawer-sub__alert-title"}">${esc(m.alertTitle)}</p><p>${esc(m.alertBody)}</p><a href="${rwUrl(lang, "first-steps")}">${esc(m.alertLink)} <span aria-hidden="true">${fwd(lang)}</span></a></div>`;
+  return `<div class="${where === "nav" ? "nav-menu__cols" : "drawer-sub__cols"}">${col(g1, m.groupStart, start)}${col(g2, m.groupData, data)}${alert}</div>`;
+}
+
+function header(lang, ctx = {}) {
   const t = ui[lang];
   const o = t.otherLang;
   const menuLabel = lang === "ar" ? "القائمة" : "Menu";
@@ -640,7 +700,6 @@ function header(lang) {
   // on the homepage, instead of triggering a full reload.
   const homeItem = item(`${homeUrl(lang)}#hero`, t.nav.home, " data-home-link");
   const aboutItem = item(aboutUrl(lang), t.nav.about);
-  const servicesItem = item(`${homeUrl(lang)}#services`, t.nav.services);
   const processItem = item(`${homeUrl(lang)}#process`, t.nav.process);
   const faqItem = item(faqUrl(lang), t.nav.faq);
   const contactItem = item(contactUrl(lang), t.nav.contact);
@@ -648,32 +707,31 @@ function header(lang) {
   // by a separate pipeline this generator cannot see, so gating on local state
   // would drop the link whenever the two repositories are checked out apart.
   const blogItem = item(blogUrl(lang), t.blogLabel);
+  const servicesMenu = (where) => disclosureItem(where, "services", `${homeUrl(lang)}#services`, t.nav.services, t.servicesMenu.toggle, servicesMenuPanel(lang, where));
+  const rwMenu = (where) => rwOn() ? disclosureItem(where, "ransomware", rwUrl(lang), t.nav.ransomware, t.rwMenu.toggle, rwMenuPanel(lang, where)) : "";
 
-  // Top bar. No contact link — the accent button beside it goes to the same
-  // page, so the row offered two controls for one destination. The blog sits
-  // exactly where it sits in the drawer, immediately before the FAQ, so both
-  // menus read in the same order.
-  const links = servicesItem + processItem + aboutItem + blogItem + faqItem;
+  // الشريط العلوي (الملحق B-5): الخدمات، هجمات الفدية، آلية العمل، من نحن،
+  // المدونة. الأسئلة الشائعة تنتقل إلى الفوتر والدرج متى ظهر قسم الفدية،
+  // تخفيفًا لازدحام الشريط؛ وتبقى في الشريط إن لم يُفعَّل القسم.
+  const links = servicesMenu("nav") + rwMenu("nav") + processItem + aboutItem + blogItem + (rwOn() ? "" : faqItem);
 
   // Drawer order is the client's, given on 2026-08-18:
   //   home · about · services · blog · FAQ · contact · then the remainder.
-  // "How it works" was not named in that list, so it sits in the remainder,
-  // ahead of the city group. Say the word and it moves.
+  // Ransomware attacks sits directly after services, as in the top bar.
   //
   // The city pages hang off the drawer rather than the footer: the footer's
   // quick-links row was removed by the client earlier, and these pages still
   // need a real internal link on every page — a sitemap entry alone makes them
   // crawlable but passes them no internal link equity.
-  //
-  // Cities render as a wrapped row of chips, not stacked rows: three short
-  // proper nouns down the full drawer width read as three sections rather than
-  // three siblings of one group, and cost three times the vertical space.
   const cityLinks = cities.length ? `
           <li class="drawer__group">${esc(t.citiesLabel)}</li>
           <li class="drawer__cities">` + cities
     .map((c) => `<a class="drawer__city" href="${cityUrl(lang, c.slug)}">${esc(c[lang].city)}</a>`).join("") + `</li>` : "";
-  const drawerLinks = homeItem + aboutItem + servicesItem + blogItem
+  const drawerLinks = homeItem + aboutItem + servicesMenu("drawer") + rwMenu("drawer") + blogItem
     + faqItem + contactItem + processItem + cityLinks;
+  // داخل قسم الفدية يذهب «تقييم الحالة» إلى نموذج تقييم الفدية؛ وفي بقية الموقع
+  // يبقى مسار التواصل العام (قرار فض التعارض في التكليف الموحّد، القسم 3).
+  const ctaHref = ctx.section === "ransomware" && rwOn() ? rwUrl(lang, "assessment") : contactUrl(lang);
   return `
   <header class="site-header" id="top">
     <div class="container header__inner">
@@ -682,7 +740,7 @@ function header(lang) {
         <ul class="nav__list">${links}
         </ul>
       </nav>
-      <a class="btn btn--accent header__cta" href="${contactUrl(lang)}">${esc(t.evalBtn)}</a>
+      <a class="btn btn--accent header__cta" href="${ctaHref}">${esc(t.evalBtn)}</a>
     </div>
   </header>
   <button class="menu-fab on-dark" type="button" aria-label="${esc(menuLabel)}" aria-expanded="false" aria-controls="site-drawer">
@@ -706,8 +764,6 @@ function header(lang) {
   </aside>${whatsappFab(lang)}`;
 }
 
-// `minimal` = the contact-page footer: brand + local time + rights only
-// (no CTA block, no contact pills, no socials — those already live on the page).
 function footer(lang, minimal) {
   const t = ui[lang];
   const f = t.footer;
@@ -970,6 +1026,7 @@ function homePage(lang) {
         <div class="hero__copy">
           <p class="eyebrow">${esc(h.hero.eyebrow)}</p>
           <h1 class="hero__title" id="hero-title">${esc(h.hero.title)}</h1>
+          ${h.hero.tagline ? `<p class="hero__tagline">${esc(h.hero.tagline)}</p>` : ""}
           <p class="hero__lead">${esc(h.hero.lead)}</p>
           <div class="hero__actions">
             <a class="btn btn--accent" href="${contactUrl(lang)}">${esc(t.nav.contact)} <span aria-hidden="true">${fwd(lang)}</span></a>

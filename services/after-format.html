@@ -34,7 +34,7 @@
   <meta name="twitter:image" content="https://datarecovery-sa.com/assets/img/og.png">
   <link rel="preload" href="/assets/fonts/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/main.min.css?v=27cec9ba">
+  <link rel="stylesheet" href="/assets/css/main.min.css?v=e1add652">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -69,11 +69,17 @@
     </span></a>
       <nav class="nav" aria-label="القائمة">
         <ul class="nav__list">
-          <li><a href="/#services">الخدمات</a></li>
+          <li class="nav__item nav__item--menu" data-disclosure="services">
+            <div class="nav__row"><a href="/#services">الخدمات</a><button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu-services" aria-label="قائمة الخدمات"><svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <div class="nav-menu nav-menu--services" id="nav-menu-services" hidden><ul class="nav-menu__grid"><li><a class="nav-menu__link" href="/ransomware/"><span class="nav-menu__name">استعادة البيانات بعد هجمات الفدية</span></a></li><li><a class="nav-menu__link" href="/services/hdd.html"><span class="nav-menu__name">استعادة بيانات الأقراص الصلبة</span></a></li><li><a class="nav-menu__link" href="/services/ssd-nvme.html"><span class="nav-menu__name">استعادة بيانات SSD وNVMe</span></a></li><li><a class="nav-menu__link" href="/services/raid-servers.html"><span class="nav-menu__name">استعادة بيانات RAID والخوادم</span></a></li><li><a class="nav-menu__link" href="/services/cctv.html"><span class="nav-menu__name">استعادة تسجيلات كاميرات المراقبة</span></a></li><li><a class="nav-menu__link" href="/services/after-format.html"><span class="nav-menu__name">استعادة البيانات بعد التهيئة والحذف</span></a></li><li><a class="nav-menu__link" href="/services/phones.html"><span class="nav-menu__name">استعادة بيانات الهواتف</span></a></li><li><a class="nav-menu__link" href="/services/memory-cards.html"><span class="nav-menu__name">استعادة بيانات بطاقات الذاكرة ووحدات USB</span></a></li></ul><a class="nav-menu__all" href="/#services">استعرض جميع الخدمات <span aria-hidden="true">←</span></a></div>
+          </li>
+          <li class="nav__item nav__item--menu" data-disclosure="ransomware">
+            <div class="nav__row"><a href="/ransomware/">هجمات الفدية</a><button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu-ransomware" aria-label="قائمة هجمات الفدية"><svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <div class="nav-menu nav-menu--ransomware" id="nav-menu-ransomware" hidden><div class="nav-menu__cols"><div class="nav-menu__col"><p class="nav-menu__group" id="nav-rw-start">ابدأ هنا</p><ul class="nav-menu__list" aria-labelledby="nav-rw-start"><li><a class="nav-menu__link" href="/ransomware/"><span class="nav-menu__name">نظرة عامة على هجمات الفدية</span></a></li><li><a class="nav-menu__link" href="/ransomware/first-steps/"><span class="nav-menu__name">ماذا أفعل الآن؟</span></a></li><li><a class="nav-menu__link" href="/ransomware/assessment/"><span class="nav-menu__name">تقييم حالة جديدة</span></a></li></ul></div><div class="nav-menu__col"><p class="nav-menu__group" id="nav-rw-data">حسب البيانات المتأثرة</p><ul class="nav-menu__list" aria-labelledby="nav-rw-data"><li><a class="nav-menu__link" href="/ransomware/encrypted-files/" data-rw-service="P03"><span class="nav-menu__name">ملفات مشفرة</span></a></li><li><a class="nav-menu__link" href="/ransomware/servers-nas/" data-rw-service="P04"><span class="nav-menu__name">خوادم وNAS وRAID</span></a></li><li><a class="nav-menu__link" href="/ransomware/databases/" data-rw-service="P05"><span class="nav-menu__name">قواعد بيانات</span></a></li><li><a class="nav-menu__link" href="/ransomware/virtual-machines/" data-rw-service="P06"><span class="nav-menu__name">VMware وHyper-V</span></a></li><li><a class="nav-menu__link" href="/ransomware/backups/" data-rw-service="P07"><span class="nav-menu__name">نسخ احتياطية</span></a></li></ul></div><div class="nav-menu__alert"><p class="nav-menu__alert-title">لاحظت إصابة الآن؟</p><p>احفظ معلومات الحالة، وأشرك مسؤول التقنية عند تأثر شبكة العمل. ابدأ بالتوجيهات الأولية قبل تجربة أدوات جديدة.</p><a href="/ransomware/first-steps/">اقرأ الخطوات الأولية <span aria-hidden="true">←</span></a></div></div></div>
+          </li>
           <li><a href="/#process">آلية العمل</a></li>
           <li><a href="/about.html">من نحن</a></li>
           <li><a href="/blog/">المدونة</a></li>
-          <li><a href="/faq.html">الأسئلة الشائعة</a></li>
         </ul>
       </nav>
       <a class="btn btn--accent header__cta" href="/contact.html">تقييم الحالة</a>
@@ -94,7 +100,14 @@
       <ul>
           <li><a href="/#hero" data-home-link>الرئيسية</a></li>
           <li><a href="/about.html">من نحن</a></li>
-          <li><a href="/#services">الخدمات</a></li>
+          <li class="drawer__item drawer__item--menu" data-disclosure="services">
+            <div class="drawer__row"><a href="/#services">الخدمات</a><button class="drawer__toggle" type="button" aria-expanded="false" aria-controls="drawer-menu-services" aria-label="قائمة الخدمات"><svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <div class="drawer-sub drawer-sub--services" id="drawer-menu-services" hidden><ul class="drawer-sub__list"><li><a class="" href="/ransomware/">استعادة البيانات بعد هجمات الفدية</a></li><li><a class="" href="/services/hdd.html">استعادة بيانات الأقراص الصلبة</a></li><li><a class="" href="/services/ssd-nvme.html">استعادة بيانات SSD وNVMe</a></li><li><a class="" href="/services/raid-servers.html">استعادة بيانات RAID والخوادم</a></li><li><a class="" href="/services/cctv.html">استعادة تسجيلات كاميرات المراقبة</a></li><li><a class="" href="/services/after-format.html">استعادة البيانات بعد التهيئة والحذف</a></li><li><a class="" href="/services/phones.html">استعادة بيانات الهواتف</a></li><li><a class="" href="/services/memory-cards.html">استعادة بيانات بطاقات الذاكرة ووحدات USB</a></li></ul><a class="drawer-sub__all" href="/#services">استعرض جميع الخدمات <span aria-hidden="true">←</span></a></div>
+          </li>
+          <li class="drawer__item drawer__item--menu" data-disclosure="ransomware">
+            <div class="drawer__row"><a href="/ransomware/">هجمات الفدية</a><button class="drawer__toggle" type="button" aria-expanded="false" aria-controls="drawer-menu-ransomware" aria-label="قائمة هجمات الفدية"><svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <div class="drawer-sub drawer-sub--ransomware" id="drawer-menu-ransomware" hidden><div class="drawer-sub__cols"><div class="drawer-sub__col"><p class="drawer-sub__group" id="drawer-rw-start">ابدأ هنا</p><ul class="drawer-sub__list" aria-labelledby="drawer-rw-start"><li><a class="" href="/ransomware/">نظرة عامة على هجمات الفدية</a></li><li><a class="" href="/ransomware/first-steps/">ماذا أفعل الآن؟</a></li><li><a class="" href="/ransomware/assessment/">تقييم حالة جديدة</a></li></ul></div><div class="drawer-sub__col"><p class="drawer-sub__group" id="drawer-rw-data">حسب البيانات المتأثرة</p><ul class="drawer-sub__list" aria-labelledby="drawer-rw-data"><li><a class="" href="/ransomware/encrypted-files/" data-rw-service="P03">ملفات مشفرة</a></li><li><a class="" href="/ransomware/servers-nas/" data-rw-service="P04">خوادم وNAS وRAID</a></li><li><a class="" href="/ransomware/databases/" data-rw-service="P05">قواعد بيانات</a></li><li><a class="" href="/ransomware/virtual-machines/" data-rw-service="P06">VMware وHyper-V</a></li><li><a class="" href="/ransomware/backups/" data-rw-service="P07">نسخ احتياطية</a></li></ul></div><div class="drawer-sub__alert"><p class="drawer-sub__alert-title">لاحظت إصابة الآن؟</p><p>احفظ معلومات الحالة، وأشرك مسؤول التقنية عند تأثر شبكة العمل. ابدأ بالتوجيهات الأولية قبل تجربة أدوات جديدة.</p><a href="/ransomware/first-steps/">اقرأ الخطوات الأولية <span aria-hidden="true">←</span></a></div></div></div>
+          </li>
           <li><a href="/blog/">المدونة</a></li>
           <li><a href="/faq.html">الأسئلة الشائعة</a></li>
           <li><a href="/contact.html">تواصل معنا</a></li>
@@ -582,7 +595,7 @@
     </div>
   </footer>
   <script src="/assets/js/events.js?v=6d9861ea" defer></script>
-  <script src="/assets/js/main.js?v=7fac4654" defer></script>
+  <script src="/assets/js/main.js?v=d9500980" defer></script>
   <script src="/assets/js/anim.js?v=bfeb14fe" defer></script>
 </body>
 </html>
