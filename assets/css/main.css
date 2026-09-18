@@ -26,8 +26,11 @@
 
   /* Fluid type scale (min .. max) */
   --fs-display: clamp(2.4rem, 1.5rem + 4.1vw, 4.9rem);
-  --fs-h1:      clamp(2rem, 1.35rem + 3vw, 3.85rem);
-  --fs-h2:      clamp(1.5rem, 1.2rem + 1.7vw, 2.5rem);
+  /* نظام العناوين (الملحق C-4): H1 ‏30–32px جوّالًا و44–48px حاسوبًا، H2 ‏24–26 و30–32،
+     والدعوة الختامية والفوتر 23–26 و28–32. بـrem كي يحترم تكبير النص. */
+  --fs-h1:      clamp(1.875rem, 1.45rem + 1.9vw, 2.875rem);
+  --fs-h2:      clamp(1.5rem, 1.3rem + 0.8vw, 1.9375rem);
+  --fs-cta:     clamp(1.4375rem, 1.2rem + 0.9vw, 1.9375rem);
   --fs-h3:      clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
   --fs-metric:  clamp(1.95rem, 1.4rem + 2.5vw, 2.85rem);
   --fs-lead:    clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
@@ -248,6 +251,72 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   position: relative;
 }
 .nav__list a:hover { color: var(--accent-ink); }
+
+/* ---- 6.1 قوائم التنقل المنسدلة: الخدمات وهجمات الفدية --------------------
+   لوحة بيضاء فوق الشريط الزجاجي بألوان الموقع نفسها؛ لا ألوان جديدة. */
+.nav__list { align-items: center; }
+.nav__item--menu { position: relative; }
+.nav__row { display: inline-flex; align-items: center; gap: 2px; }
+.nav__toggle {
+  display: inline-grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 6px;
+  color: var(--ink); cursor: pointer;
+  transition: background-color .15s var(--ease), color .15s var(--ease);
+}
+.nav__toggle:hover, .nav__item--menu.is-open .nav__toggle { color: var(--accent-ink); background: rgba(18, 199, 215, .12); }
+.nav__chev { width: 12px; height: 12px; transition: transform .18s var(--ease); }
+[aria-expanded="true"] > .nav__chev { transform: rotate(180deg); }
+.nav__toggle:focus-visible, .drawer__toggle:focus-visible,
+.nav-menu a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.drawer__toggle:focus-visible { outline-color: var(--accent); }
+
+.nav-menu {
+  position: absolute; z-index: 60;
+  top: calc(100% + 14px); inset-inline-start: -12px;
+  width: min(620px, calc(100vw - 32px));
+  padding: 14px;
+  background: var(--white); color: var(--ink);
+  border: 1px solid rgba(6, 23, 25, .1); border-radius: var(--radius);
+  box-shadow: 0 18px 48px rgba(6, 23, 25, .16);
+  text-align: start;
+}
+/* جسر غير مرئي يملأ الفجوة بين الزرّ واللوحة، فلا تُغلق أثناء نزول المؤشر إليها. */
+.nav-menu::before { content: ""; position: absolute; inset-inline: 0; top: -16px; height: 16px; }
+.nav-menu:not([hidden]) { animation: nav-menu-in .16s var(--ease) both; }
+@keyframes nav-menu-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.nav-menu--ransomware { width: min(780px, calc(100vw - 32px)); }
+
+.nav-menu__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; }
+.nav__list .nav-menu a { font-size: 0.9rem; color: var(--ink); }
+.nav-menu__link { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: var(--radius-sm); }
+.nav__list .nav-menu .nav-menu__link:hover { background: rgba(18, 199, 215, .1); color: var(--accent-ink); }
+.nav-menu__name { font-weight: 600; line-height: 1.45; }
+.nav-menu__meta { font-size: 0.72rem; line-height: 1.4; color: var(--muted-light); letter-spacing: 0.02em; }
+.nav__list .nav-menu .nav-menu__all {
+  display: inline-flex; gap: 6px; margin-top: 8px; padding: 10px 12px;
+  font-weight: 650; color: var(--accent-ink);
+}
+.nav-menu__all:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.nav-menu__cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr); gap: 14px; }
+.nav-menu__group {
+  padding: 4px 12px 6px; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--muted-light);
+}
+.nav-menu__list { display: flex; flex-direction: column; gap: 2px; }
+.nav-menu__alert {
+  display: flex; flex-direction: column; gap: 8px; align-self: start;
+  padding: 14px; border-radius: var(--radius-sm);
+  background: var(--bg-light); border-inline-start: 3px solid var(--warning);
+  font-size: 0.85rem; line-height: 1.65;
+}
+.nav-menu__alert-title { font-weight: 700; }
+.nav__list .nav-menu .nav-menu__alert a { font-weight: 650; color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu:not([hidden]) { animation: none; }
+  .nav__chev, .nav__toggle { transition: none; }
+}
 .header__location {
   font-size: 0.8rem;
   color: var(--muted-dark);
@@ -375,6 +444,37 @@ body.drawer-open { overflow: hidden; }
 }
 .drawer__nav a:hover, .drawer__nav a:focus-visible { color: var(--accent); padding-inline-start: 8px; }
 
+/* الخدمات وهجمات الفدية داخل الدرج: الاسم رابط، والسهم زرّ توسيع بحجم لمس 44px.
+   التوسيع لا يغلق الدرج؛ اختيار رابط يغلقه كبقية الروابط. */
+.drawer__row { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border-dark); }
+.drawer__nav .drawer__row > a { flex: 1; border-bottom: 0; }
+.drawer__toggle {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: var(--radius-sm);
+  color: var(--white); cursor: pointer;
+}
+.drawer__toggle .nav__chev { width: 16px; height: 16px; }
+.drawer__toggle:hover, .drawer__item--menu.is-open .drawer__toggle { background: rgba(255, 255, 255, .08); color: var(--accent); }
+.drawer-sub { padding: 6px 0 14px; border-bottom: 1px solid var(--border-dark); }
+.drawer__nav .drawer-sub a {
+  padding-block: 9px; padding-inline-start: 14px; border-bottom: 0;
+  font-size: 1rem; font-weight: 500; color: rgba(255, 255, 255, .88);
+}
+.drawer__nav .drawer-sub a:hover, .drawer__nav .drawer-sub a:focus-visible { color: var(--accent); padding-inline-start: 20px; }
+.drawer__nav .drawer-sub__all { font-weight: 650; color: var(--accent); }
+.drawer-sub__group {
+  padding-block: 12px 2px; padding-inline-start: 14px;
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted-dark);
+}
+.drawer-sub__alert {
+  margin-top: 12px; margin-inline-start: 14px; padding: 12px 14px;
+  border-radius: var(--radius-sm); background: rgba(255, 99, 70, .1);
+  border-inline-start: 3px solid var(--warning);
+  font-size: 0.9rem; line-height: 1.65; color: var(--white);
+}
+.drawer-sub__alert-title { font-weight: 700; margin-bottom: 4px; }
+.drawer__nav .drawer-sub__alert a { padding: 8px 0 0; font-weight: 650; color: var(--accent); }
+
 .drawer__foot { margin-top: auto; padding-top: 26px; display: flex; flex-direction: column; gap: 14px; }
 .drawer__foot .btn { justify-content: center; }
 .drawer__foot .lang-switch { align-self: flex-start; }
@@ -400,6 +500,15 @@ body.drawer-open { overflow: hidden; }
   line-height: 1.35;
   letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
+}
+/* الشعار السابق للرئيسية صار سطرًا داعمًا تحت H1 لا عنوانًا ثانيًا (الملحق C-1):
+   أكبر من الفقرة وأصغر بوضوح من العنوان، ويلتصق به بصريًّا. */
+.hero__tagline {
+  margin: -0.75rem 0 1.25rem;
+  font-size: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.45;
+  color: inherit;
 }
 .hero__lead {
   font-size: var(--fs-lead);
@@ -1036,7 +1145,7 @@ body.drawer-open { overflow: hidden; }
   gap: var(--gap);
   align-items: center;
 }
-.svc-cta__title { font-size: var(--fs-h1); font-weight: 650; line-height: 1.35; letter-spacing: -0.03em; }
+.svc-cta__title { font-size: var(--fs-cta); font-weight: 650; line-height: 1.35; letter-spacing: -0.03em; }
 .svc-cta__body { color: rgba(6, 23, 25, 0.85); font-size: var(--fs-lead); line-height: 1.75; margin-top: 1.25rem; max-width: 52ch; }
 .svc-cta__label { font-size: var(--fs-label); font-weight: 650; letter-spacing: 0.1em; margin-bottom: 1rem; }
 
@@ -1082,7 +1191,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--muted-dark); margin-bottom: 0.75rem;
 }
 .footer__cta-title {
-  font-size: var(--fs-h1); font-weight: 650; letter-spacing: -0.02em;
+  font-size: var(--fs-cta); font-weight: 650; letter-spacing: -0.02em;
   line-height: 1.35; margin-bottom: 1.75rem;
 }
 
@@ -1994,3 +2103,151 @@ body.drawer-open { overflow: hidden; }
 body:has(.consent) .wa-fab { bottom: calc(clamp(12px, 3vw, 24px) + 11.5rem); }
 
 @media (prefers-reduced-motion: reduce) { .consent__btn { transition: none; } }
+
+/* ==========================================================================
+   قسم هجمات الفدية — /ransomware/ (التكليف الموحّد §9، الملحق B-10)
+   مفردات الموقع نفسها؛ ما هنا إضافات لا بديل لها: بطاقة اختيار برابطها،
+   شبكة الحقائق الأربع في قالب الخدمات، شريط الجوال، وحقول التحقق الشرطي.
+   ========================================================================== */
+.rw-intro { margin-top: 1rem; max-width: 68ch; font-size: var(--fs-lead); line-height: 1.8; color: var(--muted-light); }
+.section--dark .rw-intro { color: var(--muted-dark); }
+.rw-small { margin-top: 1.1rem; font-size: 0.9rem; line-height: 1.7; opacity: .85; max-width: 56ch; }
+.rw-note { margin-top: clamp(22px, 2.4vw, 32px); max-width: 72ch; padding-inline-start: 14px; border-inline-start: 3px solid var(--warning); line-height: 1.8; }
+
+/* بطاقة برابط يغطّيها: النصّ الظاهر للرابط هو «الزر» في الملحق، فيطابق
+   الاسم المتاح ما يراه الزائر (WCAG 2.5.3). */
+.rw-card { min-height: 0; gap: 0; }
+.rw-card .case-card__title { margin-top: 0; }
+.rw-card .case-card__text { flex: 1 1 auto; }
+.rw-card__go {
+  margin-top: 1.2rem; align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 0.45em; min-height: 44px;
+  font-weight: 600; color: var(--accent-ink);
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+.section--dark .rw-card__go { color: var(--accent); }
+.rw-card__go:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+.rw-tag {
+  align-self: flex-start; margin-bottom: 0.9rem;
+  font-size: var(--fs-label); font-weight: 650; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid currentColor; opacity: .9;
+}
+.rw-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* البطاقة الشفافة الفاتحة فوق القسم الداكن تُعطي نصًّا ثانويًّا بتباين 3.3:1
+   (axe على /en/ransomware/). التوأم الداكن نفسه المعتمد لـ.case-card. */
+.rw-page .section--dark .device { background: rgba(255, 255, 255, 0.04); border-color: var(--border-dark); }
+/* الصفحة الحالية في مسار التنقل نصّ لا فاصل: قاعدة .breadcrumb span (شفافية 0.5)
+   كُتبت للفواصل، فكانت تُبهت اسم الصفحة إلى 2:1 فوق خلفية المقدمة. */
+.breadcrumb [aria-current="page"] { opacity: 1; margin-inline: 0; }
+
+.rw-band { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: clamp(20px, 3vw, 48px); }
+.rw-band__copy { flex: 1 1 32rem; }
+
+.rw-more { margin-top: clamp(28px, 3vw, 44px); }
+.rw-more__title { font-size: 1.05rem; font-weight: 650; }
+.rw-more__list { list-style: none; padding: 0; margin: 0.9rem 0 0; display: grid; gap: 10px; }
+.rw-more__list a { color: var(--accent); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.rw-more__tag { font-size: 0.8rem; color: var(--muted-dark); }
+
+.rw-guide { display: grid; gap: clamp(28px, 3vw, 44px); max-width: 64rem; }
+.rw-guide__title { font-size: var(--fs-h3); font-weight: 650; line-height: 1.35; }
+.rw-guide__body { margin-top: 0.8rem; font-size: 1.0625rem; line-height: 1.9; max-width: 70ch; }
+
+/* قالب الخدمات: أربع حقائق — لمن، ما نفحصه، ما نحتاجه، كيف نتحقق. */
+.rw-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 56px) clamp(24px, 4vw, 72px); }
+.rw-fact { border-top: 1px solid var(--border-light); padding-top: clamp(18px, 2vw, 26px); }
+/* عناوين H2 فعلية لأقسام الصفحة، فتتبع مقياس H2 المشترك (الملحق C) لا مقياس البطاقات. */
+.rw-fact__title { font-size: var(--fs-h2); font-weight: 650; line-height: 1.35; letter-spacing: -0.01em; }
+.rw-fact__body { margin-top: 0.8rem; font-size: 1.0625rem; line-height: 1.9; }
+.rw-platforms { margin-top: clamp(24px, 2.6vw, 36px); }
+
+.rw-related { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.rw-related__link {
+  display: inline-flex; align-items: center; gap: 0.6em; min-height: 48px;
+  padding: 12px 22px; border: 1px solid var(--border-light); border-radius: 999px;
+  color: var(--ink); font-weight: 600;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.rw-related__link:hover { border-color: var(--accent-ink); background: rgba(10, 108, 116, 0.06); }
+.rw-related__note { margin-top: 1.2rem; line-height: 1.8; }
+.rw-related__note a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+.rw-next { padding-block: clamp(40px, 5vw, 72px); }
+.rw-next__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px clamp(20px, 3vw, 40px); }
+.rw-next__inner .svc-cta__label { margin: 0; }
+
+/* شريط الجوال: عنصر عائم واحد أسفل الشاشة. يُخفي زرّ واتساب العائم في
+   المقاس نفسه، ويختفي ما دام شريط الموافقة ظاهرًا أو حقل مُركَّزًا. */
+.rw-bar { display: none; }
+@media (max-width: 720px) {
+  .rw-bar {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 56;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg-dark); border-top: 1px solid var(--border-dark);
+  }
+  .rw-bar__btn {
+    display: flex; align-items: center; justify-content: center; min-height: 48px;
+    border-radius: 999px; font-weight: 650; font-size: 0.95rem;
+  }
+  .rw-bar__btn--assess { background: var(--accent); color: var(--bg-dark); }
+  .rw-bar__btn--call { border: 1px solid rgba(255, 255, 255, 0.34); color: var(--white); }
+  .rw-bar__btn:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+  body:has(.rw-bar) .wa-fab { display: none; }
+  body:has(.rw-bar) { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  body:has(.consent) .rw-bar,
+  body:has(:is(input, textarea, select):focus) .rw-bar { display: none; }
+}
+
+/* P08 — نموذج التقييم. بلا JavaScript لا يُعرض: الإرسال يحتاج رمزًا من الخادم،
+   وnoscript يعرض وسائل التواصل المباشرة مكانه. */
+.rw-form { display: none; }
+.js .rw-form { display: block; }
+.js .rw-form[hidden] { display: none; }
+.rw-unavail { padding: clamp(22px, 2.6vw, 32px); border: 1px solid var(--border-light); border-radius: var(--radius); }
+.rw-unavail p { line-height: 1.8; }
+.rw-direct { list-style: none; padding: 0; margin: 1.2rem 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.rw-direct .footer-pill { color: var(--ink); border-color: var(--border-light); }
+.rw-direct .footer-pill:hover { color: var(--ink); border-color: var(--accent-ink); }
+.rw-direct .footer-pill__ic { color: var(--accent-ink); }
+
+.field--choices, .field--phone { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+.field--choices legend, .field--phone legend { margin-bottom: 0.7rem; padding: 0; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.choices--grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+.choice {
+  display: inline-flex; align-items: center; gap: 0.6em; min-height: 44px;
+  padding: 8px 14px; border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+  background: #fff; font-size: 0.92rem; cursor: pointer;
+}
+.choice input { width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--accent-ink); }
+.choice:has(input:checked) { border-color: var(--accent-ink); background: rgba(10, 108, 116, 0.07); }
+.choice:has(input:focus-visible) { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.choice--consent { align-items: flex-start; padding: 12px 14px; line-height: 1.7; }
+.choice--consent input { margin-top: 0.25em; }
+.choice--consent a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+.rw-phone { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 10px; }
+.field__help { font-size: 0.82rem; color: var(--muted-light); line-height: 1.6; margin: 0; }
+.field__meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.field__count { font-size: 0.82rem; color: var(--muted-light); margin: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.field__count.is-over { color: #c2381f; font-weight: 600; }
+.field__err { margin: 0; font-size: 0.85rem; font-weight: 600; color: #c2381f; }
+.field__err[hidden] { display: none; }
+[aria-invalid="true"], .field--choices[aria-invalid="true"] .choice { border-color: var(--warning); }
+.rw-cond { font-weight: 500; color: var(--muted-light); }
+.rw-details { margin: 4px 0 20px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 0 16px; }
+.rw-details summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+.rw-details[open] summary { margin-bottom: 8px; }
+.rw-success { margin-top: 0; }
+.rw-success[hidden] { display: none; }
+.rw-ref { font-weight: 650; color: var(--ink); letter-spacing: 0.04em; }
+
+@media (max-width: 900px) {
+  .rw-facts, .rw-grid-2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  .rw-phone { grid-template-columns: 5.5rem minmax(0, 1fr); }
+  .field__meta { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { .rw-related__link { transition: none; } }

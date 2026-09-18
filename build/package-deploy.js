@@ -28,6 +28,8 @@ const commonAllowlist = [
   // the safety net for inbound links from the previous site, so it must ship.
   "404.html",
   "services",
+  // قسم هجمات الفدية (يُبنى متى فُعّل ransomwareSection).
+  "ransomware",
   "cities",
   "en",
   "assets",
@@ -54,7 +56,7 @@ const privateEntries = [
 ];
 
 const targetAllowlist = targetName === "hostinger"
-  ? [...commonAllowlist, "send.php", ".htaccess", ".user.ini"]
+  ? [...commonAllowlist, "send.php", "ransomware-assessment.php", ".htaccess", ".user.ini"]
   : commonAllowlist;
 
 /* Every top-level entry must be a deliberate decision — shipped or withheld.
@@ -68,7 +70,7 @@ function assertNothingSilentlyDropped() {
   // كل ما هو قرار صريح لأي هدف — لا للهدف الحالي وحده. send.php يُنشر على
   // Hostinger ولا يُنشر على Netlify، وكلاهما قرار مُتخذ لا إغفال.
   const known = new Set([
-    ...commonAllowlist, "send.php", ".htaccess", ".user.ini",
+    ...commonAllowlist, "send.php", "ransomware-assessment.php", ".htaccess", ".user.ini",
     ...optionalAllowlist, ...privateEntries,
   ]);
   const unknown = fs.readdirSync(root)
@@ -85,7 +87,7 @@ let copiedFiles = 0;
 // .webp is allowed ahead of the lab/testimonial photography: photo() emits WebP
 // only, so the format is permitted here rather than on the day the art lands.
 const publicAssetExtensions = new Set([".css", ".js", ".png", ".svg", ".woff2", ".webp", ".avif", ".ico"]);
-const htmlSections = ["services/", "cities/", "articles/", "en/", "blog/"];
+const htmlSections = ["services/", "cities/", "articles/", "en/", "blog/", "ransomware/"];
 // Hugo emits these alongside the blog's HTML; they are public by design.
 const blogAssetExtensions = new Set([".css", ".woff2", ".webp", ".avif", ".xml", ".txt", ".png", ".svg"]);
 

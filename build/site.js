@@ -32,6 +32,18 @@ const config = {
   // Articles retired 2026-08-25 in favour of /blog/. Set back to true to
   // restore the section; build/articles.js still holds the five pieces.
   articles: false,
+  // قسم هجمات الفدية (/ransomware/ وصفحاته الثماني بالعربية والإنجليزية).
+  // false: يبقى الرابط القديم /services/ransomware.html في القوائم والخدمات،
+  //        ولا تُبنى الصفحات الجديدة، ولا يُكتب تحويل 301 — فيمكن إطلاق دفعتَي
+  //        اللغة والعناوين وحدهما دون كشف روابط لم تُعتمد.
+  // true:  تُبنى الصفحات، وتتحوّل كل الروابط الداخلية إلى البوابة، ويُكتب
+  //        التحويل الدائم في .htaccess بين علامتَي z2o:ransomware-redirect.
+  ransomwareSection: true,
+  // أسماء المنصّات في قسم الفدية (SQL Server وMySQL/MariaDB وOracle في P05،
+  // وVMware وHyper-V في عنوان P06 وقائمتها). false حتى يؤكد الفريق أنه يعمل
+  // عليها فعلًا (التكليف §9.2): تظهر الصيغة المحايدة «البيئات الافتراضية»
+  // ولا تظهر قائمة القواعد. true بعد التأكيد المكتوب فقط.
+  ransomwarePlatformsConfirmed: false,
   // Microsoft Clarity project id. The vendor ships an inline snippet; this site
   // forbids inline script, so build/generate.js writes the same loader to
   // assets/js/clarity.js instead. Empty string turns Clarity off everywhere.
@@ -111,7 +123,27 @@ const ui = {
     dir: "rtl", lang: "ar", langName: "العربية", other: "English", otherLang: "en",
     brand: "من الصفر إلى الواحد",
     skip: "تخطَّ إلى المحتوى",
-    nav: { services: "الخدمات", process: "آلية العمل", about: "من نحن", faq: "الأسئلة الشائعة", home: "الرئيسية", contact: "تواصل معنا" },
+    nav: { services: "الخدمات", process: "آلية العمل", about: "من نحن", faq: "الأسئلة الشائعة", home: "الرئيسية", contact: "تواصل معنا", ransomware: "هجمات الفدية" },
+    // قائمة الخدمات المنسدلة (الملحق C-5): التسميات أطول من serviceNames عمدًا.
+    servicesMenu: {
+      toggle: "قائمة الخدمات", all: "استعرض جميع الخدمات",
+      labels: {
+        ransomware: "استعادة البيانات بعد هجمات الفدية", hdd: "استعادة بيانات الأقراص الصلبة",
+        "ssd-nvme": "استعادة بيانات SSD وNVMe", "raid-servers": "استعادة بيانات RAID والخوادم",
+        cctv: "استعادة تسجيلات كاميرات المراقبة", "after-format": "استعادة البيانات بعد التهيئة والحذف",
+        phones: "استعادة بيانات الهواتف", "memory-cards": "استعادة بيانات بطاقات الذاكرة ووحدات USB"
+      }
+    },
+    // قائمة هجمات الفدية (الملحق B-5).
+    rwMenu: {
+      toggle: "قائمة هجمات الفدية", groupStart: "ابدأ هنا", groupData: "حسب البيانات المتأثرة",
+      items: { portal: "نظرة عامة على هجمات الفدية", "first-steps": "ماذا أفعل الآن؟", assessment: "تقييم حالة جديدة",
+        "encrypted-files": "ملفات مشفرة", "servers-nas": "خوادم وNAS وRAID", databases: "قواعد بيانات",
+        "virtual-machines": "VMware وHyper-V", backups: "نسخ احتياطية" },
+      alertTitle: "لاحظت إصابة الآن؟",
+      alertBody: "احفظ معلومات الحالة، وأشرك مسؤول التقنية عند تأثر شبكة العمل. ابدأ بالتوجيهات الأولية قبل تجربة أدوات جديدة.",
+      alertLink: "اقرأ الخطوات الأولية"
+    },
     evalBtn: "تقييم الحالة",
     startFreeBtn: "ابدأ التقييم المجاني",
     sendCaseBtn: "أرسل تفاصيل الحالة",
@@ -144,16 +176,16 @@ const ui = {
       version: "الإصدار", edition: "إصدار 2026 ©", localTime: "التوقيت المحلي", socials: "تابعنا", privacy: "سياسة الخصوصية"
     },
     serviceNames: {
-      "hdd": "الأقراص الصلبة", "ssd-nvme": "SSD وNVMe", "raid-servers": "RAID والسيرفرات",
-      "cctv": "كاميرات المراقبة", "after-format": "بعد الفورمات", "ransomware": "فيروس الفدية",
-      "phones": "الهواتف الذكية", "memory-cards": "بطاقات الذاكرة والفلاش"
+      "hdd": "الأقراص الصلبة", "ssd-nvme": "SSD وNVMe", "raid-servers": "RAID والخوادم",
+      "cctv": "كاميرات المراقبة", "after-format": "بعد التهيئة", "ransomware": "فيروس الفدية",
+      "phones": "الهواتف الذكية", "memory-cards": "بطاقات الذاكرة ووحدات USB"
     },
     cityNames: { riyadh: "الرياض", jeddah: "جدة", dammam: "الدمام" },
     articlesLabel: "المقالات",
     blogLabel: "المدونة",
     articlesTitle: "أجوبة قبل أن تتصرّف.",
     articlesMetaTitle: "المقالات — أدلة استعادة البيانات | من الصفر إلى الواحد",
-    articlesMetaDesc: "أدلة عملية عن علامات تلف الهارد، أنظمة RAID، حماية السيرفرات من الفدية، والتعامل الصحيح مع الأجهزة قبل فقدان البيانات.",
+    articlesMetaDesc: "أدلة عملية عن علامات تلف القرص الصلب، وأنظمة RAID، وحماية الخوادم من الفدية، والتعامل الصحيح مع الأجهزة قبل فقدان البيانات.",
     articlesLead: "مقالات قصيرة تشرح ما يحدث للجهاز، وما الذي يجب فعله قبل أن تتفاقم الحالة.",
     readMore: "اقرأ المقال",
     relatedService: "الخدمة المرتبطة",
@@ -198,7 +230,25 @@ const ui = {
     dir: "ltr", lang: "en", langName: "English", other: "العربية", otherLang: "ar",
     brand: "Zero 2 One Data Recovery",
     skip: "Skip to content",
-    nav: { services: "Services", process: "How it works", about: "About", faq: "FAQ", home: "Home", contact: "Contact" },
+    nav: { services: "Services", process: "How it works", about: "About", faq: "FAQ", home: "Home", contact: "Contact", ransomware: "Ransomware attacks" },
+    servicesMenu: {
+      toggle: "Services menu", all: "Browse all services",
+      labels: {
+        ransomware: "Data recovery after ransomware attacks", hdd: "Hard drive data recovery",
+        "ssd-nvme": "SSD and NVMe data recovery", "raid-servers": "RAID and server data recovery",
+        cctv: "CCTV footage recovery", "after-format": "Data recovery after formatting and deletion",
+        phones: "Phone data recovery", "memory-cards": "Memory card and USB drive data recovery"
+      }
+    },
+    rwMenu: {
+      toggle: "Ransomware attacks menu", groupStart: "Start here", groupData: "By affected data",
+      items: { portal: "Ransomware attacks overview", "first-steps": "What should I do now?", assessment: "Assess a new case",
+        "encrypted-files": "Encrypted files", "servers-nas": "Servers, NAS and RAID", databases: "Databases",
+        "virtual-machines": "VMware and Hyper-V", backups: "Backups" },
+      alertTitle: "Noticed an infection just now?",
+      alertBody: "Preserve the case information, and involve your IT lead if the business network is affected. Start with the first steps before trying new tools.",
+      alertLink: "Read the first steps"
+    },
     evalBtn: "Case assessment",
     startFreeBtn: "Start free assessment",
     sendCaseBtn: "Send case details",
@@ -284,8 +334,9 @@ const home = {
     metaTitle: "استعادة بيانات متخصصة في الرياض | من الصفر إلى الواحد",
     metaDesc: "استعادة بيانات متخصصة من الأقراص الصلبة، SSD، الهواتف، RAID والخوادم — تشخيص واضح وسرية كاملة. خبرة أكثر من 25 سنة في الرياض، السعودية.",
     hero: {
-      eyebrow: "استعادة بيانات متخصصة منذ أكثر من 25 سنة",
-      title: "نستعيد ما ظننته مفقودًا.",
+      eyebrow: "خبرة تزيد على 25 سنة",
+      title: "استعادة بيانات متخصصة في الرياض",
+        tagline: "نستعيد ما ظننته مفقودًا.",
       lead: "استعادة متخصصة للبيانات من الأقراص، الهواتف، RAID والخوادم—بتشخيص واضح وسرية كاملة قبل أي خطوة."
     },
     trustIntro: "خبرة يمكن قياسها وتشخيص يبدأ بالوضوح.",
@@ -296,19 +347,19 @@ const home = {
       title: "ابدأ من المشكلة، لا من اسم الجهاز.",
       noteStrong: "المشكلة تصف ما حدث. الجهاز يحدد الأدوات فقط.",
       note: "اختر الوصف الأقرب، وسنبدأ معك من المعلومة الصحيحة بدل التخمين.",
-      foot: "ما لازم تعرف اسم العطل التقني. يكفي أن تصف ما حدث.",
+      foot: "لا يلزمك معرفة المسمّى التقني للعطل. يكفي أن تصف ما حدث.",
       cases: [
         { t: "تعرضت لهجوم فدية", b: "اعزل الجهاز عن الشبكة واحتفظ بعينة من رسالة الفدية قبل أي تغيير." },
         { t: "الجهاز لا يظهر", b: "قد يكون العطل منطقيًا أو كهربائيًا أو ميكانيكيًا. لا تكرر التشغيل قبل التشخيص." },
         { t: "الملفات اختفت أو حُذفت", b: "توقف عن استخدام الجهاز حتى لا تُكتب بيانات جديدة فوق الملفات القديمة." },
         { t: "تعرض الجهاز للماء أو الصدمة", b: "افصل الطاقة ولا تحاول التجفيف أو التشغيل. الضرر المادي يحتاج فحصًا متخصصًا." },
         { t: "الخادم أو RAID توقف", b: "حافظ على ترتيب الأقراص ولا تعد البناء قبل تقييم بنية المصفوفة." },
-        { t: "التسجيلات انحذفت", b: "يمكن فحص أقراص DVR وNVR واستعادة التسجيلات حسب حالة الكتابة فوقها." }
+        { t: "حُذفت التسجيلات", b: "يمكن فحص أقراص DVR وNVR واستعادة التسجيلات حسب حالة الكتابة فوقها." }
       ]
     },
     services: {
-      eyebrow: "خدمات من الصفر إلى الواحد",
-      title: "كل وسيط له طريقته. لا توجد وصفة واحدة.",
+      eyebrow: "سرية البيانات وحماية الخصوصية",
+      title: "خدماتنا في استرجاع البيانات واستعادة الملفات",
       noteStrong: "نوع الجهاز يحدد الأدوات، ونوع الضرر يحدد ترتيب الخطوات.",
       note: "نختار المسار بعد التشخيص، لا قبلَه.",
       footTag: "التشخيص أولًا",
@@ -321,16 +372,16 @@ const home = {
         ransomware: { t: "هجمات الفدية وقواعد البيانات", d: "عزل الحالة، تحليل الضرر، وتقييم خيارات الاستعادة الآمنة.", tags: "SQL · Ransomware" },
         hdd: { t: "الأقراص الصلبة", d: "استعادة من الأعطال الميكانيكية، الإلكترونية والمنطقية.", tags: "HDD" },
         "ssd-nvme": { t: "أقراص SSD وNVMe", d: "تعامل متخصص مع مشاكل الـFirmware ووحدات التحكم.", tags: "SSD · NVMe · M.2" },
-        "raid-servers": { t: "RAID والسيرفرات", d: "تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.", tags: "RAID · NAS · SAN" },
+        "raid-servers": { t: "RAID والخوادم", d: "تحليل المصفوفة وبنيتها قبل أي إعادة بناء أو كتابة.", tags: "RAID · NAS · SAN" },
         cctv: { t: "أنظمة المراقبة", d: "استعادة تسجيلات DVR وNVR المحذوفة أو المتضررة.", tags: "DVR · NVR" },
-        "after-format": { t: "بعد الفورمات والحذف", d: "استرجاع الملفات المحذوفة قبل أن تُستبدل البيانات.", tags: "Format · Delete" },
+        "after-format": { t: "بعد التهيئة والحذف", d: "استرجاع الملفات المحذوفة قبل أن تُستبدل البيانات.", tags: "Format · Delete" },
         phones: { t: "الهواتف والأجهزة الذكية", d: "استعادة حسب نوع الذاكرة، النظام وطبيعة الضرر.", tags: "iOS · Android" },
-        "memory-cards": { t: "بطاقات الذاكرة والفلاش", d: "حالات الحذف والفورمات والتلف المنطقي أو الكهربائي.", tags: "SD · USB" }
+        "memory-cards": { t: "بطاقات الذاكرة ووحدات USB", d: "حالات الحذف والتهيئة والتلف المنطقي أو الكهربائي.", tags: "SD · USB" }
       }
     },
     process: {
       eyebrow: "مسار واضح من البداية",
-      title: "من أول اتصال إلى آخر ملف.",
+      title: "خطوات استعادة البيانات في الرياض",
       noteStrong: "تفهم الحالة والخيارات قبل أن نبدأ بالاستعادة. بدون مفاجآت.",
       steps: [
         { t: "صف لنا ما حدث", b: "نوع الجهاز، آخر ما حدث، وما الذي جُرّب حتى الآن." },
@@ -338,7 +389,7 @@ const home = {
         { t: "استعادة وتسليم آمن", b: "نستعيد الملفات على وسيط منفصل ونسلّمها بسرية." }
       ],
       stopTitle: "البيانات لا تُستعاد بالتجربة.",
-      stopRules: ["لا تعاود تشغيل الجهاز مرارًا", "لا تعمل فورمات أو إعادة تهيئة", "لا تثبّت برامج على الوسيط نفسه"],
+      stopRules: ["لا تعاود تشغيل الجهاز مرارًا", "لا تُجرِ تهيئة للقرص أو تعِد تهيئته", "لا تثبّت برامج على الوسيط نفسه"],
       stopLabel: "قبل أي محاولة",
       stopBtn: "اسأل قبل أن تتصرف"
     },
@@ -361,18 +412,18 @@ const home = {
       title: "قبل أن تسلّمنا جهازك.",
       noteStrong: "هذه إجابات عامة. التقييم الدقيق يحتاج معرفة نوع الجهاز وما حدث قبل فقدان البيانات.",
       asideStrong: "القرار الصحيح في البداية قد يحمي فرصة الاستعادة.",
-      asideNote: "لا تجرّب برنامجًا أو فورمات إذا كانت الملفات مهمة.",
+      asideNote: "لا تجرّب برنامجًا أو تُجرِ تهيئة إذا كانت الملفات مهمة.",
       items: [
         { q: "هل يمكن استرجاع البيانات إذا كان الجهاز لا يعمل؟", a: "غالبًا نعم. توقف الجهاز عن العمل لا يعني فقدان البيانات؛ نبدأ بتشخيص سبب العطل (كهربائي، ميكانيكي أو منطقي) ثم نحدد المسار الأنسب للاستعادة." },
         { q: "هل أجرّب برنامج استعادة قبل التواصل معكم؟", a: "يُفضّل ألّا تفعل. برامج الاستعادة قد تكتب فوق البيانات وتقلّل فرص الاستعادة. إذا كانت الملفات مهمة، أوقف استخدام الجهاز وتواصل معنا أولًا." },
         { q: "هل يمكن استعادة بيانات SSD وNVMe؟", a: "نعم، لكن أقراص SSD وNVMe لها طبيعة خاصة بسبب آلية TRIM. سرعة التوقف عن الاستخدام تلعب دورًا كبيرًا في نتيجة الاستعادة." },
         { q: "كم تستغرق عملية الاستعادة؟", a: "تختلف حسب نوع الجهاز وحجم الضرر. بعد التشخيص نعطيك مدة تقديرية واضحة قبل البدء، بدون مفاجآت." },
-        { q: "هل يمكن استعادة البيانات بعد الفورمات؟", a: "في كثير من الحالات نعم، طالما لم تُكتب بيانات جديدة فوق القرص بعد الفورمات. لذلك من المهم إيقاف استخدام الوسيط مباشرة." },
+        { q: "هل يمكن استعادة البيانات بعد التهيئة؟", a: "في كثير من الحالات نعم، طالما لم تُكتب بيانات جديدة فوق القرص بعد التهيئة. لذلك من المهم إيقاف استخدام الوسيط مباشرة." },
         { q: "هل تتعاملون مع بيانات الشركات بسرية؟", a: "نعم. السرية جزء أساسي من عملنا؛ نتعامل مع بيانات الأفراد والشركات باتفاق واضح وتسليم آمن على وسيط منفصل." }
       ]
     },
     contact: {
-      eyebrow: "ابدأ من هون",
+      eyebrow: "ابدأ من هنا",
       title: "كل دقيقة قد تُحدث فرقًا.",
       lead: "أخبرنا بنوع الجهاز وما حدث. سنعطيك أول خطوة صحيحة قبل أن تتحرك."
     }
@@ -381,8 +432,9 @@ const home = {
     metaTitle: "Professional Data Recovery Services | Zero 2 One",
     metaDesc: "Specialist data recovery lab providing enterprise server data recovery, hard drive, SSD, and ransomware victim data recovery with free initial diagnosis.",
     hero: {
-      eyebrow: "Specialised data recovery for over 25 years",
-      title: "We recover what you thought was lost.",
+      eyebrow: "Over 25 years of experience",
+      title: "Specialist Data Recovery in Riyadh",
+        tagline: "We recover what you thought was lost.",
       lead: "Specialised data recovery from disks, phones, RAID and servers—with clear diagnosis and full confidentiality before any step."
     },
     trustIntro: "Experience you can measure and a diagnosis that starts with clarity.",
@@ -404,8 +456,8 @@ const home = {
       ]
     },
     services: {
-      eyebrow: "Zero 2 One Data Recovery services",
-      title: "Every medium has its method. There's no single recipe.",
+      eyebrow: "Data confidentiality and privacy protection",
+      title: "Our Data Recovery and File Restoration Services",
       noteStrong: "The device type decides the tools, and the damage type decides the order of steps.",
       note: "We choose the path after diagnosis, not before it.",
       footTag: "Diagnosis first",
@@ -423,7 +475,7 @@ const home = {
     },
     process: {
       eyebrow: "A clear path from the start",
-      title: "From the first call to the last file.",
+      title: "Data Recovery Steps in Riyadh",
       noteStrong: "You understand the case and options before we start recovery. No surprises.",
       steps: [
         { t: "Tell us what happened", b: "The device type, the last thing that happened, and what has been tried so far." },
@@ -473,11 +525,11 @@ const home = {
 // Contact page content (front-end only for now — backend hooks in later)
 const contact = {
   ar: {
-    metaTitle: "تواصل معنا — أرسل تفاصيل حالتك | من الصفر إلى الواحد",
+    metaTitle: "تواصل مع خبراء استرجاع البيانات | من الصفر إلى الواحد",
     metaDesc: "أرسل تفاصيل حالتك: نوع الجهاز وما حدث، ونعطيك أول خطوة صحيحة قبل أن تتحرك. استعادة بيانات متخصصة في الرياض، السعودية.",
-    eyebrow: "ابدأ من هون",
-    title: "أرسل تفاصيل حالتك.",
-    lead: "كل ما زادت التفاصيل، صار التشخيص أدق. املأ النموذج وسنعود إليك بأول خطوة صحيحة — بدون أي التزام.",
+    eyebrow: "ابدأ من هنا",
+    title: "تواصل مع خبراء استرجاع البيانات",
+    lead: "كلما زادت التفاصيل، أصبح التشخيص أدق. املأ النموذج وسنعود إليك بأول خطوة صحيحة — بدون أي التزام.",
     formTitle: "تفاصيل الحالة",
     formWarn: "لا ترسل كلمات مرور، أو مفاتيح فك تشفير، أو بيانات صحية، أو أي معلومة سرّية داخل النموذج. سنتواصل معك لترتيب قناة آمنة عند الحاجة.",
     formNote: "نتعامل مع كل حالة بسرية كاملة. نستخدم بياناتك للرد على حالتك وحماية النموذج من إساءة الاستخدام فقط.",
@@ -486,20 +538,23 @@ const contact = {
     optional: "اختياري",
     successTitle: "تم استلام طلبك",
     successBody: "وصلتنا تفاصيل حالتك وسنعود إليك بأسرع وقت خلال ساعات العمل.",
-    sending: "جاري الإرسال…",
+    sending: "جارٍ الإرسال…",
     errorTitle: "تعذّر الإرسال",
-    errorBody: "صار خطأ غير متوقع. جرّب مرة ثانية، أو تواصل معنا مباشرة عبر واتساب.",
+    errorBody: "حدث خطأ غير متوقع. يرجى المحاولة مجددًا أو التواصل معنا مباشرة عبر واتساب.",
     fields: {
       name:    { label: "الاسم الكامل", ph: "مثال: أحمد المطيري" },
       phone:   { label: "رقم الجوال / واتساب", ph: "05XXXXXXXX" },
       email:   { label: "البريد الإلكتروني", ph: "name@example.com" },
       device:  { label: "نوع الجهاز", ph: "اختر نوع الجهاز",
-                 opts: ["هارد ديسك (HDD)", "SSD / NVMe", "RAID أو سيرفر", "كاميرات مراقبة (DVR/NVR)", "بطاقة ذاكرة أو فلاش", "هاتف جوال", "أخرى"] },
+                 opts: ["هارد ديسك (HDD)", "SSD / NVMe", "RAID أو سيرفر", "كاميرات مراقبة (DVR/NVR)", "بطاقة ذاكرة أو فلاش", "هاتف جوال", "أخرى"],
+                   // القيمة (opts) ثابتة لأن send.php يتحقّق منها؛ الظاهر للزائر فصيح.
+                   labels: { "هارد ديسك (HDD)": "قرص صلب (HDD)", "RAID أو سيرفر": "RAID أو خادم", "بطاقة ذاكرة أو فلاش": "بطاقة ذاكرة أو وحدة USB", "هاتف جوال": "هاتف" } },
       issue:   { label: "نوع المشكلة", ph: "اختر المشكلة",
-                 opts: ["الجهاز لا يظهر", "حذف ملفات أو فورمات", "صوت غريب أو سقوط", "هجوم فدية أو تشفير", "تلف منطقي أو نظام ملفات", "أخرى"] },
+                 opts: ["الجهاز لا يظهر", "حذف ملفات أو فورمات", "صوت غريب أو سقوط", "هجوم فدية أو تشفير", "تلف منطقي أو نظام ملفات", "أخرى"],
+                   labels: { "حذف ملفات أو فورمات": "حذف ملفات أو تهيئة" } },
       urgency: { label: "درجة الاستعجال", opts: ["عادي", "مستعجل", "طارئ"] },
       tried:   { label: "هل جرّبت برامج استرجاع أو إصلاح؟", yes: "نعم", no: "لا" },
-      details: { label: "اشرح ما حدث", ph: "متى بدأت المشكلة؟ ما آخر شيء حصل قبلها؟ وهل جُرّب أي شيء بعدها؟" }
+      details: { label: "اشرح ما حدث", ph: "متى بدأت المشكلة؟ ما آخر شيء حدث قبلها؟ وهل جُرّب أي شيء بعدها؟" }
     },
     infoTitle: "أو تواصل مباشرة",
     infoNote: "الرد خلال ساعات العمل. للحالات الطارئة استخدم واتساب."
@@ -508,7 +563,7 @@ const contact = {
     metaTitle: "Contact Us | Request a Data Recovery Assessment",
     metaDesc: "Submit your case details for expert evaluation. Contact us for emergency ransomware data recovery and confidential server retrieval services.",
     eyebrow: "Start here",
-    title: "Send your case details.",
+    title: "Contact Data Recovery Experts",
     lead: "The more detail you give, the more accurate the diagnosis. Fill in the form and we'll come back with the right first step — no obligation.",
     formTitle: "Case details",
     formWarn: "Do not send passwords, decryption keys, health data, or any confidential information in this form. We will contact you to arrange a secure channel if one is needed.",

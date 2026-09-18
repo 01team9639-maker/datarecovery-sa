@@ -141,20 +141,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/services/after-format.html"/>
   </url>
   <url>
-    <loc>https://datarecovery-sa.com/services/ransomware.html</loc>
-    <lastmod>2026-09-17</lastmod>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/services/ransomware.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/services/ransomware.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/services/ransomware.html"/>
-  </url>
-  <url>
-    <loc>https://datarecovery-sa.com/en/services/ransomware.html</loc>
-    <lastmod>2026-09-17</lastmod>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/services/ransomware.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/services/ransomware.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/services/ransomware.html"/>
-  </url>
-  <url>
     <loc>https://datarecovery-sa.com/services/phones.html</loc>
     <lastmod>2026-09-17</lastmod>
     <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/services/phones.html"/>
@@ -181,6 +167,118 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/services/memory-cards.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/services/memory-cards.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/services/memory-cards.html"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/first-steps/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/first-steps/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/first-steps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/first-steps/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/first-steps/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/first-steps/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/first-steps/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/first-steps/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/encrypted-files/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/encrypted-files/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/encrypted-files/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/encrypted-files/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/encrypted-files/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/encrypted-files/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/encrypted-files/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/encrypted-files/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/servers-nas/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/servers-nas/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/servers-nas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/servers-nas/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/servers-nas/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/servers-nas/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/servers-nas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/servers-nas/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/databases/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/databases/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/databases/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/databases/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/databases/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/databases/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/databases/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/databases/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/virtual-machines/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/virtual-machines/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/virtual-machines/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/virtual-machines/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/virtual-machines/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/virtual-machines/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/virtual-machines/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/virtual-machines/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/backups/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/backups/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/backups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/backups/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/backups/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/backups/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/backups/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/backups/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/ransomware/assessment/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/assessment/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/assessment/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/assessment/"/>
+  </url>
+  <url>
+    <loc>https://datarecovery-sa.com/en/ransomware/assessment/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://datarecovery-sa.com/ransomware/assessment/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datarecovery-sa.com/en/ransomware/assessment/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datarecovery-sa.com/ransomware/assessment/"/>
   </url>
   <url>
     <loc>https://datarecovery-sa.com/services/ransomware/cases/construction-project-server.html</loc>

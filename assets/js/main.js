@@ -117,6 +117,104 @@
     });
   }
 
+  /* ---- قوائم التنقل المنسدلة (disclosure) — الخدمات وهجمات الفدية ----
+     نمط W3C APG للتنقّل: زرّ حقيقي بـaria-expanded يُظهر لوحة hidden. على الحاسوب
+     يفتح المرور بالمؤشر بعد 120ms ويغلق بعد مغادرة العنصر واللوحة معًا بـ200ms،
+     ولا يُغلق ما دام تركيز لوحة المفاتيح داخلها. Escape يغلق ويعيد التركيز إلى
+     الزرّ دون أن يغلق الدرج كلّه. فتح قائمة يغلق شقيقتها في الحاوية نفسها. */
+  var disclosures = Array.prototype.slice.call(document.querySelectorAll("[data-disclosure]"));
+  if (disclosures.length) {
+    var hoverCapable = !!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    var keyboardMode = false;
+    document.addEventListener("keydown", function (e) { if (e.key === "Tab") keyboardMode = true; }, true);
+    document.addEventListener("pointerdown", function () { keyboardMode = false; }, true);
+
+    var parts = function (item) {
+      var btn = item.querySelector("button[aria-controls]");
+      return { btn: btn, panel: btn && document.getElementById(btn.getAttribute("aria-controls")) };
+    };
+    // اللوحة عريضة (حتى 760px)؛ قرب حافة الشاشة تُزاح أفقيًّا لتبقى كاملة داخلها.
+    var keepInView = function (panel) {
+      panel.style.translate = "";
+      var r = panel.getBoundingClientRect(), pad = 16, dx = 0;
+      if (r.left < pad) dx = pad - r.left;
+      else if (r.right > window.innerWidth - pad) dx = (window.innerWidth - pad) - r.right;
+      if (dx) panel.style.translate = Math.round(dx) + "px 0";
+    };
+    var setDisclosure = function (item, open, byUser) {
+      var p = parts(item);
+      if (!p.btn || !p.panel) return;
+      if ((p.btn.getAttribute("aria-expanded") === "true") === open) return;
+      p.btn.setAttribute("aria-expanded", String(open));
+      p.panel.hidden = !open;
+      item.classList.toggle("is-open", open);
+      if (!open) return;
+      disclosures.forEach(function (other) {
+        if (other !== item && other.parentNode === item.parentNode) setDisclosure(other, false);
+      });
+      if (item.closest(".nav")) keepInView(p.panel);
+      // حدث داخلي تلتقطه طبقة القياس؛ لا يُرسل شيئًا بنفسه.
+      if (byUser) item.dispatchEvent(new CustomEvent("z2o:disclosure-open", { bubbles: true, detail: { kind: item.getAttribute("data-disclosure"), toggle: p.btn } }));
+    };
+    window.z2oCloseDisclosures = function (scope) {
+      disclosures.forEach(function (item) { if (!scope || scope.contains(item)) setDisclosure(item, false); });
+    };
+
+    disclosures.forEach(function (item) {
+      var p = parts(item);
+      if (!p.btn || !p.panel) return;
+      var inNav = !!item.closest(".nav");
+      var openTimer = null, closeTimer = null;
+      var clearTimers = function () { clearTimeout(openTimer); clearTimeout(closeTimer); openTimer = closeTimer = null; };
+
+      p.btn.addEventListener("click", function () {
+        clearTimers();
+        setDisclosure(item, p.btn.getAttribute("aria-expanded") !== "true", true);
+      });
+      item.addEventListener("keydown", function (e) {
+        if ((e.key === "Escape" || e.key === "Esc") && p.btn.getAttribute("aria-expanded") === "true") {
+          e.preventDefault();
+          e.stopPropagation();          // لا يصل إلى مستمع إغلاق الدرج
+          setDisclosure(item, false);
+          p.btn.focus();
+        }
+      });
+      if (!inNav) return;
+
+      // التركيز غادر العنصر كلّه (Tab إلى رابط خارجه) ← تُغلق.
+      item.addEventListener("focusout", function (e) {
+        if (!e.relatedTarget || item.contains(e.relatedTarget)) return;
+        setDisclosure(item, false);
+      });
+      if (!hoverCapable) return;
+      item.addEventListener("pointerenter", function (e) {
+        if (e.pointerType !== "mouse") return;
+        clearTimeout(closeTimer); closeTimer = null;
+        if (p.btn.getAttribute("aria-expanded") === "true") return;
+        openTimer = setTimeout(function () { setDisclosure(item, true, true); }, 120);
+      });
+      item.addEventListener("pointerleave", function (e) {
+        if (e.pointerType !== "mouse") return;
+        clearTimeout(openTimer); openTimer = null;
+        closeTimer = setTimeout(function () {
+          if (keyboardMode && item.contains(document.activeElement)) return;
+          setDisclosure(item, false);
+        }, 200);
+      });
+    });
+
+    // نقرة خارج قوائم الشريط العلوي تغلقها.
+    document.addEventListener("click", function (e) {
+      disclosures.forEach(function (item) {
+        if (item.closest(".nav") && !item.contains(e.target)) setDisclosure(item, false);
+      });
+    });
+    // حين ينزلق الشريط العلوي بعيدًا بعد الهيرو لا تبقى لوحته معلّقة في الفراغ.
+    window.addEventListener("scroll", function () {
+      if (document.body.classList.contains("past-hero")) window.z2oCloseDisclosures(document.querySelector(".nav") || document.body);
+    }, { passive: true });
+  }
+
   /* ---- FAQ accordion (accessible disclosure) ---- */
   var faqPanel = function (btn) {
     return document.getElementById(btn.getAttribute("aria-controls")) || btn.nextElementSibling;

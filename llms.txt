@@ -21,9 +21,19 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 - [RAID & servers](https://datarecovery-sa.com/en/services/raid-servers.html): RAID data recovery service & server data recovery services. We offer NAS server data recovery, SAN storage data recovery & enterprise server data recovery.
 - [CCTV footage](https://datarecovery-sa.com/en/services/cctv.html): CCTV data recovery & deleted security footage recovery service. Recover deleted CCTV video, surveillance camera video recovery & security DVR data retrieval.
 - [After format](https://datarecovery-sa.com/en/services/after-format.html): Deleted file recovery service to recover data after format. We perform lost partition data recovery, RAW drive data recovery & restore deleted files.
-- [Ransomware](https://datarecovery-sa.com/en/services/ransomware.html): Ransomware victim data recovery & enterprise ransomware recovery. We recover files from ransomware, decrypt infected files & offer ransomware decryption.
+- [Data recovery after ransomware attacks](https://datarecovery-sa.com/en/ransomware/): Assessment of files, servers and databases damaged by ransomware. Learn about examination options and recovery limits, and send a description of your case.
 - [Phones](https://datarecovery-sa.com/en/services/phones.html): Mobile data recovery expert for phone memory & smartphone file recovery. Handles dead phone data recovery & recovers deleted photos from phones.
 - [Cards & flash](https://datarecovery-sa.com/en/services/memory-cards.html): SD card data recovery & USB flash drive data recovery. Micro SD card recovery service to recover corrupted SD cards & perform damaged memory card recovery.
+
+## Ransomware attacks (English)
+
+- [What should you do if you suspect a ransomware attack?](https://datarecovery-sa.com/en/ransomware/first-steps/): First steps when ransomware is suspected, and the information to prepare before getting in touch to assess the affected files and systems.
+- [Recovering encrypted files after ransomware attacks](https://datarecovery-sa.com/en/ransomware/encrypted-files/): Assessment of documents, photos and work files damaged by encryption, defining what the examination needs and how the recovery result is verified.
+- [Recovering server, NAS and RAID data after ransomware](https://datarecovery-sa.com/en/ransomware/servers-nas/): Assessment of server, network storage and RAID data after ransomware, ordering files and services by business priority.
+- [Recovering databases damaged by a ransomware attack](https://datarecovery-sa.com/en/ransomware/databases/): Assessment of databases damaged by ransomware, defining the scope of examination and the verification criteria in coordination with the application owner.
+- [Recovering virtual environments](https://datarecovery-sa.com/en/ransomware/virtual-machines/): Assessment of damaged virtual machines and virtual disks, defining the scope of recovering files or the environment according to the state of the data.
+- [Assessing backups damaged by ransomware attacks](https://datarecovery-sa.com/en/ransomware/backups/): Reviewing the backups available after a ransomware attack and defining the scope of testing them, the data they cover and the possible time gap.
+- [Start a ransomware case assessment](https://datarecovery-sa.com/en/ransomware/assessment/): Send a short description of the affected files and systems and a suitable contact method to start assessing the case, with no file upload in the first request.
 
 ## Areas served (English)
 
@@ -41,18 +51,28 @@ Working hours: Saturday–Thursday, 10:00–22:00 (Asia/Riyadh)
 
 - [الأقراص الصلبة](https://datarecovery-sa.com/services/hdd.html): استرجاع بيانات الأقراص الصلبة التالفة أو التي لا تعمل—أعطال ميكانيكية، إلكترونية ومنطقية. تشخيص أولاً قبل أي محاولة. الرياض، السعودية.
 - [SSD وNVMe](https://datarecovery-sa.com/services/ssd-nvme.html): استعادة بيانات أقراص SSD وNVMe وM.2 عند تعطل القرص أو اختفاء الملفات. تعامل متخصص مع مشاكل الـFirmware ووحدات التحكم. الرياض، السعودية.
-- [RAID والسيرفرات](https://datarecovery-sa.com/services/raid-servers.html): استعادة بيانات مصفوفات RAID والسيرفرات وأنظمة NAS وSAN للشركات. تحليل المصفوفة قبل أي إعادة بناء. الرياض، السعودية.
-- [كاميرات المراقبة](https://datarecovery-sa.com/services/cctv.html): استرجاع تسجيلات كاميرات المراقبة المحذوفة أو المفقودة من أجهزة DVR وNVR وهاردات التسجيل. فحص أنظمة Hikvision وDahua. الرياض، السعودية.
-- [بعد الفورمات](https://datarecovery-sa.com/services/after-format.html): استعادة البيانات بعد الفورمات واسترجاع الملفات المحذوفة من الأقراص والفلاش وبطاقات الذاكرة. أوقف الاستخدام قبل أن تُستبدل البيانات. الرياض، السعودية.
-- [فيروس الفدية](https://datarecovery-sa.com/services/ransomware.html): استرجاع الملفات المشفرة بفيروس الفدية للأفراد والشركات. تقييم فني لنوع الإصابة والنسخ الاحتياطية قبل أي خطوة. لا تدفع قبل التقييم. الرياض، السعودية.
+- [RAID والخوادم](https://datarecovery-sa.com/services/raid-servers.html): استعادة بيانات مصفوفات RAID والخوادم وأنظمة NAS وSAN للشركات. تحليل المصفوفة قبل أي إعادة بناء. الرياض، السعودية.
+- [كاميرات المراقبة](https://datarecovery-sa.com/services/cctv.html): استرجاع تسجيلات كاميرات المراقبة المحذوفة أو المفقودة من أجهزة DVR وNVR وأقراص التسجيل الصلبة. فحص أنظمة Hikvision وDahua. الرياض، السعودية.
+- [بعد التهيئة](https://datarecovery-sa.com/services/after-format.html): استعادة البيانات بعد التهيئة واسترجاع الملفات المحذوفة من الأقراص ووحدات USB وبطاقات الذاكرة. أوقف الاستخدام قبل أن تُستبدل البيانات. الرياض، السعودية.
+- [استعادة البيانات بعد هجمات الفدية](https://datarecovery-sa.com/ransomware/): تقييم الملفات والخوادم وقواعد البيانات المتضررة بعد الفدية. تعرّف على خيارات الفحص وحدود الاستعادة وأرسل وصف حالتك.
 - [الهواتف الذكية](https://datarecovery-sa.com/services/phones.html): استعادة بيانات الجوالات المتضررة بالماء أو السقوط، الشاشة المكسورة، اللوحة الميتة والصور المحذوفة على iOS وAndroid. الرياض، السعودية.
-- [بطاقات الذاكرة والفلاش](https://datarecovery-sa.com/services/memory-cards.html): استرجاع ملفات من فلاش ميموري تالف وبطاقات الذاكرة وكروت الكاميرات، وحالات طلب الفورمات وتلف وحدة التحكم. فحص أولاً قبل أي محاولة. الرياض، السعودية.
+- [بطاقات الذاكرة ووحدات USB](https://datarecovery-sa.com/services/memory-cards.html): استرجاع ملفات من وحدات تخزين USB التالفة وبطاقات الذاكرة وبطاقات الكاميرات، وحالات طلب التهيئة وتلف وحدة التحكم. فحص أولاً قبل أي محاولة. الرياض، السعودية.
+
+## هجمات الفدية (Arabic)
+
+- [ماذا تفعل عند الاشتباه بهجوم فدية؟](https://datarecovery-sa.com/ransomware/first-steps/): خطوات أولية عند الاشتباه بالفدية، والمعلومات التي تحتاج تجهيزها قبل التواصل لتقييم الملفات والأنظمة المتضررة.
+- [استعادة الملفات المشفرة بعد هجمات الفدية](https://datarecovery-sa.com/ransomware/encrypted-files/): تقييم المستندات والصور وملفات العمل المتضررة بعد التشفير، مع تحديد ما يلزم للفحص وكيفية التحقق من نتيجة الاستعادة.
+- [استعادة بيانات الخوادم وNAS وRAID بعد الفدية](https://datarecovery-sa.com/ransomware/servers-nas/): تقييم بيانات الخوادم والتخزين الشبكي وRAID بعد الفدية، وترتيب الملفات والخدمات حسب أولوية العمل.
+- [استعادة قواعد البيانات المتضررة بعد هجوم فدية](https://datarecovery-sa.com/ransomware/databases/): تقييم قواعد البيانات المتضررة بعد الفدية، وتحديد نطاق الفحص ومعايير التحقق بالتنسيق مع مسؤول التطبيق.
+- [استعادة البيئات الافتراضية](https://datarecovery-sa.com/ransomware/virtual-machines/): تقييم الأجهزة والأقراص الافتراضية المتضررة، وتحديد نطاق استعادة الملفات أو البيئة وفق حالة البيانات.
+- [تقييم النسخ الاحتياطية المتضررة بعد هجمات الفدية](https://datarecovery-sa.com/ransomware/backups/): مراجعة النسخ المتاحة بعد هجوم الفدية وتحديد نطاق اختبارها والبيانات التي تغطيها والفجوة الزمنية المحتملة.
+- [ابدأ تقييم حالة هجوم فدية](https://datarecovery-sa.com/ransomware/assessment/): أرسل وصفًا مختصرًا للملفات والأنظمة المتأثرة ووسيلة التواصل المناسبة لبدء تقييم الحالة، دون رفع ملفات في الطلب الأول.
 
 ## المناطق التي نخدمها (Arabic)
 
-- [استعادة بيانات الرياض — من يدك إلى المختبر مباشرة](https://datarecovery-sa.com/cities/riyadh.html): استعادة بيانات في الرياض: المختبر داخل المدينة، ويمكنك تسليم الجهاز بنفسك. فحص وتشخيص مجاني بلا التزام لهاردسك وSSD وRAID وكاميرات المراقبة.
+- [استعادة بيانات الرياض — من يدك إلى المختبر مباشرة](https://datarecovery-sa.com/cities/riyadh.html): استعادة بيانات في الرياض: المختبر داخل المدينة، ويمكنك تسليم الجهاز بنفسك. فحص وتشخيص مجاني بلا التزام للأقراص الصلبة وSSD وRAID وكاميرات المراقبة.
 - [استعادة البيانات لعملاء جدة — شحن آمن إلى مختبر الرياض](https://datarecovery-sa.com/cities/jeddah.html): استعادة البيانات لعملاء جدة: تصل الحالة عبر شحن آمن ويجري الفحص في مختبرنا بالرياض. فحص وتشخيص مجاني بلا التزام قبل أي محاولة استعادة.
-- [استرجاع بيانات الدمام والمنطقة الشرقية](https://datarecovery-sa.com/cities/dammam.html): استرجاع بيانات الدمام والخبر والظهران والجبيل: سيرفرات، RAID، محطات عمل هندسية وأقراص. شحن آمن إلى مختبرنا في الرياض، وفحص وتشخيص مجاني بلا التزام.
+- [استرجاع بيانات الدمام والمنطقة الشرقية](https://datarecovery-sa.com/cities/dammam.html): استرجاع بيانات الدمام والخبر والظهران والجبيل: خوادم، RAID، محطات عمل هندسية وأقراص. شحن آمن إلى مختبرنا في الرياض، وفحص وتشخيص مجاني بلا التزام.
 
 ## Notes
 

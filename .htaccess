@@ -77,6 +77,26 @@ ErrorDocument 404 /404.html
   RewriteRule ^services/?$ /#services [R=301,L]
   RewriteRule ^contacts/?$ /contact.html [R=301,L]
 
+  # صفحة خدمة الفدية القديمة ← بوابة القسم /ransomware/ (التكليف الموحّد §11.2).
+  # ما بين العلامتين يكتبه build/generate.js بحسب ransomwareSection، ومعه يبدّل
+  # وجهة كل قاعدة قديمة أدناه كانت تذهب إلى /services/ransomware.html — كي لا
+  # يمرّ زائر رابط قديم بقفزتين.
+  # z2o:ransomware-redirect BEGIN
+  # يولّده build/generate.js من ransomwareSection — لا تحرّره يدويًّا.
+  # قفزة واحدة إلى البوابة بلا سلسلة: بامتداد وبلاه وبشرطة مائلة. والمسار
+  # /services/ransomware/ نفسه مجلد الحالات بلا فهرس (403)، فيُحوَّل كذلك.
+  # أما /services/ransomware/cases/… فخارج النمط عمدًا: الحالات تبقى في عناوينها.
+  RewriteRule ^services/ransomware(?:\.html?|/)?$ /ransomware/ [R=301,L,NC]
+  RewriteRule ^en/services/ransomware(?:\.html?|/)?$ /en/ransomware/ [R=301,L,NC]
+  # صفحات القسم مجلدات بفهرس: /ransomware/index.html نسخة ثانية للعنوان نفسه.
+  RewriteRule ^((?:en/)?ransomware/(?:[a-z-]+/)?)index\.html?$ /$1 [R=301,L,NC]
+  # عنوان غير موجود داخل القسم الجديد يبقى 404 صريحًا: لا روابط قديمة تحته،
+  # وخريطة الكلمات في الأسفل كانت ستحوّل كل خطأ كتابة إلى البوابة (soft 404).
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?:en/)?ransomware/. - [R=404,L]
+  # z2o:ransomware-redirect END
+
 # Articles retired 2026-08-25 in favour of /blog/. The five pieces were indexed,
 # so the old URLs redirect instead of 404ing; /blog/ carries different posts, so
 # they land on the blog index rather than pretending to be the same article.
@@ -93,7 +113,7 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   # is decoded too — a %D9%87%D8%A7... pattern silently never matches.
   RewriteRule ^ar/raid- /services/raid-servers.html [R=301,L,NC]
   RewriteRule ^ar/.*(هارد|قرص.صلب) /services/hdd.html [R=301,L]
-  RewriteRule ^ar/.*(فدية|تشفير) /services/ransomware.html [R=301,L]
+  RewriteRule ^ar/.*(فدية|تشفير) /ransomware/ [R=301,L]
   RewriteRule ^ar/.*(سيرفر|خادم|قاعدة.بيانات) /services/raid-servers.html [R=301,L]
   RewriteRule ^ar/.*(جوال|هاتف|موبايل) /services/phones.html [R=301,L]
   RewriteRule ^ar/.*(كاميرا|مراقبة) /services/cctv.html [R=301,L]
@@ -153,7 +173,7 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
 
   # Old database-repair page: no equivalent service page exists on this site, and
   # ransomware is where SQL/MDF recovery is actually described.
-  RewriteRule ^sql-data-base-repair/?$ /services/ransomware.html [R=301,L,NC]
+  RewriteRule ^sql-data-base-repair/?$ /ransomware/ [R=301,L,NC]
 
   # المتصفّحات تطلب /favicon.ico من الجذر تلقائيًّا ولو أعلنت الصفحة أيقوناتها
   # صراحةً — وهو طلب لا يُلغى. بلا هذه القاعدة يظهر 404 في طرفية كل زائر
@@ -194,7 +214,7 @@ RewriteRule ^articles(/.*)?$ /blog/ [R=301,L]
   # Keyword map over the whole legacy URL space. The old slugs are unknown in
   # full, so these match on the terms any data-recovery slug would contain, in
   # either language, and land the visitor on the page for the problem they had.
-  RewriteRule (ransomware|فدية|تشفير) /services/ransomware.html [R=301,L,NC]
+  RewriteRule (ransomware|فدية|تشفير) /ransomware/ [R=301,L,NC]
   RewriteRule (raid|server|nas|san|database) /services/raid-servers.html [R=301,L,NC]
   RewriteRule (solid[-_]?state|ssd|nvme|m\.?2) /services/ssd-nvme.html [R=301,L,NC]
   RewriteRule (cctv|dvr|nvr|surveillance|camera) /services/cctv.html [R=301,L,NC]
