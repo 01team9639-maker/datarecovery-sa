@@ -82,7 +82,7 @@ const config = {
     { name: "Instagram", url: "https://www.instagram.com/01datarecovery", icon: "instagram" },
     { name: "X", url: "https://x.com/01Datarecovery", icon: "x" },
     { name: "YouTube", url: "https://www.youtube.com/@01datarecovery", icon: "youtube" },
-    { name: "Facebook", url: "https://www.facebook.com/share/1Gy9Ku7Gx8/", icon: "facebook" },
+    { name: "Facebook", url: "https://www.facebook.com/profile.php?id=61590198736625", icon: "facebook" },
     // `profile: false` keeps this out of JSON-LD `sameAs`, which is a list of pages
     // that identify the business. wa.me is a chat deep-link, not a profile page.
     { name: "WhatsApp", url: `https://wa.me/${WHATSAPP}`, icon: "whatsapp", profile: false },
